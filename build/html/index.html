@@ -1,0 +1,239 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>RISC-V “V” Extension &mdash; riscv-v-spec-japanese  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="1. イントロダクション" href="riscv_v_extension.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> riscv-v-spec-japanese
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="riscv_v_extension.html">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="riscv_v_extension.html#id2">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="riscv_v_extension.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">riscv-v-spec-japanese</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>RISC-V “V” Extension</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="risc-v-v-extension">
+<h1>RISC-V “V” Extension<a class="headerlink" href="#risc-v-v-extension" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="riscv_v_extension.html">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="riscv_v_extension.html#id2">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="riscv_v_extension.html#id3">3. ベクトル拡張のプログラミングモデル</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="riscv_v_extension.html#id4">3.1 ベクトルレジスタ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="riscv_v_extension.html#vtype">3.2 ベクトル型レジスタ, <code class="docutils literal notranslate"><span class="pre">vtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="riscv_v_extension.html#vl">3.3. ベクトル長レジスタ<code class="docutils literal notranslate"><span class="pre">vl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="riscv_v_extension.html#csrvstart">3.4. ベクトルスタートインデックスCSR<code class="docutils literal notranslate"><span class="pre">vstart</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="riscv_v_extension.html#vxrm">3.5. ベクトル固定小数点丸目モードレジスタ<code class="docutils literal notranslate"><span class="pre">vxrm</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="riscv_v_extension.html#vxsat">3.6. ベクトル固定小数点飽和フラグ<code class="docutils literal notranslate"><span class="pre">vxsat</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="riscv_v_extension.html#fcsr">3.7. <code class="docutils literal notranslate"><span class="pre">fcsr</span></code>のベクトル固定小数点フィールド</a></li>
+<li class="toctree-l2"><a class="reference internal" href="riscv_v_extension.html#id5">3.8. ベクトル拡張のリセット状態について</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">モジュール索引</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="riscv_v_extension.html" class="btn btn-neutral float-right" title="1. イントロダクション" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, msyksphinz
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
