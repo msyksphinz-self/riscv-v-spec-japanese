@@ -1,0 +1,583 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>4. ベクトル要素のベクトルレジスタへの割り付け &mdash; riscv-v-spec-japanese  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="prev" title="1. イントロダクション" href="riscv_v_extension.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="riscv_v_extension.html">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="riscv_v_extension.html#id2">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="riscv_v_extension.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. ベクトル要素のベクトルレジスタへの割り付け</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#lmul-1">4.1 LMUL=1のマッピング</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">4.2. LMUL &gt; 1のマッピング</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mixed-width">4.3. Mixed-Width演算へのマッピング</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">4.4. マスクレジスタのレイアウト</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">riscv-v-spec-japanese</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>4. ベクトル要素のベクトルレジスタへの割り付け</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/chapter4_mapping_vector_elements.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>4. ベクトル要素のベクトルレジスタへの割り付け<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>以下の図は、ELEN,
+VLENの実装と同様に、現在のSEWおよびLMULの設定に基づいてベクトルレジスタのバイトをどのようにして異なるサイズのベクトル要素にパックするかについて説明している。要素は、最下位のビットの中で最も重要度の低いバイトを持つ各ベクトルレジスタにパックされる。</p>
+<p>Elements are packed into each vector register with the least-significant
+byte in the lowest-numbered bits.</p>
+<blockquote>
+<div>以前のRISC-V Vector
+Proposal(&lt;0.6)ではこのマッピングをソフトウェアから隠していたが、今回のProposalではすべての構成について具体的なマッピングについて説明している。これにより実装の柔軟性が失われるが、コンフィグレーションが変更されることによりゼロ埋めの必要性が除去される。マッピングを明示することにより、明示的なコンテキストの保存・回復コードを簡単化することができる。つまりコンフィグレーションを読み込まずにすべてのベクトルレジスタを保存するのではなく、<code class="docutils literal notranslate"><span class="pre">vl</span></code>,<code class="docutils literal notranslate"><span class="pre">vtype</span></code>を保存して、<code class="docutils literal notranslate"><span class="pre">vtype</span></code>を便利な値にリセットする(例えば、LMUL=8,
+SEW=ELENとする4つのベクトルグループ)ことができる。この逆の処理を行えば、ベクトルの状態を回復させることができる。</div></blockquote>
+<div class="section" id="lmul-1">
+<h2>4.1 LMUL=1のマッピング<a class="headerlink" href="#lmul-1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>LMUL=1の場合、要素はベクトルレジスタに対して単純に最下位から最上位に向けてパッキングされる。</p>
+<blockquote>
+<div>可読性を向上させるために、ベクトルレジスタのレイアウトはバイトサイズで右から左にバイトアドレスを増加させる形式でく述する。エレメント内のビットはリトルエンディアンの形式で記述し、ビットインデックスは右から左へと増加していく。</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>要素のインデックは16進数で記述し、格納されている要素のうち最も下位の位置に記述している。ELEN&lt;=128かつLMUL=1である。
+
+ VLEN=32b
+
+ Byte         3 2 1 0
+
+ SEW=8b       3 2 1 0
+ SEW=16b        1   0
+ SEW=32b            0
+
+ VLEN=64b
+
+ Byte        7 6 5 4 3 2 1 0
+
+ SEW=8b      7 6 5 4 3 2 1 0
+ SEW=16b       3   2   1   0
+ SEW=32b           1       0
+ SEW=64b                   0
+
+ VLEN=128b
+
+ Byte        F E D C B A 9 8 7 6 5 4 3 2 1 0
+
+ SEW=8b      F E D C B A 9 8 7 6 5 4 3 2 1 0
+ SEW=16b       7   6   5   4   3   2   1   0
+ SEW=32b           3       2       1       0
+ SEW=64b                   1               0
+ SEW=128b                                  0
+
+ VLEN=256b
+
+ Byte     1F1E1D1C1B1A19181716151413121110 F E D C B A 9 8 7 6 5 4 3 2 1 0
+
+ SEW=8b   1F1E1D1C1B1A19181716151413121110 F E D C B A 9 8 7 6 5 4 3 2 1 0
+ SEW=16b     F   E   D   C   B   A   9   8   7   6   5   4   3   2   1   0
+ SEW=32b         7       6       5       4       3       2       1       0
+ SEW=64b                 3               2               1               0
+ SEW=128b                                1                               0
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>4.2. LMUL &gt; 1のマッピング<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ベクトルレジスタがグループ化されているとき、ベクトルレジスタグループの要素はベクトルレジスタでストライプして配置される。ストライプの距離はSLENビットで表現され、グループ内で1つのベクトルレジスタ内で何ビットが1つの要素としてパッキングされているかを示している。</p>
+<p>例えば、SLEN=128のとき、ストライプのパタンは128ビットの倍数である。最初の128/SEW個の要素はグループ内で最初のベクトルレジスタのスタート位置から連続してパッキングされる。次の128/SEW要素は連続してグループ内で次のベクトルレジスタのスタート位置から連続してパッキングされる。最初のLMUL*128/SEW個の要素をパッキングすると、次のLMUL*128/SEW個の要素のグループは次の128ビットのセグメントとしてグループ内のベクトルレジスタでパッキングされる。これが続く。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">例1</span><span class="p">:</span> <span class="n">VLEN</span><span class="o">=</span><span class="mi">32</span><span class="n">b</span><span class="p">,</span> <span class="n">SEW</span><span class="o">=</span><span class="mi">16</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">2</span>
+
+<span class="n">Byte</span>         <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>
+<span class="n">v2</span><span class="o">*</span><span class="n">n</span>           <span class="mi">1</span>   <span class="mi">0</span>
+<span class="n">v2</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>         <span class="mi">3</span>   <span class="mi">2</span>
+
+<span class="n">例2</span><span class="p">:</span> <span class="n">VLEN</span><span class="o">=</span><span class="mi">64</span><span class="n">b</span><span class="p">,</span> <span class="n">SEW</span><span class="o">=</span><span class="mi">32</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">2</span>
+
+<span class="n">Byte</span>         <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>
+<span class="n">v2</span><span class="o">*</span><span class="n">n</span>               <span class="mi">1</span>       <span class="mi">0</span>
+<span class="n">v2</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>             <span class="mi">3</span>       <span class="mi">2</span>
+
+<span class="n">例3</span><span class="p">:</span> <span class="n">VLEN</span><span class="o">=</span><span class="mi">128</span><span class="n">b</span><span class="p">,</span> <span class="n">SEW</span><span class="o">=</span><span class="mi">32</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">2</span>
+
+<span class="n">Byte</span>        <span class="n">F</span> <span class="n">E</span> <span class="n">D</span> <span class="n">C</span> <span class="n">B</span> <span class="n">A</span> <span class="mi">9</span> <span class="mi">8</span> <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>
+<span class="n">v2</span><span class="o">*</span><span class="n">n</span>              <span class="mi">3</span>       <span class="mi">2</span>       <span class="mi">1</span>       <span class="mi">0</span>
+<span class="n">v2</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>            <span class="mi">7</span>       <span class="mi">6</span>       <span class="mi">5</span>       <span class="mi">4</span>
+
+<span class="n">例4</span><span class="p">:</span> <span class="n">VLEN</span><span class="o">=</span><span class="mi">256</span><span class="n">b</span><span class="p">,</span> <span class="n">SEW</span><span class="o">=</span><span class="mi">32</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">2</span>
+
+<span class="n">Byte</span>     <span class="mi">1</span><span class="n">F1E1D1C1B1A19181716151413121110</span> <span class="n">F</span> <span class="n">E</span> <span class="n">D</span> <span class="n">C</span> <span class="n">B</span> <span class="n">A</span> <span class="mi">9</span> <span class="mi">8</span> <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>
+<span class="n">v2</span><span class="o">*</span><span class="n">n</span>            <span class="n">B</span>       <span class="n">A</span>       <span class="mi">9</span>       <span class="mi">8</span>       <span class="mi">3</span>       <span class="mi">2</span>       <span class="mi">1</span>       <span class="mi">0</span>
+<span class="n">v2</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>          <span class="n">F</span>       <span class="n">E</span>       <span class="n">D</span>       <span class="n">C</span>       <span class="mi">7</span>       <span class="mi">6</span>       <span class="mi">5</span>       <span class="mi">4</span>
+</pre></div>
+</div>
+<p>SEW&gt;
+SLENの場合、ストライピングパターンは、グループ内の次のベクトルレジスタに移動する前に、グループ内の各ベクトルレジスタに1つの要素を配置する。
+したがって、LMUL=2の場合、偶数ベクトルレジスタにはベクトルの偶数要素が含まれ、奇数ベクトルレジスタにはベクトルの奇数要素が含まれます。</p>
+<blockquote>
+<div>ほとんどの実装では、SLEN≥ELENである。</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">例</span><span class="p">:</span> <span class="n">VLEN</span><span class="o">=</span><span class="mi">256</span><span class="n">b</span><span class="p">,</span> <span class="n">SEW</span><span class="o">=</span><span class="mi">256</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">2</span>
+
+<span class="n">Byte</span>     <span class="mi">1</span><span class="n">F1E1D1C1B1A19181716151413121110</span> <span class="n">F</span> <span class="n">E</span> <span class="n">D</span> <span class="n">C</span> <span class="n">B</span> <span class="n">A</span> <span class="mi">9</span> <span class="mi">8</span> <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>
+<span class="n">v2</span><span class="o">*</span><span class="n">n</span>                                                                    <span class="mi">0</span>
+<span class="n">v2</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>                                                                  <span class="mi">1</span>
+</pre></div>
+</div>
+<p>LMUL=4では、ベクトルレジスタは以下のように要素を格納する。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">例1</span><span class="p">:</span> <span class="n">VLEN</span><span class="o">=</span><span class="mi">32</span><span class="n">b</span><span class="p">,</span> <span class="n">SLEN</span><span class="o">=</span><span class="mi">32</span><span class="n">b</span><span class="p">,</span> <span class="n">SEW</span><span class="o">=</span><span class="mi">16</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+
+<span class="n">Byte</span>         <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span>           <span class="mi">1</span>   <span class="mi">0</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>         <span class="mi">3</span>   <span class="mi">2</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">2</span>         <span class="mi">5</span>   <span class="mi">4</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">3</span>         <span class="mi">7</span>   <span class="mi">6</span>
+
+<span class="n">例2</span><span class="p">:</span> <span class="n">VLEN</span><span class="o">=</span><span class="mi">64</span><span class="n">b</span><span class="p">,</span> <span class="n">SLEN</span><span class="o">=</span><span class="mi">64</span><span class="n">b</span><span class="p">,</span> <span class="n">SEW</span><span class="o">=</span><span class="mi">32</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">4</span>
+
+<span class="n">Byte</span>         <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span>               <span class="mi">1</span>       <span class="mi">0</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>             <span class="mi">3</span>       <span class="mi">2</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">2</span>             <span class="mi">5</span>       <span class="mi">4</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">3</span>             <span class="mi">7</span>       <span class="mi">6</span>
+
+
+<span class="n">例3</span><span class="p">:</span> <span class="n">VLEN</span><span class="o">=</span><span class="mi">128</span><span class="n">b</span><span class="p">,</span> <span class="n">SLEN</span><span class="o">=</span><span class="mi">64</span><span class="n">b</span><span class="p">,</span> <span class="n">SEW</span><span class="o">=</span><span class="mi">32</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">4</span>
+
+<span class="n">Byte</span>          <span class="n">F</span> <span class="n">E</span> <span class="n">D</span> <span class="n">C</span> <span class="n">B</span> <span class="n">A</span> <span class="mi">9</span> <span class="mi">8</span> <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span>                <span class="mi">9</span>       <span class="mi">8</span>       <span class="mi">1</span>       <span class="mi">0</span>   <span class="mi">32</span><span class="n">b</span> <span class="n">elements</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>              <span class="n">B</span>       <span class="n">A</span>       <span class="mi">3</span>       <span class="mi">2</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">2</span>              <span class="n">D</span>       <span class="n">C</span>       <span class="mi">5</span>       <span class="mi">4</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">3</span>              <span class="n">F</span>       <span class="n">E</span>       <span class="mi">7</span>       <span class="mi">6</span>
+
+<span class="n">例4</span><span class="p">:</span> <span class="n">VLEN</span><span class="o">=</span><span class="mi">128</span><span class="n">b</span><span class="p">,</span> <span class="n">SLEN</span><span class="o">=</span><span class="mi">128</span><span class="n">b</span><span class="p">,</span> <span class="n">SEW</span><span class="o">=</span><span class="mi">32</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">4</span>
+
+<span class="n">Byte</span>          <span class="n">F</span> <span class="n">E</span> <span class="n">D</span> <span class="n">C</span> <span class="n">B</span> <span class="n">A</span> <span class="mi">9</span> <span class="mi">8</span> <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span>                <span class="mi">3</span>       <span class="mi">2</span>       <span class="mi">1</span>       <span class="mi">0</span>   <span class="mi">32</span><span class="n">b</span> <span class="n">elements</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>              <span class="mi">7</span>       <span class="mi">6</span>       <span class="mi">5</span>       <span class="mi">4</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">2</span>              <span class="n">B</span>       <span class="n">A</span>       <span class="mi">9</span>       <span class="mi">8</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">3</span>              <span class="n">F</span>       <span class="n">E</span>       <span class="n">D</span>       <span class="n">C</span>
+
+<span class="n">例5</span><span class="p">:</span> <span class="n">VLEN</span><span class="o">=</span><span class="mi">256</span><span class="n">b</span><span class="p">,</span> <span class="n">SLEN</span><span class="o">=</span><span class="mi">128</span><span class="n">b</span><span class="p">,</span> <span class="n">SEW</span><span class="o">=</span><span class="mi">32</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">4</span>
+
+<span class="n">Byte</span>     <span class="mi">1</span><span class="n">F1E1D1C1B1A19181716151413121110</span> <span class="n">F</span> <span class="n">E</span> <span class="n">D</span> <span class="n">C</span> <span class="n">B</span> <span class="n">A</span> <span class="mi">9</span> <span class="mi">8</span> <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span>           <span class="mi">13</span>      <span class="mi">12</span>      <span class="mi">11</span>      <span class="mi">10</span>       <span class="mi">3</span>       <span class="mi">2</span>       <span class="mi">1</span>       <span class="mi">0</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>         <span class="mi">17</span>      <span class="mi">16</span>      <span class="mi">15</span>      <span class="mi">14</span>       <span class="mi">7</span>       <span class="mi">6</span>       <span class="mi">5</span>       <span class="mi">4</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">2</span>         <span class="mi">1</span><span class="n">B</span>      <span class="mi">1</span><span class="n">A</span>      <span class="mi">19</span>      <span class="mi">18</span>       <span class="n">B</span>       <span class="n">A</span>       <span class="mi">9</span>       <span class="mi">8</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">3</span>         <span class="mi">1</span><span class="n">F</span>      <span class="mi">1</span><span class="n">E</span>      <span class="mi">1</span><span class="n">D</span>      <span class="mi">1</span><span class="n">C</span>       <span class="n">F</span>       <span class="n">E</span>       <span class="n">D</span>       <span class="n">C</span>
+
+<span class="n">例6</span><span class="p">:</span> <span class="n">VLEN</span><span class="o">=</span><span class="mi">256</span><span class="n">b</span><span class="p">,</span> <span class="n">SLEN</span><span class="o">=</span><span class="mi">128</span><span class="n">b</span><span class="p">,</span> <span class="n">SEW</span><span class="o">=</span><span class="mi">256</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">4</span>
+
+<span class="n">Byte</span>     <span class="mi">1</span><span class="n">F1E1D1C1B1A19181716151413121110</span> <span class="n">F</span> <span class="n">E</span> <span class="n">D</span> <span class="n">C</span> <span class="n">B</span> <span class="n">A</span> <span class="mi">9</span> <span class="mi">8</span> <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span>                                                                    <span class="mi">0</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>                                                                  <span class="mi">1</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">2</span>                                                                  <span class="mi">2</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">3</span>                                                                  <span class="mi">3</span>
+</pre></div>
+</div>
+<p>似たようなパタンで、LMUL=8の場合である。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">例</span><span class="p">:</span> <span class="n">VLEN</span><span class="o">=</span><span class="mi">256</span><span class="n">b</span><span class="p">,</span> <span class="n">SLEN</span><span class="o">=</span><span class="mi">128</span><span class="n">b</span><span class="p">,</span> <span class="n">SEW</span><span class="o">=</span><span class="mi">32</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">8</span>
+
+<span class="n">Byte</span>   <span class="mi">1</span><span class="n">F1E1D1C1B1A19181716151413121110</span> <span class="n">F</span> <span class="n">E</span> <span class="n">D</span> <span class="n">C</span> <span class="n">B</span> <span class="n">A</span> <span class="mi">9</span> <span class="mi">8</span> <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span>         <span class="mi">23</span>      <span class="mi">22</span>      <span class="mi">21</span>      <span class="mi">20</span>       <span class="mi">3</span>       <span class="mi">2</span>       <span class="mi">1</span>       <span class="mi">0</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>       <span class="mi">27</span>      <span class="mi">26</span>      <span class="mi">25</span>      <span class="mi">24</span>       <span class="mi">7</span>       <span class="mi">6</span>       <span class="mi">5</span>       <span class="mi">4</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">2</span>       <span class="mi">2</span><span class="n">B</span>      <span class="mi">2</span><span class="n">A</span>      <span class="mi">29</span>      <span class="mi">28</span>       <span class="n">B</span>       <span class="n">A</span>       <span class="mi">9</span>       <span class="mi">8</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">3</span>       <span class="mi">2</span><span class="n">F</span>      <span class="mi">2</span><span class="n">E</span>      <span class="mi">2</span><span class="n">D</span>      <span class="mi">2</span><span class="n">C</span>       <span class="n">F</span>       <span class="n">E</span>       <span class="n">D</span>       <span class="n">C</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">4</span>       <span class="mi">33</span>      <span class="mi">32</span>      <span class="mi">31</span>      <span class="mi">30</span>      <span class="mi">13</span>      <span class="mi">12</span>      <span class="mi">11</span>      <span class="mi">10</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">5</span>       <span class="mi">37</span>      <span class="mi">36</span>      <span class="mi">35</span>      <span class="mi">34</span>      <span class="mi">17</span>      <span class="mi">16</span>      <span class="mi">15</span>      <span class="mi">14</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">6</span>       <span class="mi">3</span><span class="n">B</span>      <span class="mi">3</span><span class="n">A</span>      <span class="mi">39</span>      <span class="mi">38</span>      <span class="mi">1</span><span class="n">B</span>      <span class="mi">1</span><span class="n">A</span>      <span class="mi">19</span>      <span class="mi">18</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">7</span>       <span class="mi">3</span><span class="n">F</span>      <span class="mi">3</span><span class="n">E</span>      <span class="mi">3</span><span class="n">D</span>      <span class="mi">3</span><span class="n">C</span>      <span class="mi">1</span><span class="n">F</span>      <span class="mi">1</span><span class="n">E</span>      <span class="mi">1</span><span class="n">D</span>      <span class="mi">1</span><span class="n">C</span>
+</pre></div>
+</div>
+<p>アーキテクチャ上はさまざまなストライピングパターンが表示されるが、ストライピングパターンに関係なく同じ結果を生成するソフトウェアを作成できる。
+主な制約は、ベクトルレジスタグループに保持されている値にアクセスするために使用されるLMULを変更しないことである(つまり、グループに値を書き込むために使用されるものとは異なるLMULで値を読み取らない)。</p>
+<blockquote>
+<div>実装のストライピング長SLENは、幅が広いユニットのストライドメモリアクセスをベクターレジスタファイルの並列アクセスにコーナーターンするために必要な、幅の異なる操作のデータパス配線とバッファリングのトレードオフを最適化するように設定される。</div></blockquote>
+<blockquote>
+<div>以前の明示的なコンフィグレーションデザインでは、これらのトレードオフをマイクロアーキテクチャレベルで管理し、構成ごとに最適化することができた。</div></blockquote>
+</div>
+<div class="section" id="mixed-width">
+<h2>4.3. Mixed-Width演算へのマッピング<a class="headerlink" href="#mixed-width" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ベクトルレジスタグループ内の要素をマップするために使用されるパターンは、複数の要素幅にわたる操作をサポートするときにデータパスの配線を減らすように設計されている。
+この場合の推奨されているソフトウェア戦略は、
+<code class="docutils literal notranslate"><span class="pre">vtype</span></code>を動的に変更して、SEW /
+LMULを一定に(つまりVLMAXを一定に)維持することである。</p>
+<p>次の例は、VLEN=256b /
+SLEN=128bの実装における4つの異なるパッキング要素の幅(8b,16b,32b,64b)を示している。
+ベクトルレジスタグループ化係数(LMUL)は、各要素が同じ数のベクトル要素(この例では32)を保持できるように相対的な要素サイズによって増加し、ストリップマイニングコードを簡素化する。
+同じインデックスを持つ要素間の操作は、データパスの同じ128b部分にあるオペランドビットにのみ影響する。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">VLEN</span><span class="o">=</span><span class="mi">256</span><span class="n">b</span><span class="p">,</span> <span class="n">SLEN</span><span class="o">=</span><span class="mi">128</span><span class="n">b</span>
+<span class="n">Byte</span>     <span class="mi">1</span><span class="n">F1E1D1C1B1A19181716151413121110</span> <span class="n">F</span> <span class="n">E</span> <span class="n">D</span> <span class="n">C</span> <span class="n">B</span> <span class="n">A</span> <span class="mi">9</span> <span class="mi">8</span> <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>
+
+<span class="n">SEW</span><span class="o">=</span><span class="mi">8</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">VLMAX</span><span class="o">=</span><span class="mi">32</span>
+
+<span class="n">v1</span>       <span class="mi">1</span><span class="n">F1E1D1C1B1A19181716151413121110</span> <span class="n">F</span> <span class="n">E</span> <span class="n">D</span> <span class="n">C</span> <span class="n">B</span> <span class="n">A</span> <span class="mi">9</span> <span class="mi">8</span> <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>
+
+<span class="n">SEW</span><span class="o">=</span><span class="mi">16</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">VLMAX</span><span class="o">=</span><span class="mi">32</span>
+
+<span class="n">v2</span><span class="o">*</span><span class="n">n</span>       <span class="mi">17</span>  <span class="mi">16</span>  <span class="mi">15</span>  <span class="mi">14</span>  <span class="mi">13</span>  <span class="mi">12</span>  <span class="mi">11</span>  <span class="mi">10</span>   <span class="mi">7</span>   <span class="mi">6</span>   <span class="mi">5</span>   <span class="mi">4</span>   <span class="mi">3</span>   <span class="mi">2</span>   <span class="mi">1</span>   <span class="mi">0</span>
+<span class="n">v2</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>     <span class="mi">1</span><span class="n">F</span>  <span class="mi">1</span><span class="n">E</span>  <span class="mi">1</span><span class="n">D</span>  <span class="mi">1</span><span class="n">C</span>  <span class="mi">1</span><span class="n">B</span>  <span class="mi">1</span><span class="n">A</span>  <span class="mi">19</span>  <span class="mi">18</span>   <span class="n">F</span>   <span class="n">E</span>   <span class="n">D</span>   <span class="n">C</span>   <span class="n">B</span>   <span class="n">A</span>   <span class="mi">9</span>   <span class="mi">8</span>
+
+<span class="n">SEW</span><span class="o">=</span><span class="mi">32</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">VLMAX</span><span class="o">=</span><span class="mi">32</span>
+
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span>           <span class="mi">13</span>      <span class="mi">12</span>      <span class="mi">11</span>      <span class="mi">10</span>       <span class="mi">3</span>       <span class="mi">2</span>       <span class="mi">1</span>       <span class="mi">0</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>         <span class="mi">17</span>      <span class="mi">16</span>      <span class="mi">15</span>      <span class="mi">14</span>       <span class="mi">7</span>       <span class="mi">6</span>       <span class="mi">5</span>       <span class="mi">4</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">2</span>         <span class="mi">1</span><span class="n">B</span>      <span class="mi">1</span><span class="n">A</span>      <span class="mi">19</span>      <span class="mi">18</span>       <span class="n">B</span>       <span class="n">A</span>       <span class="mi">9</span>       <span class="mi">8</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">3</span>         <span class="mi">1</span><span class="n">F</span>      <span class="mi">1</span><span class="n">E</span>      <span class="mi">1</span><span class="n">D</span>      <span class="mi">1</span><span class="n">C</span>       <span class="n">F</span>       <span class="n">E</span>       <span class="n">D</span>       <span class="n">C</span>
+
+<span class="n">SEW</span><span class="o">=</span><span class="mi">64</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">VLMAX</span><span class="o">=</span><span class="mi">32</span>
+
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span>                   <span class="mi">11</span>              <span class="mi">10</span>               <span class="mi">1</span>               <span class="mi">0</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>                 <span class="mi">13</span>              <span class="mi">12</span>               <span class="mi">3</span>               <span class="mi">2</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">2</span>                 <span class="mi">15</span>              <span class="mi">14</span>               <span class="mi">5</span>               <span class="mi">4</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">3</span>                 <span class="mi">17</span>              <span class="mi">16</span>               <span class="mi">7</span>               <span class="mi">6</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">4</span>                 <span class="mi">19</span>              <span class="mi">18</span>               <span class="mi">9</span>               <span class="mi">8</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">5</span>                 <span class="mi">1</span><span class="n">B</span>              <span class="mi">1</span><span class="n">A</span>               <span class="n">B</span>               <span class="n">A</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">6</span>                 <span class="mi">1</span><span class="n">D</span>              <span class="mi">1</span><span class="n">C</span>               <span class="n">D</span>               <span class="n">C</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">7</span>                 <span class="mi">1</span><span class="n">F</span>              <span class="mi">1</span><span class="n">E</span>               <span class="n">F</span>               <span class="n">E</span>
+</pre></div>
+</div>
+<p>LMULに大きな値を設定することは、論理的なベクトルレジスタ長を削減しなければならないときに、単純にベクトル長を増加させ、命令フェッチ幅を削減し、ディスパッチのオーバヘッドを削減するために役に立つ。</p>
+<p>以下の表は、混合幅動作について、可能なSEW/LMULの動作ポイントについて示している。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>      横軸はLMULの値を示し、各軸はSEW/MULの動作ポイントを示している。
+
+SEW/LMUL    1   2   4   8  16  32  64 128 256 512 1024
+
+     SEW
+       8    8   4   2   1
+      16        8   4   2   1
+      32            8   4   2   1
+      64                8   4   2   1
+     128                    8   4   2   1
+     256                        8   4   2   1
+     512                            8   4   2   1
+    1024                                8   4   2   1
+</pre></div>
+</div>
+<blockquote>
+<div><p>SLENが空間データパス幅よりも小さい場合、LMUL値を大きくすると、短いベクトルのデータパス使用率が低くなる。
+VLEN=256b、SLEN=128b、およびLMUL=8を使用した上記の例では、実装が256b幅のベクトルデータパスを持つ純粋な空間である場合、アプリケーションベクトル長が17未満の場合、データパスの半分のみがアクティブになる。
+以下の「vsetvl」命令には、必要なアプリケーションベクトル長(AVL)と要素幅の範囲に従って適切なLMULを動的に選択する機能を追加できる。</p>
+<p>狭いマシンでは、SLENが少なくともデータパスの空間幅と同じ大きさに設定されるため、LMULを減らす必要ない。
+幅の広いマシンでは、SLENを空間データパスの幅よりも小さく設定して、幅が混在する操作(例えば、width=1024、ELEN=32、SLEN=128)の配線を減らすことができる。</p>
+</div></blockquote>
+</div>
+<div class="section" id="id3">
+<h2>4.4. マスクレジスタのレイアウト<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ベクトルのマスクは、SEWとLMULの値に関係なく1つのベクトルレジスタにのみ適用される。各ベクトル操作に使用されるマスクビットは現在のSEWとLMUL設定に依存する。</p>
+<p>ベクトルオペランドの最大エレメント長は以下になる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">VLMAX</span> <span class="o">=</span> <span class="n">LMUL</span> <span class="o">*</span> <span class="n">VLEN</span><span class="o">/</span><span class="n">SEW</span>
+</pre></div>
+</div>
+<p>マスクは、マスクレジスタをVLEN/LVMAXフィールドで分割することにより各エレメントに割り当てられる。各マスクエレメントのサイズ<strong>MLEN</strong>は以下で計算できる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MLEN</span> <span class="o">=</span> <span class="n">VLEN</span><span class="o">/</span><span class="n">VLMAX</span>
+     <span class="o">=</span> <span class="n">VLEN</span><span class="o">/</span><span class="p">(</span><span class="n">LMUL</span> <span class="o">*</span> <span class="n">VLEN</span><span class="o">/</span><span class="n">SEW</span><span class="p">)</span>
+     <span class="o">=</span> <span class="n">SEW</span><span class="o">/</span><span class="n">LMUL</span>
+</pre></div>
+</div>
+<p>MLENはELEN(SEW=ELEN, LMUL=1)から1(SEW=8b,
+LMUL=8)までの値を取ることができ、したがって単一のベクトルレジスタは常に全体のマスクレジスタを保持することができる。</p>
+<p>マスクビットの要素<em>i</em>はマスクレジスタのビット[MLEN<em>i+(MLEN-1):MLEN</em>i]である。比較命令によりマスクの要素に書き込みが行われた場合、マスクの要素の再開ビットに比較結果が書き込まれ、上位ビットはゼロが設定される。その値がマスクとして読みだされた場合、マスク要素の再開ビットのみがコントロースマスクとして使用され、上位のビットは無視される。現在のベクトル長を超えるマスク要素はゼロとなる。</p>
+<p>パターンは、一定のSEW/LMUL値の場合、有効なプレディケートビットがマスクベクトルレジスタの同じビットに配置されるため、幅の異なる要素を含むループでのマスキングの使用が簡単になる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">VLEN</span><span class="o">=</span><span class="mi">32</span><span class="n">b</span>
+
+          <span class="n">Byte</span>    <span class="mi">3</span>   <span class="mi">2</span>   <span class="mi">1</span>   <span class="mi">0</span>
+ <span class="n">LMUL</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">SEW</span><span class="o">=</span><span class="mi">8</span><span class="n">b</span>
+                  <span class="mi">3</span>   <span class="mi">2</span>   <span class="mi">1</span>   <span class="mi">0</span>  <span class="n">Element</span>
+                <span class="p">[</span><span class="mi">24</span><span class="p">][</span><span class="mi">16</span><span class="p">][</span><span class="mi">08</span><span class="p">][</span><span class="mi">00</span><span class="p">]</span> <span class="n">Mask</span> <span class="n">bit</span> <span class="n">position</span> <span class="ow">in</span> <span class="n">decimal</span>
+
+ <span class="n">LMUL</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">SEW</span><span class="o">=</span><span class="mi">16</span><span class="n">b</span>
+                      <span class="mi">1</span>       <span class="mi">0</span>
+                    <span class="p">[</span><span class="mi">08</span><span class="p">]</span>    <span class="p">[</span><span class="mi">00</span><span class="p">]</span>
+                      <span class="mi">3</span>       <span class="mi">2</span>
+                    <span class="p">[</span><span class="mi">24</span><span class="p">]</span>    <span class="p">[</span><span class="mi">16</span><span class="p">]</span>
+
+ <span class="n">LMUL</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">SEW</span><span class="o">=</span><span class="mi">32</span><span class="n">b</span>               <span class="mi">0</span>
+                            <span class="p">[</span><span class="mi">00</span><span class="p">]</span>
+                              <span class="mi">1</span>
+                            <span class="p">[</span><span class="mi">08</span><span class="p">]</span>
+                              <span class="mi">2</span>
+                            <span class="p">[</span><span class="mi">16</span><span class="p">]</span>
+                              <span class="mi">3</span>
+                            <span class="p">[</span><span class="mi">24</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LMUL</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">SEW</span><span class="o">=</span><span class="mi">8</span><span class="n">b</span>
+                 <span class="mi">3</span>   <span class="mi">2</span>   <span class="mi">1</span>   <span class="mi">0</span>
+               <span class="p">[</span><span class="mi">12</span><span class="p">][</span><span class="mi">08</span><span class="p">][</span><span class="mi">04</span><span class="p">][</span><span class="mi">00</span><span class="p">]</span>
+                 <span class="mi">7</span>   <span class="mi">6</span>   <span class="mi">5</span>   <span class="mi">4</span>
+               <span class="p">[</span><span class="mi">28</span><span class="p">][</span><span class="mi">24</span><span class="p">][</span><span class="mi">20</span><span class="p">][</span><span class="mi">16</span><span class="p">]</span>
+
+<span class="n">LMUL</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span><span class="n">SEW</span><span class="o">=</span><span class="mi">32</span><span class="n">b</span>
+                             <span class="mi">0</span>
+                           <span class="p">[</span><span class="mi">00</span><span class="p">]</span>
+                             <span class="mi">1</span>
+                           <span class="p">[</span><span class="mi">04</span><span class="p">]</span>
+                             <span class="mi">2</span>
+                           <span class="p">[</span><span class="mi">08</span><span class="p">]</span>
+                             <span class="mi">3</span>
+                           <span class="p">[</span><span class="mi">12</span><span class="p">]</span>
+                             <span class="mi">4</span>
+                           <span class="p">[</span><span class="mi">16</span><span class="p">]</span>
+                             <span class="mi">5</span>
+                           <span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+                             <span class="mi">6</span>
+                           <span class="p">[</span><span class="mi">24</span><span class="p">]</span>
+                             <span class="mi">7</span>
+                           <span class="p">[</span><span class="mi">28</span><span class="p">]</span>
+
+<span class="n">LMUL</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span><span class="n">SEW</span><span class="o">=</span><span class="mi">8</span><span class="n">b</span>
+                 <span class="mi">3</span>   <span class="mi">2</span>   <span class="mi">1</span>   <span class="mi">0</span>
+               <span class="p">[</span><span class="mi">03</span><span class="p">][</span><span class="mi">02</span><span class="p">][</span><span class="mi">01</span><span class="p">][</span><span class="mi">00</span><span class="p">]</span>
+                 <span class="mi">7</span>   <span class="mi">6</span>   <span class="mi">5</span>   <span class="mi">4</span>
+               <span class="p">[</span><span class="mi">07</span><span class="p">][</span><span class="mi">06</span><span class="p">][</span><span class="mi">05</span><span class="p">][</span><span class="mi">04</span><span class="p">]</span>
+                 <span class="n">B</span>   <span class="n">A</span>   <span class="mi">9</span>   <span class="mi">8</span>
+               <span class="p">[</span><span class="mi">11</span><span class="p">][</span><span class="mi">10</span><span class="p">][</span><span class="mi">09</span><span class="p">][</span><span class="mi">08</span><span class="p">]</span>
+                 <span class="n">F</span>   <span class="n">E</span>   <span class="n">D</span>   <span class="n">C</span>
+               <span class="p">[</span><span class="mi">15</span><span class="p">][</span><span class="mi">14</span><span class="p">][</span><span class="mi">13</span><span class="p">][</span><span class="mi">12</span><span class="p">]</span>
+                <span class="mi">13</span>  <span class="mi">12</span>  <span class="mi">11</span>  <span class="mi">10</span>
+               <span class="p">[</span><span class="mi">19</span><span class="p">][</span><span class="mi">18</span><span class="p">][</span><span class="mi">17</span><span class="p">][</span><span class="mi">16</span><span class="p">]</span>
+                <span class="mi">17</span>  <span class="mi">16</span>  <span class="mi">15</span>  <span class="mi">14</span>
+               <span class="p">[</span><span class="mi">23</span><span class="p">][</span><span class="mi">22</span><span class="p">][</span><span class="mi">21</span><span class="p">][</span><span class="mi">20</span><span class="p">]</span>
+                <span class="mi">1</span><span class="n">B</span>  <span class="mi">1</span><span class="n">A</span>  <span class="mi">19</span>  <span class="mi">18</span>
+               <span class="p">[</span><span class="mi">27</span><span class="p">][</span><span class="mi">26</span><span class="p">][</span><span class="mi">25</span><span class="p">][</span><span class="mi">24</span><span class="p">]</span>
+                <span class="mi">1</span><span class="n">F</span>  <span class="mi">1</span><span class="n">E</span>  <span class="mi">1</span><span class="n">D</span>  <span class="mi">1</span><span class="n">C</span>
+               <span class="p">[</span><span class="mi">31</span><span class="p">][</span><span class="mi">30</span><span class="p">][</span><span class="mi">29</span><span class="p">][</span><span class="mi">28</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">VLEN</span><span class="o">=</span><span class="mi">256</span><span class="n">b</span><span class="p">,</span> <span class="n">SLEN</span><span class="o">=</span><span class="mi">128</span><span class="n">b</span>
+<span class="n">Byte</span>     <span class="mi">1</span><span class="n">F1E1D1C1B1A19181716151413121110</span> <span class="n">F</span> <span class="n">E</span> <span class="n">D</span> <span class="n">C</span> <span class="n">B</span> <span class="n">A</span> <span class="mi">9</span> <span class="mi">8</span> <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>
+
+<span class="n">SEW</span><span class="o">=</span><span class="mi">8</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">VLMAX</span><span class="o">=</span><span class="mi">32</span>
+
+<span class="n">v1</span>       <span class="mi">1</span><span class="n">F1E1D1C1B1A19181716151413121110</span> <span class="n">F</span> <span class="n">E</span> <span class="n">D</span> <span class="n">C</span> <span class="n">B</span> <span class="n">A</span> <span class="mi">9</span> <span class="mi">8</span> <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>
+       <span class="p">[</span><span class="mi">248</span><span class="p">]</span>          <span class="o">...</span>            <span class="p">[</span><span class="mi">128</span><span class="p">]</span> <span class="o">...</span><span class="p">[</span><span class="mi">96</span><span class="p">]</span> <span class="o">...</span><span class="p">[</span><span class="mi">64</span><span class="p">]</span> <span class="o">...</span><span class="p">[</span><span class="mi">32</span><span class="p">]</span> <span class="o">...</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="n">Mask</span> <span class="n">bit</span> <span class="n">positions</span> <span class="ow">in</span> <span class="n">decimal</span>
+
+<span class="n">SEW</span><span class="o">=</span><span class="mi">16</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">VLMAX</span><span class="o">=</span><span class="mi">32</span>
+
+<span class="n">v2</span><span class="o">*</span><span class="n">n</span>       <span class="mi">17</span>  <span class="mi">16</span>  <span class="mi">15</span>  <span class="mi">14</span>  <span class="mi">13</span>  <span class="mi">12</span>  <span class="mi">11</span>  <span class="mi">10</span>   <span class="mi">7</span>   <span class="mi">6</span>   <span class="mi">5</span>   <span class="mi">4</span>   <span class="mi">3</span>   <span class="mi">2</span>   <span class="mi">1</span>   <span class="mi">0</span>
+         <span class="p">[</span><span class="mi">184</span><span class="p">]</span>          <span class="o">...</span>          <span class="p">[</span><span class="mi">128</span><span class="p">]</span>    <span class="o">...</span>     <span class="p">[</span><span class="mi">32</span><span class="p">]</span>    <span class="o">...</span>      <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">v2</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>     <span class="mi">1</span><span class="n">F</span>  <span class="mi">1</span><span class="n">E</span>  <span class="mi">1</span><span class="n">D</span>  <span class="mi">1</span><span class="n">C</span>  <span class="mi">1</span><span class="n">B</span>  <span class="mi">1</span><span class="n">A</span>  <span class="mi">19</span>  <span class="mi">18</span>   <span class="n">F</span>   <span class="n">E</span>   <span class="n">D</span>   <span class="n">C</span>   <span class="n">B</span>   <span class="n">A</span>   <span class="mi">9</span>   <span class="mi">8</span>
+         <span class="p">[</span><span class="mi">248</span><span class="p">]</span>          <span class="o">...</span>          <span class="p">[</span><span class="mi">196</span><span class="p">]</span>    <span class="o">...</span>     <span class="p">[</span><span class="mi">96</span><span class="p">]</span>    <span class="o">...</span>     <span class="p">[</span><span class="mi">64</span><span class="p">]</span>
+
+<span class="n">SEW</span><span class="o">=</span><span class="mi">32</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">VLMAX</span><span class="o">=</span><span class="mi">32</span>
+
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span>           <span class="mi">13</span>      <span class="mi">12</span>      <span class="mi">11</span>      <span class="mi">10</span>       <span class="mi">3</span>       <span class="mi">2</span>       <span class="mi">1</span>       <span class="mi">0</span>
+             <span class="p">[</span><span class="mi">152</span><span class="p">]</span>        <span class="o">...</span>        <span class="p">[</span><span class="mi">128</span><span class="p">]</span>    <span class="p">[</span><span class="mi">24</span><span class="p">]</span>        <span class="o">...</span>          <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>         <span class="mi">17</span>      <span class="mi">16</span>      <span class="mi">15</span>      <span class="mi">14</span>       <span class="mi">7</span>       <span class="mi">6</span>       <span class="mi">5</span>       <span class="mi">4</span>
+             <span class="p">[</span><span class="mi">184</span><span class="p">]</span>        <span class="o">...</span>        <span class="p">[</span><span class="mi">160</span><span class="p">]</span>    <span class="p">[</span><span class="mi">56</span><span class="p">]</span>        <span class="o">...</span>         <span class="p">[</span><span class="mi">32</span><span class="p">]</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">2</span>         <span class="mi">1</span><span class="n">B</span>      <span class="mi">1</span><span class="n">A</span>      <span class="mi">19</span>      <span class="mi">18</span>       <span class="n">B</span>       <span class="n">A</span>       <span class="mi">9</span>       <span class="mi">8</span>
+             <span class="p">[</span><span class="mi">116</span><span class="p">]</span>        <span class="o">...</span>        <span class="p">[</span><span class="mi">192</span><span class="p">]</span>    <span class="p">[</span><span class="mi">88</span><span class="p">]</span>        <span class="o">...</span>         <span class="p">[</span><span class="mi">64</span><span class="p">]</span>
+<span class="n">v4</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">3</span>         <span class="mi">1</span><span class="n">F</span>      <span class="mi">1</span><span class="n">E</span>      <span class="mi">1</span><span class="n">D</span>      <span class="mi">1</span><span class="n">C</span>       <span class="n">F</span>       <span class="n">E</span>       <span class="n">D</span>       <span class="n">C</span>
+             <span class="p">[</span><span class="mi">248</span><span class="p">]</span>        <span class="o">...</span>        <span class="p">[</span><span class="mi">224</span><span class="p">]</span>   <span class="p">[</span><span class="mi">120</span><span class="p">]</span>        <span class="o">...</span>         <span class="p">[</span><span class="mi">96</span><span class="p">]</span>
+
+<span class="n">SEW</span><span class="o">=</span><span class="mi">64</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">VLMAX</span><span class="o">=</span><span class="mi">32</span>
+
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span>                   <span class="mi">11</span>              <span class="mi">10</span>               <span class="mi">1</span>               <span class="mi">0</span>
+                     <span class="p">[</span><span class="mi">136</span><span class="p">]</span>           <span class="p">[</span><span class="mi">128</span><span class="p">]</span>             <span class="p">[</span><span class="mi">8</span><span class="p">]</span>             <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>                 <span class="mi">13</span>              <span class="mi">12</span>               <span class="mi">3</span>               <span class="mi">2</span>
+                     <span class="p">[</span><span class="mi">152</span><span class="p">]</span>           <span class="p">[</span><span class="mi">144</span><span class="p">]</span>            <span class="p">[</span><span class="mi">24</span><span class="p">]</span>            <span class="p">[</span><span class="mi">16</span><span class="p">]</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">2</span>                 <span class="mi">15</span>              <span class="mi">14</span>               <span class="mi">5</span>               <span class="mi">4</span>
+                     <span class="p">[</span><span class="mi">168</span><span class="p">]</span>           <span class="p">[</span><span class="mi">160</span><span class="p">]</span>            <span class="p">[</span><span class="mi">40</span><span class="p">]</span>            <span class="p">[</span><span class="mi">32</span><span class="p">]</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">3</span>                 <span class="mi">17</span>              <span class="mi">16</span>               <span class="mi">7</span>               <span class="mi">6</span>
+                     <span class="p">[</span><span class="mi">184</span><span class="p">]</span>           <span class="p">[</span><span class="mi">176</span><span class="p">]</span>            <span class="p">[</span><span class="mi">56</span><span class="p">]</span>            <span class="p">[</span><span class="mi">48</span><span class="p">]</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">4</span>                 <span class="mi">19</span>              <span class="mi">18</span>               <span class="mi">9</span>               <span class="mi">8</span>
+                     <span class="p">[</span><span class="mi">200</span><span class="p">]</span>           <span class="p">[</span><span class="mi">192</span><span class="p">]</span>            <span class="p">[</span><span class="mi">72</span><span class="p">]</span>            <span class="p">[</span><span class="mi">64</span><span class="p">]</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">5</span>                 <span class="mi">1</span><span class="n">B</span>              <span class="mi">1</span><span class="n">A</span>               <span class="n">B</span>               <span class="n">A</span>
+                     <span class="p">[</span><span class="mi">216</span><span class="p">]</span>           <span class="p">[</span><span class="mi">208</span><span class="p">]</span>            <span class="p">[</span><span class="mi">88</span><span class="p">]</span>            <span class="p">[</span><span class="mi">80</span><span class="p">]</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">6</span>                 <span class="mi">1</span><span class="n">D</span>              <span class="mi">1</span><span class="n">C</span>               <span class="n">D</span>               <span class="n">C</span>
+                     <span class="p">[</span><span class="mi">232</span><span class="p">]</span>           <span class="p">[</span><span class="mi">224</span><span class="p">]</span>           <span class="p">[</span><span class="mi">104</span><span class="p">]</span>            <span class="p">[</span><span class="mi">96</span><span class="p">]</span>
+<span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">7</span>                 <span class="mi">1</span><span class="n">F</span>              <span class="mi">1</span><span class="n">E</span>               <span class="n">F</span>               <span class="n">E</span>
+                     <span class="p">[</span><span class="mi">248</span><span class="p">]</span>           <span class="p">[</span><span class="mi">240</span><span class="p">]</span>           <span class="p">[</span><span class="mi">120</span><span class="p">]</span>           <span class="p">[</span><span class="mi">112</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="riscv_v_extension.html" class="btn btn-neutral float-left" title="1. イントロダクション" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, msyksphinz
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

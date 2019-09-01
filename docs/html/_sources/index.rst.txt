@@ -12,7 +12,7 @@ RISC-V “V” Extension
 
 
    riscv_v_extension
-
+   chapter4_mapping_vector_elements.rst
 
 Indices and tables
 ==================
