@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>RISC-V “V” Extension &mdash; riscv-v-spec-japanese  ドキュメント</title>
+  <title>1. イントロダクション &mdash; riscv-v-spec-japanese  ドキュメント</title>
   
 
   
@@ -93,29 +93,25 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">RISC-V “V” Extension</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">1. イントロダクション</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">2. 実装により決定される定数パラメータ</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">3. ベクトル拡張のプログラミングモデル</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id4">3.1 ベクトルレジスタ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#vtype">3.2 ベクトル型レジスタ, <code class="docutils literal notranslate"><span class="pre">vtype</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#vsew">3.2.1. ベクトル標準エレメント幅<code class="docutils literal notranslate"><span class="pre">vsew</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#vlmul">3.2.2 ベクトルレジスタグルーピング(<code class="docutils literal notranslate"><span class="pre">vlmul</span></code>)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#vill">3.2.3. ベクトルタイプ不正 <code class="docutils literal notranslate"><span class="pre">vill</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#id2">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#id3">3. ベクトル拡張のプログラミングモデル</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id4">3.1 ベクトルレジスタ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vtype">3.2 ベクトル型レジスタ, <code class="docutils literal notranslate"><span class="pre">vtype</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vsew">3.2.1. ベクトル標準エレメント幅<code class="docutils literal notranslate"><span class="pre">vsew</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vlmul">3.2.2 ベクトルレジスタグルーピング(<code class="docutils literal notranslate"><span class="pre">vlmul</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vill">3.2.3. ベクトルタイプ不正 <code class="docutils literal notranslate"><span class="pre">vill</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#vl">3.3. ベクトル長レジスタ<code class="docutils literal notranslate"><span class="pre">vl</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#csrvstart">3.4. ベクトルスタートインデックスCSR<code class="docutils literal notranslate"><span class="pre">vstart</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#vxrm">3.5. ベクトル固定小数点丸目モードレジスタ<code class="docutils literal notranslate"><span class="pre">vxrm</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#vxsat">3.6. ベクトル固定小数点飽和フラグ<code class="docutils literal notranslate"><span class="pre">vxsat</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#fcsr">3.7. <code class="docutils literal notranslate"><span class="pre">fcsr</span></code>のベクトル固定小数点フィールド</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5">3.8. ベクトル拡張のリセット状態について</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#vl">3.3. ベクトル長レジスタ<code class="docutils literal notranslate"><span class="pre">vl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#csrvstart">3.4. ベクトルスタートインデックスCSR<code class="docutils literal notranslate"><span class="pre">vstart</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vxrm">3.5. ベクトル固定小数点丸目モードレジスタ<code class="docutils literal notranslate"><span class="pre">vxrm</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vxsat">3.6. ベクトル固定小数点飽和フラグ<code class="docutils literal notranslate"><span class="pre">vxsat</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fcsr">3.7. <code class="docutils literal notranslate"><span class="pre">fcsr</span></code>のベクトル固定小数点フィールド</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">3.8. ベクトル拡張のリセット状態について</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html#id4">5. ベクトル命令フォーマット</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
 </ul>
 
@@ -162,7 +158,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>RISC-V “V” Extension</li>
+      <li>1. イントロダクション</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -181,9 +177,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="risc-v-v-extension">
-<h1>RISC-V “V” Extension<a class="headerlink" href="#risc-v-v-extension" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<p>Version 0.7.2-draft-20190616</p>
+  <p>Version 0.7.2-draft-20190616</p>
 <p>コントリビュータ: Alon Amid, Krste Asanovic, Allen Baum, Alex Bradbury,
 Tony Brewer, Chris Celio, Aliaksei Chapyzhenka, Silviu Chiricescu, Ken
 Dockser, Bob Dreyer, Roger Espasa, Sean Halle, John Hauser, David
@@ -198,7 +192,7 @@ Andrew Waterman, Jim Wilson.</p>
 <li>特権アーキテクチャとの相互関係について説明する必要がある。</li>
 </ul>
 <div class="section" id="id1">
-<h2>1. イントロダクション<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h1>1. イントロダクション<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>このドキュメントはRISC-Vのベースベクトル拡張について説明するものである。このドキュメントはベースベクトル拡張のすべての個々の機能について説明するものである。</p>
 <blockquote>
 <div>本ドキュメントは、実装及び評価に用いられるベクトル仕様の安定版プロポーザルのドラフト仕様である。ドラフトのラベルが外れると、Version
@@ -212,7 +206,7 @@ Unix プラットフォーム
 <p>このベースベクトル命令は、暗号処理や機械学習などの様々なドメイン向けに拡張された追加ベクトル命令として動作するように設計されている。</p>
 </div>
 <div class="section" id="id2">
-<h2>2. 実装により決定される定数パラメータ<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h1>2. 実装により決定される定数パラメータ<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>各hartはベクトル拡張をサポートすることにより以下の3つのパラメータを持つことになる。</p>
 <ol class="arabic simple">
 <li>1ベクトル要素の最大ビットサイズ<em>ELEN</em>。2の累乗の必要がある。</li>
@@ -230,7 +224,7 @@ Unix プラットフォーム
 SLENパラメータを持つスレッド同士はmitigateすることはできない。</div></blockquote>
 </div>
 <div class="section" id="id3">
-<h2>3. ベクトル拡張のプログラミングモデル<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h1>3. ベクトル拡張のプログラミングモデル<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>ベクトル拡張ではベースとなるスカラRISC-V
 ISAに対して32個のベクトルレジスタと、5つの非特権CSRレジスタ(<code class="docutils literal notranslate"><span class="pre">vstart</span></code>,
 <code class="docutils literal notranslate"><span class="pre">vxsat</span></code>, <code class="docutils literal notranslate"><span class="pre">vxrm</span></code>, <code class="docutils literal notranslate"><span class="pre">vtype</span></code>,
@@ -279,7 +273,7 @@ ISAに対して32個のベクトルレジスタと、5つの非特権CSRレジ�
 </tbody>
 </table>
 <div class="section" id="id4">
-<h3>3.1 ベクトルレジスタ<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h2>3.1 ベクトルレジスタ<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ベクトル拡張ではベースのスカラRISC-V
 ISAに対して32個のアーキテクチャベクトルレジスタ<code class="docutils literal notranslate"><span class="pre">v0</span></code>-<code class="docutils literal notranslate"><span class="pre">v31</span></code>が加わっている。</p>
 <p>それぞれのベクトルレジスタはVLENビットだけのビットを保持する。</p>
@@ -288,7 +282,7 @@ ISAに対して32個のアーキテクチャベクトルレジスタ<code class=
 X”)は新しいISAのオプションとして考えられているもので、不動小ステン命令が整数レジスタファイルをレジスタ引数として取ることができるようになるものである。0.7ベクトル拡張ではこのオプションとの互換性を持っている。</div></blockquote>
 </div>
 <div class="section" id="vtype">
-<h3>3.2 ベクトル型レジスタ, <code class="docutils literal notranslate"><span class="pre">vtype</span></code><a class="headerlink" href="#vtype" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h2>3.2 ベクトル型レジスタ, <code class="docutils literal notranslate"><span class="pre">vtype</span></code><a class="headerlink" href="#vtype" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタはXLENビット長のRead-onlyなCSRであり、ベクトルレジスタファイルに含まれるデフォルトのデータ型を示している。<code class="docutils literal notranslate"><span class="pre">vtype</span></code>は<code class="docutils literal notranslate"><span class="pre">vsetvl{i}</span></code>命令の実行でしかアップデートすることができない。ベクトル型は各ベクトルレジスタ内の要素の構成についても決定し、どのように複数のベクトルレジスタをグループ化するかについても決定する。</p>
 <blockquote>
 <div>初期のドラフト版では、<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタは通常のCSR書き込み命令でも書き込みを行うことが可能であった。<code class="docutils literal notranslate"><span class="pre">vsetvl{i}</span></code>命令でのみアップデートが可能である仕様に変更したのは、<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタの管理をより簡単化するためである。</div></blockquote>
@@ -341,7 +335,7 @@ allow these fields to be specified statically in the instruction
 encoding.</p>
 </div></blockquote>
 <div class="section" id="vsew">
-<h4>3.2.1. ベクトル標準エレメント幅<code class="docutils literal notranslate"><span class="pre">vsew</span></code><a class="headerlink" href="#vsew" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h3>3.2.1. ベクトル標準エレメント幅<code class="docutils literal notranslate"><span class="pre">vsew</span></code><a class="headerlink" href="#vsew" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">vsew</span></code>の値は動的<strong>標準エレメント幅: standard element
 width(SEW)</strong>を設定する。デフォルトでは、ベクトルレジスタはVLEN /
 SEW標準幅エレメントに分割されているように見ることができる。ベースベクトル拡張では、SEWはmax(XLEN,FLEN)までのサイズを指定することができる。</p>
@@ -431,7 +425,7 @@ SEW標準幅エレメントに分割されているように見ることがで�
 </table>
 </div>
 <div class="section" id="vlmul">
-<h4>3.2.2 ベクトルレジスタグルーピング(<code class="docutils literal notranslate"><span class="pre">vlmul</span></code>)<a class="headerlink" href="#vlmul" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h3>3.2.2 ベクトルレジスタグルーピング(<code class="docutils literal notranslate"><span class="pre">vlmul</span></code>)<a class="headerlink" href="#vlmul" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>複数のベクトルレジスタをグループ化して<strong>ベクトルレジスタグループ</strong>を構成することができる。したがって、単一のベクトル命令が複数のベクトルレジスタを操作することができる。ベクトルレジスタグループは、標準幅の要素から構成される、2倍以上のより長いベクトル長を操作することができるようになる。ベクトルレジスタグループは、よりベクトル長の長いアプリケーションにおいて効率的に命令を実行できるようになる。</p>
 <p>グループ内のベクトルレジスタの数は<strong>LMUL</strong>により管理される。この値は2の累乗である必要があり、<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタの<code class="docutils literal notranslate"><span class="pre">vlmul</span></code>フィールドで設定される(LMUL=2^<code class="docutils literal notranslate"><span class="pre">vlmul[1:0]</span></code>)。</p>
 <p>VLMAX=LMUL*VLEN/SEWは、現在のSEWおよびLMULの構成で実行できる単一のベクトル命令の最大データエレメントの数である。</p>
@@ -494,7 +488,7 @@ SEW標準幅エレメントに分割されているように見ることがで�
 <p>レジスタマスク命令は、LMULの設定に関係なく常に単一ベクトルレジスタに対して機能する。</p>
 </div>
 <div class="section" id="vill">
-<h4>3.2.3. ベクトルタイプ不正 <code class="docutils literal notranslate"><span class="pre">vill</span></code><a class="headerlink" href="#vill" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h3>3.2.3. ベクトルタイプ不正 <code class="docutils literal notranslate"><span class="pre">vill</span></code><a class="headerlink" href="#vill" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">vill</span></code>では直前に実行された<code class="docutils literal notranslate"><span class="pre">vsetvl{i}</span></code>命令によりサポートされない値が<code class="docutils literal notranslate"><span class="pre">vtype</span></code>に書き込まれたことをエンコードするために使用される。</p>
 <blockquote>
 <div><code class="docutils literal notranslate"><span class="pre">vill</span></code>ビットはCSRのXLEN-1ビットにより設定される。これにより、不正な値が設定されたかどうかを符号判定の分岐命令により判定できる。</div></blockquote>
@@ -503,7 +497,7 @@ SEW標準幅エレメントに分割されているように見ることがで�
 </div>
 </div>
 <div class="section" id="vl">
-<h3>3.3. ベクトル長レジスタ<code class="docutils literal notranslate"><span class="pre">vl</span></code><a class="headerlink" href="#vl" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h2>3.3. ベクトル長レジスタ<code class="docutils literal notranslate"><span class="pre">vl</span></code><a class="headerlink" href="#vl" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>XLENビット長の読み込み専用CSRである<code class="docutils literal notranslate"><span class="pre">vl</span></code>は<code class="docutils literal notranslate"><span class="pre">vsetvli</span></code>および<code class="docutils literal notranslate"><span class="pre">vsetvl</span></code>命令でのみアップデートすることができるレジスタで、<strong>fault-only-first</strong>ベクトルロード命令バリアントである。</p>
 <p><code class="docutils literal notranslate"><span class="pre">vl</span></code>レジスタは、ベクトル命令によりアップデートされる要素の数を符号なし整数として保持している。任意の書き込み先ベクトルレジスタグループにおいて、インデックスが<code class="docutils literal notranslate"><span class="pre">vl</span></code>以上の場合は、ベクトル命令の実行中においてゼロが書き込まれる。<code class="docutils literal notranslate"><span class="pre">vstart</span></code>≥<code class="docutils literal notranslate"><span class="pre">vl</span></code>の場合、書き込み先ベクトルレジスタグループにおいてどのような要素もアップデートされない。</p>
 <blockquote>
@@ -513,7 +507,7 @@ SEW標準幅エレメントに分割されているように見ることがで�
 LMUL=8, SEW=8でVLMAXが32となる)を保持するために6ビットが必要となる。</div></blockquote>
 </div>
 <div class="section" id="csrvstart">
-<h3>3.4. ベクトルスタートインデックスCSR<code class="docutils literal notranslate"><span class="pre">vstart</span></code><a class="headerlink" href="#csrvstart" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h2>3.4. ベクトルスタートインデックスCSR<code class="docutils literal notranslate"><span class="pre">vstart</span></code><a class="headerlink" href="#csrvstart" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">vsatrt</span></code>は読み込み専用のCSRで、ベクトル命令により実行される最初の要素のインデックスを示している。</p>
 <p>通常、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>はベクトル命令の例外時にハードウェアにより書き込まれる。<code class="docutils literal notranslate"><span class="pre">vsatrt</span></code>の値はどの要素により例外がが発生したか(同期例外及び非同期例外で同様である)を示しており、復帰可能な例外である場合は、どの場所から復帰するかを示している。</p>
 <p>すべてのベクトル命令は<code class="docutils literal notranslate"><span class="pre">vstart</span></code>CSRで示されるエレメントの場所から実行され、例外が発生した要素よりも前の要素の結果が邪魔されることがないように設計されている。命令の実行が完了すると、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>CSRは0にリセットされる。</p>
@@ -529,7 +523,7 @@ LMUL=8, SEW=8でVLMAXが32となる)を保持するために6ビットが必要�
 <div>たとえば、いくつかの実装ではベクトル算術演算を実行中には決して例外を発生せず、命令の実行が完了するまで例外の発生を待つことができる。このような実装ではベクトル算術演算命令において<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が非ゼロである場合は例外が発生することを許している。</div></blockquote>
 </div>
 <div class="section" id="vxrm">
-<h3>3.5. ベクトル固定小数点丸目モードレジスタ<code class="docutils literal notranslate"><span class="pre">vxrm</span></code><a class="headerlink" href="#vxrm" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h2>3.5. ベクトル固定小数点丸目モードレジスタ<code class="docutils literal notranslate"><span class="pre">vxrm</span></code><a class="headerlink" href="#vxrm" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ベクトル固定小数点丸めモードレジスタは2ビットのRead-Write丸めモードビットフィールドを持っている。ベクトル固定小数点丸めは<code class="docutils literal notranslate"><span class="pre">fcsr</span></code>レジスタの上位ビットのビットフィールドを反映しているが、異なるCSRビットアドレスが割り当てられている。浮動小数点を持たないシステムの場合は、ベクトル拡張を追加する場合には<code class="docutils literal notranslate"><span class="pre">fcsr</span></code>レジスタを追加する必要がある。</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -573,12 +567,12 @@ LMUL=8, SEW=8でVLMAXが32となる)を保持するために6ビットが必要�
 <div>丸めモードは<code class="docutils literal notranslate"><span class="pre">csrwi</span></code>命令により1命令で設定できる。</div></blockquote>
 </div>
 <div class="section" id="vxsat">
-<h3>3.6. ベクトル固定小数点飽和フラグ<code class="docutils literal notranslate"><span class="pre">vxsat</span></code><a class="headerlink" href="#vxsat" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h2>3.6. ベクトル固定小数点飽和フラグ<code class="docutils literal notranslate"><span class="pre">vxsat</span></code><a class="headerlink" href="#vxsat" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">vxsat</span></code>CSRは1ビットの読み書き可能なビットを保持しており、固定小数点命令の計算結果が書き込み先レジスタのフォーマットに合わせるために飽和した場合に設定される。</p>
 <p><code class="docutils literal notranslate"><span class="pre">vxsat</span></code>ビットは<code class="docutils literal notranslate"><span class="pre">fcsr</span></code>レジスタの上位ビットにミラーリングされる。</p>
 </div>
 <div class="section" id="fcsr">
-<h3>3.7. <code class="docutils literal notranslate"><span class="pre">fcsr</span></code>のベクトル固定小数点フィールド<a class="headerlink" href="#fcsr" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h2>3.7. <code class="docutils literal notranslate"><span class="pre">fcsr</span></code>のベクトル固定小数点フィールド<a class="headerlink" href="#fcsr" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">vxrm</span></code>および<code class="docutils literal notranslate"><span class="pre">vxsat</span></code>は分離されたCSRであり浮動小数点CSR<code class="docutils literal notranslate"><span class="pre">fcsr</span></code>からアクセスすることができる。<code class="docutils literal notranslate"><span class="pre">fcsr</span></code>レジスタは浮動小数点をサポートしていない実装でも、ベクトル拡張をサポートしている場合には追加する必要がある。</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -615,7 +609,7 @@ LMUL=8, SEW=8でVLMAXが32となる)を保持するために6ビットが必要�
 <div>これらのフィールドは<code class="docutils literal notranslate"><span class="pre">fcsr</span></code>にパッキングされるのは、コンテキストの保存と回復を高速化させるためである。</div></blockquote>
 </div>
 <div class="section" id="id5">
-<h3>3.8. ベクトル拡張のリセット状態について<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h2>3.8. ベクトル拡張のリセット状態について<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ベクトル拡張はリセット時に矛盾の発生していない状態でなければならない。特に、<code class="docutils literal notranslate"><span class="pre">vtype</span></code>および<code class="docutils literal notranslate"><span class="pre">vl</span></code>は<code class="docutils literal notranslate"><span class="pre">vsetvl</span></code>命令により読み込みおよびリストアできなければならない。</p>
 <blockquote>
 <div>リセット時には<code class="docutils literal notranslate"><span class="pre">vtype.vill</span></code>は1が設定されており、残りの<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタはゼロが設定されており、<code class="docutils literal notranslate"><span class="pre">vl</span></code>は0が設定されている状態が推奨される。</div></blockquote>
@@ -624,7 +618,6 @@ LMUL=8, SEW=8でVLMAXが32となる)を保持するために6ビットが必要�
 <blockquote>
 <div>ベクトルユニットを使用するときはいかなる時も最初に<code class="docutils literal notranslate"><span class="pre">vsetvl{i}</span></code>を実行し、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>をリセットさせる必要がある。<code class="docutils literal notranslate"><span class="pre">vxrm</span></code>および<code class="docutils literal notranslate"><span class="pre">vxsat</span></code>フィールドはソフトウェアにより使用前に明示的にリセットを行うべきである。</div></blockquote>
 <p>ベクトルレジスタはリセット時にはどのような値が設定されていても構わない。</p>
-</div>
 </div>
 </div>
 

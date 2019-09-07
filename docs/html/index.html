@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
-    <link rel="next" title="RISC-V “V” Extension" href="chapter1_3_riscv_vector_insts.html" /> 
+    <link rel="next" title="1. イントロダクション" href="chapter1_3_riscv_vector_insts.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -92,7 +92,9 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">RISC-V “V” Extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
 </ul>
@@ -164,10 +166,17 @@
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">RISC-V “V” Extension</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id1">1. イントロダクション</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id4">3.1 ベクトルレジスタ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vtype">3.2 ベクトル型レジスタ, <code class="docutils literal notranslate"><span class="pre">vtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vl">3.3. ベクトル長レジスタ<code class="docutils literal notranslate"><span class="pre">vl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#csrvstart">3.4. ベクトルスタートインデックスCSR<code class="docutils literal notranslate"><span class="pre">vstart</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vxrm">3.5. ベクトル固定小数点丸目モードレジスタ<code class="docutils literal notranslate"><span class="pre">vxrm</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vxsat">3.6. ベクトル固定小数点飽和フラグ<code class="docutils literal notranslate"><span class="pre">vxsat</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#fcsr">3.7. <code class="docutils literal notranslate"><span class="pre">fcsr</span></code>のベクトル固定小数点フィールド</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id5">3.8. ベクトル拡張のリセット状態について</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a><ul>
@@ -204,7 +213,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="chapter1_3_riscv_vector_insts.html" class="btn btn-neutral float-right" title="RISC-V “V” Extension" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="chapter1_3_riscv_vector_insts.html" class="btn btn-neutral float-right" title="1. イントロダクション" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>

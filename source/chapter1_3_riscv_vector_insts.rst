@@ -1,6 +1,3 @@
-RISC-V “V” Extension
-====================
-
 Version 0.7.2-draft-20190616
 
 コントリビュータ: Alon Amid, Krste Asanovic, Allen Baum, Alex Bradbury,
