@@ -14,6 +14,7 @@ RISC-V “V” Extension
    chapter1_3_riscv_vector_insts
    chapter4_mapping_vector_elements.rst
    chapter5_vector_instruction_format.rst
+   chapter6_config_insts.rst
 
 Indices and tables
 ==================

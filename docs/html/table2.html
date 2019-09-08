@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>検索 &mdash; riscv-v-spec-japanese  ドキュメント</title>
+  <title>&lt;no title&gt; &mdash; riscv-v-spec-japanese  ドキュメント</title>
   
 
   
@@ -36,7 +36,6 @@
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/translations.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/javascript" src="_static/searchtools.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -46,7 +45,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="検索" href="#" /> 
+    <link rel="search" title="検索" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -73,7 +72,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="#" method="get">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -97,7 +96,6 @@
 <li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
 </ul>
 
             
@@ -143,12 +141,14 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>検索</li>
+      <li>&lt;no title&gt;</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
+            <a href="_sources/table2.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -160,19 +160,42 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <noscript>
-  <div id="fallback" class="admonition warning">
-    <p class="last">
-      Please activate JavaScript to enable the search
-      functionality.
-    </p>
-  </div>
-  </noscript>
+  <table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="21%" />
+<col width="58%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Bits</th>
+<th class="head">Name</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>XLEN-1</td>
+<td>vill</td>
+<td>不正な値が設定されると1が設定される</td>
+</tr>
+<tr class="row-odd"><td>XLEN-2:7</td>
+<td>&#160;</td>
+<td>予約(write 0)</td>
+</tr>
+<tr class="row-even"><td>6:5</td>
+<td>vediv[1:0]</td>
+<td>EDIV拡張に使用される</td>
+</tr>
+<tr class="row-odd"><td>4:2</td>
+<td>vsew[2:0]</td>
+<td>SEW(Standard-Element-Width:標準エレメント幅)の設定に使用される</td>
+</tr>
+<tr class="row-even"><td>1:0</td>
+<td>vlmul[1:0]</td>
+<td>ベクトルレジスタのグループ乗算(LMUL)の設定に使用される</td>
+</tr>
+</tbody>
+</table>
 
-  
-  <div id="search-results">
-  
-  </div>
 
            </div>
            
@@ -210,14 +233,7 @@
   
   
     
-  
-  <script type="text/javascript">
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script type="text/javascript" id="searchindexloader"></script>
    
-
 
 </body>
 </html>
