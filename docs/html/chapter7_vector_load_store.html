@@ -1,0 +1,934 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>7. ベクトルロードストア命令 &mdash; riscv-v-spec-japanese  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="prev" title="6. コンフィグレーション設定命令" href="chapter6_config_insts.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">7. ベクトルロードストア命令</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">7.1. ベクトルロードストア命令エンコーディング</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">7.2. ベクトルロードストアアドレッシングモード</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#width">7.3. ベクトルロードストア : Widthのエンコーディング</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">7.4. ベクトルユニットストライド命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">7.5. ベクトルストライド命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">7.6. ベクトルインデックスロードストア命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fault-only-first">7.7. ユニットストライドFault-Only-Firstロード命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#zvlsseg">7.8. セグメントベクトルロード・ストア命令(<code class="docutils literal notranslate"><span class="pre">Zvlsseg</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">7.8.1. ベクトルユニットストライドセグメントロードストア命令</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">7.8.2. ベクトルストライドセグメントロードストア命令</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">7.8.3. ベクトルインデックスセグメントロードストア命令</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">riscv-v-spec-japanese</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>7. ベクトルロードストア命令</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/chapter7_vector_load_store.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>7. ベクトルロードストア命令<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>ベクトルロードとストア命令はベクトルレジスタとメモリ間で値を移動する。ベクトルロードとストア命令は要素のマスクが可能であり、インアクティブな要素に関しては例外を発生しない。マスクされたベクトルロードは書き込みベクトルレジスタグループ内のインアクティブな要素に対して値を更新しない。マスクされたストアはアクティブな要素のみをメモリに書き込む。</p>
+<div class="section" id="id2">
+<h2>7.1. ベクトルロードストア命令エンコーディング<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ベクトルロードとストア命令はスカラの浮動小数点ロードストア命令と同じメジャーオペコードを使用する(LOAD-FP/STORE-FP)。ベクトルロードとストアのエンコーディングは標準的なスカラの浮動小数点ロードストア命令の12ビットの即値フィールドを別の用途で使用し、さらなるベクトル命令エンコーディングに使用する。25ビット目は標準的なベクトルマスクビットが格納されている(<a class="reference external" href="https://riscv.github.io/documents/riscv-v-spec/#sec-vector-mask-encoding">Mask
+Encoding</a>
+を参照のこと)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LOAD</span><span class="o">-</span><span class="n">FPメジャーオペコードを使用したベクトルロード命令のフォーマット</span>
+
+<span class="mi">31</span> <span class="mi">29</span> <span class="mi">28</span> <span class="mi">26</span>  <span class="mi">25</span>  <span class="mi">24</span>      <span class="mi">20</span> <span class="mi">19</span>       <span class="mi">15</span> <span class="mi">14</span>   <span class="mi">12</span> <span class="mi">11</span>      <span class="mi">7</span> <span class="mi">6</span>     <span class="mi">0</span>
+ <span class="n">nf</span>  <span class="o">|</span> <span class="n">mop</span> <span class="o">|</span> <span class="n">vm</span> <span class="o">|</span>  <span class="n">lumop</span>   <span class="o">|</span>    <span class="n">rs1</span>    <span class="o">|</span> <span class="n">width</span> <span class="o">|</span>    <span class="n">vd</span>   <span class="o">|</span><span class="mi">0000111</span><span class="o">|</span> <span class="n">VL</span><span class="o">*</span>  <span class="n">unit</span><span class="o">-</span><span class="n">stride</span>
+ <span class="n">nf</span>  <span class="o">|</span> <span class="n">mop</span> <span class="o">|</span> <span class="n">vm</span> <span class="o">|</span>   <span class="n">rs2</span>    <span class="o">|</span>    <span class="n">rs1</span>    <span class="o">|</span> <span class="n">width</span> <span class="o">|</span>    <span class="n">vd</span>   <span class="o">|</span><span class="mi">0000111</span><span class="o">|</span> <span class="n">VLS</span><span class="o">*</span> <span class="n">strided</span>
+ <span class="n">nf</span>  <span class="o">|</span> <span class="n">mop</span> <span class="o">|</span> <span class="n">vm</span> <span class="o">|</span>   <span class="n">vs2</span>    <span class="o">|</span>    <span class="n">rs1</span>    <span class="o">|</span> <span class="n">width</span> <span class="o">|</span>    <span class="n">vd</span>   <span class="o">|</span><span class="mi">0000111</span><span class="o">|</span> <span class="n">VLX</span><span class="o">*</span> <span class="n">indexed</span>
+  <span class="mi">3</span>     <span class="mi">3</span>     <span class="mi">1</span>      <span class="mi">5</span>           <span class="mi">5</span>         <span class="mi">3</span>         <span class="mi">5</span>       <span class="mi">7</span>
+
+<span class="n">STORE</span><span class="o">-</span><span class="n">FPメジャーオペコードを使用したベクトルストア命令のフォーマット</span>
+
+<span class="mi">31</span> <span class="mi">29</span> <span class="mi">28</span> <span class="mi">26</span>  <span class="mi">25</span>  <span class="mi">24</span>      <span class="mi">20</span> <span class="mi">19</span>       <span class="mi">15</span> <span class="mi">14</span>   <span class="mi">12</span> <span class="mi">11</span>      <span class="mi">7</span> <span class="mi">6</span>     <span class="mi">0</span>
+ <span class="n">nf</span>  <span class="o">|</span> <span class="n">mop</span> <span class="o">|</span> <span class="n">vm</span> <span class="o">|</span>  <span class="n">sumop</span>   <span class="o">|</span>    <span class="n">rs1</span>    <span class="o">|</span> <span class="n">width</span> <span class="o">|</span>   <span class="n">vs3</span>   <span class="o">|</span><span class="mi">0100111</span><span class="o">|</span> <span class="n">VS</span><span class="o">*</span>  <span class="n">unit</span><span class="o">-</span><span class="n">stride</span>
+ <span class="n">nf</span>  <span class="o">|</span> <span class="n">mop</span> <span class="o">|</span> <span class="n">vm</span> <span class="o">|</span>   <span class="n">rs2</span>    <span class="o">|</span>    <span class="n">rs1</span>    <span class="o">|</span> <span class="n">width</span> <span class="o">|</span>   <span class="n">vs3</span>   <span class="o">|</span><span class="mi">0100111</span><span class="o">|</span> <span class="n">VSS</span><span class="o">*</span> <span class="n">strided</span>
+ <span class="n">nf</span>  <span class="o">|</span> <span class="n">mop</span> <span class="o">|</span> <span class="n">vm</span> <span class="o">|</span>   <span class="n">vs2</span>    <span class="o">|</span>    <span class="n">rs1</span>    <span class="o">|</span> <span class="n">width</span> <span class="o">|</span>   <span class="n">vs3</span>   <span class="o">|</span><span class="mi">0100111</span><span class="o">|</span> <span class="n">VSX</span><span class="o">*</span> <span class="n">indexed</span>
+  <span class="mi">3</span>     <span class="mi">3</span>     <span class="mi">1</span>      <span class="mi">5</span>           <span class="mi">5</span>         <span class="mi">3</span>         <span class="mi">5</span>        <span class="mi">7</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">フィールド</th>
+<th class="head">説明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>rs1[4:0]</td>
+<td>ベースアドレスを格納した整数レジスタを指定する。</td>
+</tr>
+<tr class="row-odd"><td>rs2[4:0]</td>
+<td>ストライドを格納した整数レジスタを指定する。</td>
+</tr>
+<tr class="row-even"><td>vs2[4:0]</td>
+<td>アドレスオフセットを格納したVレジスタを指定する。</td>
+</tr>
+<tr class="row-odd"><td>vs3[4:0]</td>
+<td>ストアデータを格納したVレジスタを指定する。</td>
+</tr>
+<tr class="row-even"><td>vd[4:0]</td>
+<td>ロード命令の書き込み先のVレジスタを指定する。</td>
+</tr>
+<tr class="row-odd"><td>vm</td>
+<td>ベクトルマスク</td>
+</tr>
+<tr class="row-even"><td>width[2:0]</td>
+<td>メモリ要素のサイズを指定する。FPスカラの場合と値のエンコーディングは同一である。</td>
+</tr>
+<tr class="row-odd"><td>mop[2:0]</td>
+<td>メモリのアドレッシングモードを指定する。</td>
+</tr>
+<tr class="row-even"><td>nf[2:0]</td>
+<td>セグメントロード・ストア命令のための、各セグメントのフィールド数を指定する。</td>
+</tr>
+<tr class="row-odd"><td>lumop[4:0]/sumop[4:0]</td>
+<td>ユニットストライド命令のための追加のフィールドエンコーディングを指定する。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id3">
+<h2>7.2. ベクトルロードストアアドレッシングモード<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ベースとなるベクトル拡張ではユニットストライド・ストライド・インデックス(scatter/gather)アドレッシングモードをサポートしている。ベクトルロード・ストアのベースレジスタとストライドフィールドは整数レジスタ<code class="docutils literal notranslate"><span class="pre">x</span></code>で指定される。</p>
+<p>すべてのベクトル命令のベース有効アドレスは整数レジスタの<code class="docutils literal notranslate"><span class="pre">rs1</span></code>で指定される。</p>
+<p>ベクトルのユニットストライド操作はメモリ内に連続している要素に対して、ベースの有効アドレスから順番に操作を行う。</p>
+<p>ベクトルストライド操作は、ベース有効アドレスから始まる最初のメモリ要素に対して捜査を行い、後続の要素に対しては<code class="docutils literal notranslate"><span class="pre">rs2</span></code>で指定される整数ベクトルレジスタの値に基づいてバイトオフセットを増加させながらアクセスを行う。</p>
+<p>ベクトルインデックス操作命令は、各要素の有効アドレスに対して<code class="docutils literal notranslate"><span class="pre">vs2</span></code>で指定されるベクトルレジスタで指定されるベクトルオフセットを各要素に加算する。もしベクトルオフセット要素がXLENよりも小さい場合はベース有効アドレスとの加算前にXLENビットまで符号拡張される。もしベクトルオフセット要素がXLENよりも小さい場合は、アドレス計算のために最も小さいXLENビットが使用される。</p>
+<blockquote>
+<div>現在のベクトルインデックス命令のPoRでは、ベクトルのバイトオフセット(vs2)とベクトル読み書きのためのデータ(vs3/vd)が同一の長さである必要がある。1つの疑問として、べく鳥インデックス命令の中で2つのサイズのベクトルオペランドをどこでどうやって許容するかということである。例えば、64ビットアドレス空間を持つ実装でのscatter/gatherのバイト値は64ビット空間であり、しかしベクトルレジスタが64ビットの空間を持つ必要があるわけではない。</div></blockquote>
+<p>ベクトルアドレッシングモードは3ビットの<code class="docutils literal notranslate"><span class="pre">mop[2:0]</span></code>フィールドを用いてエンコーディングされる。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="5%" />
+<col width="5%" />
+<col width="48%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">mop [2:0]</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">説明</th>
+<th class="head">オペコード</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>0</td>
+<td>0</td>
+<td>ゼロ拡張ユニットストライド</td>
+<td>VLxU,VLE</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>0</td>
+<td>1</td>
+<td>予約</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>1</td>
+<td>0</td>
+<td>ゼロ拡張ストライド</td>
+<td>VLSxU, VLSE</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>1</td>
+<td>1</td>
+<td>ゼロ拡張インデックス</td>
+<td>VLXxU, VLXE</td>
+</tr>
+<tr class="row-even"><td>1</td>
+<td>0</td>
+<td>0</td>
+<td>符号拡張ユニットストライド</td>
+<td>VLx (x!=E)</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>0</td>
+<td>1</td>
+<td>予約</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>1</td>
+<td>1</td>
+<td>0</td>
+<td>符号拡張ストライド</td>
+<td>VLSx (x!=E)</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>1</td>
+<td>1</td>
+<td>符号拡張インデックス</td>
+<td>VLXx (x!=E)</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="5%" />
+<col width="5%" />
+<col width="49%" />
+<col width="21%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">mop [2:0]</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">説明</th>
+<th class="head">オペコード</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>0</td>
+<td>0</td>
+<td>ユニットストライド</td>
+<td>VSx</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>0</td>
+<td>1</td>
+<td>予約</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>1</td>
+<td>0</td>
+<td>ストライド</td>
+<td>VSSx</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>1</td>
+<td>1</td>
+<td>オーダー付きインデックス</td>
+<td>VSXx</td>
+</tr>
+<tr class="row-even"><td>1</td>
+<td>0</td>
+<td>0</td>
+<td>予約</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>0</td>
+<td>1</td>
+<td>予約</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>1</td>
+<td>1</td>
+<td>0</td>
+<td>予約</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>1</td>
+<td>1</td>
+<td>オーダーしないインデックス</td>
+<td>VSUXx</td>
+</tr>
+</tbody>
+</table>
+<p>ベクトルインデックスメモリ操作命令は2種類の形式がある。オーダー付きとアンオーダーである。インデックス・アンオーダーはメモリに書き込む順番について順序を守らない。</p>
+<blockquote>
+<div>インデックス・アンオーダー形式は実装最適化の可能性の1つとして追加した。実装では最適化を無視し、インデックス・オーダーと同じようにインデックス・アンオーダーを自由に実装できる。</div></blockquote>
+<p>Additional unit-stride vector addressing modes are encoded using the
+5-bit <code class="docutils literal notranslate"><span class="pre">lumop</span></code> and <code class="docutils literal notranslate"><span class="pre">sumop</span></code> fields in the unit-stride load and store
+instruction encodings respectively.</p>
+<p>ユニットストライドベクトル命令のアドレッシングモードにさらに追加されるフィールドでは、<code class="docutils literal notranslate"><span class="pre">lumop</span></code>と<code class="docutils literal notranslate"><span class="pre">sumop</span></code>フィールドを使ってユニットストライドロード・ストア命令のエンコーディングを拡張する。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="62%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">lumop[4:0]</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>ユニットストライド</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>予約, x!=0</td>
+</tr>
+<tr class="row-even"><td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>ユニットストライド。 fault-only-first</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>予約, x!=0</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="45%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">sumop[4:0]</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>ユニットストライド</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>予約, x!=0</td>
+</tr>
+<tr class="row-even"><td>1</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>予約</td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">nf[2:0]</span></code>フィールドは各セグメント内のフィールドの数を示している。通常のベクトルロードとストア命令では<code class="docutils literal notranslate"><span class="pre">nf=0</span></code>であり、ベクトルレジスタグループとメモリ内で各要素が1つの値を動かすことを示している。<code class="docutils literal notranslate"><span class="pre">nf</span></code>が1以上になると、<cite>Vector
+Load/Store Segment Instructions
+(``Zvlsseg`</cite>) &lt;<a class="reference external" href="https://riscv.github.io/documents/riscv-v-spec/#sec-aos">https://riscv.github.io/documents/riscv-v-spec/#sec-aos</a>&gt;`__に示すように複数の連続したフィールドに対してアクセスするために使用される。</p>
+<blockquote>
+<div><code class="docutils literal notranslate"><span class="pre">nf</span></code>フィールドはセグメントロードストアのためのフィールドで、同じアドレスビットを使用する条件を置き換えるものである。オフセットは1つの整数の計算に置き換えることができ、またセグメントロードストアはメモリから要素を移動するのに強力なプリミティブを与えるものである。</div></blockquote>
+</div>
+<div class="section" id="width">
+<h2>7.3. ベクトルロードストア : Widthのエンコーディング<a class="headerlink" href="#width" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ベクトルロードストアはwidth値を使用してエンコードされる。この値は浮動小数点ロードストアには存在せず、8ビット、16ビット、32ビットのメモリ要素を移動するためのベクトルロード・ストア命令のwidthが用意されている。また、SEWビット長のメモリ要素を扱うための4つ目のエンコーディングも用意されている。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="16%" />
+<col width="4%" />
+<col width="4%" />
+<col width="17%" />
+<col width="19%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&#160;</th>
+<th class="head">Width [2:0]</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">メモリビット</th>
+<th class="head">レジスタビット</th>
+<th class="head">オペコード</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>標準スカラFP</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>16</td>
+<td>FLEN</td>
+<td>FLH/FSH</td>
+</tr>
+<tr class="row-odd"><td>標準スカラFP</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>32</td>
+<td>FLEN</td>
+<td>FLW/FSW</td>
+</tr>
+<tr class="row-even"><td>標準スカラFP</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>64</td>
+<td>FLEN</td>
+<td>FLD/FSD</td>
+</tr>
+<tr class="row-odd"><td>標準スカラFP</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>128</td>
+<td>FLEN</td>
+<td>FLQ/FSQ</td>
+</tr>
+<tr class="row-even"><td>ベクトルバイト</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>vl*8</td>
+<td>vl*SEW</td>
+<td>VxB</td>
+</tr>
+<tr class="row-odd"><td>ベクトルハーフワード</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>vl*16</td>
+<td>vl*SEW</td>
+<td>VxH</td>
+</tr>
+<tr class="row-even"><td>ベクトルワード</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>vl*32</td>
+<td>vl*SEW</td>
+<td>VxW</td>
+</tr>
+<tr class="row-odd"><td>ベクトルエレメント</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>vl*SEW</td>
+<td>vl*SEW</td>
+<td>VxE</td>
+</tr>
+</tbody>
+</table>
+<p>メモリビットはメモリ中でアクセスされる要素のサイズである。</p>
+<p>レジスタビットはレジスタ中でアクセスされる要素のサイズである。</p>
+<p>固定サイズのベクトルロードは、書き込みレジスタのサイズがメモリ要素よりも大きい場合として、符号拡張するかゼロ拡張するかをオプションとして選択することができる。固定サイズのベクトルロードは、書き込みレジスタ要素のサイズがメモリ要素よりも小さい場合には不定命令例外を発生する。可変サイズのロードは、ゼロ拡張ロードのようにエンコードされ、現在予約されている可変サイズのロードの符号拡張エンコードが使用される。</p>
+</div>
+<div class="section" id="id4">
+<h2>7.4. ベクトルユニットストライド命令<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ベクトルユニットストライドロード・ストア命令</span>
+
+<span class="c1"># vdは書き込みレジスタアドレス, rs1はベースアドレス, vm マスクのエンコーディング (v0.t or &lt;無し&gt;)</span>
+<span class="n">vlb</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span> <span class="c1"># 8b signed</span>
+<span class="n">vlh</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span> <span class="c1"># 16b signed</span>
+<span class="n">vlw</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span> <span class="c1"># 32b signed</span>
+
+<span class="n">vlbu</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span> <span class="c1"># 8b unsigned</span>
+<span class="n">vlhu</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span> <span class="c1"># 16b unsigned</span>
+<span class="n">vlwu</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span> <span class="c1"># 32b unsigned</span>
+
+<span class="n">vle</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span> <span class="c1"># SEW</span>
+
+<span class="c1"># vs3はストアデータ, rs1はベースアドレス, vmはマスクエンコーディング (v0.t or &lt;無し&gt;)</span>
+<span class="n">vsb</span><span class="o">.</span><span class="n">v</span>  <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span>  <span class="c1"># 8b store</span>
+<span class="n">vsh</span><span class="o">.</span><span class="n">v</span>  <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span>  <span class="c1"># 16b store</span>
+<span class="n">vsw</span><span class="o">.</span><span class="n">v</span>  <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span>  <span class="c1"># 32b store</span>
+<span class="n">vse</span><span class="o">.</span><span class="n">v</span>  <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span>  <span class="c1"># SEW store</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>7.5. ベクトルストライド命令<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ベクトルストライドロード・ストア命令</span>
+
+<span class="c1"># vdは書き込みレジスタアドレス, rs1はベースアドレス, rs2はバイトストライド</span>
+<span class="n">vlsb</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">rs2</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># 8b</span>
+<span class="n">vlsh</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">rs2</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># 16b</span>
+<span class="n">vlsw</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">rs2</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># 32b</span>
+
+<span class="n">vlsbu</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">rs2</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># unsigned 8b</span>
+<span class="n">vlshu</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">rs2</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># unsigned 16b</span>
+<span class="n">vlswu</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">rs2</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># unsigned 32b</span>
+
+<span class="n">vlse</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">rs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># SEW</span>
+
+<span class="c1"># vs3はストアデータ, rs1はベースアドレス, rs2はバイトストライド</span>
+<span class="n">vssb</span><span class="o">.</span><span class="n">v</span> <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">rs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 8b</span>
+<span class="n">vssh</span><span class="o">.</span><span class="n">v</span> <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">rs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 16b</span>
+<span class="n">vssw</span><span class="o">.</span><span class="n">v</span> <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">rs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 32b</span>
+<span class="n">vsse</span><span class="o">.</span><span class="n">v</span> <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">rs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># SEW</span>
+</pre></div>
+</div>
+<blockquote>
+<div>負の数、ゼロのストライド数もサポートされている。</div></blockquote>
+</div>
+<div class="section" id="id6">
+<h2>7.6. ベクトルインデックスロードストア命令<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ベクトルインデックスロードストア命令</span>
+
+<span class="c1"># vdは書き込み先レジスタアドレス, rs1はベースアドレス, vs2はインデックスの集合</span>
+<span class="n">vlxb</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 8b</span>
+<span class="n">vlxh</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 16b</span>
+<span class="n">vlxw</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 32b</span>
+
+<span class="n">vlxbu</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 8b unsigned</span>
+<span class="n">vlxhu</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 16b unsigned</span>
+<span class="n">vlxwu</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 32b unsigned</span>
+
+<span class="n">vlxe</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># SEW</span>
+
+<span class="c1"># ベクトル順序付きインデックストア命令</span>
+<span class="c1"># vs3はストアデータ, rs1はベースアドレス, vs2はインデックスの集合</span>
+<span class="n">vsxb</span><span class="o">.</span><span class="n">v</span> <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 8b</span>
+<span class="n">vsxh</span><span class="o">.</span><span class="n">v</span> <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 16b</span>
+<span class="n">vsxw</span><span class="o">.</span><span class="n">v</span> <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 32b</span>
+<span class="n">vsxe</span><span class="o">.</span><span class="n">v</span> <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># SEW</span>
+
+<span class="c1"># ベクトルの順序無しインデックスストア命令</span>
+<span class="n">vsuxb</span><span class="o">.</span><span class="n">v</span> <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 8b</span>
+<span class="n">vsuxh</span><span class="o">.</span><span class="n">v</span> <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 16b</span>
+<span class="n">vsuxw</span><span class="o">.</span><span class="n">v</span> <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 32b</span>
+<span class="n">vsuxe</span><span class="o">.</span><span class="n">v</span> <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># SEW</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fault-only-first">
+<h2>7.7. ユニットストライドFault-Only-Firstロード命令<a class="headerlink" href="#fault-only-first" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ユニットストライドFault-Only-Firstロード命令は、終了条件がデータに依存するループ(whileループなど)において使用される。これらの命令は通常のロード命令と同一であるが、最初の要素についてのみ例外の判定を行う。もし要素のインデックス
+&gt;
+0で例外が発生すると、その要素と後続の要素は変更されず、ベクトル長<code class="docutils literal notranslate"><span class="pre">vl</span></code>はトラップが発生しないサイズまで縮退される。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">vlbff</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span> <span class="c1"># 8b</span>
+    <span class="n">vlhff</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span> <span class="c1"># 16b</span>
+    <span class="n">vlwff</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span> <span class="c1"># 32b</span>
+
+    <span class="n">vlbuff</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span> <span class="c1"># unsigned 8b</span>
+    <span class="n">vlhuff</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span> <span class="c1"># unsigned 16b</span>
+    <span class="n">vlwuff</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span> <span class="c1"># unsigned 32b</span>
+
+    <span class="n">vleff</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span> <span class="c1"># SEW</span>
+
+<span class="n">ユニットストライドFault</span><span class="o">-</span><span class="n">only</span><span class="o">-</span><span class="n">first命令を用いたstrlenの例</span>
+
+<span class="c1"># size_t strlen(const char *str)</span>
+<span class="c1"># a0 holds *str</span>
+
+<span class="n">strlen</span><span class="p">:</span>
+    <span class="n">mv</span> <span class="n">a3</span><span class="p">,</span> <span class="n">a0</span>             <span class="c1"># レジスタの退避</span>
+<span class="n">loop</span><span class="p">:</span>
+    <span class="n">vsetvli</span> <span class="n">a1</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">e8</span>    <span class="c1"># 最大長のベクトル長に設定する。</span>
+    <span class="n">vlbff</span><span class="o">.</span><span class="n">v</span> <span class="n">v1</span><span class="p">,</span> <span class="p">(</span><span class="n">a3</span><span class="p">)</span>      <span class="c1"># バイトロード</span>
+    <span class="n">csrr</span> <span class="n">a1</span><span class="p">,</span> <span class="n">vl</span>           <span class="c1"># 読み込んだバイト数を取得</span>
+    <span class="n">vmseq</span><span class="o">.</span><span class="n">vi</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="mi">0</span>    <span class="c1"># v1[i] == 0の結果をv0[i]に格納する。</span>
+    <span class="n">vfirst</span><span class="o">.</span><span class="n">m</span> <span class="n">a2</span><span class="p">,</span> <span class="n">v0</span>       <span class="c1"># 最初に設定されたビットの位置を探す。</span>
+    <span class="n">add</span> <span class="n">a3</span><span class="p">,</span> <span class="n">a3</span><span class="p">,</span> <span class="n">a1</span>        <span class="c1"># ポインタを進める。</span>
+    <span class="n">bltz</span> <span class="n">a2</span><span class="p">,</span> <span class="n">loop</span>         <span class="c1"># これ以上ある？</span>
+
+    <span class="n">add</span> <span class="n">a0</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">a1</span>        <span class="c1"># start + bump</span>
+    <span class="n">add</span> <span class="n">a3</span><span class="p">,</span> <span class="n">a3</span><span class="p">,</span> <span class="n">a2</span>        <span class="c1"># インデックスの加算</span>
+    <span class="n">sub</span> <span class="n">a0</span><span class="p">,</span> <span class="n">a3</span><span class="p">,</span> <span class="n">a0</span>        <span class="c1"># startからaddress+bumpの値を減算</span>
+
+    <span class="n">ret</span>
+</pre></div>
+</div>
+<blockquote>
+<div>ベクトルストライド命令と、scatter/gather
+fault-only-first命令は大きなセキュリティホールとなるため定義されない。この命令では、ソフトウェアがトラップを発生させずに複数のランダムなページのアクセス性をチェックすることができるようになる。ユニットストライド版は即値で表現される連続した領域でしかチェック数rことができず、明らかなセキュリティ問題への影響とはならない。非連続なアクセスを用いるfault-only-first命令の対策は、将来のベクトル拡張で追加される予定である。</div></blockquote>
+</div>
+<div class="section" id="zvlsseg">
+<h2>7.8. セグメントベクトルロード・ストア命令(<code class="docutils literal notranslate"><span class="pre">Zvlsseg</span></code>)<a class="headerlink" href="#zvlsseg" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<blockquote>
+<div>この命令はベクトル命令の追加拡張として記述されているが、ほとんどのプロファイルでは、操作が一般に省略できないため、ほとんどのプロファイルで必須になっている。。</div></blockquote>
+<p>セグメントベクトルロードストア命令はメモリ中の複数の連続したフィールド連続した複数のベクトルレジスタとの間で移動する命令である。</p>
+<blockquote>
+<div>これらの操作では、構造体のフィールドをアンパックすることで“Array-of-structures”のデータ型複数のベクトルレジスタに格納する操作をサポートする。</div></blockquote>
+<p>通常のロードストア命令では、メモリのサイズとしてwidthのエンコーディングが与えられ、サイズはすべての要素で同一である。そしてSEWはレジスタ要素のサイズが与えられる。</p>
+<p>ベクトル命令エンコーディング中の3ビットの<code class="docutils literal notranslate"><span class="pre">nf</span></code>フィールドは符号なし整数で、セグメント当たりのフィールドの数<strong>NFIELDS</strong>を示している。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="13%" />
+<col width="13%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">nf[2:0]</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">NFIELDS</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+</tr>
+<tr class="row-even"><td>1</td>
+<td>0</td>
+<td>0</td>
+<td>5</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>0</td>
+<td>1</td>
+<td>6</td>
+</tr>
+<tr class="row-even"><td>1</td>
+<td>1</td>
+<td>0</td>
+<td>7</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>1</td>
+<td>1</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+<p>LMULの設定は LMUL * NFIELDS ⇐
+8のように制約される必要があり、これを違反する場合は不正命令例外が発生する。</p>
+<blockquote>
+<div>LMUL *
+NFIELDSはセグメントロード・ストア命令によりアクセスされるベクトルレジスタの数を示している。この制約は、全体のアーキテクチャレジスタファイルの1/4を超える事は無いというものである。これはLMUL=8の場合と同じものである。この制約は将来の仕様の改定で緩和される可能性がある。</div></blockquote>
+<p>各フィールドはベクトルレジジスタグループの連続した番号を格納する。LMUL&gt;1であれば、各フィールドは不空の連続したベクトルレジスタの数を保持することになり、各フィールドのレジスタグループは通常のベクトルレジスタのアライメントの制約を守る必要がある(例えば、LMUL=2かつNFIELD=4の場合は各フィールドのベクトルレジスタグループはベクトルレジスタの偶数番号から始まる必要があるが、ベクトルレジスタの8の倍数から始まる必要はない)。</p>
+<blockquote>
+<div>初期の仕様ではベクトルレジスタ数に関数る制約が存在した柄、NFIELDSが2の累乗でない場合に、すべてのレジスタが使用できるように制約が緩和された。</div></blockquote>
+<p>もしセグメントれロードストア命令によりアクセスされるベクトルレジスタの数が31を超える場合、不正命令例外が発生する。</p>
+<p>この制約は、将来より長い命令エンコーディングにより、より多くのベクトルレジスタを使用できるようになった場合の将来への互換性を取るための制約である。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vl</span></code>レジスタは移動する構造体の数を示し、各ベクトルレジスタグループにてそうされる要素の数と同一である。すべての構造体において、マスク操作が可能である。</p>
+<p>例外が発生すると、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>は構造体の単位で格納されていることになる。</p>
+<div class="section" id="id7">
+<h3>7.8.1. ベクトルユニットストライドセグメントロードストア命令<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ベクトルユニットストライドセグメントロードストア命令はパッキングしてある連続したセグメント(“Array-of-structures”)を、複数のベクトルレジスタグループとの間で転送するための命令である。</p>
+<blockquote>
+<div>フィールドのサイズ後異なるセグメントでは、ソフトウェアは追加の命令を使用してフィールドをアンパックし、セグメントロード命令によりが値を別々のベクトルレジスタに格納する。</div></blockquote>
+<p>The assembler prefixes <code class="docutils literal notranslate"><span class="pre">vlseg</span></code>/<code class="docutils literal notranslate"><span class="pre">vsseg</span></code> are used for unit-stride
+segment loads and stores respectively.</p>
+<p>アセンブラ命令では、<code class="docutils literal notranslate"><span class="pre">vlseg</span></code>/<code class="docutils literal notranslate"><span class="pre">vsseg</span></code>というプレフィックスを使い、ユニットストライドセグメントロード・ストア命令を表現する。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># フォーマット</span>
+<span class="n">vlseg</span><span class="o">&lt;</span><span class="n">nf</span><span class="o">&gt;</span><span class="p">{</span><span class="n">b</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">}</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span>  <span class="n">vm</span>    <span class="c1"># ユニットストライド富豪的セグメントロード命令のテンプレート</span>
+<span class="n">vlseg</span><span class="o">&lt;</span><span class="n">nf</span><span class="o">&gt;</span><span class="n">e</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span>           <span class="c1"># ユニットストライドセグメントロード命令のテンプレート</span>
+<span class="n">vlseg</span><span class="o">&lt;</span><span class="n">nf</span><span class="o">&gt;</span><span class="p">{</span><span class="n">b</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">}</span><span class="n">u</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span>    <span class="c1"># ユニットストライド冨居なしセグメントロード命令のテンプレート</span>
+<span class="n">vsseg</span><span class="o">&lt;</span><span class="n">nf</span><span class="o">&gt;</span><span class="p">{</span><span class="n">b</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">e</span><span class="p">}</span><span class="o">.</span><span class="n">v</span> <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span>  <span class="c1"># ユニットストライドセグメントストア命令のテンプレート</span>
+
+<span class="c1"># 例</span>
+<span class="n">vlseg2b</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span>   <span class="c1"># 符号付2*1バイトのセグメントをvd,vd+1に格納する。</span>
+<span class="n">vlseg3bu</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span>  <span class="c1"># 符号なし3:1バイトのセグメントをvd,vd+1,vd+2に格納する。</span>
+<span class="n">vlseg7w</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span>   <span class="c1"># 7*4バイトのセグメントをvd, vd+1, ... vd+6に格納する。</span>
+<span class="n">vlseg8e</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span>   <span class="c1"># 8*SEWバイトのセグメントをvd, vd+1, ... vd+7に格納する。</span>
+
+<span class="n">vsseg3b</span><span class="o">.</span><span class="n">v</span> <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vm</span>  <span class="c1"># vs3,vs3+1,vs3+2のパックされた3*1バイトのセグメントをメモリに格納する。</span>
+</pre></div>
+</div>
+<p>ロード命令では、<code class="docutils literal notranslate"><span class="pre">vd</span></code>レジスタはセグメントからロードされた最初のフィールドを格納する。ストア命令では、<code class="docutils literal notranslate"><span class="pre">vs3</span></code>レジスタは各セグメントで最初にストアされたフィールドを提供するために読み込まれる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 例1</span>
+<span class="c1"># メモリ中にパックされたRGBピクセルデータが格納されている(8bppで24ビット幅)</span>
+<span class="n">vlseg3bu</span><span class="o">.</span><span class="n">v</span> <span class="n">v8</span><span class="p">,</span> <span class="p">(</span><span class="n">a0</span><span class="p">),</span> <span class="n">vm</span>
+<span class="c1"># v8 は赤のピクセルが書きこまれる。</span>
+<span class="c1"># v9 は緑のピクセルが書き込まれる。</span>
+<span class="c1"># v10 は青のピクセルが書き込まれる。</span>
+
+<span class="c1"># 例2</span>
+<span class="c1"># メモリ中に複素数が格納されている。32ビットの実数部と32ビットの虚数部。</span>
+<span class="n">vlseg2w</span><span class="o">.</span><span class="n">v</span> <span class="n">v8</span><span class="p">,</span> <span class="p">(</span><span class="n">a0</span><span class="p">),</span> <span class="n">vm</span>
+<span class="c1"># v8 は実数部が書き込まれる。</span>
+<span class="c1"># v9 は虚数部が書き込まれる。</span>
+</pre></div>
+</div>
+<p>ユニットストライド命令のfault-only-first命令も定義されている。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ベクトルfault-only-firstユニットストライドセグメントロードストア命令のテンプレート</span>
+<span class="n">vlseg</span><span class="o">&lt;</span><span class="n">nf</span><span class="o">&gt;</span><span class="p">{</span><span class="n">b</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">}</span><span class="n">ff</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span>  <span class="n">vm</span>    <span class="c1"># ユニットストライド符号付fault-only-firstセグメントロード</span>
+<span class="n">vlseg</span><span class="o">&lt;</span><span class="n">nf</span><span class="o">&gt;</span><span class="n">eff</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span>  <span class="n">vm</span>          <span class="c1"># ユニットストライドfault-only-firstセグメントロード</span>
+<span class="n">vlseg</span><span class="o">&lt;</span><span class="n">nf</span><span class="o">&gt;</span><span class="p">{</span><span class="n">b</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">}</span><span class="n">uff</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span>   <span class="n">vm</span>  <span class="c1"># ユニットストライド符号なしfault-only-firstセグメントロード</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id8">
+<h3>7.8.2. ベクトルストライドセグメントロードストア命令<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ベクトルストライドセグメントロードストア命令は、<code class="docutils literal notranslate"><span class="pre">rs2</span></code>
+GPRに格納されたバイトストライドオフセットに基づいて離れ離れの連続したセグメントに格納されたデータを移動するための命令である。</p>
+<blockquote>
+<div>負数とゼロのストライド数もサポートする。</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># フォーマット</span>
+<span class="n">vlsseg</span><span class="o">&lt;</span><span class="n">nf</span><span class="o">&gt;</span><span class="p">{</span><span class="n">b</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">}</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">rs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># ストライド符号付セグメントロード</span>
+<span class="n">vlsseg</span><span class="o">&lt;</span><span class="n">nf</span><span class="o">&gt;</span><span class="n">e</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">rs2</span><span class="p">,</span> <span class="n">vm</span>          <span class="c1"># ストライドセグメントロード</span>
+<span class="n">vlsseg</span><span class="o">&lt;</span><span class="n">nf</span><span class="o">&gt;</span><span class="p">{</span><span class="n">b</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">}</span><span class="n">u</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">rs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ストライド符号なしセグメントロード</span>
+<span class="n">vssseg</span><span class="o">&lt;</span><span class="n">nf</span><span class="o">&gt;</span><span class="p">{</span><span class="n">b</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">e</span><span class="p">}</span><span class="o">.</span><span class="n">v</span> <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">rs2</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># ストライドセグメントストア</span>
+
+<span class="c1"># 例</span>
+<span class="n">vlsseg3b</span><span class="o">.</span><span class="n">v</span> <span class="n">v4</span><span class="p">,</span> <span class="p">(</span><span class="n">x5</span><span class="p">),</span> <span class="n">x6</span>   <span class="c1"># アドレスx5+i*x6のデータをv4[i]に格納し、</span>
+                          <span class="c1">#  アドレスx5+i*x6+1のデータをv5[i]に格納し、</span>
+                          <span class="c1">#  アドレスx5+i*x6+2のデータをv6[i]に格納する。</span>
+
+<span class="c1"># Examples</span>
+<span class="n">vssseg2w</span><span class="o">.</span><span class="n">v</span> <span class="n">v2</span><span class="p">,</span> <span class="p">(</span><span class="n">x5</span><span class="p">),</span> <span class="n">x6</span>   <span class="c1"># v2[i]をアドレスx5+i*x6に格納し、</span>
+                          <span class="c1">#   v3[i]をアドレスx5+i*x6+4に格納する。</span>
+</pre></div>
+</div>
+<p>バイトストライドでのストライドセグメントストア命令では、セグメントがメモリ内でオーバラップすることがあるが、セグメントは要素の順番で書き込まれなければならない。</p>
+</div>
+<div class="section" id="id9">
+<h3>7.8.3. ベクトルインデックスセグメントロードストア命令<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ベクトルインデックスセグメントロードストア命令はスカラのベースアドレス<code class="docutils literal notranslate"><span class="pre">rs1</span></code>を<code class="docutils literal notranslate"><span class="pre">vs2</span></code>に格納されているバイトオフセットの値と加算してそれをセグメントのアドレスとし、データを転送するための命令である。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># フォーマット</span>
+<span class="n">vlxseg</span><span class="o">&lt;</span><span class="n">nf</span><span class="o">&gt;</span><span class="p">{</span><span class="n">b</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">}</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># 符号付インデックスセグメントロード</span>
+<span class="n">vlxseg</span><span class="o">&lt;</span><span class="n">nf</span><span class="o">&gt;</span><span class="n">e</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>          <span class="c1"># インデックスセグメントロード</span>
+<span class="n">vlxseg</span><span class="o">&lt;</span><span class="n">nf</span><span class="o">&gt;</span><span class="p">{</span><span class="n">b</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">}</span><span class="n">u</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 符号なしインデックスセグメントロード</span>
+<span class="n">vsxseg</span><span class="o">&lt;</span><span class="n">nf</span><span class="o">&gt;</span><span class="p">{</span><span class="n">b</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">e</span><span class="p">}</span><span class="o">.</span><span class="n">v</span> <span class="n">vs3</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># インデックスセグメントストア</span>
+
+<span class="c1"># 例</span>
+<span class="n">vlxseg3bu</span><span class="o">.</span><span class="n">v</span> <span class="n">v4</span><span class="p">,</span> <span class="p">(</span><span class="n">x5</span><span class="p">),</span> <span class="n">v3</span>   <span class="c1"># アドレスx5+v3[i]のデータをv4[i]に格納し、</span>
+                           <span class="c1">#  x5+v3[i]+1のアドレスをv5[i]に格納し、</span>
+                           <span class="c1">#  x5+v3[i]+2のアドレスをv6[i]に格納する。</span>
+
+<span class="c1"># 例</span>
+<span class="n">vsxseg2w</span><span class="o">.</span><span class="n">v</span> <span class="n">v2</span><span class="p">,</span> <span class="p">(</span><span class="n">x5</span><span class="p">),</span> <span class="n">v5</span>   <span class="c1"># v2[i]のワードデータをアドレスx5+v5[i]にストアし、</span>
+                          <span class="c1">#   v3[i]のワードデータをx5+v5[i]+4にストアする。</span>
+</pre></div>
+</div>
+<p>ベクトルインデックスセグメントロードでは、書き込みレジスタグループは<code class="docutils literal notranslate"><span class="pre">vs2</span></code>で指定されるソースベクトルレジスタグループとオーバ六腑することはできず、マスクを使用する場合はマスクレジスタとオーバラップしてはならない。そのような場合には不正命令例外が発生する。</p>
+<blockquote>
+<div>この制約により、インデックス付きセグメントロード命令が構造体をロードしている最中に例外が発生した場合にリスタートできるようになる。</div></blockquote>
+<p>順序付きセグメントストア命令のみ定義されている。セグメントは要素の順番に沿って書き込まれる必要がある。</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="chapter6_config_insts.html" class="btn btn-neutral float-left" title="6. コンフィグレーション設定命令" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, msyksphinz
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
