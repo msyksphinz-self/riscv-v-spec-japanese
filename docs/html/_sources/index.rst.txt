@@ -16,6 +16,7 @@ RISC-V “V” Extension
    chapter5_vector_instruction_format.rst
    chapter6_config_insts.rst
    chapter7_vector_load_store.rst
+   chapter8_vector_amo.rst
 
 Indices and tables
 ==================

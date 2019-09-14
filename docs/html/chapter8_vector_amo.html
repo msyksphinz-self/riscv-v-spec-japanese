@@ -1,0 +1,480 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>8. ベクトルAMO操作(Zvamo) &mdash; riscv-v-spec-japanese  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="prev" title="7. ベクトルロードストア命令" href="chapter7_vector_load_store.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter7_vector_load_store.html">7. ベクトルロードストア命令</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">8. ベクトルAMO操作(<code class="docutils literal notranslate"><span class="pre">Zvamo</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#id1">9. ベクトルメモリのアライメント制約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#id2">10. ベクトルメモリのコンシステンシモデル</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">riscv-v-spec-japanese</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>8. ベクトルAMO操作(<code class="docutils literal notranslate"><span class="pre">Zvamo</span></code>)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/chapter8_vector_amo.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="amo-zvamo">
+<h1>8. ベクトルAMO操作(<code class="docutils literal notranslate"><span class="pre">Zvamo</span></code>)<a class="headerlink" href="#amo-zvamo" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<blockquote>
+<div>Profiles will dictate whether vector AMO operations are supported.
+The expectation is that the Unix profile will require vector AMO
+operations.</div></blockquote>
+<blockquote>
+<div>プロファイルでは、どこにベクトルAMO命令がサポートされているかについて述べている。想定では、UnixのプロファイルではベクトルAMO操作が必要になる。</div></blockquote>
+<p>ベクトルAMO命令がサポートされている場合、スカラのZaamo命令(標準A拡張からのアトミック操作)のサポートは必須である。</p>
+<p>ベクトルAMO操作は標準的なAMOメジャーオペコードに基づく、不必要なビット幅のエンコーディングを使用している。アックアクティブ要素はアトミックなRead-modify-writeを単一のメモリ領域に対して実行する。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AMOメジャーオペコードを使用したベクトルAMO命令のフォーマット
+
+31    27 26  25  24      20 19       15 14   12 11      7 6     0
+ amoop  |wd| vm |   vs2    |    rs1    | width | vs3/vd  |0101111| VAMO*
+   5      1   1      5           5         3        5        7
+vs2[4:0] アドレスを保持しているVレジスタ
+vs3/vd[4:0] 読み込みオペランドと書き込みオペランドを保持しているVレジスタ。
+
+vmはベクトルマスクを表現している。
+width[2:0] メモリ要素のサイズを示している。これはスカラAMOのものとは異なる。
+amoop[4:0] AMO操作を示す。
+wd は元のメモリの阿多いをvdに書き込むかを指定する(1=書き込む、0=書き込まない)
+</pre></div>
+</div>
+<p>AMOはインデックス操作と同様のアドレッシングモードを持っているが、即値のオフセットは持たない。<code class="docutils literal notranslate"><span class="pre">vs2</span></code>はバイトオフセットを保持するベクトルであり、スカラのベースレジスタ<code class="docutils literal notranslate"><span class="pre">rs1</span></code>とオフセットの値を加算してAMO操作を行うアドレスを決める。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vs2</span></code>ベクトルレジスタは各要素のバイトオフセットを保持しており、<code class="docutils literal notranslate"><span class="pre">vs3</span></code>はアトミックメモリ操作を実行する値を保持しているベクトルレジスタである。</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">wd</span></code> bit is set, the <code class="docutils literal notranslate"><span class="pre">vd</span></code> register is written with the
+initial value of the memory element. If the <code class="docutils literal notranslate"><span class="pre">wd</span></code> bit is clear, the
+<code class="docutils literal notranslate"><span class="pre">vd</span></code> register is not written.</p>
+<p><code class="docutils literal notranslate"><span class="pre">wd</span></code>ビットが設定されている場合、<code class="docutils literal notranslate"><span class="pre">vd</span></code>レジスタにメモリ要素のアトミック操作前の値が書き込まれる。もし<code class="docutils literal notranslate"><span class="pre">wd</span></code>がクリアされている場合、<code class="docutils literal notranslate"><span class="pre">vd</span></code>レジスタには何も書きこまれない。</p>
+<blockquote>
+<div><code class="docutils literal notranslate"><span class="pre">wd</span></code>がクリアされている場合、メモリシステムはメモリの初期値を返す必要がなく、また<code class="docutils literal notranslate"><span class="pre">vd</span></code>の初期値は保持される。</div></blockquote>
+<blockquote>
+<div>AMO命令は、レジスタリネーミングにおいて全体的なメモリパイプラインの読み込みポートを削減するように、読み込みデータのレジスタを上書きするように設計されている。これは、ベクトルインデックス操作と同じアドレッシングモードをサポートするため、またベクトルAMOは通常の並列メモリリダクション操作において結果をレジスタに保持する必要がないためである。</div></blockquote>
+<p>ベクトルAMO操作は、<code class="docutils literal notranslate"><span class="pre">aq</span></code>と<code class="docutils literal notranslate"><span class="pre">rl</span></code>ビットはゼロが設定されているものとして動作し、同じhart乗の他の命令との順序を守るように設計されている。</p>
+<p>ベクトルAMOは、同じ命令内において要素に対する演算の順序は保証しない。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="15%" />
+<col width="4%" />
+<col width="4%" />
+<col width="19%" />
+<col width="21%" />
+<col width="12%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&#160;</th>
+<th class="head">Width [2:0]</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">メモリのビット</th>
+<th class="head">レジスタのビット</th>
+<th class="head">Opcode</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>標準的なスカラのAMO</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>32</td>
+<td>XLEN</td>
+<td>AMO*.W</td>
+</tr>
+<tr class="row-odd"><td>標準的なスカラのAMO</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>64</td>
+<td>XLEN</td>
+<td>AMO*.D</td>
+</tr>
+<tr class="row-even"><td>標準的なスカラのAMO</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>128</td>
+<td>XLEN</td>
+<td>AMO*.Q</td>
+</tr>
+<tr class="row-odd"><td>ベクトルAMO</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>32</td>
+<td>vl*SEW</td>
+<td>VAMO*W.V</td>
+</tr>
+<tr class="row-even"><td>ベクトルAMO</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>64</td>
+<td>vl*SEW</td>
+<td>VAMO*E.V</td>
+</tr>
+</tbody>
+</table>
+<p>メモリのビットは、メモリ中にアクセスされる要素のサイズである。</p>
+<p>レジスタのビットは、レジスタ中の要素のサイズである。</p>
+<p>ベクトルAMOには2種類のサイズの命令がが存在している。1つは32ビットを1ワードとし、もう一つhあSEWビットを1ワードとするものである。32ビットベクトルAMO操作では、SEWは少なくとも32ビット以上でなければならず、そうでなければ不正命令例外が発生する。SEW
+&gt;
+32ビットであれば、メモリから戻ってくる値はSEW長にするために符号拡張が行われる。</p>
+<p>SEWがXLENよりも小さい場合、ベクトル<code class="docutils literal notranslate"><span class="pre">vs2</span></code>内のアドレスはXLENビットまで符号拡張される。SEWがXLEｎよりも大きい場合、不正命令例外が発生する。</p>
+<p>ベクトルAMO命令はメモリ要素の幅はスカラアーキテクチャの実装でサポートされている幅のみをサポートしている。他のデータサイズでは、不正命令例外が発生する。</p>
+<p>The vector <code class="docutils literal notranslate"><span class="pre">amoop[4:0]</span></code> field uses the same encoding as the scalar
+5-bit AMO instruction field, except that LR and SC are not supported.</p>
+<p>ベクトルお<code class="docutils literal notranslate"><span class="pre">amoop[4:0]</span></code>フィールドはスカラAMO命令フィールドの5ビットと同一であるが、LR/SCをサポートしていない点が異なる。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="34%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">amoop</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">opcode</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>vamoswap</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>vamoadd</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>vamoxor</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>vamoand</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>vamoor</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>vamomin</td>
+</tr>
+<tr class="row-even"><td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>vamomax</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>vamominu</td>
+</tr>
+<tr class="row-even"><td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>vamomaxu</td>
+</tr>
+</tbody>
+</table>
+<p>アセンブリの文法では書き込みレジスタとして<code class="docutils literal notranslate"><span class="pre">x0</span></code>を指定することで、戻り値が不要であることを示すことができる(<code class="docutils literal notranslate"><span class="pre">wd=0</span></code>)。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 32ビットベクトルAMOs</span>
+<span class="n">vamoswapw</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span>  <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=1であるため変更前の値をメモリに書き込む。</span>
+<span class="n">vamoswapw</span><span class="o">.</span><span class="n">v</span> <span class="n">x0</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vs3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=0であるため変更前の値をメモリに書き込まない。</span>
+
+<span class="n">vamoaddw</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span>  <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=1であるため変更前の値をメモリに書き込む。</span>
+<span class="n">vamoaddw</span><span class="o">.</span><span class="n">v</span> <span class="n">x0</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vs3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=0であるため変更前の値をメモリに書き込まない。</span>
+
+<span class="n">vamoxorw</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span>  <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=1であるため変更前の値をメモリに書き込む。</span>
+<span class="n">vamoxorw</span><span class="o">.</span><span class="n">v</span> <span class="n">x0</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vs3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=0であるため変更前の値をメモリに書き込まない。</span>
+
+<span class="n">vamoandw</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span>  <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=1であるため変更前の値をメモリに書き込む。</span>
+<span class="n">vamoandw</span><span class="o">.</span><span class="n">v</span> <span class="n">x0</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vs3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=0であるため変更前の値をメモリに書き込まない。</span>
+
+<span class="n">vamoorw</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span>  <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=1であるため変更前の値をメモリに書き込む。</span>
+<span class="n">vamoorw</span><span class="o">.</span><span class="n">v</span> <span class="n">x0</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vs3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=0であるため変更前の値をメモリに書き込まない。</span>
+
+<span class="n">vamominw</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span>  <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=1であるため変更前の値をメモリに書き込む。</span>
+<span class="n">vamominw</span><span class="o">.</span><span class="n">v</span> <span class="n">x0</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vs3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=0であるため変更前の値をメモリに書き込まない。</span>
+
+<span class="n">vamomaxw</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span>  <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=1であるため変更前の値をメモリに書き込む。</span>
+<span class="n">vamomaxw</span><span class="o">.</span><span class="n">v</span> <span class="n">x0</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vs3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=0であるため変更前の値をメモリに書き込まない。</span>
+
+<span class="n">vamominuw</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span>  <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=1であるため変更前の値をメモリに書き込む。</span>
+<span class="n">vamominuw</span><span class="o">.</span><span class="n">v</span> <span class="n">x0</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vs3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=0であるため変更前の値をメモリに書き込まない。</span>
+
+<span class="n">vamomaxuw</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span>  <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=1であるため変更前の値をメモリに書き込む。</span>
+<span class="n">vamomaxuw</span><span class="o">.</span><span class="n">v</span> <span class="n">x0</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vs3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=0であるため変更前の値をメモリに書き込まない。</span>
+
+<span class="c1"># SEWビット ベクトル AMOs</span>
+<span class="n">vamoswape</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span>  <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=1であるため変更前の値をメモリに書き込む。</span>
+<span class="n">vamoswape</span><span class="o">.</span><span class="n">v</span> <span class="n">x0</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vs3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=0であるため変更前の値をメモリに書き込まない。</span>
+
+<span class="n">vamoadde</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span>  <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=1であるため変更前の値をメモリに書き込む。</span>
+<span class="n">vamoadde</span><span class="o">.</span><span class="n">v</span> <span class="n">x0</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vs3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=0であるため変更前の値をメモリに書き込まない。</span>
+
+<span class="n">vamoxore</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span>  <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=1であるため変更前の値をメモリに書き込む。</span>
+<span class="n">vamoxore</span><span class="o">.</span><span class="n">v</span> <span class="n">x0</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vs3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=0であるため変更前の値をメモリに書き込まない。</span>
+
+<span class="n">vamoande</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span>  <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=1であるため変更前の値をメモリに書き込む。</span>
+<span class="n">vamoande</span><span class="o">.</span><span class="n">v</span> <span class="n">x0</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vs3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=0であるため変更前の値をメモリに書き込まない。</span>
+
+<span class="n">vamoore</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span>  <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=1であるため変更前の値をメモリに書き込む。</span>
+<span class="n">vamoore</span><span class="o">.</span><span class="n">v</span> <span class="n">x0</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vs3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=0であるため変更前の値をメモリに書き込まない。</span>
+
+<span class="n">vamomine</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span>  <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=1であるため変更前の値をメモリに書き込む。</span>
+<span class="n">vamomine</span><span class="o">.</span><span class="n">v</span> <span class="n">x0</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vs3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=0であるため変更前の値をメモリに書き込まない。</span>
+
+<span class="n">vamomaxe</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span>  <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=1であるため変更前の値をメモリに書き込む。</span>
+<span class="n">vamomaxe</span><span class="o">.</span><span class="n">v</span> <span class="n">x0</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vs3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=0であるため変更前の値をメモリに書き込まない。</span>
+
+<span class="n">vamominue</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span>  <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=1であるため変更前の値をメモリに書き込む。</span>
+<span class="n">vamominue</span><span class="o">.</span><span class="n">v</span> <span class="n">x0</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vs3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=0であるため変更前の値をメモリに書き込まない。</span>
+
+<span class="n">vamomaxue</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span>  <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=1であるため変更前の値をメモリに書き込む。</span>
+<span class="n">vamomaxue</span><span class="o">.</span><span class="n">v</span> <span class="n">x0</span><span class="p">,</span> <span class="p">(</span><span class="n">rs1</span><span class="p">),</span> <span class="n">v2</span><span class="p">,</span> <span class="n">vs3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># wd=0であるため変更前の値をメモリに書き込まない。</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h1>9. ベクトルメモリのアライメント制約<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>ベクトルメモリ命令によってアクセスされる要素が、メモリアクセス際に対してアライメントしていない場合、アドレスミスアライン例外を発生させることもできるし、正しく要素を処理することもできる。</p>
+<p>ベクトルメモリアクセスの制約はスカラメモリアクセスアトミック命令の制約と同様である。</p>
+</div>
+<div class="section" id="id2">
+<h1>10. ベクトルメモリのコンシステンシモデル<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>ベクトルメモリ命令は、ローカルのHartのプログラムの順番に従って実行される。ベクトルメモリ命令は命令レベルでRVWMOのメモリコンシステンシモデルに従い、要素の操作は構文的に独立したスカラー命令の要素順に並べられたシーケンスによって実行されるかのように、命令内で順序付けられる。ベクトルインデックスオーダーのストア命令はメモリに対して要素の順序を守って書き込みが行われる。ベクトルインデックスのアンオーダーストア命令は、単一の命令の中で要素の順序を守らない。</p>
+<blockquote>
+<div>もう少し詳細を肉付けする必要あり。</div></blockquote>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="chapter7_vector_load_store.html" class="btn btn-neutral float-left" title="7. ベクトルロードストア命令" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, msyksphinz
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
