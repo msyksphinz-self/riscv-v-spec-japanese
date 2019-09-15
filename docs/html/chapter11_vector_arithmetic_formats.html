@@ -1,0 +1,443 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>11. ベクトル算術演算命令フォーマット &mdash; riscv-v-spec-japanese  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="prev" title="8. ベクトルAMO操作(Zvamo)" href="chapter8_vector_amo.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter7_vector_load_store.html">7. ベクトルロードストア命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html">8. ベクトルAMO操作(<code class="docutils literal notranslate"><span class="pre">Zvamo</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id1">9. ベクトルメモリのアライメント制約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id2">10. ベクトルメモリのコンシステンシモデル</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">11. ベクトル算術演算命令フォーマット</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">11.1. ベクトル算術演算命令のエンコーディング</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">11.2. ビット幅が広がるベクトル算術演算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">11.3. ビット幅を縮小するベクトル算術演算命令</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">riscv-v-spec-japanese</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>11. ベクトル算術演算命令フォーマット</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/chapter11_vector_arithmetic_formats.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>11. ベクトル算術演算命令フォーマット<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>The vector arithmetic instructions use a new major opcode (OP-V =
+10101112) which neighbors OP-FP. The three-bit <code class="docutils literal notranslate"><span class="pre">funct3</span></code> field is used
+to define sub-categories of vector instructions.</p>
+<p>ベクトル算術演算命令は新しいメジャーオペコード(OP-V =
+b1010111)を使用している。このオペコードはOP-FPと隣接しており、3ビットの<code class="docutils literal notranslate"><span class="pre">funct3</span></code>フィールドを使用してベクトル命令のサブカテゴリを定義している。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OP</span><span class="o">-</span><span class="n">Vメジャーオペコード下におけるベクトル算術命令のフォーマット</span>
+
+<span class="mi">31</span>       <span class="mi">26</span>  <span class="mi">25</span>   <span class="mi">24</span>      <span class="mi">20</span> <span class="mi">19</span>      <span class="mi">15</span> <span class="mi">14</span>   <span class="mi">12</span> <span class="mi">11</span>      <span class="mi">7</span> <span class="mi">6</span>     <span class="mi">0</span>
+  <span class="n">funct6</span>   <span class="o">|</span> <span class="n">vm</span>  <span class="o">|</span>   <span class="n">vs2</span>    <span class="o">|</span>    <span class="n">vs1</span>   <span class="o">|</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="o">|</span>    <span class="n">vd</span>   <span class="o">|</span><span class="mi">1010111</span><span class="o">|</span> <span class="n">OP</span><span class="o">-</span><span class="n">V</span> <span class="p">(</span><span class="n">OPIVV</span><span class="p">)</span>
+  <span class="n">funct6</span>   <span class="o">|</span> <span class="n">vm</span>  <span class="o">|</span>   <span class="n">vs2</span>    <span class="o">|</span>    <span class="n">vs1</span>   <span class="o">|</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="o">|</span>  <span class="n">vd</span><span class="o">/</span><span class="n">rd</span>  <span class="o">|</span><span class="mi">1010111</span><span class="o">|</span> <span class="n">OP</span><span class="o">-</span><span class="n">V</span> <span class="p">(</span><span class="n">OPFVV</span><span class="p">)</span>
+  <span class="n">funct6</span>   <span class="o">|</span> <span class="n">vm</span>  <span class="o">|</span>   <span class="n">vs2</span>    <span class="o">|</span>    <span class="n">vs1</span>   <span class="o">|</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="o">|</span>  <span class="n">vd</span><span class="o">/</span><span class="n">rd</span>  <span class="o">|</span><span class="mi">1010111</span><span class="o">|</span> <span class="n">OP</span><span class="o">-</span><span class="n">V</span> <span class="p">(</span><span class="n">OPMVV</span><span class="p">)</span>
+  <span class="n">funct6</span>   <span class="o">|</span> <span class="n">vm</span>  <span class="o">|</span>   <span class="n">vs2</span>    <span class="o">|</span>   <span class="n">simm5</span>  <span class="o">|</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">1</span> <span class="o">|</span>    <span class="n">vd</span>   <span class="o">|</span><span class="mi">1010111</span><span class="o">|</span> <span class="n">OP</span><span class="o">-</span><span class="n">V</span> <span class="p">(</span><span class="n">OPIVI</span><span class="p">)</span>
+  <span class="n">funct6</span>   <span class="o">|</span> <span class="n">vm</span>  <span class="o">|</span>   <span class="n">vs2</span>    <span class="o">|</span>    <span class="n">rs1</span>   <span class="o">|</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="o">|</span>    <span class="n">vd</span>   <span class="o">|</span><span class="mi">1010111</span><span class="o">|</span> <span class="n">OP</span><span class="o">-</span><span class="n">V</span> <span class="p">(</span><span class="n">OPIVX</span><span class="p">)</span>
+  <span class="n">funct6</span>   <span class="o">|</span> <span class="n">vm</span>  <span class="o">|</span>   <span class="n">vs2</span>    <span class="o">|</span>    <span class="n">rs1</span>   <span class="o">|</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="o">|</span>    <span class="n">vd</span>   <span class="o">|</span><span class="mi">1010111</span><span class="o">|</span> <span class="n">OP</span><span class="o">-</span><span class="n">V</span> <span class="p">(</span><span class="n">OPFVF</span><span class="p">)</span>
+  <span class="n">funct6</span>   <span class="o">|</span> <span class="n">vm</span>  <span class="o">|</span>   <span class="n">vs2</span>    <span class="o">|</span>    <span class="n">rs1</span>   <span class="o">|</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span> <span class="o">|</span>  <span class="n">vd</span><span class="o">/</span><span class="n">rd</span>  <span class="o">|</span><span class="mi">1010111</span><span class="o">|</span> <span class="n">OP</span><span class="o">-</span><span class="n">V</span> <span class="p">(</span><span class="n">OPMVX</span><span class="p">)</span>
+     <span class="mi">6</span>        <span class="mi">1</span>        <span class="mi">5</span>          <span class="mi">5</span>        <span class="mi">3</span>        <span class="mi">5</span>        <span class="mi">7</span>
+</pre></div>
+</div>
+<div class="section" id="id2">
+<h2>11.1. ベクトル算術演算命令のエンコーディング<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">funct3</span></code>フィールドがオペランドの型とソースオペランドの場所をエンコードしている。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="4%" />
+<col width="4%" />
+<col width="9%" />
+<col width="27%" />
+<col width="39%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">funct3[2:0]</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">Operands</th>
+<th class="head">スカラオペランドのソース</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>0</td>
+<td>0</td>
+<td>OPIVV</td>
+<td>ベクトル - ベクトル</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>0</td>
+<td>1</td>
+<td>OPFVV</td>
+<td>ベクトル - ベクトル</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>1</td>
+<td>0</td>
+<td>OPMVV</td>
+<td>ベクトル - ベクトル</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>1</td>
+<td>1</td>
+<td>OPIVI</td>
+<td>ベクトル - 即値</td>
+<td>imm[4:0]</td>
+</tr>
+<tr class="row-even"><td>1</td>
+<td>0</td>
+<td>0</td>
+<td>OPIVX</td>
+<td>ベクトル - スカラ</td>
+<td>GPR x register rs1</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>0</td>
+<td>1</td>
+<td>OPFVF</td>
+<td>ベクトル - スカラ</td>
+<td>FP f register rs1</td>
+</tr>
+<tr class="row-even"><td>1</td>
+<td>1</td>
+<td>0</td>
+<td>OPMVX</td>
+<td>ベクトル - スカラ</td>
+<td>GPR x register rs1</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>1</td>
+<td>1</td>
+<td>OPCFG</td>
+<td>スカラ - 即値</td>
+<td>GPR x register rs1 &amp; rs2/imm</td>
+</tr>
+</tbody>
+</table>
+<p>整数算術演算は符号なし整数化、2の歩数表現での符号付整数を使用して実行される。どちらを使用するかはオペコードに依存する。</p>
+<p>すべての標準的な浮動小数点算術演算はIEEE-754/2008標準に準拠する。すべてのベクトル浮動小数点演算は<code class="docutils literal notranslate"><span class="pre">frm</span></code>レジスタに基づいて動的な丸めモードを使用する。</p>
+<p>ベクトル -
+ベクトル算術演算はベクトルグループから<code class="docutils literal notranslate"><span class="pre">vs2</span></code>と<code class="docutils literal notranslate"><span class="pre">vs1</span></code>で指定される2つのベクトルグループを取り、算術演算を実行する。</p>
+<p>ベクトル -
+スカラ演算は3つの形式をとることができるが、すべてのケースにおいて<code class="docutils literal notranslate"><span class="pre">vs2</span></code>ベクトルレジスタグループにより1つのベクトルオペランドを取り、2番目のスカラソースオペランドは以下の3つのうちどれかの景色を選択する。</p>
+<ol class="arabic simple">
+<li>整数演算では、スカラ値は<code class="docutils literal notranslate"><span class="pre">rs1</span></code>フィールドからエンコードされる5ビットの即値を使用する。値は符号拡張されるか、符号なし拡張される。</li>
+<li>整数演算では、スカラ値は<code class="docutils literal notranslate"><span class="pre">rs1</span></code>から指定される整数レジスタ<code class="docutils literal notranslate"><span class="pre">x</span></code>から取得される。もし<code class="docutils literal notranslate"><span class="pre">XLEN&gt;SEW</span></code>であれば、<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタのうち界のビットが使用される。XLEN&lt;SEWであれば、<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタの値はSEWビットまで符号拡張される。</li>
+<li>浮動小数点演算では、スカラ値は浮動小数点スカラレジスタ<code class="docutils literal notranslate"><span class="pre">f</span></code>から取得される。FLEN&gt;SEWであれば、<code class="docutils literal notranslate"><span class="pre">f</span></code>レジスタはNaN-boxされた値かどうかをチェックし、<code class="docutils literal notranslate"><span class="pre">f</span></code>レジスタの会のビットが使用される。NaN-boxされた値でなければNaNが使用される。FLEN&lt;SEWであれば、値はNaN-boxされSEWビット長まで拡張される。</li>
+</ol>
+<blockquote>
+<div>現在提案されているZfinxバリアントは浮動小数点スカラの引数を<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタから取ることができる。</div></blockquote>
+<p>ベクトル算術演算命令は、vmフィールドの制御に基づいてマスクを適用することができる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ベクトルバイナリ算術演算命令のアセンブリ文法パタン</span>
+
+<span class="c1"># Operations returning vector results, masked by vm (v0.t, &lt;nothing&gt;)</span>
+<span class="c1"># ベクトル書き込みレジスタの指定により、算術演算結果はvmによりマスクされる(v0.tもしくは指定しない)</span>
+<span class="n">vop</span><span class="o">.</span><span class="n">vv</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 整数ベクトル - ベクトル演算 vd[i] = vs2[i] op vs1[i]</span>
+<span class="n">vop</span><span class="o">.</span><span class="n">vx</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 整数ベクトル - スカラ演算   vd[i] = vs2[i] op x[rs1]</span>
+<span class="n">vop</span><span class="o">.</span><span class="n">vi</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 整数ベクトル - 即値演算     vd[i] = vs2[i] op imm</span>
+
+<span class="n">vfop</span><span class="o">.</span><span class="n">vv</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># 浮動小数点ベクトル - ベクトル演算 vd[i] = vs2[i] fop vs1[i]</span>
+<span class="n">vfop</span><span class="o">.</span><span class="n">vf</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># 浮動小数点ベクトル - スカラ演算   vd[i] = vs2[i] fop f[rs1]</span>
+</pre></div>
+</div>
+<p>エンコーディング中では、<code class="docutils literal notranslate"><span class="pre">vs2</span></code>は1番目のオペランドであり、<code class="docutils literal notranslate"><span class="pre">rs1/simm5</span></code>が2番目のオペランドとなっている。これは標準的なスカラ命令の順番とは逆である。この順番になっているのは現在のエンコーディングにおける1つのスカラレジスタを読み込む命令、<code class="docutils literal notranslate"><span class="pre">rs1</span></code>からレジスタを読み込む場合および5ビットの即値を取得するものと保持しているxxx。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Assembly syntax pattern for vector ternary arithmetic instructions (multiply-add)</span>
+<span class="c1"># 3つの読み込みオペランドを取るベクトル命令のアセンブリ文法パタン(乗算加算)</span>
+
+<span class="c1"># 加算のオペランドを上書きする形式の整数演算命令</span>
+<span class="n">vop</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = vs1[i] * vs2[i] + vd[i]</span>
+<span class="n">vop</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = x[rs1] * vs2[i] + vd[i]</span>
+
+<span class="c1"># 乗算のオペランドを上書きする形式の整数演算命令</span>
+<span class="n">vop</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = vs1[i] * vd[i] + vs2[i]</span>
+<span class="n">vop</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = x[rs1] * vd[i] + vs2[i]</span>
+
+<span class="c1"># 加算のオペランドを上書きする形式の浮動小数点命令</span>
+<span class="n">vfop</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = vs1[i] * vs2[i] + vd[i]</span>
+<span class="n">vfop</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = f[rs1] * vs2[i] + vd[i]</span>
+
+<span class="c1"># 乗算のオペランドを上書きする形式の浮動小数点命令</span>
+<span class="n">vfop</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = vs1[i] * vd[i] + vs2[i]</span>
+<span class="n">vfop</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = f[rs1] * vd[i] + vs2[i]</span>
+</pre></div>
+</div>
+<p>3オペランドを取る乗算加算命令では、アセンブリ命令の構文は、常に書き込みレジスタを先頭に配置し、<code class="docutils literal notranslate"><span class="pre">rs1</span></code>もしくは<code class="docutils literal notranslate"><span class="pre">vs1</span></code>を置き、最後に<code class="docutils literal notranslate"><span class="pre">vs2</span></code>を置く。この順序により乗算のオペランドが常に2番目に来るため、アセンブリ命令の算術演算の動作を自然に読むことができる。</p>
+</div>
+<div class="section" id="id3">
+<h2>11.2. ビット幅が広がるベクトル算術演算命令<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>A few vector arithmetic instructions are defined to be <em>widening</em>
+operations where the destination elements are 2*SEW wide and are stored
+in a vector register group with twice the number of vector registers.</p>
+<p>いくつかのベクトル算術演算命令では<strong>ビット幅が拡張される</strong>演算命令として定義されており、書き込み先の要素は
+2*SEW
+ビットまで拡張され、書き込み先のベクトルレジスタグループは2つ分使用される。</p>
+<p>The first operand can be either single or double-width. These are
+generally written with a <code class="docutils literal notranslate"><span class="pre">vw*</span></code> prefix on the opcode or <code class="docutils literal notranslate"><span class="pre">vfw*</span></code> for
+vector floating-point operations.</p>
+<p>1番目のオペランドでは、1倍幅もしくは2倍幅である。通常これらの命令はプレフィックスとして<code class="docutils literal notranslate"><span class="pre">vw*</span></code>がつけられ、ベクトル浮動小数点命令の場合は<code class="docutils literal notranslate"><span class="pre">vfw*</span></code>プレフィックスが付けられる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ビット幅が拡張されるベクトル算術演算命令のアセンブリ文法パタン</span>
+
+<span class="c1"># 演算結果は2倍幅、1つの1倍幅のソースオペランドを取る: 2*SEW = SEW op SEW</span>
+<span class="n">vwop</span><span class="o">.</span><span class="n">vv</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 整数ベクトル - ベクトル    vd[i] = vs2[i] op vs1[i]</span>
+<span class="n">vwop</span><span class="o">.</span><span class="n">vx</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 整数ベクトル - スカラ      vd[i] = vs2[i] op x[rs1]</span>
+
+<span class="c1"># 最初のオペランドは2倍幅、2番目のオペランドは1倍幅で、演算結果は2倍幅: 2*SEW = 2*SEW op SEW</span>
+<span class="n">vwop</span><span class="o">.</span><span class="n">wv</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 整数ベクトル - ベクトル     vd[i] = vs2[i] op vs1[i]</span>
+<span class="n">vwop</span><span class="o">.</span><span class="n">wx</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 整数ベクトル - スカラ      vd[i] = vs2[i] op x[rs1]</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>最初は、<code class="docutils literal notranslate"><span class="pre">w</span></code>サフィックスをオペコードに使用していたが、ダブルワードの整数命令におけるワードサイズの命令を示すサフィックスである<code class="docutils literal notranslate"><span class="pre">w</span></code>と混同するため、<code class="docutils literal notranslate"><span class="pre">w</span></code>をプレフィックスに移動した。</p>
+<p>浮動小数手のビット幅拡張命令は<code class="docutils literal notranslate"><span class="pre">vwf*</span></code>から<code class="docutils literal notranslate"><span class="pre">vfw*</span></code>に変更した。これはスカラの浮動小数点ビット幅拡張命令である<code class="docutils literal notranslate"><span class="pre">fw*</span></code>との一貫性を保つためである。</p>
+</div></blockquote>
+<blockquote>
+<div>整数の乗算加算命令では、乗算加算命令のサイズを4SEWに増やすという選択肢があり得る(例えば
+4SEW +=
+SEWSEW)。これは<code class="docutils literal notranslate"><span class="pre">vw4</span></code>プレフィックスをオペコードに付与することで区別する。今回はこの命令は含まれていないが、仕様に追加される可能性がある。</div></blockquote>
+<p>書き込み先のベクトルレジスタグループはSEWとLMULが現在の設定よりも2倍になったかのように配置される(例えば、書き込み先の要素のサイズが2SEWであり、書き込み先のベクトルレジスタグループのLMULは2LMULとなっているように見える)。</p>
+<p>すべてのビット幅を拡張する命令のために、書き込み先の要素の幅はサポートされているビット幅の範囲であり、LMULの値もサポートされているLMULの範囲に収まっている必要がある(例えば、現在のLMULが&lt;=4であれば、&lt;=8となる)。</p>
+<p>書き込み先のベクトルレジスタグループはベクトルレジスタ番号で指定し、書き込み先のLMULの値において有効な値である必要がある。そうでなければ、不正命令例外が発生する。</p>
+<p>The destination vector register group cannot overlap a source vector
+register group of a different element width (including the mask register
+if masked), otherwise an illegal instruction exception is raised.</p>
+<p>書き込み先のベクトルレジスタグループは別の要素幅を持つソースベクトルレジスタグループとオーバラップしてはならない(マスクレジスタを使用していても、マスクを含めて被ってはならない)。そうでなければ、不正命令例外が発生する。</p>
+<blockquote>
+<div>非ゼロの<code class="docutils literal notranslate"><span class="pre">vstart</span></code>をサポートする必要がある。</div></blockquote>
+<blockquote>
+<div><code class="docutils literal notranslate"><span class="pre">vw&lt;op&gt;.wv</span> <span class="pre">vd,</span> <span class="pre">vs2,</span> <span class="pre">vs1</span></code>フォーマットの命令では、<code class="docutils literal notranslate"><span class="pre">vd</span></code>と<code class="docutils literal notranslate"><span class="pre">vs2</span></code>が同一であっても問題ない。</div></blockquote>
+</div>
+<div class="section" id="id4">
+<h2>11.3. ビット幅を縮小するベクトル算術演算命令<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>いくつかの命令では、2倍幅のソースベクトルオペランドを1倍幅の書き込みベクトルレジスタに書き込む命令が存在する。この命令では、ソースベクトルレジスタのサイズは現在のLMULおよびSEWの設定よりも2倍になっているように設定されており、通常のLMUL/SEWサイズのベクトルレジスタグループに縮小するための命令である。</p>
+<p>(2*LMUL &gt; 8)もしくは(2* SEW) &gt; ELENであれば、不正命令例外が発生する。</p>
+<blockquote>
+<div>別の設計方針としては、LMULの設定をソースベクトルレジスタグループのサイズとして取り扱うというものである。この選択肢は、LMULの変更量を少なくできるという利点を持つと考えられている。</div></blockquote>
+<p>ソースベクトルレジスタグループと書き込みベクトルレジスタグループは、LMULの設定における有効なベクトルアドレスを指定しなければならない。そうでなければ、不正命令例外が発生する。</p>
+<p>2番目路ベクトルレジスタ(<code class="docutils literal notranslate"><span class="pre">vs1</span></code>で指定される)は、書き込みベクトルレジスタと同一のサイズ(縮小されたサイズ)でなければならない。</p>
+<p>書き込み先ベクトルレジスタグループは、1番目のベクトルレジスタグループ(<code class="docutils literal notranslate"><span class="pre">vs2</span></code>で指定される)とオーバラップしてはならない。書き込み先ベクトルレジスタグループは、マスクを使用する場合はLMUL=1でない限りマスクレジスタとオーバラップしてはならない。もしこの制約を違反する場合、不正命令例外が発生する。</p>
+<blockquote>
+<div>LMULと幅が同一で、要素のサイズが書き込みベクトルレジスタと同一のLMUL=1のときにマスクレジスタを上書きするために2番目のソースベクトルレジスタグループを上書きするのは安全であるxxx。</div></blockquote>
+<p>A <code class="docutils literal notranslate"><span class="pre">vn*</span></code> prefix on the opcode is used to distinguish these instructions
+in the assembler, or a <code class="docutils literal notranslate"><span class="pre">vfn*</span></code> prefix for narrowing floating-point
+opcodes.</p>
+<p>アセンブラ中で命令を区別するために、<code class="docutils literal notranslate"><span class="pre">vn*</span></code>プレフィックスをオペコードに使用するか、浮動小数点命令の場合は<code class="docutils literal notranslate"><span class="pre">vfn*</span></code>プレフィックスを使用する。</p>
+<blockquote>
+<div>マスクレジスタを設定する比較演算命令も、暗黙的にビット幅を縮小する演算である。</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="chapter8_vector_amo.html" class="btn btn-neutral float-left" title="8. ベクトルAMO操作(Zvamo)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, msyksphinz
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
