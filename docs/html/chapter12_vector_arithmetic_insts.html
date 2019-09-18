@@ -1,0 +1,691 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>12. ベクトル整数算術演算命令 &mdash; riscv-v-spec-japanese  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="prev" title="11. ベクトル算術演算命令フォーマット" href="chapter11_vector_arithmetic_formats.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter7_vector_load_store.html">7. ベクトルロードストア命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html">8. ベクトルAMO操作(<code class="docutils literal notranslate"><span class="pre">Zvamo</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id1">9. ベクトルメモリのアライメント制約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id2">10. ベクトルメモリのコンシステンシモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter11_vector_arithmetic_formats.html">11. ベクトル算術演算命令フォーマット</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">12. ベクトル整数算術演算命令</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">12.1. 単一ビット幅の整数加算と減算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">12.2. ベクトルビット幅拡張整数加算・減算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">12.3. キャリー付きベクトル整数加算命令、ボロー付きベクトル整数減算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">12.4. ベクトルビット演算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">12.5. 同一幅ベクトルビットシフト命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">12.6. ベクトル幅を縮退する整数右シフト命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">12.7. 整数ベクトル比較命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#min-max">12.8. ベクトル整数Min/Max命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">12.9. ベクトル単一ビット幅整数乗算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">12.10. ベクトル整数除算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">12.11. ビット幅拡張ベクトル整数乗算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">12.12. 同一ビット幅ベクトル乗算加算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">12.13. ビット幅拡張ベクトル整数乗算加算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">12.14. ベクトル整数マージ命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id15">12.15. ベクトル整数移動命令</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">riscv-v-spec-japanese</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>12. ベクトル整数算術演算命令</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/chapter12_vector_arithmetic_insts.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>12. ベクトル整数算術演算命令<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>ベクトル整数演算命令について説明する。</p>
+<div class="section" id="id2">
+<h2>12.1. 単一ビット幅の整数加算と減算命令<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ベクトル整数加算命令と減算命令について説明する。逆減算命令についても、ベクトル
+- スカラの形式で定義されている。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 整数加算.</span>
+<span class="n">vadd</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vadd</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vadd</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - 即値</span>
+
+<span class="c1"># 整数減算</span>
+<span class="n">vsub</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vsub</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+
+<span class="c1"># 整数逆減算</span>
+<span class="n">vrsub</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = rs1 - vs2[i]</span>
+<span class="n">vrsub</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = imm - vs2[i]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>12.2. ベクトルビット幅拡張整数加算・減算命令<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ビット幅を拡張する整数加算・減算命令は、符号付きと符号なしのバリエーションが存在し、元のビット幅のソースオペランドを最初に符号付かゼロ拡張することで倍のビット幅で演算を行う。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ビット幅拡張 符号なし整数加減算命令、 2*SEW = SEW +/- SEW</span>
+<span class="n">vwaddu</span><span class="o">.</span><span class="n">vv</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vwaddu</span><span class="o">.</span><span class="n">vx</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vwsubu</span><span class="o">.</span><span class="n">vv</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vwsubu</span><span class="o">.</span><span class="n">vx</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - スカラ</span>
+
+<span class="c1"># ビット幅拡張 符号あり整数加減算命令 2*SEW = SEW +/- SEW</span>
+<span class="n">vwadd</span><span class="o">.</span><span class="n">vv</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vwadd</span><span class="o">.</span><span class="n">vx</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vwsub</span><span class="o">.</span><span class="n">vv</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vwsub</span><span class="o">.</span><span class="n">vx</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - スカラ</span>
+
+<span class="c1"># ビット幅拡張 符号なし整数加減算命令 2*SEW = 2*SEW +/- SEW</span>
+<span class="n">vwaddu</span><span class="o">.</span><span class="n">wv</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vwaddu</span><span class="o">.</span><span class="n">wx</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vwsubu</span><span class="o">.</span><span class="n">wv</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vwsubu</span><span class="o">.</span><span class="n">wx</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - スカラ</span>
+
+<span class="c1"># ビット幅拡張 符号あり整数加減算命令 2*SEW = 2*SEW +/- SEW</span>
+<span class="n">vwadd</span><span class="o">.</span><span class="n">wv</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vwadd</span><span class="o">.</span><span class="n">wx</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vwsub</span><span class="o">.</span><span class="n">wv</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vwsub</span><span class="o">.</span><span class="n">wx</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - スカラ</span>
+</pre></div>
+</div>
+<blockquote>
+<div>整数の値はスカラオペランド<code class="docutils literal notranslate"><span class="pre">x0</span></code>の加算命令を使用してビット幅を倍に拡張することができる。疑似命令として<code class="docutils literal notranslate"><span class="pre">vwcvt.x.x.v</span> <span class="pre">vd,vs,vm</span> <span class="pre">=</span> <span class="pre">vwadd.vx</span> <span class="pre">vd,vs,x0,vm</span></code>と<code class="docutils literal notranslate"><span class="pre">vwcvtu.x.x.v</span> <span class="pre">vd,vs,vm</span> <span class="pre">=</span> <span class="pre">vwaddu.vx</span> <span class="pre">vd,vs,x0,vm</span></code>を定義することができる。</div></blockquote>
+</div>
+<div class="section" id="id4">
+<h2>12.3. キャリー付きベクトル整数加算命令、ボロー付きベクトル整数減算命令<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>複数ワードの整数演算をサポートそるために、キャリービットを使用する命令を定義する。加減算操作において、2つの命令が定義されている:
+1つは結果をSEWの長さで生成し、2つ目はキャリー出力(マスクのBoolean値の1ビットとして生成される)命令である。</p>
+<p>これらの命令はマスクを使用しない命令(vm=1)として定義され、すべての要素に対して演算が実行される。マスクを適用する命令(vm=0)のようにエンコードする場合、この命令は予約されている。</p>
+<p>キャリーの入力と出力はマスクレジスタレイアウトの章で説明した<a class="reference external" href="https://riscv.github.io/documents/riscv-v-spec/#sec-mask-register-layout">マスクレジスタのレイアウト</a>として記述されている。エンコーディングの制約により、キャリー入力は<code class="docutils literal notranslate"><span class="pre">v0</span></code>レジスタより入力される必要があるが、キャリーの出力は任意のベクトルレジスタに書き込んでよい。ただし、ソースレジスタ・書き込みレジスタのオーバラップの条件に従う必要がある。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="c1"># キャリー付き加算命令</span>
+
+<span class="c1"># vd[i] = vs2[i] + vs1[i] + v0[i].LSB</span>
+ <span class="n">vadc</span><span class="o">.</span><span class="n">vvm</span>   <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">v0</span>  <span class="c1"># ベクトル - ベクトル</span>
+
+ <span class="c1"># vd[i] = vs2[i] + x[rs1] + v0[i].LSB</span>
+ <span class="n">vadc</span><span class="o">.</span><span class="n">vxm</span>   <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">v0</span>  <span class="c1"># ベクトル - スカラ</span>
+
+ <span class="c1"># vd[i] = vs2[i] + imm + v0[i].LSB</span>
+ <span class="n">vadc</span><span class="o">.</span><span class="n">vim</span>   <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">v0</span>  <span class="c1"># ベクトル - 即値</span>
+
+ <span class="c1"># マスクレジスタのフォーマットに従ってキャリーを生成する命令</span>
+
+<span class="c1"># vd[i] = carry_out(vs2[i] + vs1[i] + v0[i].LSB)</span>
+ <span class="n">vmadc</span><span class="o">.</span><span class="n">vvm</span>   <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">v0</span>  <span class="c1"># ベクトル - ベクトル</span>
+
+ <span class="c1"># vd[i] = carry_out(vs2[i] + x[rs1] + v0[i].LSB)</span>
+ <span class="n">vmadc</span><span class="o">.</span><span class="n">vxm</span>   <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">v0</span>  <span class="c1"># ベクトル - スカラ</span>
+
+ <span class="c1"># vd[i] = carry_out(vs2[i] + imm + v0[i].LSB)</span>
+ <span class="n">vmadc</span><span class="o">.</span><span class="n">vim</span>   <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">v0</span>  <span class="c1"># ベクトル - 即値</span>
+</pre></div>
+</div>
+<p>キャリー伝搬を実装するためには、既存の2つの命令に加えて、正しい答えを得るために破壊的なアキュムレータが必要になる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 複数ワードの算術演算命令を実現する例。v4に答えを累積する。</span>
+<span class="n">vmadc</span><span class="o">.</span><span class="n">vvm</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v4</span><span class="p">,</span> <span class="n">v8</span><span class="p">,</span> <span class="n">v0</span>  <span class="c1"># v1にキャリーを一時的に格納する。</span>
+<span class="n">vadc</span><span class="o">.</span><span class="n">vvm</span> <span class="n">v4</span><span class="p">,</span> <span class="n">v4</span><span class="p">,</span> <span class="n">v8</span><span class="p">,</span> <span class="n">v0</span>   <span class="c1"># 加算を実行する。</span>
+<span class="n">vmcpy</span><span class="o">.</span><span class="n">m</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v1</span>            <span class="c1"># v0にキャリーを移動して、次の演算の準備をする。</span>
+</pre></div>
+</div>
+<p>ボロー付きの減算命令<code class="docutils literal notranslate"><span class="pre">vsbc</span></code>はワード長の大きな値の減算命令と同じ働きをする。この命令には即値オペランドの命令は定義されていない。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="c1"># ボローにより差分を計算する。</span>
+
+<span class="c1"># vd[i] = vs2[i] - vs1[i] - v0[i].LSB</span>
+ <span class="n">vsbc</span><span class="o">.</span><span class="n">vvm</span>   <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">v0</span>  <span class="c1"># ベクトル - ベクトル</span>
+
+ <span class="c1"># vd[i] = vs2[i] - x[rs1] - v0[i].LSB</span>
+ <span class="n">vsbc</span><span class="o">.</span><span class="n">vxm</span>   <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">v0</span>  <span class="c1"># ベクトル - スカラ</span>
+
+ <span class="c1"># マスクレジスタフォーマットにボローアウトを出力する。</span>
+
+ <span class="c1"># vd[i] = borrow_out(vs2[i] - vs1[i] - v0[i].LSB)</span>
+ <span class="n">vmsbc</span><span class="o">.</span><span class="n">vvm</span>   <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">v0</span>  <span class="c1"># ベクトル - ベクトル</span>
+
+ <span class="c1"># vd[i] = borrow_out(vs2[i] - x[rs1] - v0[i].LSB)</span>
+ <span class="n">vmsbc</span><span class="o">.</span><span class="n">vxm</span>   <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">v0</span>  <span class="c1"># ベクトル - スカラ</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">vmsbc</span></code>では、差分が発生した場合にはtruncationが発生する前に1が生成される、これは負の数である(xxx
+役者注: 意味不明)。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vadc</span></code>と<code class="docutils literal notranslate"><span class="pre">vsbc</span></code>命令は書き込み先ベクトルレジスタが<code class="docutils literal notranslate"><span class="pre">v0</span></code>である場合、かつ<code class="docutils literal notranslate"><span class="pre">LMUL&gt;1</span></code>である場合には不正命令例外が発生する。</p>
+<blockquote>
+<div>この制約は、マスクベクトル演算に関して、マスクレジスタを上書きする場合の制約に相当する。</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">vmadc</span></code>および<code class="docutils literal notranslate"><span class="pre">vmsbc</span></code>では、書き込み先ベクトルレジスタがソースベクトルレジスタグループとオーバラップし、かつ<code class="docutils literal notranslate"><span class="pre">LMUL</span> <span class="pre">&gt;</span> <span class="pre">1</span></code>である場合に不正命令例外が発生する。</p>
+</div>
+<div class="section" id="id5">
+<h2>12.4. ベクトルビット演算命令<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 論理演算命令</span>
+<span class="n">vand</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vand</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vand</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - 即値</span>
+
+<span class="n">vor</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vor</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vor</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># ベクトル - 即値</span>
+
+<span class="n">vxor</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vxor</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vxor</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># ベクトル - 即値</span>
+</pre></div>
+</div>
+<blockquote>
+<div>スカラの即値を持つ<code class="docutils literal notranslate"><span class="pre">xvor</span></code>命令で、即値オペランドを-1とすることで論理NOT命令として使用することができる。これは疑似アセンブラ命令<code class="docutils literal notranslate"><span class="pre">vnot.v</span></code>として使用できる。</div></blockquote>
+</div>
+<div class="section" id="id6">
+<h2>12.5. 同一幅ベクトルビットシフト命令<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>すべての形式のベクトルシフト命令を定義している。論理左シフト、ゼロ拡張の論理右シフト、符号拡張の論理右シフトである。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ビットシフト操作</span>
+
+<span class="n">vsll</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vsll</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vsll</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - 即値</span>
+
+<span class="n">vsrl</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vsrl</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vsrl</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - 即値</span>
+
+<span class="n">vsra</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vsra</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vsra</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - 即値</span>
+</pre></div>
+</div>
+<p>シフト量は、オペランドの下位lg2(SEW)ビットのみ有効である。</p>
+<p>即値は符号なしシフト量として扱われ、最大のシフト量は31である。</p>
+</div>
+<div class="section" id="id7">
+<h2>12.6. ベクトル幅を縮退する整数右シフト命令<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The narrowing right shifts extract a smaller field from a wider operand
+and have both zero-extending (<code class="docutils literal notranslate"><span class="pre">srl</span></code>) and sign-extending (<code class="docutils literal notranslate"><span class="pre">sra</span></code>)
+forms. The shift amount can come from a vector or a scalar <code class="docutils literal notranslate"><span class="pre">x</span></code>
+register or a 5-bit immediate. The low lg2(2*SEW) bits of the vector or
+scalar shift amount value are used (e.g., the low 6 bits for a
+SEW=64-bit to SEW=32-bit narrowing operation). The unsigned immediate
+form supports shift amounts up to 31 only.</p>
+<p>大きなビット幅のオペランドから、右シフト命令によってより小さなフィールドに縮退する命令は2種類定義されている。ゼロ拡張を行う命令(<code class="docutils literal notranslate"><span class="pre">srl</span></code>)と符号拡張を行う命令(<code class="docutils literal notranslate"><span class="pre">sra</span></code>)である。シフト量はスカラの整数レジスタもしくは5ビットの即値である。ベクトルもしくはスカラレジスタの下位lg2(2*SEW)ビットがシフト量として使用される(例えば、SEW=64-bitからSEW=32-bitへのビット縮退のシフト命令であれば、下位の6ビットがシフト量として使用される。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ビット縮退論理右シフト命令, SEw = (2*SEW) &gt;&gt; SEW</span>
+
+<span class="n">vnsrl</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vnsrl</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vnsrl</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - 即値</span>
+
+<span class="c1"># ビット縮退算術右シフト命令, SEW = (2*SEW) &gt;&gt; SEW</span>
+<span class="n">vnsra</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vnsra</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vnsra</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - 即値</span>
+</pre></div>
+</div>
+<blockquote>
+<div>バリエーションとして、1/4のサイズまでビット縮小を行うn4命令を定義することもできる。</div></blockquote>
+</div>
+<div class="section" id="id8">
+<h2>12.7. 整数ベクトル比較命令<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>以下の整数比較命令は、比較結果新であれば書き込みレジスタのマスク要素に1を書き込み、そうでなければ0を書き込む。書き込みマスクレジスタは常に1つのベクトルレジスタであり、要素のレイアウトは<a class="reference external" href="https://riscv.github.io/documents/riscv-v-spec/#sec-mask-register-layout">マスクレジスタのレイアウト</a>に示した通りである。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set if equal</span>
+<span class="n">vmseq</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vmseq</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vmseq</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - 即値</span>
+
+<span class="c1"># Set if not equal</span>
+<span class="n">vmsne</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vmsne</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vmsne</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - 即値</span>
+
+<span class="c1"># Set if less than, unsigned</span>
+<span class="n">vmsltu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vmsltu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - スカラ</span>
+
+<span class="c1"># Set if less than, signed</span>
+<span class="n">vmslt</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vmslt</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - スカラ</span>
+
+<span class="c1"># Set if less than or equal, unsigned</span>
+<span class="n">vmsleu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vmsleu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vmsleu</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - 即値</span>
+
+<span class="c1"># Set if less than or equal, signed</span>
+<span class="n">vmsle</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vmsle</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vmsle</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル - 即値</span>
+
+<span class="c1"># Set if greater than, unsigned</span>
+<span class="n">vmsgtu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vmsgtu</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - 即値</span>
+
+<span class="c1"># Set if greater than, signed</span>
+<span class="n">vmsgt</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vmsgt</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># ベクトル - 即値</span>
+
+<span class="c1"># Following two instructions are not provided directly</span>
+<span class="c1"># Set if greater than or equal, unsigned</span>
+<span class="c1"># vmsgeu.vx vd, vs2, rs1, vm    # ベクトル - スカラ</span>
+<span class="c1"># Set if greater than or equal, signed</span>
+<span class="c1"># vmsge.vx vd, vs2, rs1, vm    # ベクトル - スカラ</span>
+</pre></div>
+</div>
+<p>以下の表は、すべての比較演算がどのようにマシンコードにマッピングされるかを示している。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">比較演算</span>         <span class="n">アセンブラのマッピング</span>            <span class="n">アセンブラの疑似命令</span>
+
+<span class="n">va</span> <span class="o">&lt;</span> <span class="n">vb</span>         <span class="n">vmslt</span><span class="p">{</span><span class="n">u</span><span class="p">}</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">vb</span><span class="p">,</span> <span class="n">vm</span>
+<span class="n">va</span> <span class="o">&lt;=</span> <span class="n">vb</span>        <span class="n">vmsle</span><span class="p">{</span><span class="n">u</span><span class="p">}</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">vb</span><span class="p">,</span> <span class="n">vm</span>
+<span class="n">va</span> <span class="o">&gt;</span> <span class="n">vb</span>         <span class="n">vmslt</span><span class="p">{</span><span class="n">u</span><span class="p">}</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vb</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">vm</span>    <span class="n">vmsgt</span><span class="p">{</span><span class="n">u</span><span class="p">}</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">vb</span><span class="p">,</span> <span class="n">vm</span>
+<span class="n">va</span> <span class="o">&gt;=</span> <span class="n">vb</span>        <span class="n">vmsle</span><span class="p">{</span><span class="n">u</span><span class="p">}</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vb</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">vm</span>    <span class="n">vmsge</span><span class="p">{</span><span class="n">u</span><span class="p">}</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">vb</span><span class="p">,</span> <span class="n">vm</span>
+
+<span class="n">va</span> <span class="o">&lt;</span> <span class="n">x</span>          <span class="n">vmslt</span><span class="p">{</span><span class="n">u</span><span class="p">}</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">vm</span>
+<span class="n">va</span> <span class="o">&lt;=</span> <span class="n">x</span>         <span class="n">vmsle</span><span class="p">{</span><span class="n">u</span><span class="p">}</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">vm</span>
+<span class="n">va</span> <span class="o">&gt;</span> <span class="n">x</span>          <span class="n">vmsgt</span><span class="p">{</span><span class="n">u</span><span class="p">}</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">vm</span>
+<span class="n">va</span> <span class="o">&gt;=</span> <span class="n">x</span>         <span class="n">see</span> <span class="n">below</span>
+
+<span class="n">va</span> <span class="o">&lt;</span> <span class="n">i</span>          <span class="n">vmsle</span><span class="p">{</span><span class="n">u</span><span class="p">}</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">vm</span>    <span class="n">vmslt</span><span class="p">{</span><span class="n">u</span><span class="p">}</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">vm</span>
+<span class="n">va</span> <span class="o">&lt;=</span> <span class="n">i</span>         <span class="n">vmsle</span><span class="p">{</span><span class="n">u</span><span class="p">}</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">vm</span>
+<span class="n">va</span> <span class="o">&gt;</span> <span class="n">i</span>          <span class="n">vmsgt</span><span class="p">{</span><span class="n">u</span><span class="p">}</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">vm</span>
+<span class="n">va</span> <span class="o">&gt;=</span> <span class="n">i</span>         <span class="n">vmsgt</span><span class="p">{</span><span class="n">u</span><span class="p">}</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">vm</span>    <span class="n">vmsge</span><span class="p">{</span><span class="n">u</span><span class="p">}</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">vm</span>
+
+<span class="n">va</span><span class="p">,</span> <span class="n">vb</span> <span class="n">vector</span> <span class="n">register</span> <span class="n">groups</span>
+<span class="n">x</span>      <span class="n">scalar</span> <span class="n">integer</span> <span class="n">register</span>
+<span class="n">i</span>      <span class="n">immediate</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">vmslt{u}.vi</span></code>は即値オペランドの形式は定義されない代わりに、<code class="docutils literal notranslate"><span class="pre">vmsle{i}.vi</span></code>のバリエーションから1を減算して使用することができる。<code class="docutils literal notranslate"><span class="pre">vmsle.vi</span></code>のオペランドの範囲は-16から15までであり、<code class="docutils literal notranslate"><span class="pre">vmslt.vi</span></code>の範囲は-15から16となる。<code class="docutils literal notranslate"><span class="pre">vmsleu.vi</span></code>のオペランドの範囲は0から15(かつ(<sub>0)-15から</sub>0まで)、<code class="docutils literal notranslate"><span class="pre">vmsltu.vi</span></code>の範囲は1から16となる(ここで、<code class="docutils literal notranslate"><span class="pre">vmsltu.vi</span></code>で即値が0の場合は常に偽であるためあまり使い物にならない)。同様に、<code class="docutils literal notranslate"><span class="pre">vmsge{i}.vi</span></code>は定義されず、その代わりに<code class="docutils literal notranslate"><span class="pre">vmsge{u}.vi</span></code>の即値を1つ減算して使用すること。<code class="docutils literal notranslate"><span class="pre">vmsge.vi</span></code>のオペランドの有効範囲は-15から16であり、<code class="docutils literal notranslate"><span class="pre">vmsgeu.vi</span></code>の有効範囲は1から16である(ここで、<code class="docutils literal notranslate"><span class="pre">vmsgeu.vi</span></code>の即値0のオペランドは常に真であるためあまり役に立たない)。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vmsgt</span></code>の形式ではレジスタオペランドはスカラレジスタと即値の形式が与えられており、余分なマスクの論理演算を必要とせず、1つの比較命令によりマスクの値を制御できるように設計されている。</p>
+</div></blockquote>
+<p>エンコーディング領域を節約するために、<code class="docutils literal notranslate"><span class="pre">vmsge{u}.vx</span></code>の形式は直接は定義されず、<code class="docutils literal notranslate"><span class="pre">va</span> <span class="pre">≥</span> <span class="pre">x</span></code>の場合に特殊な処理を行う。</p>
+<blockquote>
+<div><code class="docutils literal notranslate"><span class="pre">vmsge{}.vx</span></code>の形式は<code class="docutils literal notranslate"><span class="pre">vmslt{u}</span></code>形式の使用されないOPIVIバリエーションの中で、直行性を持たずに定義されている。これらの命令はOPIVI命令の中でスカラの整数レジスタを使用する唯一の命令となる予定である。その代わりに、さらなる2つのfunct6エンコーディングを使用することができるが、これらの命令形式では、同じfunct6の8つのグループと同じエンコーディングではなく、さらに異なるオペランドのフォーマットを使用する予定である(マスクレジスタへの書き込みなど)。現在のPoRではこれらの命令は除外されており、以下で説明する。</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">vmsge{u}.vx</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vmsgt{u}.vx</span></code>の命令のオペランドを1つ減算することにより合成することができる。この場合に、整数レジスタはアンダーフローは発生しないことが知られている。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>`vmsge{u}.vx`命令の生成シーケンス
+
+va &gt;= x,  x &gt; minimum
+
+   addi t0, x, -1; vmsgt{u}.vx vd, va, t0, vm
+</pre></div>
+</div>
+<p>上記のシーケンスは通常は最も効率的な実装であるが、整数レジスタ<code class="docutils literal notranslate"><span class="pre">x</span></code>が道の場合にはアセンブラによる疑似命令により生成することができる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>マスクのない va &gt;= x
+
+  疑似命令: vmsge{u}.vx vd, va, x
+  展開: vmslt{u}.vx vd, va, x; vmnand.mm vd, vd, vd
+
+マスクされた va &gt;= x, vd != v0
+
+  疑似命令: vmsge{u}.vx vd, va, x, v0.t
+  展開: vmslt{u}.vx vd, va, x, v0.t; vmxor.mm vd, vd, v0
+
+マスクされた va &gt;= x, any vd
+
+  疑似命令: vmsge{u}.vx vd, va, x, v0.t, vt
+  展開: vmslt{u}.vx vt, va, x;  vmandnot.mm vd, vd, vt
+
+  疑似命令においてvtレジスタは一時使用レジスタとして指定しなければならず、vdと同一で経なく疑似命令において破壊可能なレジスタでなければならない。
+</pre></div>
+</div>
+<p>比較命令は、マスクにおいてAND演算を効率的に実行できる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># (a &lt; b) &amp;&amp; (b &lt; c) in two instructions</span>
+<span class="n">vmslt</span><span class="o">.</span><span class="n">vv</span>    <span class="n">v0</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">vb</span>        <span class="c1"># すべてのボディー要素に対して書き込み。</span>
+<span class="n">vmslt</span><span class="o">.</span><span class="n">vv</span>    <span class="n">v0</span><span class="p">,</span> <span class="n">vb</span><span class="p">,</span> <span class="n">vc</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span>  <span class="c1"># マスクがセットされている要素に対してのみ書き込み。</span>
+</pre></div>
+</div>
+<p>すべての比較命令について、LMUL &gt;
+1かつ書き込みレジスタグループがソースレジスタグループとオーバラップしている場合に不正命令例外が発生する。</p>
+</div>
+<div class="section" id="min-max">
+<h2>12.8. ベクトル整数Min/Max命令<a class="headerlink" href="#min-max" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>符号付、符号なしの整数のMax/Min命令が定義されている。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Unsigned minimum</span>
+<span class="n">vminu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vminu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+
+<span class="c1"># Signed minimum</span>
+<span class="n">vmin</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vmin</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+
+<span class="c1"># Unsigned maximum</span>
+<span class="n">vmaxu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vmaxu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+
+<span class="c1"># Signed maximum</span>
+<span class="n">vmax</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vmax</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>12.9. ベクトル単一ビット幅整数乗算命令<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>単一ビット幅の乗算命令はSEWビット*SEWビットの乗算を行い、SEWビットの結果を返す。<code class="docutils literal notranslate"><span class="pre">**mulh**</span></code>版は、書き込みレジスタに乗算結果の上位ワードを書き込む。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 符号付乗算, 積の下位ビットを返す。</span>
+<span class="n">vmul</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vmul</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+
+<span class="c1"># 符号付乗算, 席の上位ビットを返す。</span>
+<span class="n">vmulh</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vmulh</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+
+<span class="c1"># 符号なし乗算, 積の上位ビットを返す。</span>
+<span class="n">vmulhu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vmulhu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+
+<span class="c1"># 符号付(vs2)-符号なし乗算, 積の上位ビットを返す。</span>
+<span class="n">vmulhsu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vmulhsu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>符号なしベクトル *
+符号付スカラの乗算結果を返す<code class="docutils literal notranslate"><span class="pre">vmulhus</span></code>オペコードは定義されていない。</p>
+<p>現在の<code class="docutils literal notranslate"><span class="pre">vmulh*</span></code>オペコードは簡単な乗算結果を返す命令であるが、結果をスケール、丸め、Saturateする機能は備えていない。<code class="docutils literal notranslate"><span class="pre">vmulh</span></code>,
+<code class="docutils literal notranslate"><span class="pre">vmulhu</span></code>,
+<code class="docutils literal notranslate"><span class="pre">vmulhsu</span></code>の命令定義を変えて、<code class="docutils literal notranslate"><span class="pre">vxrm</span></code>丸めモードを使用して下位のハーフ積を捨てるように仕様を変更することも考えられる。この場合ではオーバフローは発生しない。</p>
+</div></blockquote>
+</div>
+<div class="section" id="id10">
+<h2>12.10. ベクトル整数除算命令<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>除算命令と剰余命令はRISC-Vの標準スカラ整数乗算・剰余命令と同一である。ベクトル値を入力すること以外、仕様は同一である。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 符号なし除算</span>
+<span class="n">vdivu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vdivu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+
+<span class="c1"># 符号付除算</span>
+<span class="n">vdiv</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vdiv</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+
+<span class="c1"># 符号なし剰余</span>
+<span class="n">vremu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vremu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+
+<span class="c1"># 符号付剰余</span>
+<span class="n">vrem</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vrem</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>整数除算命令と剰余命令を含めるかどうかについては議論があった。標準的な命令を定義しなくても、ソフトウェアにより同様のアルゴリズムを選択することができるという考え方と、それではいくつかのマイクロアーキテクチャと比較して性能が落ちてしまうという議論があった。</p>
+<p>スカラをベクトルで除算するという命令は定義されていない。</p>
+</div></blockquote>
+</div>
+<div class="section" id="id11">
+<h2>12.11. ビット幅拡張ベクトル整数乗算命令<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>整数乗算命令において、SEWビットとSEWビットのオペランドを入力し演算結果を2SEWビットの乗算結果として返す命令を定義する。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ビット幅拡張符号付整数乗算</span>
+<span class="n">vwmul</span><span class="o">.</span><span class="n">vv</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span><span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vwmul</span><span class="o">.</span><span class="n">vx</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># ベクトル - スカラ</span>
+
+<span class="c1"># ビット幅拡張符号なし整数乗算命令</span>
+<span class="n">vwmulu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vwmulu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># ベクトル - スカラ</span>
+
+<span class="c1"># ビット幅拡張符号付、符号なし整数乗算命令</span>
+<span class="n">vwmulsu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vwmulsu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># ベクトル - スカラ</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id12">
+<h2>12.12. 同一ビット幅ベクトル乗算加算命令<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>整数の乗算加算命令はレジスタを破壊する命令であり、2種類の形式で定義される。1つ目は加減算を行うオペランドに対して値を上書きする命令(<code class="docutils literal notranslate"><span class="pre">vmacc</span></code>,
+<code class="docutils literal notranslate"><span class="pre">vnmsac</span></code>)であり、もう1つは乗算の最初のオペランドのレジスタを破壊するものである(<code class="docutils literal notranslate"><span class="pre">vmadd</span></code>,
+<code class="docutils literal notranslate"><span class="pre">vnmsub</span></code>)。</p>
+<p>加減算の項では、3番目のオペランドと積の下位半分のビットに対して演算が実行される。</p>
+<blockquote>
+<div>“sac”命令は“subtract from
+accumulator”の意味である。オペコードは“vnmsac”であり、(残念ながら直観に反するが)浮動小数点の<code class="docutils literal notranslate"><span class="pre">fnmsub</span></code>命令の定義にマッチする。“vnmsub”命令も同様である。</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 整数乗算加算、加算のオペランドを上書き</span>
+<span class="n">vmacc</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(vs1[i] * vs2[i]) + vd[i]</span>
+<span class="n">vmacc</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(x[rs1] * vs2[i]) + vd[i]</span>
+
+<span class="c1"># 整数乗算減算、減算のオペランドを上書き</span>
+<span class="n">vnmsac</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = -(vs1[i] * vs2[i]) + vd[i]</span>
+<span class="n">vnmsac</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = -(x[rs1] * vs2[i]) + vd[i]</span>
+
+<span class="c1"># 整数乗算加算、乗算のオペランドを上書き</span>
+<span class="n">vmadd</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = (vs1[i] * vd[i]) + vs2[i]</span>
+<span class="n">vmadd</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = (x[rs1] * vd[i]) + vs2[i]</span>
+
+<span class="c1"># 整数乗算減算、乗算のオペランドを上書き</span>
+<span class="n">vnmsub</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = -(vs1[i] * vd[i]) + vs2[i]</span>
+<span class="n">vnmsub</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = -(x[rs1] * vd[i]) + vs2[i]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id13">
+<h2>12.13. ビット幅拡張ベクトル整数乗算加算命令<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>乗算加算命令において、SEWビットとSEWビットのオペランドを入力して、2SEWビット幅の演算結果を返す命令を定義する。すべての命令の組み合わせで、符号付と符号なしの乗算オペランドをサポートする。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ビット幅拡張整数乗算加算、加算のオペランドを上書き</span>
+<span class="n">vwmaccu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(vs1[i] * vs2[i]) + vd[i]</span>
+<span class="n">vwmaccu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(x[rs1] * vs2[i]) + vd[i]</span>
+
+<span class="c1"># ビット幅拡張整数乗算減算、加算のオペランドを上書き</span>
+<span class="n">vwmacc</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(vs1[i] * vs2[i]) + vd[i]</span>
+<span class="n">vwmacc</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(x[rs1] * vs2[i]) + vd[i]</span>
+
+<span class="c1"># ビット幅拡張整数乗算加算、乗算のオペランドを上書き</span>
+<span class="n">vwmaccsu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(signed(vs1[i]) * unsigned(vs2[i])) + vd[i]</span>
+<span class="n">vwmaccsu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(signed(x[rs1]) * unsigned(vs2[i])) + vd[i]</span>
+
+<span class="c1"># ビット幅拡張整数乗算減算、乗算のオペランドを上書き</span>
+<span class="n">vwmaccus</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(unsigned(x[rs1]) * signed(vs2[i])) + vd[i]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id14">
+<h2>12.14. ベクトル整数マージ命令<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ベクトル整数マージ命令は、2つのソースオペランドをマスクフィールドに基づいてマージする命令である。通常の算術演算命令と違い、マージの操作はすべてのボディー要素に対して適用される(つまり、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>から<code class="docutils literal notranslate"><span class="pre">vl</span></code>までのすべてのベクトル要素に対して適用される)。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vmerge</span></code>命令は常にマスクされる(<code class="docutils literal notranslate"><span class="pre">vm=0</span></code>)。この命令は2つのソースオペランドを以下に従ってマージする。マスクの値がゼロである場合は、最初のオペランドが書き込み要素に対してコピーされ、そうでなければ2番目のオペランドが書き込み要素に対してコピーされる。最初のオペランドは常に<code class="docutils literal notranslate"><span class="pre">vs2</span></code>で指定されるベクトルレジスタグループであり、2番目のオペランドは<code class="docutils literal notranslate"><span class="pre">vs1</span></code>で指定されるベクトルレジスタグループか、<code class="docutils literal notranslate"><span class="pre">rs1</span></code>で指定される整数スカラレジスタ<code class="docutils literal notranslate"><span class="pre">x</span></code>か、5ビットの符号拡張された即値である。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vmerge</span><span class="o">.</span><span class="n">vvm</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">v0</span>  <span class="c1"># vd[i] = v0[i].LSB ? vs1[i] : vs2[i]</span>
+<span class="n">vmerge</span><span class="o">.</span><span class="n">vxm</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">v0</span>  <span class="c1"># vd[i] = v0[i].LSB ? x[rs1] : vs2[i]</span>
+<span class="n">vmerge</span><span class="o">.</span><span class="n">vim</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">v0</span>  <span class="c1"># vd[i] = v0[i].LSB ? imm    : vs2[i]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id15">
+<h2>12.15. ベクトル整数移動命令<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ベクトル整数移動命令はソースオペランドからベクトルレジスタグループへの値のコピーを行う。この命令は常にマスクされない(<code class="docutils literal notranslate"><span class="pre">vm=1</span></code>)。最初のオペランド(<code class="docutils literal notranslate"><span class="pre">vs2</span></code>)は<code class="docutils literal notranslate"><span class="pre">v0</span></code>でなければならず、他のベクトルレジスタを<code class="docutils literal notranslate"><span class="pre">vs2</span></code>に指定する形式は予約されている。この命令hあ<code class="docutils literal notranslate"><span class="pre">vs1</span></code>,
+<code class="docutils literal notranslate"><span class="pre">rs1</span></code>もしくは即値のオペランドを書き込みベクトルレジスタグループの最初の<code class="docutils literal notranslate"><span class="pre">vl</span></code>の場所にコピーする。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vmv</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span> <span class="c1"># vd[i] = vs1[i]</span>
+<span class="n">vmv</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">x</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span> <span class="c1"># vd[i] = rs1</span>
+<span class="n">vmv</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">i</span> <span class="n">vd</span><span class="p">,</span> <span class="n">imm</span> <span class="c1"># vd[i] = imm</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>マスクの値は<code class="docutils literal notranslate"><span class="pre">vmv.v.i</span> <span class="pre">vd,</span> <span class="pre">0;</span> <span class="pre">vmerge.vim</span> <span class="pre">vd,</span> <span class="pre">vd,</span> <span class="pre">1,</span> <span class="pre">v0</span></code>の命令列を使用してSEWビット幅まで拡張することができる。</p>
+<p>ベクトル整数移動命令はベクトルマージ命令とエンコーディングを共有している。<code class="docutils literal notranslate"><span class="pre">vm=1</span></code>かつ<code class="docutils literal notranslate"><span class="pre">vs2=v0</span></code>であるところだけが異なる。</p>
+</div></blockquote>
+<p>​ うう</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="chapter11_vector_arithmetic_formats.html" class="btn btn-neutral float-left" title="11. ベクトル算術演算命令フォーマット" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, msyksphinz
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
