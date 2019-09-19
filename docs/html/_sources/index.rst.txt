@@ -19,6 +19,7 @@ RISC-V “V” Extension
    chapter8_vector_amo.rst
    chapter11_vector_arithmetic_formats.rst
    chapter12_vector_arithmetic_insts.rst
+   chapter13_fixedpoint.rst
 
 Indices and tables
 ==================

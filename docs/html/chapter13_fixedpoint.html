@@ -1,0 +1,396 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>13. ベクトル固定小数点演算命令 &mdash; riscv-v-spec-japanese  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="prev" title="12. ベクトル整数算術演算命令" href="chapter12_vector_arithmetic_insts.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter7_vector_load_store.html">7. ベクトルロードストア命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html">8. ベクトルAMO操作(<code class="docutils literal notranslate"><span class="pre">Zvamo</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id1">9. ベクトルメモリのアライメント制約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id2">10. ベクトルメモリのコンシステンシモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter11_vector_arithmetic_formats.html">11. ベクトル算術演算命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter12_vector_arithmetic_insts.html">12. ベクトル整数算術演算命令</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">13. ベクトル固定小数点演算命令</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">13.1. 単一ビット幅ベクトル飽和加算減算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">13.2. 単一幅ベクトル平均加算減算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">13.3. 丸めと飽和付き 単一ビット幅ベクトル分数乗算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">13.4. ビット幅拡張飽和付き累積乗算加算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">13.5. 単一幅ベクトルスケーリングシフト命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">13.6. ビット幅縮小固定小数点ベクトルクリップ命令</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">riscv-v-spec-japanese</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>13. ベクトル固定小数点演算命令</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/chapter13_fixedpoint.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>13. ベクトル固定小数点演算命令<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>固定小数点算術演算をサポートするための命令が定義されている。</p>
+<p>Nビットの各ベクトル要素には、-2<sup>N-1から2</sup>N-1-1までの符号付整数か、0から2^N-1までの符号なし整数を格納することができる。固定小数点命令はスケーリングと丸めをサポートすることにより、幅の狭いオペランドでも精度を保ちながら演算することを助け、計算結果のフォーマットの範囲から値が飽和したことによるオーバフローを適切に処理することができるようになる。</p>
+<blockquote>
+<div>上記で説明したビット幅を拡張する整数命令はオーバフローが発生する抑制するためにも使用できる。</div></blockquote>
+<div class="section" id="id2">
+<h2>13.1. 単一ビット幅ベクトル飽和加算減算命令<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>飽和を行う整数加減算命令を定義する。どちらも符号付と符号なしの形式をサポートする。計算結果がオーバフローした場合、結果はその近傍で表現できる値に変換され、<code class="docutils literal notranslate"><span class="pre">vxsat</span></code>ビットが設定される。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 符号なし整数飽和加算命令</span>
+<span class="n">vsaddu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vsaddu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vsaddu</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - 即値</span>
+
+<span class="c1"># 符号付整数飽和加算命令</span>
+<span class="n">vsadd</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vsadd</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vsadd</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - 即値</span>
+
+<span class="c1"># 符号なし整数飽和減算命令</span>
+<span class="n">vssubu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vssubu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+
+<span class="c1"># 符号付整数飽和減算命令</span>
+<span class="n">vssub</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vssub</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>13.2. 単一幅ベクトル平均加算減算命令<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>平均加算減算命令は<code class="docutils literal notranslate"><span class="pre">vxrm</span></code>の設定に基づき、2つの値の加減算の結果と1ビットを加算したものを1ビット右にシフトしたものを返す。この命令ではオーバフローは発生しない。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># vrxm=rnu の場合、 round = 1</span>
+
+<span class="c1"># 平均加算</span>
+<span class="c1"># result = (src1 + src2 + round) &gt;&gt; 1;</span>
+
+<span class="c1"># 整数平均加算命令</span>
+<span class="n">vaadd</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vaadd</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+<span class="n">vaadd</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - 即値</span>
+
+<span class="c1"># 平均減算</span>
+<span class="c1"># result = (src1 - src2 + round) &gt;&gt; 1;</span>
+
+<span class="c1"># 整数平均減算命令</span>
+<span class="n">vasub</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+<span class="n">vasub</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>13.3. 丸めと飽和付き 単一ビット幅ベクトル分数乗算命令<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>符号付整数分数乗算命令は2つのSEWビット長の入力から2*SEWの積を計算し、結果をSEW-1ビット右シフトし、<code class="docutils literal notranslate"><span class="pre">vxrm</span></code>の設定に基づいて丸め処理を行い、SEWビットに結果を飽和する。計算結果に飽和が発生すると、<code class="docutils literal notranslate"><span class="pre">vxsat</span></code>ビットが設定される。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 丸めと飽和付き 符号付き分数乗算命令</span>
+<span class="n">vsmul</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = clip((vs2[i]*vs1[i]+round)&gt;&gt;(SEW-1))</span>
+<span class="n">vsmul</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = clip((vs2[i]*x[rs1]+round)&gt;&gt;(SEW-1))</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>Nビットの符号付整数を乗算したとき、最大値は-2^N-1*-2<sup>N-1を計算したときの+2</sup>{2N}-2であり、2Nビットのうちこれは符号ビット(実際は0)は1ビットである。これ以外の乗算では、符号ビットは結果の2Nビット中で2ビットである。Nビットの結果のなかでより精度を上げるために、積を右にN-1シフトし、最大の積の結果を飽和させる代わりに他の計算結果の精度を向上させる。</p>
+<p>より固定小数点命令のサポートを強化するために、<code class="docutils literal notranslate"><span class="pre">vxrm</span></code>で制御される丸めモードを<code class="docutils literal notranslate"><span class="pre">vmulhu</span></code>,
+<code class="docutils literal notranslate"><span class="pre">vmulhsu,</span></code>vmulh`に追加することも考えられる。これらの命令では飽和は発生しない。</p>
+</div></blockquote>
+</div>
+<div class="section" id="id5">
+<h2>13.4. ビット幅拡張飽和付き累積乗算加算命令<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ビット幅拡張ほわ付き乗算加算命令はSEWビット同士の入力値を乗算し2SEWビットの積を生成する。この結果はSEW/2ビットだけ右にシフトされ<code class="docutils literal notranslate"><span class="pre">vxrm</span></code>のビット設定に基づいて丸目が行われ、2SEWビットの書き込みレジスタアキュムレータの値と加算される。結果が書き込みレジスタの中で飽和すると、オーバフローが発生し、<code class="docutils literal notranslate"><span class="pre">vxsat</span></code>ビットが設定される。</p>
+<p>もし乗算オペランドが符号付であれば、乗算の結果は符号付の値としてオーバフロー・飽和処理が行われる。両方の乗算オペランドが符号なしであれば、乗算の結果は符号なしの値としてオーバフロー・飽和処理が行われる。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="21%" />
+<col width="21%" />
+<col width="34%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">SEW</th>
+<th class="head">除算のビット幅</th>
+<th class="head">丸めのビット幅</th>
+<th class="head">アキュムレータのビット幅</th>
+<th class="head">ガードビット</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>8</td>
+<td>16</td>
+<td>12</td>
+<td>16</td>
+<td>4</td>
+</tr>
+<tr class="row-odd"><td>16</td>
+<td>32</td>
+<td>24</td>
+<td>32</td>
+<td>8</td>
+</tr>
+<tr class="row-even"><td>32</td>
+<td>64</td>
+<td>48</td>
+<td>64</td>
+<td>16</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ビット幅拡張符号なし累積乗算加算命令</span>
+<span class="n">vwsmaccu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># vd[i] = clipu((+(vs1[i]*vs2[i]+round)&gt;&gt;SEW/2)+vd[i])</span>
+<span class="n">vwsmaccu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># vd[i] = clipu((+(x[rs1]*vs2[i]+round)&gt;&gt;SEW/2)+vd[i])</span>
+
+<span class="c1"># ビット幅拡張符号付き累積乗算加算命令</span>
+<span class="n">vwsmacc</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = clip((+(vs1[i]*vs2[i]+round)&gt;&gt;SEW/2)+vd[i])</span>
+<span class="n">vwsmacc</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = clip((+(x[rs1]*vs2[i]+round)&gt;&gt;SEW/2)+vd[i])</span>
+
+<span class="c1"># ビット幅拡張符号付きー符号なし累積乗算加算命令</span>
+<span class="n">vwsmaccsu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>
+             <span class="c1"># vd[i] = clip(((signed(vs1[i])*unsigned(vs2[i])+round)&gt;&gt;SEW/2)+vd[i])</span>
+<span class="n">vwsmaccsu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>
+             <span class="c1"># vd[i] = clip(((signed(x[rs1])*unsigned(vs2[i])+round)&gt;&gt;SEW/2)+vd[i])</span>
+
+<span class="c1"># ビット幅拡張符号なしー符号付き累積乗算加算命令</span>
+<span class="n">vwsmaccus</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>
+             <span class="c1"># vd[i] = clip(((unsigned(x[rs1])*signed(vs2[i])+round)&gt;&gt;SEW/2)+vd[i])</span>
+
+<span class="c1"># xvrm=rnuの場合、round = (1 &lt;&lt; (SEW/2-1))</span>
+</pre></div>
+</div>
+<blockquote>
+<div>より柔軟なスケーリング・シフト量をサポートするためには、4番目のソースオペランドが必要となってしまう。</div></blockquote>
+</div>
+<div class="section" id="id6">
+<h2>13.5. 単一幅ベクトルスケーリングシフト命令<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>これらの命令は入力値を右シフトし、<code class="docutils literal notranslate"><span class="pre">vxrm</span></code>の設定に基づいてシフトした値を丸める。スケーリング右シフト命令はゼロ拡張(<code class="docutils literal notranslate"><span class="pre">vssrl</span></code>)と符号拡張(<code class="docutils literal notranslate"><span class="pre">vssra</span></code>)の形式を用意している。ベクトル・スカラのシフト量の下位のlg2(SEW)ビットが使用される。即値もサポートされるが、シフト量は最大でも31までである。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># vxrm=rnuでは、round = 1 &lt;&lt; (src2-1)である。ここでsrc2 は vs1[i], x[rs1], uimm のどれか。</span>
+<span class="c1"># スケーリング論理右シフト命令</span>
+<span class="n">vssrl</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = ((vs2[i] + round)&gt;&gt;vs1[i])</span>
+<span class="n">vssrl</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = ((vs2[i] + round)&gt;&gt;x[rs1])</span>
+<span class="n">vssrl</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = ((vs2[i] + round)&gt;&gt;uimm)</span>
+
+<span class="c1"># スケーリング算術右シフト命令</span>
+<span class="n">vssra</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = ((vs2[i] + round)&gt;&gt;vs1[i])</span>
+<span class="n">vssra</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = ((vs2[i] + round)&gt;&gt;x[rs1])</span>
+<span class="n">vssra</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = ((vs2[i] + round)&gt;&gt;uimm)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>13.6. ビット幅縮小固定小数点ベクトルクリップ命令<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">vnclip</span></code>命令は固定小数点の値をよりビット幅の小さいレジスタに書き込む。この命令では書き込みレジスタのフォーマットに合わせて丸め、スケーリング、飽和をサポートする。</p>
+<p>命令の2番目の引数(ベクトル要素、スカラ値、即値のどれか)は本命令の右シフト量を示し、これによりスケーリングが行われる。ベクトルレジスタ要素、スカラシフト量のうちlg2(2*SEW)ビットが使用される(例えば、SEW=64ビットで、32ビットにビット幅縮小するのであれば、シフト量は6ビット分使用される)。即値形式の場合では、最大で31までがサポートされる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="c1"># 符号なしビット幅縮小クリップ命令</span>
+ <span class="n">vnclipu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+ <span class="n">vnclipu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+ <span class="n">vnclipu</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - 即値</span>
+
+<span class="c1"># 符号付きビット幅縮小クリップ命令,  vd[i] = clip(round(vs2[i] + rnd) &gt;&gt; vs1[i])</span>
+<span class="c1">#                              SEW           2*SEW                 SEW</span>
+ <span class="n">vnclip</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
+ <span class="n">vnclip</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+ <span class="n">vnclip</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - 即値</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">vnclipu</span></code>,/<code class="docutils literal notranslate"><span class="pre">vnclip</span></code>命令では、丸めモードは<code class="docutils literal notranslate"><span class="pre">vxrm</span></code>CSRに基づいて実行される。丸目は飽和処理実行前に、書き込み値の最下位ビットに対して行われる。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vnclipu</span></code>命令では、シフトして丸められたソース値は符号なしの値として扱われ、値がオーバフローした場合には符号なしの整数として飽和処理が行われる。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vnclip</span></code>命令では、シフトして丸められた値は符号付の値として扱われ、値がオーバフローした場合は符号付きの整数として飽和処理が行われる。</p>
+<p>書き込みレジスタのどれかの要素で飽和が発生すると、<code class="docutils literal notranslate"><span class="pre">vxsat</span></code>レジスタの<code class="docutils literal notranslate"><span class="pre">vxsat</span></code>ビットが設定される。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="chapter12_vector_arithmetic_insts.html" class="btn btn-neutral float-left" title="12. ベクトル整数算術演算命令" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, msyksphinz
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
