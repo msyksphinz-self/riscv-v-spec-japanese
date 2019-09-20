@@ -20,6 +20,7 @@ RISC-V “V” Extension
    chapter11_vector_arithmetic_formats.rst
    chapter12_vector_arithmetic_insts.rst
    chapter13_fixedpoint.rst
+   chapter14_floatingpoint.rst
 
 Indices and tables
 ==================

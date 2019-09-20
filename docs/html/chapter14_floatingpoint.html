@@ -1,0 +1,578 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>14. ベクトル浮動小数点命令 &mdash; riscv-v-spec-japanese  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="prev" title="13. ベクトル固定小数点演算命令" href="chapter13_fixedpoint.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter7_vector_load_store.html">7. ベクトルロードストア命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html">8. ベクトルAMO操作(<code class="docutils literal notranslate"><span class="pre">Zvamo</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id1">9. ベクトルメモリのアライメント制約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id2">10. ベクトルメモリのコンシステンシモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter11_vector_arithmetic_formats.html">11. ベクトル算術演算命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter12_vector_arithmetic_insts.html">12. ベクトル整数算術演算命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter13_fixedpoint.html">13. ベクトル固定小数点演算命令</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">14. ベクトル浮動小数点命令</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">14.1. ベクトル浮動小数点例外フラグ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">14.2. 単一ビット幅ベクトル浮動小数点加減算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">14.3. ビット幅拡張ベクトル浮動小数点加減算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">14.4. 単一ビット幅ベクトル浮動小数点乗除算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">14.5. ビット幅拡張浮動小数点乗算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fused-multiply-add">14.6. 単一ビット幅浮動小数点Fused Multiply-Add命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">14.7. ビット幅拡張ベクトル浮動小数点Fused Multiply-Add命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#square-root">14.8. ベクトル浮動小数点Square-Root命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#min-max">14.9. ベクトル浮動小数点 MIN/MAX命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">14.10. ベクトル浮動小数点符号ビット挿入命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">14.11. ベクトル浮動小数点比較命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">14.12. ベクトル浮動小数点分類命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">14.13. ベクトル浮動小数点マージ命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">14.14. ベクトル浮動小数点移動命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">14.15. 単一ビット幅浮動小数点 整数変換命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">14.16. ビット幅拡張浮動小数点 整数変換命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id15">14.17. ビット幅を縮小するベクトル浮動小数点変換命令</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">riscv-v-spec-japanese</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>14. ベクトル浮動小数点命令</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/chapter14_floatingpoint.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>14. ベクトル浮動小数点命令<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>標準的なベクトル浮動小数点命令は、16ビット、32ビット、64ビット、128ビットのIEEE-754/2008互換の浮動小数点を扱う。現在のSEWがこれらのIEEE浮動小数点の型に合致しなければ、不正命令例外が発生する。</p>
+<blockquote>
+<div>サポートされる浮動小数点のビット幅はそのプラットフォームに依存する。</div></blockquote>
+<blockquote>
+<div>16ビット半精度浮動小数点の型をサポートするプラットフォームはスカラ側も半精度浮動小数点命令を<code class="docutils literal notranslate"><span class="pre">f</span></code>レジスタにおいて実装しなければならない。</div></blockquote>
+<p>ベクトル浮動小数点命令はNaNの取り扱いについてスカラの浮動小数点命令と同様の動きをする。</p>
+<p>ベクトル ー
+スカラ命令におけるスカラの値の取り扱いについては、標準的な<code class="docutils literal notranslate"><span class="pre">f</span></code>スカラレジスタからオペランドを取り込む。</p>
+<blockquote>
+<div>Zfinx命令仕様バリエーションにより、スカラの浮動小数点値は整数レジスタ<code class="docutils literal notranslate"><span class="pre">x</span></code>からも取り込むことができるようになる予定である。</div></blockquote>
+<div class="section" id="id2">
+<h2>14.1. ベクトル浮動小数点例外フラグ<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ベクトル浮動小数点の例外は任意のアクティブな浮動小数点ベクトルの要素で例外が発生した場合、標準的なFP例外フラグである<code class="docutils literal notranslate"><span class="pre">fflags</span></code>に設定される。インアクティブな要素では、浮動小数点例外は発生しない。</p>
+</div>
+<div class="section" id="id3">
+<h2>14.2. 単一ビット幅ベクトル浮動小数点加減算命令<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 浮動小数点加算命令</span>
+<span class="n">vfadd</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー ベクトル</span>
+<span class="n">vfadd</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー スカラ</span>
+
+<span class="c1"># 浮動小数点減算命令</span>
+<span class="n">vfsub</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー ベクトル</span>
+<span class="n">vfsub</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー スカラ vd[i] = vs2[i] - f[rs1]</span>
+<span class="n">vfrsub</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># スカラ ー ベクトル vd[i] = f[rs1] - vs2[i]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>14.3. ビット幅拡張ベクトル浮動小数点加減算命令<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ビット幅拡張ベクトル浮動小数点加減算命令 2*SEW = SEW +/- SEW</span>
+<span class="n">vfwadd</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー ベクトル</span>
+<span class="n">vfwadd</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー スカラ</span>
+<span class="n">vfwsub</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー ベクトル</span>
+<span class="n">vfwsub</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー スカラ</span>
+
+<span class="c1"># ビット幅拡張ベクトル浮動小数点加減算命令 2*SEW = 2*SEW +/- SEW</span>
+<span class="n">vfwadd</span><span class="o">.</span><span class="n">wv</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー ベクトル</span>
+<span class="n">vfwadd</span><span class="o">.</span><span class="n">wf</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー スカラ</span>
+<span class="n">vfwsub</span><span class="o">.</span><span class="n">wv</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー ベクトル</span>
+<span class="n">vfwsub</span><span class="o">.</span><span class="n">wf</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー スカラ</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>14.4. 単一ビット幅ベクトル浮動小数点乗除算命令<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 浮動小数点乗算命令</span>
+<span class="n">vfmul</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー ベクトル</span>
+<span class="n">vfmul</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー スカラ</span>
+
+<span class="c1"># 浮動小数点除算命令</span>
+<span class="n">vfdiv</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー ベクトル</span>
+<span class="n">vfdiv</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー スカラ</span>
+
+<span class="c1"># オペランドの形式が逆の浮動小数点除算命令。divide vector = scalar / vector</span>
+<span class="n">vfrdiv</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># スカラ ー ベクトル, vd[i] = f[rs1]/vs2[i]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>14.5. ビット幅拡張浮動小数点乗算命令<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ビット幅拡張浮動小数点乗算命令</span>
+<span class="n">vfwmul</span><span class="o">.</span><span class="n">vv</span>    <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># ベクトル ー ベクトル</span>
+<span class="n">vfwmul</span><span class="o">.</span><span class="n">vf</span>    <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># ベクトル ー スカラ</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fused-multiply-add">
+<h2>14.6. 単一ビット幅浮動小数点Fused Multiply-Add命令<a class="headerlink" href="#fused-multiply-add" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Fused
+Multiply-Addの4つのバリエーションについて命令を提供する。入力オペランドを破壊する形式については2種類を用意しており、1つは加算のオペランドを上書きするもの、もう一つは乗算の項の一つ目のオペランドを破壊するものである。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 浮動小数点 Multiply-Accumulate, 加算のオペランドを上書き</span>
+<span class="n">vfmacc</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(vs1[i] * vs2[i]) + vd[i]</span>
+<span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(f[rs1] * vs2[i]) + vd[i]</span>
+
+<span class="c1"># 浮動小数点 negate-(multiply-accumulate), 減算のオペランドを上書き</span>
+<span class="n">vfnmacc</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = -(vs1[i] * vs2[i]) - vd[i]</span>
+<span class="n">vfnmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = -(f[rs1] * vs2[i]) - vd[i]</span>
+
+<span class="c1"># 浮動小数点 multiply-subtract-accumulator, 減算のオペランドを上書き</span>
+<span class="n">vfmsac</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(vs1[i] * vs2[i]) - vd[i]</span>
+<span class="n">vfmsac</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(f[rs1] * vs2[i]) - vd[i]</span>
+
+<span class="c1"># 浮動小数点 negate-(multiply-subtract-accumulator), 減算のオペランドを上書き</span>
+<span class="n">vfnmsac</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = -(vs1[i] * vs2[i]) + vd[i]</span>
+<span class="n">vfnmsac</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = -(f[rs1] * vs2[i]) + vd[i]</span>
+
+<span class="c1"># 浮動小数点 multiply-add, 乗算のオペランドを上書き</span>
+<span class="n">vfmadd</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(vs1[i] * vd[i]) + vs2[i]</span>
+<span class="n">vfmadd</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(f[rs1] * vd[i]) + vs2[i]</span>
+
+<span class="c1"># 浮動小数点 negate-(multiply-add), 乗算のオペランドを上書き</span>
+<span class="n">vfnmadd</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = -(vs1[i] * vd[i]) - vs2[i]</span>
+<span class="n">vfnmadd</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = -(f[rs1] * vd[i]) - vs2[i]</span>
+
+<span class="c1"># 浮動小数点 multiply-sub, 乗算のオペランドを上書き</span>
+<span class="n">vfmsub</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(vs1[i] * vd[i]) - vs2[i]</span>
+<span class="n">vfmsub</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(f[rs1] * vd[i]) - vs2[i]</span>
+
+<span class="c1"># 浮動小数点 negate-(multiply-sub), 乗算のオペランドを上書き</span>
+<span class="n">vfnmsub</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = -(vs1[i] * vd[i]) + vs2[i]</span>
+<span class="n">vfnmsub</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = -(f[rs1] * vd[i]) + vs2[i]</span>
+</pre></div>
+</div>
+<blockquote>
+<div>スカラの浮動小数点FMAエンコーディングの中で、使用していない丸めモードのビットパタンを使用してオペランドを破壊しないFMAを定義することも可能であるが、その場合はマスクができない形式での3入力1出力の命令となる。</div></blockquote>
+</div>
+<div class="section" id="id7">
+<h2>14.7. ビット幅拡張ベクトル浮動小数点Fused Multiply-Add命令<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ビット幅拡張を行うFused
+Multiply-Add命令はビット幅拡張された加算の項に結果を書き込む。乗算の入力値はSEWのビットサイズであり、加算の項と結果を書き込む項は2*SEWのビット幅である。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ビット幅拡張浮動小数点 multiply-accumulate, 加算の項を上書き</span>
+<span class="n">vfwmacc</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(vs1[i] * vs2[i]) + vd[i]</span>
+<span class="n">vfwmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(f[rs1] * vs2[i]) + vd[i]</span>
+
+<span class="c1"># ビット幅拡張浮動小数点 negate-(multiply-accumulate), 加算の項を上書き</span>
+<span class="n">vfwnmacc</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = -(vs1[i] * vs2[i]) - vd[i]</span>
+<span class="n">vfwnmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = -(f[rs1] * vs2[i]) - vd[i]</span>
+
+<span class="c1"># ビット幅拡張浮動小数点 multiply-subtract-accumulator, 加算の項を上書き</span>
+<span class="n">vfwmsac</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(vs1[i] * vs2[i]) - vd[i]</span>
+<span class="n">vfwmsac</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(f[rs1] * vs2[i]) - vd[i]</span>
+
+<span class="c1"># ビット幅拡張浮動小数点 negate-(multiply-subtract-accumulator), 加算の項を上書き</span>
+<span class="n">vfwnmsac</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = -(vs1[i] * vs2[i]) + vd[i]</span>
+<span class="n">vfwnmsac</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = -(f[rs1] * vs2[i]) + vd[i]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="square-root">
+<h2>14.8. ベクトル浮動小数点Square-Root命令<a class="headerlink" href="#square-root" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>この命令は単一項のベクトル － ベクトル命令である。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 浮動小数点 square root</span>
+<span class="n">vfsqrt</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー ベクトル square root</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="min-max">
+<h2>14.9. ベクトル浮動小数点 MIN/MAX命令<a class="headerlink" href="#min-max" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The vector floating-point <code class="docutils literal notranslate"><span class="pre">vfmin</span></code> and <code class="docutils literal notranslate"><span class="pre">vfmax</span></code> instructions have the
+same behavior as the corresponding scalar floating-point instructions in
+version 2.2 of the RISC-V F/D/Q extension.</p>
+<p>ベクトル浮動小数点<code class="docutils literal notranslate"><span class="pre">vfmin</span></code>, <code class="docutils literal notranslate"><span class="pre">vfmax</span></code>命令はスカラの浮動小数点命令
+Version 2.2における RISC-V F/D/Q拡張の命令と同じ動きをする。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 浮動小数点 Minimum</span>
+<span class="n">vfmin</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー ベクトル</span>
+<span class="n">vfmin</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー スカラ</span>
+
+<span class="c1"># 浮動小数点 Maximum</span>
+<span class="n">vfmax</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー ベクトル</span>
+<span class="n">vfmax</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー スカラ</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>14.10. ベクトル浮動小数点符号ビット挿入命令<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>スカラの符号ビット挿入命令のベクトル版である。結果は符号ビットを除いて<code class="docutils literal notranslate"><span class="pre">vs2</span></code>オペランドと同じものが書き込まれる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vfsgnj</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー ベクトル</span>
+<span class="n">vfsgnj</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー スカラ</span>
+
+<span class="n">vfsgnjn</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー ベクトル</span>
+<span class="n">vfsgnjn</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー スカラ</span>
+
+<span class="n">vfsgnjx</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー ベクトル</span>
+<span class="n">vfsgnjx</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー スカラ</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>14.11. ベクトル浮動小数点比較命令<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ベクトル浮動小数点比較命令は2つのソースオペランドを比較し、その結果をマスクレジスタに書き込む。書き込み先マスクレジスタは常に1つのベクトルレジスタを使用し、<a class="reference external" href="https://riscv.github.io/documents/riscv-v-spec/#sec-mask-register-layout">Mask
+Register
+Layout</a>で説明したレイアウトに基づいて結果を書き込む。</p>
+<p>ベクトル浮動小数点比較命令はスカラの浮動小数点比較命令に基づいて設計されている。<code class="docutils literal notranslate"><span class="pre">vmfeq</span></code>と<code class="docutils literal notranslate"><span class="pre">vmfne</span></code>はSignaling
+NaN入力を受け付けた場合にのみ例外を発生する。<code class="docutils literal notranslate"><span class="pre">vmflt</span></code>, <code class="docutils literal notranslate"><span class="pre">vmfle</span></code>,
+<code class="docutils literal notranslate"><span class="pre">vmfgt</span></code>, <code class="docutils literal notranslate"><span class="pre">vmfge</span></code>命令はSignaling NaNとQuiet
+NaNのどちらでも例外を発生する。</p>
+<p>すべての比較命令では、LMUL &gt;
+1であり結果の書き込みレジスタはソースオペランドとオーバラップすることはできない。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># Compare equal</span>
+    <span class="n">vmfeq</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー ベクトル</span>
+    <span class="n">vmfeq</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー スカラ</span>
+
+    <span class="c1"># Compare not equal</span>
+    <span class="n">vmfne</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー ベクトル</span>
+    <span class="n">vmfne</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー スカラ</span>
+
+    <span class="c1"># Compare less than</span>
+    <span class="n">vmflt</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー ベクトル</span>
+    <span class="n">vmflt</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー スカラ</span>
+
+    <span class="c1"># Compare less than or equal</span>
+    <span class="n">vmfle</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー ベクトル</span>
+    <span class="n">vmfle</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー スカラ</span>
+
+    <span class="c1"># Compare greater than</span>
+    <span class="n">vmfgt</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー スカラ</span>
+
+    <span class="c1"># Compare greater than or equal</span>
+    <span class="n">vmfge</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー スカラ</span>
+
+<span class="n">比較演算</span>         <span class="n">アセンブリ命令</span>               <span class="n">アセンブリの疑似命令</span>
+
+<span class="n">va</span> <span class="o">&lt;</span> <span class="n">vb</span>         <span class="n">vmflt</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">vb</span><span class="p">,</span> <span class="n">vm</span>
+<span class="n">va</span> <span class="o">&lt;=</span> <span class="n">vb</span>        <span class="n">vmfle</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">vb</span><span class="p">,</span> <span class="n">vm</span>
+<span class="n">va</span> <span class="o">&gt;</span> <span class="n">vb</span>         <span class="n">vmflt</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vb</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">vm</span>    <span class="n">vmfgt</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">vb</span><span class="p">,</span> <span class="n">vm</span>
+<span class="n">va</span> <span class="o">&gt;=</span> <span class="n">vb</span>        <span class="n">vmfle</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vb</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">vm</span>    <span class="n">vmfge</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">vb</span><span class="p">,</span> <span class="n">vm</span>
+
+<span class="n">va</span> <span class="o">&lt;</span> <span class="n">f</span>          <span class="n">vmflt</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">vm</span>
+<span class="n">va</span> <span class="o">&lt;=</span> <span class="n">f</span>         <span class="n">vmfle</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">vm</span>
+<span class="n">va</span> <span class="o">&gt;</span> <span class="n">f</span>          <span class="n">vmfgt</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">vm</span>
+<span class="n">va</span> <span class="o">&gt;=</span> <span class="n">f</span>         <span class="n">vmfge</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">vm</span>
+
+<span class="n">va</span><span class="p">,</span> <span class="n">vbはベクトルレジスタグループ</span>
+<span class="n">f</span>     <span class="n">はスカラの浮動小数点レジスタ</span>
+</pre></div>
+</div>
+<blockquote>
+<div>NaNのアンオーダーな比較も正しく処理するためには、すべての形式を定義する必要がある。</div></blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&#160;</th>
+<th class="head">C99 floating-point quiet comparisons can be implemented by
+masking the signaling comparisons when either input is NaN, as
+follows. When the comparand is a non-NaN constant, the middle
+two instructions can be omitted.</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div>C99の浮動小数点のQuietな比較操作は、どちらかの入力オペランドがNaNである場合にSignalingの比較をマスクすることで実装できる。この例を以下に示す。比較オペランドがNaNでない定数であれば、真ん中の2命令は除去することができる。</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># isgreater()の実装例</span>
+<span class="n">vmfeq</span><span class="o">.</span><span class="n">vv</span> <span class="n">v0</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">va</span>        <span class="c1"># AがNaNでない場合のみマスクが設定される。</span>
+<span class="n">vmfeq</span><span class="o">.</span><span class="n">vv</span> <span class="n">v1</span><span class="p">,</span> <span class="n">vb</span><span class="p">,</span> <span class="n">vb</span>        <span class="c1"># BがNanでない場合のみマスクが設定される。</span>
+<span class="n">vmand</span><span class="o">.</span><span class="n">mm</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v1</span>        <span class="c1"># AとBが比較可能である場合のみマスクが設定される。</span>
+<span class="n">vmfgt</span><span class="o">.</span><span class="n">vv</span> <span class="n">v0</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">vb</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span>  <span class="c1">#  したがって、比較可能な値のみが比較される。</span>
+</pre></div>
+</div>
+<blockquote>
+<div>上記の命令列では、2番目の<code class="docutils literal notranslate"><span class="pre">vmfeq</span></code>命令をマスクし、<code class="docutils literal notranslate"><span class="pre">vmand</span></code>命令を除去することもできるが、このより効率的なコードでは<code class="docutils literal notranslate"><span class="pre">va</span></code>にQuiet
+NaNが含まれており、該当する<code class="docutils literal notranslate"><span class="pre">vb</span></code>の要素にSignaling
+NaNが含まれてえいる場合に誤って不正値例外を発生してしまう。</div></blockquote>
+</div>
+<div class="section" id="id10">
+<h2>14.12. ベクトル浮動小数点分類命令<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>この命令はスカラの命令と同一であり、単一オペランドのベクトル －
+ベクトル命令である。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vfclass</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー ベクトル</span>
+</pre></div>
+</div>
+<p>オペランドの種類によって書き込み要素の下位の10ビットにマスクが生成される。SEW=16ビット以上の場合のみ命令が定義され、結果の値は常に書き込み要素のビット幅にフィットするようになっている。</p>
+</div>
+<div class="section" id="id11">
+<h2>14.13. ベクトル浮動小数点マージ命令<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ベクトル － スカラ
+浮動小数点マージ命令は<code class="docutils literal notranslate"><span class="pre">start</span></code>から始まり現在の<code class="docutils literal notranslate"><span class="pre">vl</span></code>長までのすべてのボディー要素に対して、マスクの値依存してマージ操作を行う。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vfmerge.vfm</span></code>命令は常にマスクされている(<code class="docutils literal notranslate"><span class="pre">vm=0</span></code>)。各要素はマスクの値0である場合は最初のオペランドが書き込み要素にコピーされ、そうでない場合は浮動小数点レジスタの値が書き込み要素にコピーされる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vfmerge</span><span class="o">.</span><span class="n">vfm</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">v0</span>  <span class="c1"># vd[i] = v0[i].LSB ? f[rs1] : vs2[i]</span>
+</pre></div>
+</div>
+<blockquote>
+<div>Zfinxのバリエーションでは、<code class="docutils literal notranslate"><span class="pre">vmerge.vxm</span></code>命令も提供される予定である。</div></blockquote>
+</div>
+<div class="section" id="id12">
+<h2>14.14. ベクトル浮動小数点移動命令<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ベクトル浮動小数点移動命令は、浮動小数点スカラオペランドをベクトルレジスタグループに移動する命令である。この命令はスカラレジスタ<code class="docutils literal notranslate"><span class="pre">f</span></code>の値を、ベクトルレジスタグループのすべてのアクティブな要素にコピーする。この命令はつねにマスクはされない(<code class="docutils literal notranslate"><span class="pre">vm=1</span></code>)。この命令は<code class="docutils literal notranslate"><span class="pre">vs2</span></code>フィールドに<code class="docutils literal notranslate"><span class="pre">v0</span></code>を設定され、ほかのすべての<code class="docutils literal notranslate"><span class="pre">vs2</span></code>フィールドが予約されている必要がある(xxx意味不明)。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vfmv</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">f</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span>  <span class="c1"># vd[i] = f[rs1]</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>Zfinxのバリエーションでは、この命令は<code class="docutils literal notranslate"><span class="pre">vmv.v.x</span></code>と同一である。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vfmv.v.f</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vfmerge.vfm</span></code>命令とエンコーディングを共有しているが、<code class="docutils literal notranslate"><span class="pre">vm=1</span></code>かつ<code class="docutils literal notranslate"><span class="pre">vs2=v0</span></code>であるところが異なる。</p>
+</div></blockquote>
+</div>
+<div class="section" id="id13">
+<h2>14.15. 単一ビット幅浮動小数点 整数変換命令<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>型の返還命令については、浮動小数点の値と、符号なし整数あるいは符号付き整数の変換命令が定義されている。ソースオペランドも書き込み先オペランドもSEWのビット幅である必要がある。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vfcvt</span><span class="o">.</span><span class="n">xu</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 浮動小数点から符号なし整数への変換</span>
+<span class="n">vfcvt</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 浮動小数点から符号付整数への変換</span>
+
+<span class="n">vfcvt</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">xu</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 符号なし整数から浮動小数点への変換</span>
+<span class="n">vfcvt</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 符号付き整数から浮動小数点への変換</span>
+</pre></div>
+</div>
+<p>例外の発生条件については、スカラの返還命令に準ずる。変換では常に動的な丸めモード<code class="docutils literal notranslate"><span class="pre">frm</span></code>に基づいて丸目が行われる。</p>
+</div>
+<div class="section" id="id14">
+<h2>14.16. ビット幅拡張浮動小数点 整数変換命令<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ビット幅の小さな整数と、浮動小数点の値を変換する命令が定義されている。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vfwcvt</span><span class="o">.</span><span class="n">xu</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 浮動小数点から、倍のビット幅の符号なし整数に変換する。</span>
+<span class="n">vfwcvt</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 浮動小数点から、倍のビット幅の符号付き整数に変換する。</span>
+
+<span class="n">vfwcvt</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">xu</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 符号なし整数から倍のビット幅の浮動小数点に変換する。</span>
+<span class="n">vfwcvt</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 符号付整数からバイトビット幅の浮動小数点に変換する。</span>
+
+<span class="n">vfwcvt</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 1ワード分の浮動小数点の値から倍のサイズの浮動小数点に変換する。</span>
+</pre></div>
+</div>
+<p>これらの命令は他のビット幅を拡張する命令と同うように、ベクトルレジスタのオーバラップに関する制約が存在する(<a class="reference external" href="https://riscv.github.io/documents/riscv-v-spec/#sec-widening">Widening
+Vector Arithmetic
+Instructions</a>を参照のこと)。</p>
+<blockquote>
+<div>倍のビット幅のIEEE浮動小数点は、常に元のビット幅の整数の値を正確に表現することができる。</div></blockquote>
+<blockquote>
+<div>倍のビット幅の浮動小数点の値は元のビット幅のIEEE浮動小数点を正確に表現できる。</div></blockquote>
+<p>すべての浮動小数点のビット幅拡張変換命令は単一の命令ではサポートされないが、複数の変換命令を使用することにより例外を発生させずに正確に同じ操作を表現することができる。</p>
+</div>
+<div class="section" id="id15">
+<h2>14.17. ビット幅を縮小するベクトル浮動小数点変換命令<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>幅の広い整数もしくは浮動小数点の値から、幅の狭い型に対して変換する命令を定義する。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vfncvt</span><span class="o">.</span><span class="n">xu</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 倍のサイズの浮動小数点から符号なし整数へ変換する。</span>
+<span class="n">vfncvt</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 倍のサイズの浮動小数点から符号付き整数へ変換する。</span>
+
+<span class="n">vfncvt</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">xu</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 倍のサイズの符号なし整数から浮動小数点へ変換する。</span>
+<span class="n">vfncvt</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 倍のサイズの符号付き整数から浮動小数点へ変換する。</span>
+
+<span class="n">vfncvt</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 倍のサイズの浮動小数点から元のサイズの浮動小数点に変換する。</span>
+</pre></div>
+</div>
+<p>これらの命令はビット幅を縮小する他のベクトル命令と同じレジスタオーバラップの制約を持っている(<a class="reference external" href="https://riscv.github.io/documents/riscv-v-spec/#sec-narrowing">Narrowing
+Vector Arithmetic
+Instructions</a>を参照のこと)</p>
+<blockquote>
+<div>すべての浮動小数点の変換を単一の命令でサポートすることはできない。変換処理はいくつかのステップを踏み、等価な丸め処理を行った結果とかな例外フラグを設定することが可能である(複数ステップの中で冗長な例外が発生する可能性はある)。</div></blockquote>
+<blockquote>
+<div>整数値のビット幅を半分にする処理は、ビット幅を縮小する整数シフト命令において、シフト量を0に設定することで実現できる。</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="chapter13_fixedpoint.html" class="btn btn-neutral float-left" title="13. ベクトル固定小数点演算命令" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, msyksphinz
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
