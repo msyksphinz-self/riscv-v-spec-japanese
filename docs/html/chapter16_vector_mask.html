@@ -1,0 +1,657 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>16. ベクトルマスク命令 &mdash; riscv-v-spec-japanese  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter7_vector_load_store.html">7. ベクトルロードストア命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html">8. ベクトルAMO操作(<code class="docutils literal notranslate"><span class="pre">Zvamo</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id1">9. ベクトルメモリのアライメント制約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id2">10. ベクトルメモリのコンシステンシモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter11_vector_arithmetic_formats.html">11. ベクトル算術演算命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter12_vector_arithmetic_insts.html">12. ベクトル整数算術演算命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter13_fixedpoint.html">13. ベクトル固定小数点演算命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter14_floatingpoint.html">14. ベクトル浮動小数点命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter15_reduction.html">15. ベクトルリダクション操作</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">riscv-v-spec-japanese</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>16. ベクトルマスク命令</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/chapter16_vector_mask.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>16. ベクトルマスク命令<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>ベクトルレジスタに保持されたマスクの値を操作するためのいくつかの命令が定義されている。</p>
+<div class="section" id="id2">
+<h2>16.1. ベクトルマスクレジスタ論理演算命令<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ベクトルマスクレジスタの論理演算は、マスクレジスタ上で実行される。マスクレジスタの1要素のサイズはSEW/LMULであり、したがってこれらの命令は<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタの<code class="docutils literal notranslate"><span class="pre">vlmul</span></code>フィールドの設定に関係なく、すべて単一ベクトルレジスタに対して適用される。</p>
+<p>他のベクトル命令と同様に、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>よりも小さなインデックスの要素は変更されず、これらの命令の実行後には<code class="docutils literal notranslate"><span class="pre">vstart</span></code>は0に戻される。ベクトルマスク論理演算命令はマスクされず、従ってインアクティブな要素は存在しない。<code class="docutils literal notranslate"><span class="pre">vl</span></code>以降のマスク要素、つまりテール要素はすべてゼロに設定される。</p>
+<p>マスク要素では、これらの命令は常に再開ビットを使用して演算が実行され、その結果をゼロ拡張して書き込みレジスタマスク要素に書き込む。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vmand</span><span class="o">.</span><span class="n">mm</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span>     <span class="c1"># vd[i] =   vs2[i].LSB &amp;&amp;  vs1[i].LSB</span>
+<span class="n">vmnand</span><span class="o">.</span><span class="n">mm</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span>    <span class="c1"># vd[i] = !(vs2[i].LSB &amp;&amp;  vs1[i].LSB)</span>
+<span class="n">vmandnot</span><span class="o">.</span><span class="n">mm</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span>  <span class="c1"># vd[i] =   vs2[i].LSB &amp;&amp; !vs1[i].LSB</span>
+<span class="n">vmxor</span><span class="o">.</span><span class="n">mm</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span>    <span class="c1"># vd[i] =   vs2[i].LSB ^^  vs1[i].LSB</span>
+<span class="n">vmor</span><span class="o">.</span><span class="n">mm</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span>     <span class="c1"># vd[i] =   vs2[i].LSB ||  vs1[i].LSB</span>
+<span class="n">vmnor</span><span class="o">.</span><span class="n">mm</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span>    <span class="c1"># vd[i] = !(vs2[i[.LSB ||  vs1[i].LSB)</span>
+<span class="n">vmornot</span><span class="o">.</span><span class="n">mm</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span>  <span class="c1"># vd[i] =   vs2[i].LSB || !vs1[i].LSB</span>
+<span class="n">vmxnor</span><span class="o">.</span><span class="n">mm</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span>    <span class="c1"># vd[i] = !(vs2[i].LSB ^^  vs1[i].LSB)</span>
+</pre></div>
+</div>
+<p>いくつかのアセンブラ疑似命令では、マスク論理演算を簡単に実行するための共通の命令が定義されている。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vmcpy</span><span class="o">.</span><span class="n">m</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs</span>  <span class="o">=&gt;</span> <span class="n">vmand</span><span class="o">.</span><span class="n">mm</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs</span><span class="p">,</span> <span class="n">vs</span>  <span class="c1"># マスクレジスタのコピー</span>
+<span class="n">vmclr</span><span class="o">.</span><span class="n">m</span> <span class="n">vd</span>     <span class="o">=&gt;</span> <span class="n">vmxor</span><span class="o">.</span><span class="n">mm</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vd</span>   <span class="c1"># マスクレジスタのクリア</span>
+<span class="n">vmset</span><span class="o">.</span><span class="n">m</span> <span class="n">vd</span>     <span class="o">=&gt;</span> <span class="n">vmxnor</span><span class="o">.</span><span class="n">mm</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vd</span>  <span class="c1"># マスクレジスタの設定</span>
+<span class="n">vmnot</span><span class="o">.</span><span class="n">m</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs</span> <span class="o">=&gt;</span> <span class="n">vmnand</span><span class="o">.</span><span class="n">mm</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs</span><span class="p">,</span> <span class="n">vs</span>  <span class="c1"># マスクレジスタの反転</span>
+</pre></div>
+</div>
+<blockquote>
+<div>vmcpy.m命令はvmmvとは呼ばない。アーキテクチャ内では、mvという用語はビット全体を意味を持たずコピーするという意味を持つからである。vmcpy.m命令は書き込みマスクレジスタの上位ビットをクリアし、これらのビットの値にか買わざる、マスクレジスタの上位ビットをゼロに設定する。</div></blockquote>
+<p>8つのマスク論理命令は、2つの入力マスクによって16個のマスク関数を生成することができる:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="26%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">inputs</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>src1</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>src2</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="44%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">output</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">instruction</th>
+<th class="head">疑似命令</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>vmxor.mm vd, vd, vd</td>
+<td>vmclr.m vd</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>vmnor.mm vd, src1, src2</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>vmandnot.mm vd, src2, src1</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>vmnand.mm vd, src1, src1</td>
+<td>vmnot.m vd, src1</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>vmandnot.mm vd, src1, src2</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>vmnand.mm vd, src2, src2</td>
+<td>vmnot.m vd, src2</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>vmxor.mm vd, src1, src2</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>vmnand.mm vd, src1, src2</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>vmand.mm vd, src1, src2</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>vmxnor.mm vd, src1, src2</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>vmand.mm vd, src2, src2</td>
+<td>vmcpy.m vd, src2</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>vmornot.mm vd, src2, src1</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>vmand.mm vd, src1, src1</td>
+<td>vmcpy.m vd, src1</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>vmornot.mm vd, src1, src2</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>vmxnor.mm vd, vd, vd</td>
+<td>vmset.m vd</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div>ベクトルマスク命令は後続のマスクベクトル操作と簡単に結合できるように設計されている。使用する前に、<code class="docutils literal notranslate"><span class="pre">v0</span></code>レジスタに値を移動することでプレディケートレジスタの数を拡張することができる。</div></blockquote>
+</div>
+<div class="section" id="population-countvpopc">
+<h2>16.2. ベクトルマスクPopulation Count命令<code class="docutils literal notranslate"><span class="pre">vpopc</span></code><a class="headerlink" href="#population-countvpopc" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vpopc</span><span class="o">.</span><span class="n">m</span> <span class="n">rd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>
+</pre></div>
+</div>
+<p>ソースオペランドは単一のベクトルレジスタであり、マスクレジスタの値を<a class="reference external" href="https://riscv.github.io/documents/riscv-v-spec/#sec-mask-register-layout">Mask
+Register
+Layout</a>の形式で格納している。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vpopc.m</span></code>命令はベクトルソースマスクレジスタのアクティブな要素の中からマスク要素の数を数え(つまりマスク要素の再開ビットが設定されている要素の数を数え)、スカラレジスタ<code class="docutils literal notranslate"><span class="pre">x</span></code>に格納する。</p>
+<p>演算はマスクの下で実行され、マスクされた要素のみがカウントの対象となる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vpopc</span><span class="o">.</span><span class="n">m</span> <span class="n">rd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># x[rd] = sum_i ( vs2[i].LSB &amp;&amp; v0[i].LSB )</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">vpopc.m</span></code>命令の例外は常に<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が0であるものとして通知される。<code class="docutils literal notranslate"><span class="pre">vpopc</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が0でない場合に不正命令例外を発生させる。</p>
+</div>
+<div class="section" id="vfirst">
+<h2>16.3. <code class="docutils literal notranslate"><span class="pre">vfirst</span></code>先頭マスク設定ビットの探索命令<a class="headerlink" href="#vfirst" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vfirst</span><span class="o">.</span><span class="n">m</span> <span class="n">rd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">vfirst</span></code>命令はソースマスクベクトルの中から、アクティブ要素の中でLSBが1に設定されている最も小さな要素のインデックスを探し、そのインデックス値をGPRに格納する。もしLSBが1に設定されている要素が1つも存在しなければ、GPRには-1が格納される。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&#160;</th>
+<th class="head">Software can assume that any negative value (highest bit set)
+corresponds to no element found, as vector lengths will never
+exceed 231 on any implementation.</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div>ソフトウェアは、<code class="docutils literal notranslate"><span class="pre">vfirst</span></code>命令の結果、整数レジスタの値が負の数である(再上位ビットが1に設定されている)ならば、該当する要素が見つからなかったと考えることができる。これは任意の実装でベクトル長が231を超えることがないという環境での想定である。</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">vfirst</span></code>命令の例外は常に<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が0であるものとして通知される。<code class="docutils literal notranslate"><span class="pre">vfirst</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が0でない場合に不正命令例外を発生させる。</p>
+</div>
+<div class="section" id="vmsbf-m-set-before-first">
+<h2>16.4. <code class="docutils literal notranslate"><span class="pre">vmsbf.m</span></code> 最初のマスク設定ビットよりも前のビットを設定する命令(set-before-first命令)<a class="headerlink" href="#vmsbf-m-set-before-first" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   <span class="n">vmsbf</span><span class="o">.</span><span class="n">m</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>
+
+<span class="c1"># 例</span>
+
+    <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>   <span class="n">要素の番号</span>
+
+    <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span>   <span class="n">v3</span> <span class="n">contents</span>
+                      <span class="n">vmsbf</span><span class="o">.</span><span class="n">m</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span>
+    <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">1</span>   <span class="n">v2</span> <span class="n">contents</span>
+
+    <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span>   <span class="n">v3</span> <span class="n">contents</span>
+                      <span class="n">vmsbf</span><span class="o">.</span><span class="n">m</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span>
+    <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>   <span class="n">v2</span>
+
+    <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>   <span class="n">v3</span> <span class="n">contents</span>
+                      <span class="n">vmsbf</span><span class="o">.</span><span class="n">m</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span>
+    <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span>   <span class="n">v2</span>
+
+    <span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">1</span>   <span class="n">v0</span> <span class="n">vcontents</span>
+    <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span>   <span class="n">v3</span> <span class="n">contents</span>
+                      <span class="n">vmsbf</span><span class="o">.</span><span class="n">m</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span>
+    <span class="mi">0</span> <span class="mi">1</span> <span class="n">x</span> <span class="n">x</span> <span class="n">x</span> <span class="n">x</span> <span class="mi">1</span> <span class="mi">1</span>   <span class="n">v2</span> <span class="n">contents</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">vmsbf.m</span></code>命令はマスクレジスタを入力ソースオペランドとして取り、マスクレジスタに結果を書き込む。この命令はソースベクトルレジスタの要素のうち最初にLSBに1が設定されている要素よりも前のすべての要素に対して1を書き込み、それ以降の要素についてはゼロを設定する。もしソースベクトルのうち1が設定されている要素が存在しなければ、すべてのアクティブな要素に対して1が書き込まれる。</p>
+<p>書き込みマスクレジスタのテール要素はすべてクリアされる。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vmsbf.m</span></code>命令の例外は常に<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が0であるものとして通知される。<code class="docutils literal notranslate"><span class="pre">vmsbf</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が0でない場合に不正命令例外を発生させる。</p>
+</div>
+<div class="section" id="vmsif-m-set-including-first">
+<h2>16.5. <code class="docutils literal notranslate"><span class="pre">vmsif.m</span></code> 最初のマスクビットを含むマスクビットセット命令(set-including-first命令)<a class="headerlink" href="#vmsif-m-set-including-first" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>最初のマスクビットを含むマスクビットセット命令は、set-before-firstと似ているが、マスクビットの最初に1が設定されているビットも1を設定するビットとして含めるところが異なる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   <span class="n">vmsif</span><span class="o">.</span><span class="n">m</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>
+
+<span class="c1"># 例</span>
+
+    <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>   <span class="n">要素の番号</span>
+
+    <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span>   <span class="n">v3</span> <span class="n">contents</span>
+                      <span class="n">vmsif</span><span class="o">.</span><span class="n">m</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span>
+    <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span>   <span class="n">v2</span> <span class="n">contents</span>
+
+    <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span>   <span class="n">v3</span> <span class="n">contents</span>
+                      <span class="n">vmsif</span><span class="o">.</span><span class="n">m</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span>
+    <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span>   <span class="n">v2</span>
+
+    <span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">1</span>   <span class="n">v0</span> <span class="n">vcontents</span>
+    <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span>   <span class="n">v3</span> <span class="n">contents</span>
+                      <span class="n">vmsif</span><span class="o">.</span><span class="n">m</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span>
+    <span class="mi">1</span> <span class="mi">1</span> <span class="n">x</span> <span class="n">x</span> <span class="n">x</span> <span class="n">x</span> <span class="mi">1</span> <span class="mi">1</span>   <span class="n">v2</span> <span class="n">contents</span>
+</pre></div>
+</div>
+<p>空きこみマスクレジスタのテール意向の要素はすべてクリアされる。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vmsif.m</span></code>命令の例外は常に<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が0であるものとして通知される。<code class="docutils literal notranslate"><span class="pre">vmsif</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が0でない場合に不正命令例外を発生させる。</p>
+</div>
+<div class="section" id="vmsof-m-set-only-first-mask-bit">
+<h2>16.6. <code class="docutils literal notranslate"><span class="pre">vmsof.m</span></code> 最初のマスクビットのみ設定する命令(set-only-first mask bit)<a class="headerlink" href="#vmsof-m-set-only-first-mask-bit" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>最初のマスクビットのみを設定する命令は、set-before-first命令と似ているが、マスクビットを設定されている最初の要素のみビットをセットするところが異なる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   <span class="n">vmsof</span><span class="o">.</span><span class="n">m</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>
+
+<span class="c1"># 例</span>
+
+    <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>   <span class="n">要素の番号</span>
+
+    <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span>   <span class="n">v3</span> <span class="n">contents</span>
+                      <span class="n">vmsof</span><span class="o">.</span><span class="n">m</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span>
+    <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span>   <span class="n">v2</span> <span class="n">contents</span>
+
+    <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span>   <span class="n">v3</span> <span class="n">contents</span>
+                      <span class="n">vmsof</span><span class="o">.</span><span class="n">m</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span>
+    <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span>   <span class="n">v2</span>
+
+    <span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">1</span>   <span class="n">v0</span> <span class="n">vcontents</span>
+    <span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span>   <span class="n">v3</span> <span class="n">contents</span>
+                      <span class="n">vmsof</span><span class="o">.</span><span class="n">m</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span>
+    <span class="mi">0</span> <span class="mi">1</span> <span class="n">x</span> <span class="n">x</span> <span class="n">x</span> <span class="n">x</span> <span class="mi">0</span> <span class="mi">0</span>   <span class="n">v2</span> <span class="n">contents</span>
+</pre></div>
+</div>
+<p>The tail elements in the destination mask register are cleared.</p>
+<p>書き込みマスクレジスタのテール要素はすべて0にクリアされる。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vmsof.m</span></code>命令の例外は常に<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が0であるものとして通知される。<code class="docutils literal notranslate"><span class="pre">vmsof</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が0でない場合に不正命令例外を発生させる。</p>
+</div>
+<div class="section" id="id3">
+<h2>16.7. ベクトルマスク命令を使用したサンプルプログラム<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>以下のサンプルプログラムはデータに依存して脱出を決めるループをベクトル化した例である。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="c1"># char* strcpy(char *dst, const char* src)</span>
+<span class="n">strcpy</span><span class="p">:</span>
+      <span class="n">mv</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a0</span>             <span class="c1"># 書き込み先アドレスをコピーする</span>
+<span class="n">loop</span><span class="p">:</span>
+    <span class="n">vsetvli</span> <span class="n">x0</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">e8</span>      <span class="c1"># 最大ベクトル長(バイト単位)を取得する</span>
+    <span class="n">vlbuff</span><span class="o">.</span><span class="n">v</span> <span class="n">v1</span><span class="p">,</span> <span class="p">(</span><span class="n">a1</span><span class="p">)</span>       <span class="c1"># コピー元データを取得する</span>
+      <span class="n">csrr</span> <span class="n">t1</span><span class="p">,</span> <span class="n">vl</span>           <span class="c1"># フェッチしたバイト数を取得する</span>
+    <span class="n">vmseq</span><span class="o">.</span><span class="n">vi</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="mi">0</span>      <span class="c1"># フェッチしたバイト数に0(NULL)が含まれているか？</span>
+    <span class="n">vfirst</span><span class="o">.</span><span class="n">m</span> <span class="n">a3</span><span class="p">,</span> <span class="n">v0</span>         <span class="c1"># ゼロを見つけたか？</span>
+      <span class="n">add</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">t1</span>        <span class="c1"># ポインタを進める。</span>
+    <span class="n">vmsif</span><span class="o">.</span><span class="n">m</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v0</span>          <span class="c1"># ゼロバイトが含まれている要素よりも先のベクトル要素をマスクする。</span>
+    <span class="n">vsb</span><span class="o">.</span><span class="n">v</span> <span class="n">v1</span><span class="p">,</span> <span class="p">(</span><span class="n">a2</span><span class="p">),</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span>    <span class="c1"># バイトをメモリに書き出す。</span>
+      <span class="n">add</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">t1</span>        <span class="c1"># ポインタを進める</span>
+      <span class="n">bltz</span> <span class="n">a3</span><span class="p">,</span> <span class="n">loop</span>         <span class="c1"># 0を含む要素を見つけなければ、ループを続ける。</span>
+
+      <span class="n">ret</span>
+
+  <span class="c1"># char* strncpy(char *dst, const char* src, size_t n)</span>
+<span class="n">strncpy</span><span class="p">:</span>
+      <span class="n">mv</span> <span class="n">a3</span><span class="p">,</span> <span class="n">a0</span>             <span class="c1"># 書き込み先アドレスをコピーする</span>
+<span class="n">loop</span><span class="p">:</span>
+    <span class="n">vsetvli</span> <span class="n">x0</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">e8</span>      <span class="c1"># 最大ベクトル長(バイト単位)を取得する。</span>
+    <span class="n">vlbuff</span><span class="o">.</span><span class="n">v</span> <span class="n">v1</span><span class="p">,</span> <span class="p">(</span><span class="n">a1</span><span class="p">)</span>       <span class="c1"># コピー元データを取得する</span>
+    <span class="n">vmseq</span><span class="o">.</span><span class="n">vi</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="mi">0</span>      <span class="c1"># フェッチしたバイト数に0(NULL)が含まれているか？</span>
+    <span class="n">vfirst</span><span class="o">.</span><span class="n">m</span> <span class="n">a4</span><span class="p">,</span> <span class="n">v0</span>         <span class="c1"># ゼロを見つけたか？</span>
+    <span class="n">vmsif</span><span class="o">.</span><span class="n">m</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v0</span>          <span class="c1"># ゼロバイトが含まれている要素よりも先のベクトル要素をマスクする。</span>
+    <span class="n">vsb</span><span class="o">.</span><span class="n">v</span> <span class="n">v1</span><span class="p">,</span> <span class="p">(</span><span class="n">a3</span><span class="p">),</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span>    <span class="c1"># バイトをメモリに書き出す。</span>
+      <span class="n">bgez</span> <span class="n">a4</span><span class="p">,</span> <span class="n">exit</span>         <span class="c1"># 終了</span>
+      <span class="n">csrr</span> <span class="n">t1</span><span class="p">,</span> <span class="n">vl</span>           <span class="c1"># フェッチしたバイト数を取得する</span>
+      <span class="n">add</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">t1</span>        <span class="c1"># ポインタを進める。</span>
+      <span class="n">sub</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">t1</span>        <span class="c1"># カウンタをデクリメントする。</span>
+      <span class="n">add</span> <span class="n">a3</span><span class="p">,</span> <span class="n">a3</span><span class="p">,</span> <span class="n">t1</span>        <span class="c1"># ポインタを進める。</span>
+      <span class="n">bnez</span> <span class="n">a2</span><span class="p">,</span> <span class="n">loop</span>         <span class="c1"># これ以上データがあるか？</span>
+
+<span class="n">exit</span><span class="p">:</span>
+      <span class="n">ret</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="iota">
+<h2>16.8. ベクトルIota命令<a class="headerlink" href="#iota" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">viota.m</span></code>命令はソースベクトルマスクレジスタを読み取り、すべてのベクトルレジスタに対して、そのベクトル要素よりも小さい要素の最下位ビットの総和を格納する命令である。つまり、マスク値の並列プレフィックス加算である。</p>
+<p>この命令はマスク可能であり、有効な要素のみを加算し、有効な要素にのみ書き込みを実行できる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">viota</span><span class="o">.</span><span class="n">m</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>
+
+<span class="c1"># 例</span>
+
+    <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>   <span class="n">要素の番号</span>
+
+    <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span>   <span class="n">v2</span> <span class="n">contents</span>
+                      <span class="n">viota</span><span class="o">.</span><span class="n">m</span> <span class="n">v4</span><span class="p">,</span> <span class="n">v2</span> <span class="c1"># Unmasked</span>
+    <span class="mi">2</span> <span class="mi">2</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span>   <span class="n">v4</span> <span class="n">result</span>
+
+    <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">1</span>   <span class="n">v0</span> <span class="n">contents</span>
+    <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span>   <span class="n">v2</span> <span class="n">contents</span>
+    <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span>   <span class="n">v4</span> <span class="n">contents</span>
+                      <span class="n">viota</span><span class="o">.</span><span class="n">m</span> <span class="n">v4</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># Masked</span>
+    <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">5</span> <span class="mi">1</span> <span class="mi">7</span> <span class="mi">1</span> <span class="mi">0</span>   <span class="n">v4</span> <span class="n">results</span>
+</pre></div>
+</div>
+<p>SEWの設定値が結果の値よりも大きい場合はこの結果の値はゼロ拡張される。もし結果の値が書き込みレジスタのSEWのビット数よりも大きくオーバフローした場合には、下位のSEWビットの値のみが保持される。</p>
+<p><code class="docutils literal notranslate"><span class="pre">viota.m</span></code>命令の例外が発生した場合はvstart`は0として通知される。。トラップハンドラから復帰しした後は、この命令は最初から再開される。</p>
+<p>書き込み先のベクトルレジスタグループがソースベクトルマスクレジスタとオーバラップしていた場合に不正命令例外が発生する。命令がマスクされている場合は、書き込みレジスタグループが<code class="docutils literal notranslate"><span class="pre">v0</span></code>とオーバラップしている場合に不正命令例外が発生する。</p>
+<blockquote>
+<div>これらの制約は2つの理由で付けられている。1つ目は、一時的な長いベクトルレジスタと、ベクトルレジスタリネーミングを実行しない場合のWARハザードを簡単に避けるためのものである。2番目は、トラップ後の命令の実行再開を簡単にするためである。</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">viota.m</span></code>命令はメモリスキャッタ命令(インデック付きストア命令)と併用して、ベクトル圧縮関数として使用できる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># 入力メモリの配列の中から非ゼロの値を拾って圧縮し、配列にストアする。</span>
+    <span class="c1">#</span>
+    <span class="c1"># size_t compact_non_zero(size_t n, const int* in, int* out)</span>
+    <span class="c1"># {</span>
+    <span class="c1">#   size_t i;</span>
+    <span class="c1">#   size_t count = 0;</span>
+    <span class="c1">#   int *p = out;</span>
+    <span class="c1">#</span>
+    <span class="c1">#   for (i=0; i&lt;n; i++)</span>
+    <span class="c1">#   {</span>
+    <span class="c1">#       const int v = *in++;</span>
+    <span class="c1">#       if (v != 0)</span>
+    <span class="c1">#           *p++ = v;</span>
+    <span class="c1">#   }</span>
+    <span class="c1">#</span>
+    <span class="c1">#   return (size_t) (p - out);</span>
+    <span class="c1"># }</span>
+    <span class="c1">#</span>
+    <span class="c1"># a0 = n</span>
+    <span class="c1"># a1 = &amp;in</span>
+    <span class="c1"># a2 = &amp;out</span>
+
+<span class="n">compact_non_zero</span><span class="p">:</span>
+    <span class="n">li</span> <span class="n">a6</span><span class="p">,</span> <span class="mi">0</span>                      <span class="c1"># 非ゼロの要素の数をクリアする。</span>
+<span class="n">loop</span><span class="p">:</span>
+    <span class="n">vsetvli</span> <span class="n">a5</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">e32</span><span class="p">,</span><span class="n">m8</span>        <span class="c1"># 32ビット整数として処理する。</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span> <span class="n">v8</span><span class="p">,</span> <span class="p">(</span><span class="n">a1</span><span class="p">)</span>                <span class="c1"># 入力ベクトルをロードする。</span>
+      <span class="n">sub</span> <span class="n">a0</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">a5</span>              <span class="c1"># 入力した数だけ減算する。</span>
+      <span class="n">slli</span> <span class="n">a5</span><span class="p">,</span> <span class="n">a5</span><span class="p">,</span> <span class="mi">2</span>              <span class="c1"># バイト単位に変換する。</span>
+    <span class="n">vmsne</span><span class="o">.</span><span class="n">vi</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v8</span><span class="p">,</span> <span class="mi">0</span>            <span class="c1"># 非ゼロの値を検査する。</span>
+      <span class="n">add</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a5</span>              <span class="c1"># 入力ポインタを進める。</span>
+    <span class="n">vpopc</span><span class="o">.</span><span class="n">m</span> <span class="n">a5</span><span class="p">,</span> <span class="n">v0</span>                <span class="c1"># v0に設定する要素の値をカウントする。</span>
+    <span class="n">viota</span><span class="o">.</span><span class="n">m</span> <span class="n">v16</span><span class="p">,</span> <span class="n">v0</span>               <span class="c1"># アクティブ要素の書き込みオフセットを計算する。</span>
+      <span class="n">add</span> <span class="n">a6</span><span class="p">,</span> <span class="n">a6</span><span class="p">,</span> <span class="n">a5</span>              <span class="c1"># 要素の数を加算する。</span>
+    <span class="n">vsll</span><span class="o">.</span><span class="n">vi</span> <span class="n">v16</span><span class="p">,</span> <span class="n">v16</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span>     <span class="c1"># オフセットをバイト単位に変換する。</span>
+      <span class="n">slli</span> <span class="n">a5</span><span class="p">,</span> <span class="n">a5</span><span class="p">,</span> <span class="mi">2</span>              <span class="c1"># 非ゼロの要素の数をバイト単位に変換する。</span>
+    <span class="n">vsuxw</span><span class="o">.</span><span class="n">v</span> <span class="n">v8</span><span class="p">,</span> <span class="p">(</span><span class="n">a2</span><span class="p">),</span> <span class="n">v16</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span>   <span class="c1"># バイト単位に拡大した結果を、マスクの下でスキャッタする。</span>
+      <span class="n">add</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a5</span>              <span class="c1"># 出力ポインタを進める。</span>
+      <span class="n">bnez</span> <span class="n">a0</span><span class="p">,</span> <span class="n">loop</span>               <span class="c1"># これ以上要素が存在するか？</span>
+
+      <span class="n">mv</span> <span class="n">a0</span><span class="p">,</span> <span class="n">a6</span>                   <span class="c1"># カウント値を返す。</span>
+      <span class="n">ret</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>16.9. ベクトル要素インデックス命令<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">vid.v</span></code>命令は各要素のインデックスを書き込みベクトルレジスタグループに0から<code class="docutils literal notranslate"><span class="pre">vl</span></code>-1まで書き込む。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vid</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 書き込みレジスタに要素のIDを書き込む。</span>
+</pre></div>
+</div>
+<p>この命令はマスクを適用することができる。</p>
+<p>この命令の<code class="docutils literal notranslate"><span class="pre">vs2</span></code>フィールドは<code class="docutils literal notranslate"><span class="pre">v0</span></code>に設定しなければならず、それ以外の場合はエンコーディングは予約となる。</p>
+<p>SEWの値が結果の値よりも大きい場合には、値はゼロ拡張される。もし結果の値がSEWのビット幅よりもオーバフローした場合には、SEWビットの下位ビットが保持される。</p>
+<blockquote>
+<div>この制約は、リネーミングを行わない長いベクトルの実装においてWARハザードを避けるためと、命令の実行再開をサポートするためである。</div></blockquote>
+<blockquote>
+<div>マイクロアーキテクチャとして、<code class="docutils literal notranslate"><span class="pre">vid.v</span></code>命令は<code class="docutils literal notranslate"><span class="pre">viota.m</span></code>命令と同じデータパスを使用して実装できるが、暗黙的にマスクのソースを指定する必要がある。</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, msyksphinz
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
