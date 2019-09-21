@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>15. ベクトルリダクション操作 &mdash; riscv-v-spec-japanese  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="prev" title="14. ベクトル浮動小数点命令" href="chapter14_floatingpoint.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter7_vector_load_store.html">7. ベクトルロードストア命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html">8. ベクトルAMO操作(<code class="docutils literal notranslate"><span class="pre">Zvamo</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id1">9. ベクトルメモリのアライメント制約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id2">10. ベクトルメモリのコンシステンシモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter11_vector_arithmetic_formats.html">11. ベクトル算術演算命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter12_vector_arithmetic_insts.html">12. ベクトル整数算術演算命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter13_fixedpoint.html">13. ベクトル固定小数点演算命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter14_floatingpoint.html">14. ベクトル浮動小数点命令</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">15. ベクトルリダクション操作</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">15.1. 単一ビット幅整数リダクション命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">15.2. ビット幅拡張整数リダクション命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">15.3. 単一ビット幅ベクトル浮動小数点リダクション加算命令</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">15.3.1. 単一ビット幅ベクトルオーダー付き浮動小数点加算命令</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">15.3.2. 単一ビット幅ベクトルアンオーダー浮動小数点リダクション加算命令</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#max-min">15.3.3. 単一ビット幅浮動小数点Max/Minリダクション命令</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">15.4. ビット幅拡張浮動小数点ベクトルリダクション命令</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">riscv-v-spec-japanese</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>15. ベクトルリダクション操作</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/chapter15_reduction.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>15. ベクトルリダクション操作<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>ベクトルリダクション操作はベクトルレジスタグループの要素と、ベクトルレジスタの要素0の値を持つスカラ値をオペランドに取り、バイナリ操作を行ってリダクション操作を行い、ベクトルレジスタの要素0に巣からの結果を返す命令である。スカラの入力値と出力オペランドはベクトルレジスタの要素0を使用し、ベクトルレジスタグループは使用しない。したがってLMULの設定にかかわらず、任意のベクトルレジスタはスカラのソースとベクトルリダクションの結果を受け取ることができる。</p>
+<blockquote>
+<div>スカラオペランドとベクトルレジスタの要素0に結果を書き込むというリダクションの操作は、スカラプロセッサ側とのデータの受け渡しによる性能低下を避けるためのものであり、スカラユニットでサポートされていない将来の型で将来のポリモーフィック使用をサポートする(xxx:
+意味不明)。</div></blockquote>
+<p>リダクション操作では、インアクティブな要素は演算対象から除外される。</p>
+<p>書き込み先のベクトルレジスタの書き込み要素以外の要素(0 &lt; index &lt;
+VLEN/SEW)は0に設定される。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vl</span></code>=0であれば、演算は実行されず、ベクトルレジスタへの書き込みも発生しない。</p>
+<p>ベクトルリダクションにおける例外発生時は、常に<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が0であるものとして発生する。ベクトルリダクションにおいて<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が0以外であった場合、不定命令例外が発生する。</p>
+<p>アセンブラの表記においてリダクション操作は<code class="docutils literal notranslate"><span class="pre">vredop.vs</span></code>と表記し、サフィックスに<code class="docutils literal notranslate"><span class="pre">.vs</span></code>を付け、最初のオペランドがベクトルレジスタグループであり、2番目のオペランドがベクトルレジスタの要素0を含んだスカラ値であることを示している。</p>
+<div class="section" id="id2">
+<h2>15.1. 単一ビット幅整数リダクション命令<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>全てのオペランドと結果は単一ビット幅であり、SEWと同一である。加算命令においてオーバフローが発生した場合は、値がラップアラウンドされる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 単純なリダクション命令, [*] はすべてのアクティブな要素を示している。</span>
+<span class="n">vredsum</span><span class="o">.</span><span class="n">vs</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[0] =  sum( vs1[0] , vs2[*] )</span>
+<span class="n">vredmaxu</span><span class="o">.</span><span class="n">vs</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[0] = maxu( vs1[0] , vs2[*] )</span>
+<span class="n">vredmax</span><span class="o">.</span><span class="n">vs</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[0] =  max( vs1[0] , vs2[*] )</span>
+<span class="n">vredminu</span><span class="o">.</span><span class="n">vs</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[0] = minu( vs1[0] , vs2[*] )</span>
+<span class="n">vredmin</span><span class="o">.</span><span class="n">vs</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[0] =  min( vs1[0] , vs2[*] )</span>
+<span class="n">vredand</span><span class="o">.</span><span class="n">vs</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[0] =  and( vs1[0] , vs2[*] )</span>
+<span class="n">vredor</span><span class="o">.</span><span class="n">vs</span>   <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[0] =   or( vs1[0] , vs2[*] )</span>
+<span class="n">vredxor</span><span class="o">.</span><span class="n">vs</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[0] =  xor( vs1[0] , vs2[*] )</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>15.2. ビット幅拡張整数リダクション命令<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>符号なしの <code class="docutils literal notranslate"><span class="pre">vwredsumu.vs</span></code>
+命令はSEWサイズのベクトル要素をゼロ符号拡張し、2SEWの幅に拡張してから、2SEWの幅のスカラ要素と加算を行い、結果を2SEWビット幅の要素に書き込む。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vwredsum.vs</span></code> 命令はSEWビット幅の要素を符号拡張してから加算する。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 符号なしリダクション加算命令。結果を2倍のサイズのアキュムレータに書き込む。</span>
+<span class="n">vwredsumu</span><span class="o">.</span><span class="n">vs</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 2*SEW = 2*SEW + sum(zero-extend(SEW))</span>
+
+<span class="c1"># 符号付きリダクション加算命令。結果を2倍のサイズのアキュムレータに書き込む。</span>
+<span class="n">vwredsum</span><span class="o">.</span><span class="n">vs</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 2*SEW = 2*SEW + sum(sign-extend(SEW))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>15.3. 単一ビット幅ベクトル浮動小数点リダクション加算命令<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 簡単なリダクション命令</span>
+<span class="n">vfredosum</span><span class="o">.</span><span class="n">vs</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># Ordered sum</span>
+<span class="n">vfredsum</span><span class="o">.</span><span class="n">vs</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># Unordered sum</span>
+<span class="n">vfredmax</span><span class="o">.</span><span class="n">vs</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># Maximum value</span>
+<span class="n">vfredmin</span><span class="o">.</span><span class="n">vs</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># Minimum value</span>
+</pre></div>
+</div>
+<div class="section" id="id5">
+<h3>15.3.1. 単一ビット幅ベクトルオーダー付き浮動小数点加算命令<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">vfredosum</span></code>
+命令は浮動小数点のベクトル要素を順番に加算しなければならず、vs1[0]から始まり、以下のような計算を行う。<code class="docutils literal notranslate"><span class="pre">(((vs1[0]</span> <span class="pre">+</span> <span class="pre">vs2[0])</span> <span class="pre">+</span> <span class="pre">vs2[1])</span> <span class="pre">+</span> <span class="pre">…)</span> <span class="pre">+</span> <span class="pre">vs2[vl-1]</span></code>それぞれの加算はスカラの浮動小数点命令と同じように実行され、例外の動作も同一であり、特殊な値を生成したあとその値が伝搬していく。</p>
+<blockquote>
+<div>順序付きのリダクション命令のサポートは、コンパイラにより自動ベクトル化をサポートするための命令であり、一方でアンオーダーな浮動小数点加算命令の方が高速な実装となる。</div></blockquote>
+<p>演算操作がマスクされた場合(<code class="docutils literal notranslate"><span class="pre">vm=0</span></code>)、マスクされた値は計算されず、例外も発生しない。</p>
+<blockquote>
+<div>アクティブな要素が存在しない場合、加算操作は実行されず、スカラ値<code class="docutils literal notranslate"><span class="pre">vs1[0]</span></code>が単純に書き込みレジスタにコピーされる。この場合NaNの値が正規化されるが、例外フラグは設定されない。この動作はスカラの加算ループを自動ベクトル化した場合にNaNの処理、例外、丸め操作を行うための仕様である。</div></blockquote>
+</div>
+<div class="section" id="id6">
+<h3>15.3.2. 単一ビット幅ベクトルアンオーダー浮動小数点リダクション加算命令<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>アンオーダーなリダクション加算命令<code class="docutils literal notranslate"><span class="pre">vfredsum</span></code>はリダクション操作においてより性能を出すための命令である。</p>
+<p>実装では、2分木の操作のようにリダクション操作が構成され、入力のソースオペランドはベクトルレジスタグループ(<code class="docutils literal notranslate"><span class="pre">vs2</span></code>)とソーススカラ値(<code class="docutils literal notranslate"><span class="pre">vs1[0]</span></code>)である。2分木における各演算は2つの入力値を受け取り、1つの結果を出力する。各演算は正確な加算操作として実行されるか、RISC-V
+IEEEスカラ浮動小数点の仕様に基づいて、現在のアクティブな浮動小数点丸めモードに基づいて実行される。1つの入力値しか持たない2分木のノードに関しては、SEWビット幅に相当するIEEE
++0.0が加算されるか、単純に入力値が出力地にコピーされる。2分木の根になるノードにはSEWビット幅に相当するIEEEに準拠する結果が得られていなければならない。実装では、最終的な結果に対してさらにIEEE
++0.0を加算することも許されている。</p>
+<p>リダクションツリーの構造は与えられた<code class="docutils literal notranslate"><span class="pre">vtype</span></code>と<code class="docutils literal notranslate"><span class="pre">vl</span></code>において決定的でなければならない。</p>
+<blockquote>
+<div>この定義の結果として、実装ではアクティブな要素が存在しない場合にはリダクションツリーにおいてNaNのペイロードを伝搬する必要がない。特に、すべての要素がアクティブでなく、スカラの入力がNaNであった場合、この値がSignaling
+NaNであった場合には実装ではNaNの値を正規化し、不正例外フラグを設定する。<code class="docutils literal notranslate"><span class="pre">vfredosum</span></code>命令のように、オリジナルのNaNの値をそのまま渡して、例外フラグを設定しないこともできる。</div></blockquote>
+<blockquote>
+<div><code class="docutils literal notranslate"><span class="pre">vfredosum</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vfredsum</span></code>命令の正確な実装である。</div></blockquote>
+</div>
+<div class="section" id="max-min">
+<h3>15.3.3. 単一ビット幅浮動小数点Max/Minリダクション命令<a class="headerlink" href="#max-min" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<blockquote>
+<div>浮動小数点のMax/Minリダクション命令は演算の順番にかかわらず、常に同じ結果と同じ例外が発生する必要がある。</div></blockquote>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>15.4. ビット幅拡張浮動小数点ベクトルリダクション命令<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>リダクション加算命令においてビット幅を拡張する命令が定義されており、2倍のサイズのリダクションの結果を読み書きする。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 単純なリダクション命令</span>
+<span class="n">vfwredosum</span><span class="o">.</span><span class="n">vs</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># オーダー付き加算</span>
+<span class="n">vfwredsum</span><span class="o">.</span><span class="n">vs</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># アンオーダー加算</span>
+</pre></div>
+</div>
+<p>SEWビット幅の要素はそのままのサイズでリダクションを実行し、2SEWビットのアキュムレータに加算する前に<code class="docutils literal notranslate"><span class="pre">vs2</span></code>は2SEWビットに拡張される。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="chapter14_floatingpoint.html" class="btn btn-neutral float-left" title="14. ベクトル浮動小数点命令" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, msyksphinz
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
