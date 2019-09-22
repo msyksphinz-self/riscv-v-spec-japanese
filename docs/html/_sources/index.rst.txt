@@ -23,6 +23,7 @@ RISC-V “V” Extension
    chapter14_floatingpoint.rst
    chapter15_reduction.rst
    chapter16_vector_mask.rst
+   chapter17_vector_permutation.rst
 
 Indices and tables
 ==================
