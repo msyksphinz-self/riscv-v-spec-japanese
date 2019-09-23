@@ -24,6 +24,7 @@ RISC-V “V” Extension
    chapter15_reduction.rst
    chapter16_vector_mask.rst
    chapter17_vector_permutation.rst
+   chapter18_exception.rst
 
 Indices and tables
 ==================

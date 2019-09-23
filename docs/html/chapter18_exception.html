@@ -1,0 +1,277 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>18. 例外処理 &mdash; riscv-v-spec-japanese  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="prev" title="17. ベクトル並べ替え命令" href="chapter17_vector_permutation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter7_vector_load_store.html">7. ベクトルロードストア命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html">8. ベクトルAMO操作(<code class="docutils literal notranslate"><span class="pre">Zvamo</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id1">9. ベクトルメモリのアライメント制約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id2">10. ベクトルメモリのコンシステンシモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter11_vector_arithmetic_formats.html">11. ベクトル算術演算命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter12_vector_arithmetic_insts.html">12. ベクトル整数算術演算命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter13_fixedpoint.html">13. ベクトル固定小数点演算命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter14_floatingpoint.html">14. ベクトル浮動小数点命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter15_reduction.html">15. ベクトルリダクション操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter16_vector_mask.html">16. ベクトルマスク命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter17_vector_permutation.html">17. ベクトル並べ替え命令</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">18. 例外処理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">18.1. 正確なベクトル例外</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">18.2. 不正確なベクトル例外</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">18.3. 正確な例外・不正確な例外の選択</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">18.4. 交換可能な例外</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">riscv-v-spec-japanese</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>18. 例外処理</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/chapter18_exception.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>18. 例外処理<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>ベクトル命令の実行中に例外が発生した(同期例外もしくは非同期割り込み)場合、既存のCSRには例外が発生したベクトル命令の命令アドレスが書き込まれ、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>CSRには例外が受け付けられたベクトル命令の要素インデックスが書き込まれる。</p>
+<blockquote>
+<div><code class="docutils literal notranslate"><span class="pre">vstart</span></code>CSRを用意したのは、割り込みレイテンシを削減するために命令の実行再開を許という機構を用意するのと、命令を前に進める処理(forward-progress:
+xxx)を保証したかったためである。これはIBM
+3090ベクトル機構と似ている。<code class="docutils literal notranslate"><span class="pre">vstart</span></code> CSRを使わずにForward
+Progressを保証するためには、ベクトル命令は常に命令実行中に例外を発生せずに、アトミックに命令実行を完了させる必要がある。これを特にストライド命令、スキャッタ・ギャザ―命令で保証する、さらにデマンドページングの仮想メモリで保証するのは難しいためである。</div></blockquote>
+<div class="section" id="id2">
+<h2>18.1. 正確なベクトル例外<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>正確なベクトル例外には以下の要件が必要となる :</p>
+<ol class="arabic simple">
+<li>例外が発生したベクトル命令よりも前のすべての命令はその結果をコミットしている必要がある。</li>
+<li>例外が発生したベクトル命令よりも後ろの命令はアーキテクチャの状態を変えていない。</li>
+<li><code class="docutils literal notranslate"><span class="pre">vstart</span></code>
+CSRに格納される例外が発生したベクトル要素インデックスよりも前のベクトル要素については、その結果をコミットしている必要がある。</li>
+<li><code class="docutils literal notranslate"><span class="pre">vstart</span></code>
+CSRに格納される例外が発生したベクトル要素インデックスおよびそのインデックスよりも後ろのインデックスのベクトル要素については、アーキテクチャ状態を変更していないか、命令実行を再開し完了後に正しいアーキテクチャ状態に変えている必要がある。</li>
+</ol>
+<p>我々は、一番最後の制約を緩和しており、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>以降のベクトル要素については例外が発生した時点については状態を更新していても問題なく、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>から命令実行を再開したとしても再実行によりその要素の状態を上書きすればよい(xxx:
+意味不明)</p>
+<blockquote>
+<div>ほとんどのスーパバイザモードの環境では、正確な例外が必要であると想定している。</div></blockquote>
+<p>上記に示した以外に、ベクトル命令はその入力オペランドを上書きしても構わない。そしてほとんどのケースでは、例外が発生した場合ベクトル命令は<code class="docutils literal notranslate"><span class="pre">vstart</span></code>から命令実行を再開する。しかし、いくつかの命令ではこのオペランドの上書きを禁止している。これは、任意の場所から命令実行再開を可能にするためである。</p>
+</div>
+<div class="section" id="id3">
+<h2>18.2. 不正確なベクトル例外<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Imprecise vector traps are traps that are not precise. In particular,
+instructions newer than <code class="docutils literal notranslate"><span class="pre">*epc</span></code> may have committed results, and
+instructions older than <code class="docutils literal notranslate"><span class="pre">*epc</span></code> may have not completed execution.
+Imprecise traps are primarily intended to be used in situations where
+reporting an error and terminating execution is the appropriate
+response.</p>
+<p>不正確なベクトル例外では、正確でない例外である。特に、<code class="docutils literal notranslate"><span class="pre">*epc</span></code>よりも新しい命令が結果をコミットしており、<code class="docutils literal notranslate"><span class="pre">*epc</span></code>よりも古い命令が結果をコミットしていない状況である。不正確な例外は、エラーを通知し異常終了することが適切でない応答である場合に使用される。</p>
+<p>プラットフォームによっては、割り込み処理が正確でどの、他の例外が不正確であるか指定している場合がある。多くの組み込みプラットフォームでは、不正確な例外しか生成せず、ベクトル命令にとっては致命的なエラーとなることを想定している。したがって再開可能なトラップはそのような環境では必要ない。</p>
+</div>
+<div class="section" id="id4">
+<h2>18.3. 正確な例外・不正確な例外の選択<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>いくつかのプラットフォームでは特権モードビットにおいて正確な例外と不正確な例外を選択する場合がある。不正確な例外モードでは高速実行が目的であるが、エラーの要因を探すことが困難になる。一方で正確な例外モードでは低速な実行となるが、エラーのデバッグや不正確な例外モードで発生した例外を再現できない可能性もある。</p>
+</div>
+<div class="section" id="id5">
+<h2>18.4. 交換可能な例外<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ベクトルユニット内に、スワップ可能な例外モードをサポートできる。これは特殊な命令によってベクトルユニットのマイクロアーキテクチャの状態を保存することができ、不正確なトラップ後に正しく命令を実行することが可能になる。</p>
+<p>この機構は、ベースベクトル命令のISAでは定義しない。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="chapter17_vector_permutation.html" class="btn btn-neutral float-left" title="17. ベクトル並べ替え命令" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, msyksphinz
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

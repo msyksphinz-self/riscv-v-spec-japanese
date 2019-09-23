@@ -80,8 +80,6 @@ The slide instructions move elements up and down a vector register group.
 
 For `vslidedown`, the value in `vl` specifies the number of destination elements that are written.
 
-The start index (*OFFSET*) for the source can be either specified using an unsigned integer in the `x` register specified by `rs1`, or a 5-bit immediate treated as an unsigned 5-bit quantity.
-
 ```
     vslidedown behavior for source elements for element i in slide
                      0 <= i+OFFSET < VLMAX   Read vs2[i+offset]
