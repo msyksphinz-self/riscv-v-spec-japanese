@@ -1,0 +1,740 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>19. 要素分割拡張命令 (‘Zvediv’) &mdash; riscv-v-spec-japanese  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="prev" title="18. 例外処理" href="chapter18_exception.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter7_vector_load_store.html">7. ベクトルロードストア命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html">8. ベクトルAMO操作(<code class="docutils literal notranslate"><span class="pre">Zvamo</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id1">9. ベクトルメモリのアライメント制約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id2">10. ベクトルメモリのコンシステンシモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter11_vector_arithmetic_formats.html">11. ベクトル算術演算命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter12_vector_arithmetic_insts.html">12. ベクトル整数算術演算命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter13_fixedpoint.html">13. ベクトル固定小数点演算命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter14_floatingpoint.html">14. ベクトル浮動小数点命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter15_reduction.html">15. ベクトルリダクション操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter16_vector_mask.html">16. ベクトルマスク命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter17_vector_permutation.html">17. ベクトル並べ替え命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter18_exception.html">18. 例外処理</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">19. 要素分割拡張命令 (‘Zvediv’)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ediv">19.1. EDIVの変更に影響しない命令群</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">19.2. EDIVの設定に影響する命令</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">19.2.1. EDIV下での通常のベクトル算術演算名れい</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ediv-1">19.2.2. EDIV&gt;1下でのキャリー付きベクトル加算、ボロー付きベクトル減算</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">19.2.3. EDIV下でのベクトルリダクション命令</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">19.2.4. EDIV下でのベクトルレジスタギャザー命令</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">19.3. ベクトル整数ドットプロダクト命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">19.4. ベクトル浮動小数点ドットプロダクト命令</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">riscv-v-spec-japanese</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>19. 要素分割拡張命令 (‘Zvediv’)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/chapter19_zvediv.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="zvediv">
+<h1>19. 要素分割拡張命令 (‘Zvediv’)<a class="headerlink" href="#zvediv" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<blockquote>
+<div>EDIVの仕様の大部分は大幅に変更される可能性があります。</div></blockquote>
+<p>要素分割拡張は、各ベクトルの要素をさらに小さなサブベクトルとして取り扱うための拡張である。この拡張により、よりビット幅の小さなデータの取り扱いや、複数のビット幅が混在した算術演算や、小さなベクトルのループ外領域のベクトル化、行列の演算などに使用できる。既存の命令の挙動の変更に加え、EDIV
+&gt; 1の際にはいくつかの新しい命令を定義する。</p>
+<blockquote>
+<div>これは今のところ拡張として書かれているが、Unixのベクトルプロファイルの必須ベースの一部になる可能性がある。</div></blockquote>
+<p>要素分割拡張では、<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタに<code class="docutils literal notranslate"><span class="pre">vediv[1:0]</span></code>という2ビットのフィールドを追加する。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="21%" />
+<col width="58%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">ビット</th>
+<th class="head">名前</th>
+<th class="head">説明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>XLEN-1</td>
+<td>vill</td>
+<td>このビットが設定されると、不正な設定が行われたことを意味する。</td>
+</tr>
+<tr class="row-odd"><td>XLEN-2:7</td>
+<td>&#160;</td>
+<td>予約</td>
+</tr>
+<tr class="row-even"><td>6:5</td>
+<td>vediv[1:0]</td>
+<td>EDIV拡張のために使用される。</td>
+</tr>
+<tr class="row-odd"><td>4:2</td>
+<td>vsew[2:0]</td>
+<td>Standard element width (SEW) の設定</td>
+</tr>
+<tr class="row-even"><td>1:0</td>
+<td>vlmul[1:0]</td>
+<td>Vector register group multiplier (LMUL)の設定</td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">vediv</span></code>フィールドはEDIVがSEWビットの要素をどのように分割するかについて設定する。ベクトルレジスタグループはサブベクトルのベクトル列として考える。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="6%" />
+<col width="6%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">vediv [1:0]</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">Division EDIV</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>0</td>
+<td>1</td>
+<td>分割しない。ベースISA</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>1</td>
+<td>2</td>
+<td>2つの等幅のサブ要素に分割する。</td>
+</tr>
+<tr class="row-even"><td>1</td>
+<td>0</td>
+<td>4</td>
+<td>4つの等幅のサブ要素に分割する。</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>1</td>
+<td>8</td>
+<td>8つの等幅のサブ要素に分割する。</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">SEW</th>
+<th class="head">EDIV</th>
+<th class="head" colspan="6"><dl class="first last docutils">
+<dt>サブ要素 | 整数アキュム |  | 浮動小数点加 |  |</dt>
+<dd><div class="first last line-block">
+<div class="line">レータ |        | 算・ドットア |  |</div>
+<div class="line-block">
+<div class="line">|        | キュムレータ |  |</div>
+</div>
+</div>
+</dd>
+</dl>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>sum</td>
+<td>dot</td>
+<td>FLEN=3
+2</td>
+<td>FLEN=6
+4</td>
+<td>FLEN=1
+28</td>
+</tr>
+<tr class="row-odd"><td>8b</td>
+<td>2</td>
+<td>4b</td>
+<td>8b</td>
+<td>8b</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>8b</td>
+<td>4</td>
+<td>2b</td>
+<td>8b</td>
+<td>8b</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>8b</td>
+<td>8</td>
+<td>1b</td>
+<td>8b</td>
+<td>8b</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>16b</td>
+<td>2</td>
+<td>8b</td>
+<td>16b</td>
+<td>16b</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>16b</td>
+<td>4</td>
+<td>4b</td>
+<td>8b</td>
+<td>16b</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>16b</td>
+<td>8</td>
+<td>2b</td>
+<td>8b</td>
+<td>8b</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>32b</td>
+<td>2</td>
+<td>16b</td>
+<td>32b</td>
+<td>32b</td>
+<td>32b</td>
+<td>32b</td>
+<td>32b</td>
+</tr>
+<tr class="row-even"><td>32b</td>
+<td>4</td>
+<td>8b</td>
+<td>16b</td>
+<td>32b</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>32b</td>
+<td>8</td>
+<td>4b</td>
+<td>8b</td>
+<td>16b</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>64b</td>
+<td>2</td>
+<td>32b</td>
+<td>64b</td>
+<td>64b</td>
+<td>32b</td>
+<td>64b</td>
+<td>64b</td>
+</tr>
+<tr class="row-odd"><td>64b</td>
+<td>4</td>
+<td>16b</td>
+<td>32b</td>
+<td>64b</td>
+<td>32b</td>
+<td>32b</td>
+<td>32b</td>
+</tr>
+<tr class="row-even"><td>64b</td>
+<td>8</td>
+<td>8b</td>
+<td>16b</td>
+<td>32b</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>128b</td>
+<td>2</td>
+<td>64b</td>
+<td>128b</td>
+<td>128b</td>
+<td>32b</td>
+<td>64b</td>
+<td>128b</td>
+</tr>
+<tr class="row-even"><td>128b</td>
+<td>4</td>
+<td>32b</td>
+<td>64b</td>
+<td>128b</td>
+<td>32b</td>
+<td>64b</td>
+<td>64b</td>
+</tr>
+<tr class="row-odd"><td>128b</td>
+<td>8</td>
+<td>16b</td>
+<td>32b</td>
+<td>64b</td>
+<td>32b</td>
+<td>32b</td>
+<td>32b</td>
+</tr>
+<tr class="row-even"><td>256b</td>
+<td>2</td>
+<td>128b</td>
+<td>256b</td>
+<td>256b</td>
+<td>32b</td>
+<td>64b</td>
+<td>128b</td>
+</tr>
+<tr class="row-odd"><td>256b</td>
+<td>4</td>
+<td>64b</td>
+<td>128b</td>
+<td>256b</td>
+<td>32b</td>
+<td>64b</td>
+<td>128b</td>
+</tr>
+<tr class="row-even"><td>256b</td>
+<td>8</td>
+<td>32b</td>
+<td>64b</td>
+<td>128b</td>
+<td>32b</td>
+<td>64b</td>
+<td>64b</td>
+</tr>
+</tbody>
+</table>
+<p>各実装では、SELENと呼ばれるサブ要素の最小サイズを定義することができる。この値は最大で8ビットでなければならない。</p>
+<blockquote>
+<div>SLENは実装に依存するパラメータであるが、8よりも小さな値は更なる拡張として定義される可能性がある。</div></blockquote>
+<div class="section" id="ediv">
+<h2>19.1. EDIVの変更に影響しない命令群<a class="headerlink" href="#ediv" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ベクトル開始レジスタ<code class="docutils literal notranslate"><span class="pre">vstart</span></code>と例外通知については、これまでと同様に動作する。</p>
+<p>ベクトル長<code class="docutils literal notranslate"><span class="pre">vl</span></code>制御レジスタおよびベクトルマスクについては、これまで通り要素レベルで動作する。</p>
+<p>ベクトルマスクはこれまで通り要素レベルで動作し、従ってサブ要素に対して個々にマスクをすることはできない。</p>
+<blockquote>
+<div>SEWは、8ビット以上のサブ要素のエレメントごとのマスキングを有効にするために動的に変更できる。</div></blockquote>
+<p>ベクトルロードストア・AMO命令はEDIVに影響せず、要素全体に対してデータの移動を行う。</p>
+<p>ベクトルマスク論理演算についてはEDIVの設定に影響せず、ベクトル要素全体に対してマスクの適用を行う。</p>
+<p>マスク付きPopulation
+Count(<code class="docutils literal notranslate"><span class="pre">vpopc</span></code>)、ビット先頭探索に関連する命令(<code class="docutils literal notranslate"><span class="pre">vfirst</span></code>,
+<code class="docutils literal notranslate"><span class="pre">vmsbf</span></code>, <code class="docutils literal notranslate"><span class="pre">vmsif</span></code>,
+<code class="docutils literal notranslate"><span class="pre">vmsof</span></code>)、iota(<code class="docutils literal notranslate"><span class="pre">viota</span></code>)、要素インデックス(<code class="docutils literal notranslate"><span class="pre">vid</span></code>)命令についても、EDIVの設定に影響しない。</p>
+<p>ベクトルインデックスビット挿入・抽出命令および整数・浮動小数点スカラ移動命令についてもEDIVに影響しない。</p>
+<p>ベクトルスライドアップ・スライドダウン命令についても、EDIVの設定に影響しない。</p>
+<p>ベクトル圧縮命令も、EDIVの設定に影響しない。</p>
+</div>
+<div class="section" id="id1">
+<h2>19.2. EDIVの設定に影響する命令<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id2">
+<h3>19.2.1. EDIV下での通常のベクトル算術演算名れい<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>多くのベクトル算術演算命令は、個々のサブ要素の中で独立して演算を実行する。したがって有効なSEWビット幅はSEW/EDIVであり、有効なベクトル長は<code class="docutils literal notranslate"><span class="pre">vl</span></code>
+* EDIVである。例えば、32ビット要素のベクトル加算命令を<code class="docutils literal notranslate"><span class="pre">vl</span></code>=5,
+EDIV=4で実行すると、8ビットのベクトル加算命令をベクトル長20で実行するのと同じである。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vsetvli</span> <span class="n">t0</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">e32</span><span class="p">,</span><span class="n">m1</span><span class="p">,</span><span class="n">d4</span>  <span class="c1"># 32ビットベクトル要素、バイト単位のサブ要素に分割</span>
+<span class="n">vadd</span><span class="o">.</span><span class="n">vv</span> <span class="n">v1</span><span class="p">,</span><span class="n">v2</span><span class="p">,</span><span class="n">v3</span>                     <span class="c1"># 4*vl 8ビットの加算に変更。</span>
+<span class="n">vsll</span><span class="o">.</span><span class="n">vx</span> <span class="n">v1</span><span class="p">,</span><span class="n">v2</span><span class="p">,</span><span class="n">x1</span>                     <span class="c1"># 4*vl 8ビットのシフトに変更。</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ediv-1">
+<h3>19.2.2. EDIV&gt;1下でのキャリー付きベクトル加算、ボロー付きベクトル減算<a class="headerlink" href="#ediv-1" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>For EDIV &gt; 1, <code class="docutils literal notranslate"><span class="pre">vadc</span></code>, <code class="docutils literal notranslate"><span class="pre">vmadc</span></code>, <code class="docutils literal notranslate"><span class="pre">vsbc</span></code>, <code class="docutils literal notranslate"><span class="pre">vmsbc</span></code> are reserved.</p>
+<p>EDIV &gt; 1において、 <code class="docutils literal notranslate"><span class="pre">vadc</span></code>, <code class="docutils literal notranslate"><span class="pre">vmadc</span></code>, <code class="docutils literal notranslate"><span class="pre">vsbc</span></code>, <code class="docutils literal notranslate"><span class="pre">vmsbc</span></code>
+命令は予約されている。</p>
+</div>
+<div class="section" id="id3">
+<h3>19.2.3. EDIV下でのベクトルリダクション命令<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ベクトルビット単一幅整数リダクション加算命令はEDIV&gt;1下では予約されている。他のビット単一幅ベクトルリダクション命令およびビット幅拡張整数リダクション加算命令はベクトル内のすべての要素について独立して動作し、各サブ要素の値をリダクションし、エレメント幅での結果を計算する。</p>
+<p>スカラー入力は、第2オペランドの最下位ビットから取得される。ビット数は有意な結果ビットの数に等しい(つまり、加算およびドットリダクションの場合、ビット数は上記の表で与えられる。
+非加算、非ドットリダクションの場合は、要素のサイズと同じである)。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 4つのサブ要素を加算し、16ビットの結果を得る。</span>
+<span class="n">vsetvli</span> <span class="n">t0</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">e32</span><span class="p">,</span><span class="n">d4</span>  <span class="c1"># 32ビット用要素が4つに分割されている。</span>
+<span class="n">vwredsum</span><span class="o">.</span><span class="n">vs</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span> <span class="c1"># v1[i][15:0] = v2[i][31:24] + v2[i][23:16]</span>
+                       <span class="c1">#              + v2[i][15:8] + v2[i][7:0] + v3[i][15:0]</span>
+
+<span class="c1"># サブ要素の中で最大要素を探索する。</span>
+<span class="n">vredmax</span><span class="o">.</span><span class="n">vs</span> <span class="n">v5</span><span class="p">,</span> <span class="n">v6</span><span class="p">,</span> <span class="n">v7</span> <span class="c1"># v5[i][7:0] = max(v6[i][31:24], v6[i][23:16],</span>
+                      <span class="c1">#                    v6[i][15:8], v6[i][7:0], v7[i][7:0])</span>
+</pre></div>
+</div>
+<p>整数のサブ要素を使用した非加算のリダクション命令はmax(8,
+SEW/EDIV)ビットの計算結果を出力し、必要であればSEWビットまで符号拡張またはゼロ拡張を行う。</p>
+<p>整数のサブ要素を使用したビット幅拡張のリダクション加算命令は、max(8,
+min(SEW,
+2*SEW/EDIV))ビットの計算結果を出力し、必要であればSEWビットまで符号拡張またはゼロ拡張を行う。</p>
+<p>単一ビット幅の浮動小数点リダクション命令はSEW/EDIVビットの計算結果を出力する。</p>
+<p>ビット幅拡張を行う浮動小数点リダクション加算命令はmin(2*SEW/EDIV,
+FLEN)ビットの計算結果を出力し、必要であればNaN Boxingを行う。</p>
+</div>
+<div class="section" id="id4">
+<h3>19.2.4. EDIV下でのベクトルレジスタギャザー命令<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>EDIVが非ゼロの場合のベクトルレジスタギャザー命令は、要素内のサブ要素でのギャザー操作のみを行う。ソースとインデックスの値は要素内の操作に限定される。インデックスの値
+≥ EDIV の結果のサブ要素には、ゼロが書き込まれる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">|</span>       <span class="o">|</span>       <span class="o">|</span>  <span class="n">SEW</span> <span class="o">=</span> <span class="mi">32</span><span class="n">b</span><span class="p">,</span> <span class="n">EDIV</span><span class="o">=</span><span class="mi">4</span>
+ <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>  <span class="nb">bytes</span>
+ <span class="n">d</span> <span class="n">e</span> <span class="n">a</span> <span class="n">d</span> <span class="n">b</span> <span class="n">e</span> <span class="n">e</span> <span class="n">f</span>  <span class="n">v1</span>
+ <span class="mi">0</span> <span class="mi">1</span> <span class="mi">9</span> <span class="mi">2</span> <span class="mi">0</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">2</span>  <span class="n">v2</span>
+                     <span class="n">vrgather</span><span class="o">.</span><span class="n">vv</span> <span class="n">v3</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span>
+ <span class="n">d</span> <span class="n">a</span> <span class="mi">0</span> <span class="n">e</span> <span class="n">f</span> <span class="n">e</span> <span class="n">b</span> <span class="n">e</span>  <span class="n">v3</span>
+                     <span class="n">vrgather</span><span class="o">.</span><span class="n">vi</span> <span class="n">v4</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="mi">1</span>
+ <span class="n">a</span> <span class="n">a</span> <span class="n">a</span> <span class="n">a</span> <span class="n">e</span> <span class="n">e</span> <span class="n">e</span> <span class="n">e</span>  <span class="n">v4</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>スカラ値および即値を利用したベクトルレジスタギャザー命令はベクトル要素の中のサブ要素を“splat”するために使用できる。</p>
+<p>レジスタギャザー命令は、単一要素ビット幅において高速な実装を提供することができる。</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>19.3. ベクトル整数ドットプロダクト命令<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>整数ドットプロダクトリダクション命令<code class="docutils literal notranslate"><span class="pre">vdot.vv</span></code>はベクトル要素内で、ソースのサブ要素を乗算し、書き込み先のレジスタにベクトル要素を累積加算する。ここで、アセンブラの文法では<code class="docutils literal notranslate"><span class="pre">.vv</span></code>サフィックスを使用しているのは入力がどちらともベクトル要素であるためである。</p>
+<p>サブ要素の整数ドットリダクション命令は、max(8, min(SEW,
+4*SEW/EDIV))ビット幅の計算結果を出力し、必要であればSEWビットまで符号拡張またはゼロ拡張を行う。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 符号なし整数ドットプロダクト命令</span>
+<span class="n">vdotu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル ー ベクトル</span>
+
+<span class="c1"># 符号付整数ドットプロダクト命令</span>
+<span class="n">vdot</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー ベクトル</span>
+  <span class="c1"># ドットプロダクト, SEW=32, EDIV=1</span>
+  <span class="n">vdot</span><span class="o">.</span><span class="n">vv</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i][31:0] += vs2[i][31:0] * vs1[i][31:0]</span>
+
+  <span class="c1"># ドットプロダクト, SEW=32, EDIV=2</span>
+  <span class="n">vdot</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># vd[i][31:0] += vs2[i][31:16] * vs1[i][31:16]</span>
+                                            <span class="o">+</span> <span class="n">vs2</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">vs1</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span>
+
+  <span class="c1"># ドットプロダクト, SEW=32, EDIV=4</span>
+  <span class="n">vdot</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># vd[i][31:0] += vs2[i][31:24] * vs1[i][31:24]</span>
+                                            <span class="o">+</span> <span class="n">vs2</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">23</span><span class="p">:</span><span class="mi">16</span><span class="p">]</span> <span class="o">*</span> <span class="n">vs1</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">23</span><span class="p">:</span><span class="mi">16</span><span class="p">]</span>
+                                            <span class="o">+</span> <span class="n">vs2</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">15</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span> <span class="o">*</span> <span class="n">vs1</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">15</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span>
+                                            <span class="o">+</span> <span class="n">vs2</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">7</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">vs1</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">7</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>19.4. ベクトル浮動小数点ドットプロダクト命令<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>浮動小数点のドットプロダクト命令<code class="docutils literal notranslate"><span class="pre">vfdot.vv</span></code>はベクトル要素内において乗算を行い、その結果を書き込みベクトルレジスタに累積加算する。ここで、アセンブラの文法では<code class="docutils literal notranslate"><span class="pre">.vv</span></code>サフィックスを使用しているのは入力がどちらともベクトル要素であるためである。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 符号付きdot-product</span>
+<span class="n">vfdot</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル ー ベクトル</span>
+<span class="c1"># ドットプロダクト. SEW=32, EDIV=2</span>
+<span class="n">vfdot</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># vd[i][31:0] += vs2[i][31:16] * vs1[i][31:16]</span>
+                                          <span class="o">+</span> <span class="n">vs2</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">vs1</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># 2つの半精度の浮動小数点を32ビットにパッキングする。</span>
+<span class="n">vsetvli</span> <span class="n">t0</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">e32</span><span class="p">,</span><span class="n">m1</span><span class="p">,</span><span class="n">d2</span>  <span class="c1"># 32ビット要素を2つの16ビットに分割したサブ要素として取り扱う。</span>
+<span class="n">vfdot</span><span class="o">.</span><span class="n">vv</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span>   <span class="c1"># v1[i][31:0] +=  v2[i][31:16]*v3[i][31:16] + v2[i][16:0]*v3[i][16:0]</span>
+
+<span class="c1"># 2つの半精度の浮動小数点を32ビットにパッキングする。</span>
+<span class="n">vsetvli</span> <span class="n">t0</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">e32</span><span class="p">,</span><span class="n">m1</span><span class="p">,</span><span class="n">d2</span>  <span class="c1"># 32ビット要素を2つの16ビットに分割したサブ要素として取り扱う。</span>
+<span class="n">vfdot</span><span class="o">.</span><span class="n">vv</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span>   <span class="c1"># v1[i][31:0] +=  v2[i][31:16]*v3[i][31:16] + v2[i][16:0]*v3[i][16:0]</span>
+
+<span class="c1"># 4つの半精度の浮動小数点を64ビットにパッキングする。</span>
+<span class="n">vsetvli</span> <span class="n">t0</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">e64</span><span class="p">,</span><span class="n">m1</span><span class="p">,</span><span class="n">d4</span>  <span class="c1"># 64ビット要素を4つの16ビットに分割したサブ要素として取り扱う。</span>
+<span class="n">vfdot</span><span class="o">.</span><span class="n">vv</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span>
+                 <span class="c1"># v1[i][31:0] +=  v2[i][31:16]*v3[i][31:16] + v2[i][16:0]*v3[i][16:0] +</span>
+                 <span class="c1">#                 v2[i][63:48]*v3[i][63:48] + v2[i][47:32]*v3[i][47:32];</span>
+                 <span class="c1"># v1[i][63:32] = ~0 (NaN boxing)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="chapter18_exception.html" class="btn btn-neutral float-left" title="18. 例外処理" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, msyksphinz
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
