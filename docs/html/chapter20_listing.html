@@ -1,0 +1,1562 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>20. ベクトル命令一覧 &mdash; riscv-v-spec-japanese  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="付録A: ベクトルアセンブリコード例" href="appendixA_examples.html" />
+    <link rel="prev" title="19. 要素分割拡張命令 (‘Zvediv’)" href="chapter19_zvediv.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter7_vector_load_store.html">7. ベクトルロードストア命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html">8. ベクトルAMO操作(<code class="docutils literal notranslate"><span class="pre">Zvamo</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id1">9. ベクトルメモリのアライメント制約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id2">10. ベクトルメモリのコンシステンシモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter11_vector_arithmetic_formats.html">11. ベクトル算術演算命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter12_vector_arithmetic_insts.html">12. ベクトル整数算術演算命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter13_fixedpoint.html">13. ベクトル固定小数点演算命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter14_floatingpoint.html">14. ベクトル浮動小数点命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter15_reduction.html">15. ベクトルリダクション操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter16_vector_mask.html">16. ベクトルマスク命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter17_vector_permutation.html">17. ベクトル並べ替え命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter18_exception.html">18. 例外処理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter19_zvediv.html">19. 要素分割拡張命令 (‘Zvediv’)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">20. ベクトル命令一覧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendixA_examples.html">付録A: ベクトルアセンブリコード例</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">riscv-v-spec-japanese</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>20. ベクトル命令一覧</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/chapter20_listing.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>20. ベクトル命令一覧<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="15%" />
+<col width="7%" />
+<col width="5%" />
+<col width="3%" />
+<col width="14%" />
+<col width="5%" />
+<col width="5%" />
+<col width="3%" />
+<col width="14%" />
+<col width="5%" />
+<col width="5%" />
+<col width="3%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Integer</th>
+<th class="head">Integer</th>
+<th class="head">FP</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>funct3</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>funct3</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>funct3</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>OPIVV</td>
+<td>V</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>OPMVV</td>
+<td>V</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>OPFVV</td>
+<td>V</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>OPIVX</td>
+<td>&#160;</td>
+<td>X</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>OPMVX</td>
+<td>&#160;</td>
+<td>X</td>
+<td>&#160;</td>
+<td>OPFVF</td>
+<td>&#160;</td>
+<td>F</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>OPIVI</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>I</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="3%" />
+<col width="13%" />
+<col width="9%" />
+<col width="3%" />
+<col width="3%" />
+<col width="14%" />
+<col width="9%" />
+<col width="3%" />
+<col width="3%" />
+<col width="12%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">funct6</th>
+<th class="head">funct6</th>
+<th class="head">funct6</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>000000</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vadd</td>
+<td>000000</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vredsum</td>
+<td>000000</td>
+<td>V</td>
+<td>F</td>
+<td>vfadd</td>
+</tr>
+<tr class="row-odd"><td>000001</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>000001</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vredand</td>
+<td>000001</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vfredsum</td>
+</tr>
+<tr class="row-even"><td>000010</td>
+<td>V</td>
+<td>X</td>
+<td>&#160;</td>
+<td>vsub</td>
+<td>000010</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vredor</td>
+<td>000010</td>
+<td>V</td>
+<td>F</td>
+<td>vfsub</td>
+</tr>
+<tr class="row-odd"><td>000011</td>
+<td>&#160;</td>
+<td>X</td>
+<td>I</td>
+<td>vrsub</td>
+<td>000011</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vredxor</td>
+<td>000011</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vfredosum</td>
+</tr>
+<tr class="row-even"><td>000100</td>
+<td>V</td>
+<td>X</td>
+<td>&#160;</td>
+<td>vminu</td>
+<td>000100</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vredminu</td>
+<td>000100</td>
+<td>V</td>
+<td>F</td>
+<td>vfmin</td>
+</tr>
+<tr class="row-odd"><td>000101</td>
+<td>V</td>
+<td>X</td>
+<td>&#160;</td>
+<td>vmin</td>
+<td>000101</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vredmin</td>
+<td>000101</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vfredmin</td>
+</tr>
+<tr class="row-even"><td>000110</td>
+<td>V</td>
+<td>X</td>
+<td>&#160;</td>
+<td>vmaxu</td>
+<td>000110</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vredmaxu</td>
+<td>000110</td>
+<td>V</td>
+<td>F</td>
+<td>vfmax</td>
+</tr>
+<tr class="row-odd"><td>000111</td>
+<td>V</td>
+<td>X</td>
+<td>&#160;</td>
+<td>vmax</td>
+<td>000111</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vredmax</td>
+<td>000111</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vfredmax</td>
+</tr>
+<tr class="row-even"><td>001000</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>001000</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>001000</td>
+<td>V</td>
+<td>F</td>
+<td>vfsgnj</td>
+</tr>
+<tr class="row-odd"><td>001001</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vand</td>
+<td>001001</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>001001</td>
+<td>V</td>
+<td>F</td>
+<td>vfsgnjn</td>
+</tr>
+<tr class="row-even"><td>001010</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vor</td>
+<td>001010</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>001010</td>
+<td>V</td>
+<td>F</td>
+<td>vfsgnjx</td>
+</tr>
+<tr class="row-odd"><td>001011</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vxor</td>
+<td>001011</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>001011</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>001100</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vrgather</td>
+<td>001100</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>001100</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>001101</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>001101</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>001101</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>001110</td>
+<td>&#160;</td>
+<td>X</td>
+<td>I</td>
+<td>vslideup</td>
+<td>001110</td>
+<td>&#160;</td>
+<td>X</td>
+<td>vslide1up</td>
+<td>001110</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>001111</td>
+<td>&#160;</td>
+<td>X</td>
+<td>I</td>
+<td>vslidedown</td>
+<td>001111</td>
+<td>&#160;</td>
+<td>X</td>
+<td>vslide1down</td>
+<td>001111</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="3%" />
+<col width="13%" />
+<col width="8%" />
+<col width="3%" />
+<col width="3%" />
+<col width="12%" />
+<col width="8%" />
+<col width="3%" />
+<col width="3%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">funct6</th>
+<th class="head">funct6</th>
+<th class="head">funct6</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>010000</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vadc</td>
+<td>010000</td>
+<td>V</td>
+<td>&#160;</td>
+<td>VWXUNARY0</td>
+<td>010000</td>
+<td>V</td>
+<td>&#160;</td>
+<td>VWFUNARY0</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>010000</td>
+<td>&#160;</td>
+<td>X</td>
+<td>VRXUNARY0</td>
+<td>010000</td>
+<td>&#160;</td>
+<td>F</td>
+<td>VRFUNARY0</td>
+</tr>
+<tr class="row-even"><td>010001</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vmadc</td>
+<td>010001</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>010001</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>010010</td>
+<td>V</td>
+<td>X</td>
+<td>&#160;</td>
+<td>vsbc</td>
+<td>010010</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>010010</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>010011</td>
+<td>V</td>
+<td>X</td>
+<td>&#160;</td>
+<td>vmsbc</td>
+<td>010011</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>010011</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>010100</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>010100</td>
+<td>V</td>
+<td>&#160;</td>
+<td>VMUNARY0</td>
+<td>010100</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>010101</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>010101</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>010101</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>010110</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>010110</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>010110</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>010111</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vmerge/vmv</td>
+<td>010111</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vcompress</td>
+<td>010111</td>
+<td>&#160;</td>
+<td>F</td>
+<td>vfmerge.vf/vfmv</td>
+</tr>
+<tr class="row-odd"><td>011000</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vmseq</td>
+<td>011000</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vmandnot</td>
+<td>011000</td>
+<td>V</td>
+<td>F</td>
+<td>vmfeq</td>
+</tr>
+<tr class="row-even"><td>011001</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vmsne</td>
+<td>011001</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vmand</td>
+<td>011001</td>
+<td>V</td>
+<td>F</td>
+<td>vmfle</td>
+</tr>
+<tr class="row-odd"><td>011010</td>
+<td>V</td>
+<td>X</td>
+<td>&#160;</td>
+<td>vmsltu</td>
+<td>011010</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vmor</td>
+<td>011010</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>011011</td>
+<td>V</td>
+<td>X</td>
+<td>&#160;</td>
+<td>vmslt</td>
+<td>011011</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vmxor</td>
+<td>011011</td>
+<td>V</td>
+<td>F</td>
+<td>vmflt</td>
+</tr>
+<tr class="row-odd"><td>011100</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vmsleu</td>
+<td>011100</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vmornot</td>
+<td>011100</td>
+<td>V</td>
+<td>F</td>
+<td>vmfne</td>
+</tr>
+<tr class="row-even"><td>011101</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vmsle</td>
+<td>011101</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vmnand</td>
+<td>011101</td>
+<td>&#160;</td>
+<td>F</td>
+<td>vmfgt</td>
+</tr>
+<tr class="row-odd"><td>011110</td>
+<td>&#160;</td>
+<td>X</td>
+<td>I</td>
+<td>vmsgtu</td>
+<td>011110</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vmnor</td>
+<td>011110</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>011111</td>
+<td>&#160;</td>
+<td>X</td>
+<td>I</td>
+<td>vmsgt</td>
+<td>011111</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vmxnor</td>
+<td>011111</td>
+<td>&#160;</td>
+<td>F</td>
+<td>vmfge</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="4%" />
+<col width="11%" />
+<col width="10%" />
+<col width="4%" />
+<col width="4%" />
+<col width="11%" />
+<col width="10%" />
+<col width="4%" />
+<col width="4%" />
+<col width="12%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">funct6</th>
+<th class="head">funct6</th>
+<th class="head">funct6</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>100000</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vsaddu</td>
+<td>100000</td>
+<td>V</td>
+<td>X</td>
+<td>vdivu</td>
+<td>100000</td>
+<td>V</td>
+<td>F</td>
+<td>vfdiv</td>
+</tr>
+<tr class="row-odd"><td>100001</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vsadd</td>
+<td>100001</td>
+<td>V</td>
+<td>X</td>
+<td>vdiv</td>
+<td>100001</td>
+<td>&#160;</td>
+<td>F</td>
+<td>vfrdiv</td>
+</tr>
+<tr class="row-even"><td>100010</td>
+<td>V</td>
+<td>X</td>
+<td>&#160;</td>
+<td>vssubu</td>
+<td>100010</td>
+<td>V</td>
+<td>X</td>
+<td>vremu</td>
+<td>100010</td>
+<td>V</td>
+<td>&#160;</td>
+<td>VFUNARY0</td>
+</tr>
+<tr class="row-odd"><td>100011</td>
+<td>V</td>
+<td>X</td>
+<td>&#160;</td>
+<td>vssub</td>
+<td>100011</td>
+<td>V</td>
+<td>X</td>
+<td>vrem</td>
+<td>100011</td>
+<td>V</td>
+<td>&#160;</td>
+<td>VFUNARY1</td>
+</tr>
+<tr class="row-even"><td>100100</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vaadd</td>
+<td>100100</td>
+<td>V</td>
+<td>X</td>
+<td>vmulhu</td>
+<td>100100</td>
+<td>V</td>
+<td>F</td>
+<td>vfmul</td>
+</tr>
+<tr class="row-odd"><td>100101</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vsll</td>
+<td>100101</td>
+<td>V</td>
+<td>X</td>
+<td>vmul</td>
+<td>100101</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>100110</td>
+<td>V</td>
+<td>X</td>
+<td>&#160;</td>
+<td>vasub</td>
+<td>100110</td>
+<td>V</td>
+<td>X</td>
+<td>vmulhsu</td>
+<td>100110</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>100111</td>
+<td>V</td>
+<td>X</td>
+<td>&#160;</td>
+<td>vsmul</td>
+<td>100111</td>
+<td>V</td>
+<td>X</td>
+<td>vmulh</td>
+<td>100111</td>
+<td>&#160;</td>
+<td>F</td>
+<td>vfrsub</td>
+</tr>
+<tr class="row-even"><td>101000</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vsrl</td>
+<td>101000</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>101000</td>
+<td>V</td>
+<td>F</td>
+<td>vfmadd</td>
+</tr>
+<tr class="row-odd"><td>101001</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vsra</td>
+<td>101001</td>
+<td>V</td>
+<td>X</td>
+<td>vmadd</td>
+<td>101001</td>
+<td>V</td>
+<td>F</td>
+<td>vfnmadd</td>
+</tr>
+<tr class="row-even"><td>101010</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vssrl</td>
+<td>101010</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>101010</td>
+<td>V</td>
+<td>F</td>
+<td>vfmsub</td>
+</tr>
+<tr class="row-odd"><td>101011</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vssra</td>
+<td>101011</td>
+<td>V</td>
+<td>X</td>
+<td>vnmsub</td>
+<td>101011</td>
+<td>V</td>
+<td>F</td>
+<td>vfnmsub</td>
+</tr>
+<tr class="row-even"><td>101100</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vnsrl</td>
+<td>101100</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>101100</td>
+<td>V</td>
+<td>F</td>
+<td>vfmacc</td>
+</tr>
+<tr class="row-odd"><td>101101</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vnsra</td>
+<td>101101</td>
+<td>V</td>
+<td>X</td>
+<td>vmacc</td>
+<td>101101</td>
+<td>V</td>
+<td>F</td>
+<td>vfnmacc</td>
+</tr>
+<tr class="row-even"><td>101110</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vnclipu</td>
+<td>101110</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>101110</td>
+<td>V</td>
+<td>F</td>
+<td>vfmsac</td>
+</tr>
+<tr class="row-odd"><td>101111</td>
+<td>V</td>
+<td>X</td>
+<td>I</td>
+<td>vnclip</td>
+<td>101111</td>
+<td>V</td>
+<td>X</td>
+<td>vnmsac</td>
+<td>101111</td>
+<td>V</td>
+<td>F</td>
+<td>vfnmsac</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="2%" />
+<col width="13%" />
+<col width="9%" />
+<col width="3%" />
+<col width="3%" />
+<col width="11%" />
+<col width="9%" />
+<col width="3%" />
+<col width="3%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">funct6</th>
+<th class="head">funct6</th>
+<th class="head">funct6</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>110000</td>
+<td>V</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>vwredsumu</td>
+<td>110000</td>
+<td>V</td>
+<td>X</td>
+<td>vwaddu</td>
+<td>110000</td>
+<td>V</td>
+<td>F</td>
+<td>vfwadd</td>
+</tr>
+<tr class="row-odd"><td>110001</td>
+<td>V</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>vwredsum</td>
+<td>110001</td>
+<td>V</td>
+<td>X</td>
+<td>vwadd</td>
+<td>110001</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vfwredsum</td>
+</tr>
+<tr class="row-even"><td>110010</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>110010</td>
+<td>V</td>
+<td>X</td>
+<td>vwsubu</td>
+<td>110010</td>
+<td>V</td>
+<td>F</td>
+<td>vfwsub</td>
+</tr>
+<tr class="row-odd"><td>110011</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>110011</td>
+<td>V</td>
+<td>X</td>
+<td>vwsub</td>
+<td>110011</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vfwredosum</td>
+</tr>
+<tr class="row-even"><td>110100</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>110100</td>
+<td>V</td>
+<td>X</td>
+<td>vwaddu.w</td>
+<td>110100</td>
+<td>V</td>
+<td>F</td>
+<td>vfwadd.w</td>
+</tr>
+<tr class="row-odd"><td>110101</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>110101</td>
+<td>V</td>
+<td>X</td>
+<td>vwadd.w</td>
+<td>110101</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>110110</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>110110</td>
+<td>V</td>
+<td>X</td>
+<td>vwsubu.w</td>
+<td>110110</td>
+<td>V</td>
+<td>F</td>
+<td>vfwsub.w</td>
+</tr>
+<tr class="row-odd"><td>110111</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>110111</td>
+<td>V</td>
+<td>X</td>
+<td>vwsub.w</td>
+<td>110111</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>111000</td>
+<td>V</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>vdotu</td>
+<td>111000</td>
+<td>V</td>
+<td>X</td>
+<td>vwmulu</td>
+<td>111000</td>
+<td>V</td>
+<td>F</td>
+<td>vfwmul</td>
+</tr>
+<tr class="row-odd"><td>111001</td>
+<td>V</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>vdot</td>
+<td>111001</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>111001</td>
+<td>V</td>
+<td>&#160;</td>
+<td>vfdot</td>
+</tr>
+<tr class="row-even"><td>111010</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>111010</td>
+<td>V</td>
+<td>X</td>
+<td>vwmulsu</td>
+<td>111010</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>111011</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>111011</td>
+<td>V</td>
+<td>X</td>
+<td>vwmul</td>
+<td>111011</td>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>111100</td>
+<td>V</td>
+<td>X</td>
+<td>&#160;</td>
+<td>vwsmaccu</td>
+<td>111100</td>
+<td>V</td>
+<td>X</td>
+<td>vwmaccu</td>
+<td>111100</td>
+<td>V</td>
+<td>F</td>
+<td>vfwmacc</td>
+</tr>
+<tr class="row-odd"><td>111101</td>
+<td>V</td>
+<td>X</td>
+<td>&#160;</td>
+<td>vwsmacc</td>
+<td>111101</td>
+<td>V</td>
+<td>X</td>
+<td>vwmacc</td>
+<td>111101</td>
+<td>V</td>
+<td>F</td>
+<td>vfwnmacc</td>
+</tr>
+<tr class="row-even"><td>111110</td>
+<td>V</td>
+<td>X</td>
+<td>&#160;</td>
+<td>vwsmaccsu</td>
+<td>111110</td>
+<td>V</td>
+<td>X</td>
+<td>vwmaccsu</td>
+<td>111110</td>
+<td>V</td>
+<td>F</td>
+<td>vfwmsac</td>
+</tr>
+<tr class="row-odd"><td>111111</td>
+<td>&#160;</td>
+<td>X</td>
+<td>&#160;</td>
+<td>vwsmaccus</td>
+<td>111111</td>
+<td>&#160;</td>
+<td>X</td>
+<td>vwmaccus</td>
+<td>111111</td>
+<td>V</td>
+<td>F</td>
+<td>vfwnmsac</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">vs2</th>
+<th class="head">&#160;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>00000</td>
+<td>vmv.s.x</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">vs1</th>
+<th class="head">&#160;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>00000</td>
+<td>vmv.x.s</td>
+</tr>
+<tr class="row-odd"><td>10000</td>
+<td>vpopc</td>
+</tr>
+<tr class="row-even"><td>10001</td>
+<td>vfirst</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">vs2</th>
+<th class="head">&#160;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>00000</td>
+<td>vfmv.s.f</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">vs1</th>
+<th class="head">&#160;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>00000</td>
+<td>vfmv.f.s</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="61%" />
+<col width="39%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">vs1</th>
+<th class="head">name</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>single-width converts</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>00000</td>
+<td>vfcvt.xu.f.v</td>
+</tr>
+<tr class="row-even"><td>00001</td>
+<td>vfcvt.x.f.v</td>
+</tr>
+<tr class="row-odd"><td>00010</td>
+<td>vfcvt.f.xu.v</td>
+</tr>
+<tr class="row-even"><td>00011</td>
+<td>vfcvt.f.x.v</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>widening converts</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>01000</td>
+<td>vfwcvt.xu.f.v</td>
+</tr>
+<tr class="row-even"><td>01001</td>
+<td>vfwcvt.x.f.v</td>
+</tr>
+<tr class="row-odd"><td>01010</td>
+<td>vfwcvt.f.xu.v</td>
+</tr>
+<tr class="row-even"><td>01011</td>
+<td>vfwcvt.f.x.v</td>
+</tr>
+<tr class="row-odd"><td>01100</td>
+<td>vfwcvt.f.f.v</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>narrowing converts</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>10000</td>
+<td>vfncvt.xu.f.v</td>
+</tr>
+<tr class="row-odd"><td>10001</td>
+<td>vfncvt.x.f.v</td>
+</tr>
+<tr class="row-even"><td>10010</td>
+<td>vfncvt.f.xu.v</td>
+</tr>
+<tr class="row-odd"><td>10011</td>
+<td>vfncvt.f.x.v</td>
+</tr>
+<tr class="row-even"><td>10100</td>
+<td>vfncvt.f.f.v</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="39%" />
+<col width="61%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">vs1</th>
+<th class="head">name</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>00000</td>
+<td>vfsqrt.v</td>
+</tr>
+<tr class="row-odd"><td>10000</td>
+<td>vfclass.v</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">vs1</th>
+<th class="head">&#160;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>00001</td>
+<td>vmsbf</td>
+</tr>
+<tr class="row-odd"><td>00010</td>
+<td>vmsof</td>
+</tr>
+<tr class="row-even"><td>00011</td>
+<td>vmsif</td>
+</tr>
+<tr class="row-odd"><td>10000</td>
+<td>viota</td>
+</tr>
+<tr class="row-even"><td>10001</td>
+<td>vid</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="appendixA_examples.html" class="btn btn-neutral float-right" title="付録A: ベクトルアセンブリコード例" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="chapter19_zvediv.html" class="btn btn-neutral float-left" title="19. 要素分割拡張命令 (‘Zvediv’)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, msyksphinz
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

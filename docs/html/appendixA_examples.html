@@ -1,0 +1,588 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>付録A: ベクトルアセンブリコード例 &mdash; riscv-v-spec-japanese  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="prev" title="20. ベクトル命令一覧" href="chapter20_listing.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter7_vector_load_store.html">7. ベクトルロードストア命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html">8. ベクトルAMO操作(<code class="docutils literal notranslate"><span class="pre">Zvamo</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id1">9. ベクトルメモリのアライメント制約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id2">10. ベクトルメモリのコンシステンシモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter11_vector_arithmetic_formats.html">11. ベクトル算術演算命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter12_vector_arithmetic_insts.html">12. ベクトル整数算術演算命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter13_fixedpoint.html">13. ベクトル固定小数点演算命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter14_floatingpoint.html">14. ベクトル浮動小数点命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter15_reduction.html">15. ベクトルリダクション操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter16_vector_mask.html">16. ベクトルマスク命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter17_vector_permutation.html">17. ベクトル並べ替え命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter18_exception.html">18. 例外処理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter19_zvediv.html">19. 要素分割拡張命令 (‘Zvediv’)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter20_listing.html">20. ベクトル命令一覧</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">付録A: ベクトルアセンブリコード例</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#a-1-vector-vector-add-example">A.1. Vector-vector add example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-2-example-with-mixed-width-mask-and-compute">A.2. Example with mixed-width mask and compute.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-3-memcpy-example">A.3. Memcpy example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-4-conditional-example">A.4. Conditional example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-5-saxpy-example">A.5. SAXPY example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-6-sgemm-example">A.6. SGEMM example</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">riscv-v-spec-japanese</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>付録A: ベクトルアセンブリコード例</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/appendixA_examples.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="a">
+<h1>付録A: ベクトルアセンブリコード例<a class="headerlink" href="#a" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>The following are provided as non-normative text to help explain the
+vector ISA.</p>
+<div class="section" id="a-1-vector-vector-add-example">
+<h2>A.1. Vector-vector add example<a class="headerlink" href="#a-1-vector-vector-add-example" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># vector-vector add routine of 32-bit integers</span>
+    <span class="c1"># void vvaddint32(size_t n, const int*x, const int*y, int*z)</span>
+    <span class="c1"># { for (size_t i=0; i&lt;n; i++) { z[i]=x[i]+y[i]; } }</span>
+    <span class="c1">#</span>
+    <span class="c1"># a0 = n, a1 = x, a2 = y, a3 = z</span>
+    <span class="c1"># Non-vector instructions are indented</span>
+<span class="n">vvaddint32</span><span class="p">:</span>
+    <span class="n">vsetvli</span> <span class="n">t0</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">e32</span> <span class="c1"># Set vector length based on 32-bit vectors</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span> <span class="n">v0</span><span class="p">,</span> <span class="p">(</span><span class="n">a1</span><span class="p">)</span>           <span class="c1"># Get first vector</span>
+      <span class="n">sub</span> <span class="n">a0</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">t0</span>         <span class="c1"># Decrement number done</span>
+      <span class="n">slli</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="mi">2</span>         <span class="c1"># Multiply number done by 4 bytes</span>
+      <span class="n">add</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">t0</span>         <span class="c1"># Bump pointer</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span> <span class="n">v1</span><span class="p">,</span> <span class="p">(</span><span class="n">a2</span><span class="p">)</span>           <span class="c1"># Get second vector</span>
+      <span class="n">add</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">t0</span>         <span class="c1"># Bump pointer</span>
+    <span class="n">vadd</span><span class="o">.</span><span class="n">vv</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v1</span>        <span class="c1"># Sum vectors</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span> <span class="n">v2</span><span class="p">,</span> <span class="p">(</span><span class="n">a3</span><span class="p">)</span>           <span class="c1"># Store result</span>
+      <span class="n">add</span> <span class="n">a3</span><span class="p">,</span> <span class="n">a3</span><span class="p">,</span> <span class="n">t0</span>         <span class="c1"># Bump pointer</span>
+      <span class="n">bnez</span> <span class="n">a0</span><span class="p">,</span> <span class="n">vvaddint32</span>    <span class="c1"># Loop back</span>
+      <span class="n">ret</span>                    <span class="c1"># Finished</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="a-2-example-with-mixed-width-mask-and-compute">
+<h2>A.2. Example with mixed-width mask and compute.<a class="headerlink" href="#a-2-example-with-mixed-width-mask-and-compute" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code using one width for predicate and different width for masked</span>
+<span class="c1"># compute.</span>
+<span class="c1">#   int8_t a[]; int32_t b[], c[];</span>
+<span class="c1">#   for (i=0;  i&lt;n; i++) { b[i] =  (a[i] &lt; 5) ? c[i] : 1; }</span>
+<span class="c1">#</span>
+<span class="c1"># Mixed-width code that keeps SEW/LMUL=8</span>
+  <span class="n">loop</span><span class="p">:</span>
+    <span class="n">vsetvli</span> <span class="n">a4</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">e8</span><span class="p">,</span><span class="n">m1</span>  <span class="c1"># Byte vector for predicate calc</span>
+    <span class="n">vlb</span><span class="o">.</span><span class="n">v</span> <span class="n">v1</span><span class="p">,</span> <span class="p">(</span><span class="n">a1</span><span class="p">)</span>                <span class="c1"># Load a[i]</span>
+      <span class="n">add</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a4</span>              <span class="c1"># Bump pointer.</span>
+    <span class="n">vmslt</span><span class="o">.</span><span class="n">vi</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="mi">5</span>            <span class="c1"># a[i] &lt; 5?</span>
+
+    <span class="n">vsetvli</span> <span class="n">x0</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">e32</span><span class="p">,</span><span class="n">m4</span> <span class="c1"># Vector of 32-bit values.</span>
+      <span class="n">sub</span> <span class="n">a0</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">a4</span>              <span class="c1"># Decrement count</span>
+    <span class="n">vmv</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">i</span> <span class="n">v4</span><span class="p">,</span> <span class="mi">1</span>                 <span class="c1"># Splat immediate to destination</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span> <span class="n">v4</span><span class="p">,</span> <span class="p">(</span><span class="n">a3</span><span class="p">),</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span>          <span class="c1"># Load requested elements of C.</span>
+      <span class="n">sll</span> <span class="n">t1</span><span class="p">,</span> <span class="n">a4</span><span class="p">,</span> <span class="mi">2</span>
+      <span class="n">add</span> <span class="n">a3</span><span class="p">,</span> <span class="n">a3</span><span class="p">,</span> <span class="n">t1</span>              <span class="c1"># Bump pointer.</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span> <span class="n">v4</span><span class="p">,</span> <span class="p">(</span><span class="n">a2</span><span class="p">)</span>                <span class="c1"># Store b[i].</span>
+      <span class="n">add</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">t1</span>              <span class="c1"># Bump pointer.</span>
+      <span class="n">bnez</span> <span class="n">a0</span><span class="p">,</span> <span class="n">loop</span>               <span class="c1"># Any more?</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="a-3-memcpy-example">
+<h2>A.3. Memcpy example<a class="headerlink" href="#a-3-memcpy-example" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="c1"># void *memcpy(void* dest, const void* src, size_t n)</span>
+  <span class="c1"># a0=dest, a1=src, a2=n</span>
+  <span class="c1">#</span>
+<span class="n">memcpy</span><span class="p">:</span>
+    <span class="n">mv</span> <span class="n">a3</span><span class="p">,</span> <span class="n">a0</span> <span class="c1"># Copy destination</span>
+<span class="n">loop</span><span class="p">:</span>
+  <span class="n">vsetvli</span> <span class="n">t0</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">e8</span><span class="p">,</span><span class="n">m8</span>  <span class="c1"># Vectors of 8b</span>
+  <span class="n">vlb</span><span class="o">.</span><span class="n">v</span> <span class="n">v0</span><span class="p">,</span> <span class="p">(</span><span class="n">a1</span><span class="p">)</span>                <span class="c1"># Load bytes</span>
+    <span class="n">add</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">t0</span>              <span class="c1"># Bump pointer</span>
+    <span class="n">sub</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">t0</span>              <span class="c1"># Decrement count</span>
+  <span class="n">vsb</span><span class="o">.</span><span class="n">v</span> <span class="n">v0</span><span class="p">,</span> <span class="p">(</span><span class="n">a3</span><span class="p">)</span>                <span class="c1"># Store bytes</span>
+    <span class="n">add</span> <span class="n">a3</span><span class="p">,</span> <span class="n">a3</span><span class="p">,</span> <span class="n">t0</span>              <span class="c1"># Bump pointer</span>
+    <span class="n">bnez</span> <span class="n">a2</span><span class="p">,</span> <span class="n">loop</span>               <span class="c1"># Any more?</span>
+    <span class="n">ret</span>                         <span class="c1"># Return</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="a-4-conditional-example">
+<h2>A.4. Conditional example<a class="headerlink" href="#a-4-conditional-example" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># (int16) z[i] = ((int8) x[i] &lt; 5) ? (int16) a[i] : (int16) b[i];</span>
+<span class="c1">#</span>
+<span class="c1"># Fixed 16b SEW:</span>
+
+<span class="n">loop</span><span class="p">:</span>
+    <span class="n">vsetvli</span> <span class="n">t0</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">e16</span>  <span class="c1"># Use 16b elements.</span>
+    <span class="n">vlb</span><span class="o">.</span><span class="n">v</span> <span class="n">v0</span><span class="p">,</span> <span class="p">(</span><span class="n">a1</span><span class="p">)</span>          <span class="c1"># Get x[i], sign-extended to 16b</span>
+      <span class="n">sub</span> <span class="n">a0</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">t0</span>        <span class="c1"># Decrement element count</span>
+      <span class="n">add</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">t0</span>        <span class="c1"># x[i] Bump pointer</span>
+    <span class="n">vmslt</span><span class="o">.</span><span class="n">vi</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v0</span><span class="p">,</span> <span class="mi">5</span>      <span class="c1"># Set mask in v0</span>
+      <span class="n">slli</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="mi">1</span>        <span class="c1"># Multiply by 2 bytes</span>
+    <span class="n">vlh</span><span class="o">.</span><span class="n">v</span> <span class="n">v1</span><span class="p">,</span> <span class="p">(</span><span class="n">a2</span><span class="p">),</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span>    <span class="c1"># z[i] = a[i] case</span>
+    <span class="n">vmnot</span><span class="o">.</span><span class="n">m</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v0</span>          <span class="c1"># Invert v0</span>
+      <span class="n">add</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">t0</span>        <span class="c1"># a[i] bump pointer</span>
+    <span class="n">vlh</span><span class="o">.</span><span class="n">v</span> <span class="n">v1</span><span class="p">,</span> <span class="p">(</span><span class="n">a3</span><span class="p">),</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span>    <span class="c1"># z[i] = b[i] case</span>
+      <span class="n">add</span> <span class="n">a3</span><span class="p">,</span> <span class="n">a3</span><span class="p">,</span> <span class="n">t0</span>        <span class="c1"># b[i] bump pointer</span>
+    <span class="n">vsh</span><span class="o">.</span><span class="n">v</span> <span class="n">v1</span><span class="p">,</span> <span class="p">(</span><span class="n">a4</span><span class="p">)</span>          <span class="c1"># Store z</span>
+      <span class="n">add</span> <span class="n">a4</span><span class="p">,</span> <span class="n">a4</span><span class="p">,</span> <span class="n">t0</span>        <span class="c1"># b[i] bump pointer</span>
+      <span class="n">bnez</span> <span class="n">a0</span><span class="p">,</span> <span class="n">loop</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="a-5-saxpy-example">
+<h2>A.5. SAXPY example<a class="headerlink" href="#a-5-saxpy-example" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># void</span>
+<span class="c1"># saxpy(size_t n, const float a, const float *x, float *y)</span>
+<span class="c1"># {</span>
+<span class="c1">#   size_t i;</span>
+<span class="c1">#   for (i=0; i&lt;n; i++)</span>
+<span class="c1">#     y[i] = a * x[i] + y[i];</span>
+<span class="c1"># }</span>
+<span class="c1">#</span>
+<span class="c1"># register arguments:</span>
+<span class="c1">#     a0      n</span>
+<span class="c1">#     fa0     a</span>
+<span class="c1">#     a1      x</span>
+<span class="c1">#     a2      y</span>
+
+<span class="n">saxpy</span><span class="p">:</span>
+    <span class="n">vsetvli</span> <span class="n">a4</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">e32</span><span class="p">,</span> <span class="n">m8</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span> <span class="n">v0</span><span class="p">,</span> <span class="p">(</span><span class="n">a1</span><span class="p">)</span>
+    <span class="n">sub</span> <span class="n">a0</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">a4</span>
+    <span class="n">slli</span> <span class="n">a4</span><span class="p">,</span> <span class="n">a4</span><span class="p">,</span> <span class="mi">2</span>
+    <span class="n">add</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a4</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span> <span class="n">v8</span><span class="p">,</span> <span class="p">(</span><span class="n">a2</span><span class="p">)</span>
+    <span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">v8</span><span class="p">,</span> <span class="n">fa0</span><span class="p">,</span> <span class="n">v0</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span> <span class="n">v8</span><span class="p">,</span> <span class="p">(</span><span class="n">a2</span><span class="p">)</span>
+    <span class="n">add</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a4</span>
+    <span class="n">bnez</span> <span class="n">a0</span><span class="p">,</span> <span class="n">saxpy</span>
+    <span class="n">ret</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="a-6-sgemm-example">
+<h2>A.6. SGEMM example<a class="headerlink" href="#a-6-sgemm-example" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># RV64IDV system</span>
+<span class="c1">#</span>
+<span class="c1"># void</span>
+<span class="c1"># sgemm_nn(size_t n,</span>
+<span class="c1">#          size_t m,</span>
+<span class="c1">#          size_t k,</span>
+<span class="c1">#          const float*a,   // m * k matrix</span>
+<span class="c1">#          size_t lda,</span>
+<span class="c1">#          const float*b,   // k * n matrix</span>
+<span class="c1">#          size_t ldb,</span>
+<span class="c1">#          float*c,         // m * n matrix</span>
+<span class="c1">#          size_t ldc)</span>
+<span class="c1">#</span>
+<span class="c1">#  c += a*b (alpha=1, no transpose on input matrices)</span>
+<span class="c1">#  matrices stored in C row-major order</span>
+
+<span class="c1">#define n a0</span>
+<span class="c1">#define m a1</span>
+<span class="c1">#define k a2</span>
+<span class="c1">#define ap a3</span>
+<span class="c1">#define astride a4</span>
+<span class="c1">#define bp a5</span>
+<span class="c1">#define bstride a6</span>
+<span class="c1">#define cp a7</span>
+<span class="c1">#define cstride t0</span>
+<span class="c1">#define kt t1</span>
+<span class="c1">#define nt t2</span>
+<span class="c1">#define bnp t3</span>
+<span class="c1">#define cnp t4</span>
+<span class="c1">#define akp t5</span>
+<span class="c1">#define bkp s0</span>
+<span class="c1">#define nvl s1</span>
+<span class="c1">#define ccp s2</span>
+<span class="c1">#define amp s3</span>
+
+<span class="c1"># Use args as additional temporaries</span>
+<span class="c1">#define ft12 fa0</span>
+<span class="c1">#define ft13 fa1</span>
+<span class="c1">#define ft14 fa2</span>
+<span class="c1">#define ft15 fa3</span>
+
+<span class="c1"># This version holds a 16*VLMAX block of C matrix in vector registers</span>
+<span class="c1"># in inner loop, but otherwise does not cache or TLB tiling.</span>
+
+<span class="n">sgemm_nn</span><span class="p">:</span>
+    <span class="n">addi</span> <span class="n">sp</span><span class="p">,</span> <span class="n">sp</span><span class="p">,</span> <span class="o">-</span><span class="n">FRAMESIZE</span>
+    <span class="n">sd</span> <span class="n">s0</span><span class="p">,</span> <span class="n">OFFSET</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span>
+    <span class="n">sd</span> <span class="n">s1</span><span class="p">,</span> <span class="n">OFFSET</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span>
+    <span class="n">sd</span> <span class="n">s2</span><span class="p">,</span> <span class="n">OFFSET</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span>
+
+    <span class="c1"># Check for zero size matrices</span>
+    <span class="n">beqz</span> <span class="n">n</span><span class="p">,</span> <span class="n">exit</span>
+    <span class="n">beqz</span> <span class="n">m</span><span class="p">,</span> <span class="n">exit</span>
+    <span class="n">beqz</span> <span class="n">k</span><span class="p">,</span> <span class="n">exit</span>
+
+    <span class="c1"># Convert elements strides to byte strides.</span>
+    <span class="n">ld</span> <span class="n">cstride</span><span class="p">,</span> <span class="n">OFFSET</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span>   <span class="c1"># Get arg from stack frame</span>
+    <span class="n">slli</span> <span class="n">astride</span><span class="p">,</span> <span class="n">astride</span><span class="p">,</span> <span class="mi">2</span>
+    <span class="n">slli</span> <span class="n">bstride</span><span class="p">,</span> <span class="n">bstride</span><span class="p">,</span> <span class="mi">2</span>
+    <span class="n">slli</span> <span class="n">cstride</span><span class="p">,</span> <span class="n">cstride</span><span class="p">,</span> <span class="mi">2</span>
+
+    <span class="n">slti</span> <span class="n">t6</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="mi">16</span>
+    <span class="n">bnez</span> <span class="n">t6</span><span class="p">,</span> <span class="n">end_rows</span>
+
+<span class="n">c_row_loop</span><span class="p">:</span> <span class="c1"># Loop across rows of C blocks</span>
+
+    <span class="n">mv</span> <span class="n">nt</span><span class="p">,</span> <span class="n">n</span>  <span class="c1"># Initialize n counter for next row of C blocks</span>
+
+    <span class="n">mv</span> <span class="n">bnp</span><span class="p">,</span> <span class="n">bp</span> <span class="c1"># Initialize B n-loop pointer to start</span>
+    <span class="n">mv</span> <span class="n">cnp</span><span class="p">,</span> <span class="n">cp</span> <span class="c1"># Initialize C n-loop pointer</span>
+
+<span class="n">c_col_loop</span><span class="p">:</span> <span class="c1"># Loop across one row of C blocks</span>
+    <span class="n">vsetvli</span> <span class="n">nvl</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">e32</span>  <span class="c1"># 32-bit vectors, LMUL=1</span>
+
+    <span class="n">mv</span> <span class="n">akp</span><span class="p">,</span> <span class="n">ap</span>   <span class="c1"># reset pointer into A to beginning</span>
+    <span class="n">mv</span> <span class="n">bkp</span><span class="p">,</span> <span class="n">bnp</span> <span class="c1"># step to next column in B matrix</span>
+
+    <span class="c1"># Initalize current C submatrix block from memory.</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v0</span><span class="p">,</span> <span class="p">(</span><span class="n">cnp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cnp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v1</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v2</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v3</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v4</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v5</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v6</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v7</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v8</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v9</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span> <span class="n">v10</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span> <span class="n">v11</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span> <span class="n">v12</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span> <span class="n">v13</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span> <span class="n">v14</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span> <span class="n">v15</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">)</span>
+
+
+    <span class="n">mv</span> <span class="n">kt</span><span class="p">,</span> <span class="n">k</span> <span class="c1"># Initialize inner loop counter</span>
+
+    <span class="c1"># Inner loop scheduled assuming 4-clock occupancy of vfmacc instruction and single-issue pipeline</span>
+    <span class="c1"># Software pipeline loads</span>
+    <span class="n">flw</span> <span class="n">ft0</span><span class="p">,</span> <span class="p">(</span><span class="n">akp</span><span class="p">);</span> <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">akp</span><span class="p">,</span> <span class="n">astride</span><span class="p">;</span>
+    <span class="n">flw</span> <span class="n">ft1</span><span class="p">,</span> <span class="p">(</span><span class="n">amp</span><span class="p">);</span> <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">astride</span><span class="p">;</span>
+    <span class="n">flw</span> <span class="n">ft2</span><span class="p">,</span> <span class="p">(</span><span class="n">amp</span><span class="p">);</span> <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">astride</span><span class="p">;</span>
+    <span class="n">flw</span> <span class="n">ft3</span><span class="p">,</span> <span class="p">(</span><span class="n">amp</span><span class="p">);</span> <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">astride</span><span class="p">;</span>
+    <span class="c1"># Get vector from B matrix</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span> <span class="n">v16</span><span class="p">,</span> <span class="p">(</span><span class="n">bkp</span><span class="p">)</span>
+
+    <span class="c1"># Loop on inner dimension for current C block</span>
+ <span class="n">k_loop</span><span class="p">:</span>
+    <span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">v0</span><span class="p">,</span> <span class="n">ft0</span><span class="p">,</span> <span class="n">v16</span>
+    <span class="n">add</span> <span class="n">bkp</span><span class="p">,</span> <span class="n">bkp</span><span class="p">,</span> <span class="n">bstride</span>
+    <span class="n">flw</span> <span class="n">ft4</span><span class="p">,</span> <span class="p">(</span><span class="n">amp</span><span class="p">)</span>
+    <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">astride</span>
+    <span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">v1</span><span class="p">,</span> <span class="n">ft1</span><span class="p">,</span> <span class="n">v16</span>
+    <span class="n">addi</span> <span class="n">kt</span><span class="p">,</span> <span class="n">kt</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>    <span class="c1"># Decrement k counter</span>
+    <span class="n">flw</span> <span class="n">ft5</span><span class="p">,</span> <span class="p">(</span><span class="n">amp</span><span class="p">)</span>
+    <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">astride</span>
+    <span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">v2</span><span class="p">,</span> <span class="n">ft2</span><span class="p">,</span> <span class="n">v16</span>
+    <span class="n">flw</span> <span class="n">ft6</span><span class="p">,</span> <span class="p">(</span><span class="n">amp</span><span class="p">)</span>
+    <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">astride</span>
+    <span class="n">flw</span> <span class="n">ft7</span><span class="p">,</span> <span class="p">(</span><span class="n">amp</span><span class="p">)</span>
+    <span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">v3</span><span class="p">,</span> <span class="n">ft3</span><span class="p">,</span> <span class="n">v16</span>
+    <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">astride</span>
+    <span class="n">flw</span> <span class="n">ft8</span><span class="p">,</span> <span class="p">(</span><span class="n">amp</span><span class="p">)</span>
+    <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">astride</span>
+    <span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">v4</span><span class="p">,</span> <span class="n">ft4</span><span class="p">,</span> <span class="n">v16</span>
+    <span class="n">flw</span> <span class="n">ft9</span><span class="p">,</span> <span class="p">(</span><span class="n">amp</span><span class="p">)</span>
+    <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">astride</span>
+    <span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">v5</span><span class="p">,</span> <span class="n">ft5</span><span class="p">,</span> <span class="n">v16</span>
+    <span class="n">flw</span> <span class="n">ft10</span><span class="p">,</span> <span class="p">(</span><span class="n">amp</span><span class="p">)</span>
+    <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">astride</span>
+    <span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">v6</span><span class="p">,</span> <span class="n">ft6</span><span class="p">,</span> <span class="n">v16</span>
+    <span class="n">flw</span> <span class="n">ft11</span><span class="p">,</span> <span class="p">(</span><span class="n">amp</span><span class="p">)</span>
+    <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">astride</span>
+    <span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">v7</span><span class="p">,</span> <span class="n">ft7</span><span class="p">,</span> <span class="n">v16</span>
+    <span class="n">flw</span> <span class="n">ft12</span><span class="p">,</span> <span class="p">(</span><span class="n">amp</span><span class="p">)</span>
+    <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">astride</span>
+    <span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">v8</span><span class="p">,</span> <span class="n">ft8</span><span class="p">,</span> <span class="n">v16</span>
+    <span class="n">flw</span> <span class="n">ft13</span><span class="p">,</span> <span class="p">(</span><span class="n">amp</span><span class="p">)</span>
+    <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">astride</span>
+    <span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">v9</span><span class="p">,</span> <span class="n">ft9</span><span class="p">,</span> <span class="n">v16</span>
+    <span class="n">flw</span> <span class="n">ft14</span><span class="p">,</span> <span class="p">(</span><span class="n">amp</span><span class="p">)</span>
+    <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">astride</span>
+    <span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">v10</span><span class="p">,</span> <span class="n">ft10</span><span class="p">,</span> <span class="n">v16</span>
+    <span class="n">flw</span> <span class="n">ft15</span><span class="p">,</span> <span class="p">(</span><span class="n">amp</span><span class="p">)</span>
+    <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">astride</span>
+    <span class="n">addi</span> <span class="n">akp</span><span class="p">,</span> <span class="n">akp</span><span class="p">,</span> <span class="mi">4</span>            <span class="c1"># Move to next column of a</span>
+    <span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">v11</span><span class="p">,</span> <span class="n">ft11</span><span class="p">,</span> <span class="n">v16</span>
+    <span class="n">beqz</span> <span class="n">kt</span><span class="p">,</span> <span class="mi">1</span><span class="n">f</span>                 <span class="c1"># Don&#39;t load past end of matrix</span>
+    <span class="n">flw</span> <span class="n">ft0</span><span class="p">,</span> <span class="p">(</span><span class="n">akp</span><span class="p">)</span>
+    <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">akp</span><span class="p">,</span> <span class="n">astride</span>
+<span class="mi">1</span><span class="p">:</span>  <span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">v12</span><span class="p">,</span> <span class="n">ft12</span><span class="p">,</span> <span class="n">v16</span>
+    <span class="n">beqz</span> <span class="n">kt</span><span class="p">,</span> <span class="mi">1</span><span class="n">f</span>
+    <span class="n">flw</span> <span class="n">ft1</span><span class="p">,</span> <span class="p">(</span><span class="n">amp</span><span class="p">)</span>
+    <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">astride</span>
+<span class="mi">1</span><span class="p">:</span>  <span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">v13</span><span class="p">,</span> <span class="n">ft13</span><span class="p">,</span> <span class="n">v16</span>
+    <span class="n">beqz</span> <span class="n">kt</span><span class="p">,</span> <span class="mi">1</span><span class="n">f</span>
+    <span class="n">flw</span> <span class="n">ft2</span><span class="p">,</span> <span class="p">(</span><span class="n">amp</span><span class="p">)</span>
+    <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">astride</span>
+<span class="mi">1</span><span class="p">:</span>  <span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">v14</span><span class="p">,</span> <span class="n">ft14</span><span class="p">,</span> <span class="n">v16</span>
+    <span class="n">beqz</span> <span class="n">kt</span><span class="p">,</span> <span class="mi">1</span><span class="n">f</span>                 <span class="c1"># Exit out of loop</span>
+    <span class="n">flw</span> <span class="n">ft3</span><span class="p">,</span> <span class="p">(</span><span class="n">amp</span><span class="p">)</span>
+    <span class="n">add</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">astride</span>
+    <span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">v15</span><span class="p">,</span> <span class="n">ft15</span><span class="p">,</span> <span class="n">v16</span>
+    <span class="n">vlw</span><span class="o">.</span><span class="n">v</span> <span class="n">v16</span><span class="p">,</span> <span class="p">(</span><span class="n">bkp</span><span class="p">)</span>            <span class="c1"># Get next vector from B matrix, overlap loads with jump stalls</span>
+    <span class="n">j</span> <span class="n">k_loop</span>
+
+<span class="mi">1</span><span class="p">:</span>  <span class="n">vfmacc</span><span class="o">.</span><span class="n">vf</span> <span class="n">v15</span><span class="p">,</span> <span class="n">ft15</span><span class="p">,</span> <span class="n">v16</span>
+
+    <span class="c1"># Save C matrix block back to memory</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v0</span><span class="p">,</span> <span class="p">(</span><span class="n">cnp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cnp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v1</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v2</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v3</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v4</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v5</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v6</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v7</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v8</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span>  <span class="n">v9</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span> <span class="n">v10</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span> <span class="n">v11</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span> <span class="n">v12</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span> <span class="n">v13</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span> <span class="n">v14</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">);</span> <span class="n">add</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">ccp</span><span class="p">,</span> <span class="n">cstride</span><span class="p">;</span>
+    <span class="n">vsw</span><span class="o">.</span><span class="n">v</span> <span class="n">v15</span><span class="p">,</span> <span class="p">(</span><span class="n">ccp</span><span class="p">)</span>
+
+    <span class="c1"># Following tail instructions should be scheduled earlier in free slots during C block save.</span>
+    <span class="c1"># Leaving here for clarity.</span>
+
+    <span class="c1"># Bump pointers for loop across blocks in one row</span>
+    <span class="n">slli</span> <span class="n">t6</span><span class="p">,</span> <span class="n">nvl</span><span class="p">,</span> <span class="mi">2</span>
+    <span class="n">add</span> <span class="n">cnp</span><span class="p">,</span> <span class="n">cnp</span><span class="p">,</span> <span class="n">t6</span>                         <span class="c1"># Move C block pointer over</span>
+    <span class="n">add</span> <span class="n">bnp</span><span class="p">,</span> <span class="n">bnp</span><span class="p">,</span> <span class="n">t6</span>                         <span class="c1"># Move B block pointer over</span>
+    <span class="n">sub</span> <span class="n">nt</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">nvl</span>                          <span class="c1"># Decrement element count in n dimension</span>
+    <span class="n">bnez</span> <span class="n">nt</span><span class="p">,</span> <span class="n">c_col_loop</span>                      <span class="c1"># Any more to do?</span>
+
+    <span class="c1"># Move to next set of rows</span>
+    <span class="n">addi</span> <span class="n">m</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="o">-</span><span class="mi">16</span>  <span class="c1"># Did 16 rows above</span>
+    <span class="n">slli</span> <span class="n">t6</span><span class="p">,</span> <span class="n">astride</span><span class="p">,</span> <span class="mi">4</span>  <span class="c1"># Multiply astride by 16</span>
+    <span class="n">add</span> <span class="n">ap</span><span class="p">,</span> <span class="n">ap</span><span class="p">,</span> <span class="n">t6</span>         <span class="c1"># Move A matrix pointer down 16 rows</span>
+    <span class="n">slli</span> <span class="n">t6</span><span class="p">,</span> <span class="n">cstride</span><span class="p">,</span> <span class="mi">4</span>  <span class="c1"># Multiply cstride by 16</span>
+    <span class="n">add</span> <span class="n">cp</span><span class="p">,</span> <span class="n">cp</span><span class="p">,</span> <span class="n">t6</span>         <span class="c1"># Move C matrix pointer down 16 rows</span>
+
+    <span class="n">slti</span> <span class="n">t6</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="mi">16</span>
+    <span class="n">beqz</span> <span class="n">t6</span><span class="p">,</span> <span class="n">c_row_loop</span>
+
+    <span class="c1"># Handle end of matrix with fewer than 16 rows.</span>
+    <span class="c1"># Can use smaller versions of above decreasing in powers-of-2 depending on code-size concerns.</span>
+<span class="n">end_rows</span><span class="p">:</span>
+    <span class="c1"># Not done.</span>
+
+<span class="n">exit</span><span class="p">:</span>
+    <span class="n">ld</span> <span class="n">s0</span><span class="p">,</span> <span class="n">OFFSET</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span>
+    <span class="n">ld</span> <span class="n">s1</span><span class="p">,</span> <span class="n">OFFSET</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span>
+    <span class="n">ld</span> <span class="n">s2</span><span class="p">,</span> <span class="n">OFFSET</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span>
+    <span class="n">addi</span> <span class="n">sp</span><span class="p">,</span> <span class="n">sp</span><span class="p">,</span> <span class="n">FRAMESIZE</span>
+    <span class="n">ret</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="chapter20_listing.html" class="btn btn-neutral float-left" title="20. ベクトル命令一覧" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, msyksphinz
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

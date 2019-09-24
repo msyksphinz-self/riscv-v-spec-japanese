@@ -26,6 +26,8 @@ RISC-V “V” Extension
    chapter17_vector_permutation.rst
    chapter18_exception.rst
    chapter19_zvediv.rst
+   chapter20_listing.rst
+   appendixA_examples.rst
 
 Indices and tables
 ==================
