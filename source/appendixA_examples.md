@@ -1,58 +1,57 @@
 ## 付録A: ベクトルアセンブリコード例
 
-The following are provided as non-normative text to help explain the vector ISA.
+以下は、ベクターISAの説明に役立つ非規範的なテキストとして提供されている。
 
-### A.1. Vector-vector add example
+### A.1. ベクトル － ベクトル 加算プログラム
 
 ```
-    # vector-vector add routine of 32-bit integers
+    # 32ビット整数のベクトル － ベクトル加算
     # void vvaddint32(size_t n, const int*x, const int*y, int*z)
     # { for (size_t i=0; i<n; i++) { z[i]=x[i]+y[i]; } }
     #
     # a0 = n, a1 = x, a2 = y, a3 = z
     # Non-vector instructions are indented
 vvaddint32:
-    vsetvli t0, a0, e32 # Set vector length based on 32-bit vectors
-    vlw.v v0, (a1)           # Get first vector
-      sub a0, a0, t0         # Decrement number done
-      slli t0, t0, 2         # Multiply number done by 4 bytes
-      add a1, a1, t0         # Bump pointer
-    vlw.v v1, (a2)           # Get second vector
-      add a2, a2, t0         # Bump pointer
-    vadd.vv v2, v0, v1        # Sum vectors
-    vsw.v v2, (a3)           # Store result
-      add a3, a3, t0         # Bump pointer
-      bnez a0, vvaddint32    # Loop back
-      ret                    # Finished
+    vsetvli t0, a0, e32      # ベクトル長を32ビットベクトルをベースに設定する。
+    vlw.v v0, (a1)           # 最初のベクトルをフェッチ
+      sub a0, a0, t0         # フェッチした要素の数をデクリメント
+      slli t0, t0, 2         # 処理が完了した要素の数をバイト数に変換
+      add a1, a1, t0         # ポインタを進める
+    vlw.v v1, (a2)           # 2番目のベクトルをフェッチ
+      add a2, a2, t0         # ポインタを進める
+    vadd.vv v2, v0, v1        # ベクトルを加算する
+    vsw.v v2, (a3)           # 結果をストアする
+      add a3, a3, t0         # ポインタを進める
+      bnez a0, vvaddint32    # ループに戻る
+      ret                    # 終了
 ```
 
-### A.2. Example with mixed-width mask and compute.
+### A.2. 複数ビット幅の混在するマスクと計算
 
 ```
-# Code using one width for predicate and different width for masked
-# compute.
+# 分岐判定のためのベクトルと、選択のためのベクトルのビット幅が異なる場合の計算。
 #   int8_t a[]; int32_t b[], c[];
 #   for (i=0;  i<n; i++) { b[i] =  (a[i] < 5) ? c[i] : 1; }
 #
 # Mixed-width code that keeps SEW/LMUL=8
   loop:
-    vsetvli a4, a0, e8,m1  # Byte vector for predicate calc
-    vlb.v v1, (a1)                # Load a[i]
-      add a1, a1, a4              # Bump pointer.
+    vsetvli a4, a0, e8,m1  # ベクトルの幅をマスク判定のためのビット幅に設定する
+    vlb.v v1, (a1)                # a[i]をロード
+      add a1, a1, a4              # ポインタを進める.
     vmslt.vi v0, v1, 5            # a[i] < 5?
 
-    vsetvli x0, a0, e32,m4 # Vector of 32-bit values.
-      sub a0, a0, a4              # Decrement count
-    vmv.v.i v4, 1                 # Splat immediate to destination
-    vlw.v v4, (a3), v0.t          # Load requested elements of C.
+    vsetvli x0, a0, e32,m4 # ベクトルを32ビット整数用に設定する。
+      sub a0, a0, a4              # カウンタをデクリメントする
+    vmv.v.i v4, 1                 # 書き込みベクトルレジスタ用に即値を拡散する。
+    vlw.v v4, (a3), v0.t          # Cのベクトル要素をロードする。
       sll t1, a4, 2
-      add a3, a3, t1              # Bump pointer.
-    vsw.v v4, (a2)                # Store b[i].
-      add a2, a2, t1              # Bump pointer.
-      bnez a0, loop               # Any more?
+      add a3, a3, t1              # ポインタを進める.
+    vsw.v v4, (a2)                # bをメモリにストアする。
+      add a2, a2, t1              # ポインタを進める.
+      bnez a0, loop               # これ以上あるか？
 ```
 
-### A.3. Memcpy example
+### A.3. Memcpy プログラム
 
 ```
     # void *memcpy(void* dest, const void* src, size_t n)
@@ -62,16 +61,16 @@ vvaddint32:
       mv a3, a0 # Copy destination
   loop:
     vsetvli t0, a2, e8,m8  # Vectors of 8b
-    vlb.v v0, (a1)                # Load bytes
-      add a1, a1, t0              # Bump pointer
-      sub a2, a2, t0              # Decrement count
-    vsb.v v0, (a3)                # Store bytes
-      add a3, a3, t0              # Bump pointer
-      bnez a2, loop               # Any more?
-      ret                         # Return
+    vlb.v v0, (a1)                # バイト列をロードする
+      add a1, a1, t0              # ポインタを進める
+      sub a2, a2, t0              # カウンタをデクリメントする
+    vsb.v v0, (a3)                # バイト列をストアする
+      add a3, a3, t0              # ポインタを進める
+      bnez a2, loop               # これ以上あるか？
+      ret                         # 戻る
 ```
 
-### A.4. Conditional example
+### A.4. データ選択のプログラム
 
 ```
 # (int16) z[i] = ((int8) x[i] < 5) ? (int16) a[i] : (int16) b[i];
@@ -79,19 +78,19 @@ vvaddint32:
 # Fixed 16b SEW:
 
 loop:
-    vsetvli t0, a0, e16  # Use 16b elements.
-    vlb.v v0, (a1)          # Get x[i], sign-extended to 16b
-      sub a0, a0, t0        # Decrement element count
-      add a1, a1, t0        # x[i] Bump pointer
-    vmslt.vi v0, v0, 5      # Set mask in v0
-      slli t0, t0, 1        # Multiply by 2 bytes
-    vlh.v v1, (a2), v0.t    # z[i] = a[i] case
+    vsetvli t0, a0, e16  # 16ビットのベクトル要素を使用する
+    vlb.v v0, (a1)          # 符号付き16ビット整数x[i]をロードする。
+      sub a0, a0, t0        # 要素の数をデクリメントする
+      add a1, a1, t0        # x[i] ポインタを進める
+    vmslt.vi v0, v0, 5      # v0内のマスクを設定する。
+      slli t0, t0, 1        # バイト単位に変換する。
+    vlh.v v1, (a2), v0.t    # z[i] = a[i] の場合
     vmnot.m v0, v0          # Invert v0
-      add a2, a2, t0        # a[i] bump pointer
-    vlh.v v1, (a3), v0.t    # z[i] = b[i] case
-      add a3, a3, t0        # b[i] bump pointer
-    vsh.v v1, (a4)          # Store z
-      add a4, a4, t0        # b[i] bump pointer
+      add a2, a2, t0        # a[i] ポインタを進める
+    vlh.v v1, (a3), v0.t    # z[i] = b[i] の場合
+      add a3, a3, t0        # b[i] ポインタを進める
+    vsh.v v1, (a4)          # z をストアする。
+      add a4, a4, t0        # b[i] ポインタを進める
       bnez a0, loop
 ```
 
@@ -319,11 +318,11 @@ c_col_loop: # Loop across one row of C blocks
     # Following tail instructions should be scheduled earlier in free slots during C block save.
     # Leaving here for clarity.
 
-    # Bump pointers for loop across blocks in one row
+    # ポインタを進めるs for loop across blocks in one row
     slli t6, nvl, 2
     add cnp, cnp, t6                         # Move C block pointer over
     add bnp, bnp, t6                         # Move B block pointer over
-    sub nt, nt, nvl                          # Decrement element count in n dimension
+    sub nt, nt, nvl                          # 要素の数をデクリメントする in n dimension
     bnez nt, c_col_loop                      # Any more to do?
 
     # Move to next set of rows
