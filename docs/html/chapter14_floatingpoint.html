@@ -46,6 +46,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="15. ベクトルリダクション操作" href="chapter15_reduction.html" />
     <link rel="prev" title="13. ベクトル固定小数点演算命令" href="chapter13_fixedpoint.html" /> 
 </head>
 
@@ -125,6 +126,13 @@
 <li class="toctree-l2"><a class="reference internal" href="#id15">14.17. ビット幅を縮小するベクトル浮動小数点変換命令</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="chapter15_reduction.html">15. ベクトルリダクション操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter16_vector_mask.html">16. ベクトルマスク命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter17_vector_permutation.html">17. ベクトル並べ替え命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter18_exception.html">18. 例外処理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter19_zvediv.html">19. 要素分割拡張命令 (‘Zvediv’)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter20_listing.html">20. ベクトル命令一覧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendixA_examples.html">付録A: ベクトルアセンブリコード例</a></li>
 </ul>
 
             
@@ -483,7 +491,7 @@ NaNが含まれてえいる場合に誤って不正値例外を発生してし�
 <span class="n">vfcvt</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 符号付き整数から浮動小数点への変換</span>
 </pre></div>
 </div>
-<p>例外の発生条件については、スカラの返還命令に準ずる。変換では常に動的な丸めモード<code class="docutils literal notranslate"><span class="pre">frm</span></code>に基づいて丸目が行われる。</p>
+<p>例外の発生条件については、スカラの返還命令に準ずる。変換では常に動的な丸めモード<code class="docutils literal notranslate"><span class="pre">frm</span></code>に基づいて丸めが行われる。</p>
 </div>
 <div class="section" id="id14">
 <h2>14.16. ビット幅拡張浮動小数点 整数変換命令<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -535,6 +543,8 @@ Instructions</a>を参照のこと)</p>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="chapter15_reduction.html" class="btn btn-neutral float-right" title="15. ベクトルリダクション操作" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="chapter13_fixedpoint.html" class="btn btn-neutral float-left" title="13. ベクトル固定小数点演算命令" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

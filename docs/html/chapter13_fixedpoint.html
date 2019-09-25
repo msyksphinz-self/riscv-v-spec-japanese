@@ -46,6 +46,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="14. ベクトル浮動小数点命令" href="chapter14_floatingpoint.html" />
     <link rel="prev" title="12. ベクトル整数算術演算命令" href="chapter12_vector_arithmetic_insts.html" /> 
 </head>
 
@@ -113,6 +114,14 @@
 <li class="toctree-l2"><a class="reference internal" href="#id7">13.6. ビット幅縮小固定小数点ベクトルクリップ命令</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="chapter14_floatingpoint.html">14. ベクトル浮動小数点命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter15_reduction.html">15. ベクトルリダクション操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter16_vector_mask.html">16. ベクトルマスク命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter17_vector_permutation.html">17. ベクトル並べ替え命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter18_exception.html">18. 例外処理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter19_zvediv.html">19. 要素分割拡張命令 (‘Zvediv’)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter20_listing.html">20. ベクトル命令一覧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendixA_examples.html">付録A: ベクトルアセンブリコード例</a></li>
 </ul>
 
             
@@ -244,7 +253,7 @@
 </div>
 <div class="section" id="id5">
 <h2>13.4. ビット幅拡張飽和付き累積乗算加算命令<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>ビット幅拡張ほわ付き乗算加算命令はSEWビット同士の入力値を乗算し2SEWビットの積を生成する。この結果はSEW/2ビットだけ右にシフトされ<code class="docutils literal notranslate"><span class="pre">vxrm</span></code>のビット設定に基づいて丸目が行われ、2SEWビットの書き込みレジスタアキュムレータの値と加算される。結果が書き込みレジスタの中で飽和すると、オーバフローが発生し、<code class="docutils literal notranslate"><span class="pre">vxsat</span></code>ビットが設定される。</p>
+<p>ビット幅拡張飽和付き乗算加算命令はSEWビット同士の入力値を乗算し2SEWビットの積を生成する。この結果はSEW/2ビットだけ右にシフトされ<code class="docutils literal notranslate"><span class="pre">vxrm</span></code>のビット設定に基づいて丸めが行われ、2SEWビットの書き込みレジスタアキュムレータの値と加算される。結果が書き込みレジスタの中で飽和すると、オーバフローが発生し、<code class="docutils literal notranslate"><span class="pre">vxsat</span></code>ビットが設定される。</p>
 <p>もし乗算オペランドが符号付であれば、乗算の結果は符号付の値としてオーバフロー・飽和処理が行われる。両方の乗算オペランドが符号なしであれば、乗算の結果は符号なしの値としてオーバフロー・飽和処理が行われる。</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -339,7 +348,7 @@
  <span class="n">vnclip</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - 即値</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">vnclipu</span></code>,/<code class="docutils literal notranslate"><span class="pre">vnclip</span></code>命令では、丸めモードは<code class="docutils literal notranslate"><span class="pre">vxrm</span></code>CSRに基づいて実行される。丸目は飽和処理実行前に、書き込み値の最下位ビットに対して行われる。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vnclipu</span></code>,/<code class="docutils literal notranslate"><span class="pre">vnclip</span></code>命令では、丸めモードは<code class="docutils literal notranslate"><span class="pre">vxrm</span></code>CSRに基づいて実行される。丸めは飽和処理実行前に、書き込み値の最下位ビットに対して行われる。</p>
 <p><code class="docutils literal notranslate"><span class="pre">vnclipu</span></code>命令では、シフトして丸められたソース値は符号なしの値として扱われ、値がオーバフローした場合には符号なしの整数として飽和処理が行われる。</p>
 <p><code class="docutils literal notranslate"><span class="pre">vnclip</span></code>命令では、シフトして丸められた値は符号付の値として扱われ、値がオーバフローした場合は符号付きの整数として飽和処理が行われる。</p>
 <p>書き込みレジスタのどれかの要素で飽和が発生すると、<code class="docutils literal notranslate"><span class="pre">vxsat</span></code>レジスタの<code class="docutils literal notranslate"><span class="pre">vxsat</span></code>ビットが設定される。</p>
@@ -353,6 +362,8 @@
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="chapter14_floatingpoint.html" class="btn btn-neutral float-right" title="14. ベクトル浮動小数点命令" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="chapter12_vector_arithmetic_insts.html" class="btn btn-neutral float-left" title="12. ベクトル整数算術演算命令" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

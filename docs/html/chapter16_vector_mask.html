@@ -45,7 +45,9 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="検索" href="search.html" /> 
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="17. ベクトル並べ替え命令" href="chapter17_vector_permutation.html" />
+    <link rel="prev" title="15. ベクトルリダクション操作" href="chapter15_reduction.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,7 +92,7 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
@@ -106,6 +108,23 @@
 <li class="toctree-l1"><a class="reference internal" href="chapter13_fixedpoint.html">13. ベクトル固定小数点演算命令</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter14_floatingpoint.html">14. ベクトル浮動小数点命令</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter15_reduction.html">15. ベクトルリダクション操作</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">16. ベクトルマスク命令</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">16.1. ベクトルマスクレジスタ論理演算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#population-countvpopc">16.2. ベクトルマスクPopulation Count命令<code class="docutils literal notranslate"><span class="pre">vpopc</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vfirst">16.3. <code class="docutils literal notranslate"><span class="pre">vfirst</span></code>先頭マスク設定ビットの探索命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vmsbf-m-set-before-first">16.4. <code class="docutils literal notranslate"><span class="pre">vmsbf.m</span></code> 最初のマスク設定ビットよりも前のビットを設定する命令(set-before-first命令)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vmsif-m-set-including-first">16.5. <code class="docutils literal notranslate"><span class="pre">vmsif.m</span></code> 最初のマスクビットを含むマスクビットセット命令(set-including-first命令)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vmsof-m-set-only-first-mask-bit">16.6. <code class="docutils literal notranslate"><span class="pre">vmsof.m</span></code> 最初のマスクビットのみ設定する命令(set-only-first mask bit)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">16.7. ベクトルマスク命令を使用したサンプルプログラム</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iota">16.8. ベクトルIota命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">16.9. ベクトル要素インデックス命令</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter17_vector_permutation.html">17. ベクトル並べ替え命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter18_exception.html">18. 例外処理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter19_zvediv.html">19. 要素分割拡張命令 (‘Zvediv’)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter20_listing.html">20. ベクトル命令一覧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendixA_examples.html">付録A: ベクトルアセンブリコード例</a></li>
 </ul>
 
             
@@ -619,6 +638,15 @@ exceed 231 on any implementation.</th>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="chapter17_vector_permutation.html" class="btn btn-neutral float-right" title="17. ベクトル並べ替え命令" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="chapter15_reduction.html" class="btn btn-neutral float-left" title="15. ベクトルリダクション操作" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

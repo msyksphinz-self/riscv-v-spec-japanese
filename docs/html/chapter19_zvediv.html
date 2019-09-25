@@ -46,6 +46,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="20. ベクトル命令一覧" href="chapter20_listing.html" />
     <link rel="prev" title="18. 例外処理" href="chapter18_exception.html" /> 
 </head>
 
@@ -113,7 +114,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">19. 要素分割拡張命令 (‘Zvediv’)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#ediv">19.1. EDIVの変更に影響しない命令群</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id1">19.2. EDIVの設定に影響する命令</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">19.2.1. EDIV下での通常のベクトル算術演算名れい</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">19.2.1. EDIV下での通常のベクトル算術演算命令</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ediv-1">19.2.2. EDIV&gt;1下でのキャリー付きベクトル加算、ボロー付きベクトル減算</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id3">19.2.3. EDIV下でのベクトルリダクション命令</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id4">19.2.4. EDIV下でのベクトルレジスタギャザー命令</a></li>
@@ -123,6 +124,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#id6">19.4. ベクトル浮動小数点ドットプロダクト命令</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="chapter20_listing.html">20. ベクトル命令一覧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendixA_examples.html">付録A: ベクトルアセンブリコード例</a></li>
 </ul>
 
             
@@ -577,7 +580,7 @@ Count(<code class="docutils literal notranslate"><span class="pre">vpopc</span><
 <div class="section" id="id1">
 <h2>19.2. EDIVの設定に影響する命令<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="id2">
-<h3>19.2.1. EDIV下での通常のベクトル算術演算名れい<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>19.2.1. EDIV下での通常のベクトル算術演算命令<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>多くのベクトル算術演算命令は、個々のサブ要素の中で独立して演算を実行する。したがって有効なSEWビット幅はSEW/EDIVであり、有効なベクトル長は<code class="docutils literal notranslate"><span class="pre">vl</span></code>
 * EDIVである。例えば、32ビット要素のベクトル加算命令を<code class="docutils literal notranslate"><span class="pre">vl</span></code>=5,
 EDIV=4で実行すると、8ビットのベクトル加算命令をベクトル長20で実行するのと同じである。</p>
@@ -697,6 +700,8 @@ FLEN)ビットの計算結果を出力し、必要であればNaN Boxingを行�
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="chapter20_listing.html" class="btn btn-neutral float-right" title="20. ベクトル命令一覧" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="chapter18_exception.html" class="btn btn-neutral float-left" title="18. 例外処理" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

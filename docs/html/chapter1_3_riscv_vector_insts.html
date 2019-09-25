@@ -105,7 +105,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#vl">3.3. ベクトル長レジスタ<code class="docutils literal notranslate"><span class="pre">vl</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#csrvstart">3.4. ベクトルスタートインデックスCSR<code class="docutils literal notranslate"><span class="pre">vstart</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#vxrm">3.5. ベクトル固定小数点丸目モードレジスタ<code class="docutils literal notranslate"><span class="pre">vxrm</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vxrm">3.5. ベクトル固定小数点丸めモードレジスタ<code class="docutils literal notranslate"><span class="pre">vxrm</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#vxsat">3.6. ベクトル固定小数点飽和フラグ<code class="docutils literal notranslate"><span class="pre">vxsat</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#fcsr">3.7. <code class="docutils literal notranslate"><span class="pre">fcsr</span></code>のベクトル固定小数点フィールド</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id5">3.8. ベクトル拡張のリセット状態について</a></li>
@@ -113,6 +113,22 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter7_vector_load_store.html">7. ベクトルロードストア命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html">8. ベクトルAMO操作(<code class="docutils literal notranslate"><span class="pre">Zvamo</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id1">9. ベクトルメモリのアライメント制約</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html#id2">10. ベクトルメモリのコンシステンシモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter11_vector_arithmetic_formats.html">11. ベクトル算術演算命令フォーマット</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter12_vector_arithmetic_insts.html">12. ベクトル整数算術演算命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter13_fixedpoint.html">13. ベクトル固定小数点演算命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter14_floatingpoint.html">14. ベクトル浮動小数点命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter15_reduction.html">15. ベクトルリダクション操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter16_vector_mask.html">16. ベクトルマスク命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter17_vector_permutation.html">17. ベクトル並べ替え命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter18_exception.html">18. 例外処理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter19_zvediv.html">19. 要素分割拡張命令 (‘Zvediv’)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter20_listing.html">20. ベクトル命令一覧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendixA_examples.html">付録A: ベクトルアセンブリコード例</a></li>
 </ul>
 
             
@@ -279,7 +295,7 @@ ISAに対して32個のアーキテクチャベクトルレジスタ<code class=
 <p>それぞれのベクトルレジスタはVLENビットだけのビットを保持する。</p>
 <blockquote>
 <div>Zfinx(“F in
-X”)は新しいISAのオプションとして考えられているもので、不動小ステン命令が整数レジスタファイルをレジスタ引数として取ることができるようになるものである。0.7ベクトル拡張ではこのオプションとの互換性を持っている。</div></blockquote>
+X”)は新しいISAのオプションとして考えられているもので、浮動小数点命令が整数レジスタファイルをレジスタ引数として取ることができるようになるものである。0.7ベクトル拡張ではこのオプションとの互換性を持っている。</div></blockquote>
 </div>
 <div class="section" id="vtype">
 <h2>3.2 ベクトル型レジスタ, <code class="docutils literal notranslate"><span class="pre">vtype</span></code><a class="headerlink" href="#vtype" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -523,7 +539,7 @@ LMUL=8, SEW=8でVLMAXが32となる)を保持するために6ビットが必要�
 <div>たとえば、いくつかの実装ではベクトル算術演算を実行中には決して例外を発生せず、命令の実行が完了するまで例外の発生を待つことができる。このような実装ではベクトル算術演算命令において<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が非ゼロである場合は例外が発生することを許している。</div></blockquote>
 </div>
 <div class="section" id="vxrm">
-<h2>3.5. ベクトル固定小数点丸目モードレジスタ<code class="docutils literal notranslate"><span class="pre">vxrm</span></code><a class="headerlink" href="#vxrm" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>3.5. ベクトル固定小数点丸めモードレジスタ<code class="docutils literal notranslate"><span class="pre">vxrm</span></code><a class="headerlink" href="#vxrm" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ベクトル固定小数点丸めモードレジスタは2ビットのRead-Write丸めモードビットフィールドを持っている。ベクトル固定小数点丸めは<code class="docutils literal notranslate"><span class="pre">fcsr</span></code>レジスタの上位ビットのビットフィールドを反映しているが、異なるCSRビットアドレスが割り当てられている。浮動小数点を持たないシステムの場合は、ベクトル拡張を追加する場合には<code class="docutils literal notranslate"><span class="pre">fcsr</span></code>レジスタを追加する必要がある。</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -597,7 +613,7 @@ LMUL=8, SEW=8でVLMAXが32となる)を保持するために6ビットが必要�
 </tr>
 <tr class="row-even"><td>7:5</td>
 <td>frm</td>
-<td>浮動小数点丸目モード</td>
+<td>浮動小数点丸めモード</td>
 </tr>
 <tr class="row-odd"><td>4:0</td>
 <td>fflags</td>

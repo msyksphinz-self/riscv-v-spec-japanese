@@ -45,7 +45,9 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="検索" href="search.html" /> 
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="18. 例外処理" href="chapter18_exception.html" />
+    <link rel="prev" title="16. ベクトルマスク命令" href="chapter16_vector_mask.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,7 +92,7 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
@@ -107,6 +109,24 @@
 <li class="toctree-l1"><a class="reference internal" href="chapter14_floatingpoint.html">14. ベクトル浮動小数点命令</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter15_reduction.html">15. ベクトルリダクション操作</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter16_vector_mask.html">16. ベクトルマスク命令</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">17. ベクトル並べ替え命令</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">17.1. 整数スカラ移動命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">17.2. 浮動小数点スカラ移動命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">17.3. ベクトルスライド命令</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">17.3.1. ベクトルスライドアップ命令</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vector-slidedown-instructions">17.3.2. Vector Slidedown Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#slide1up">17.3.3. ベクトルSlide1up命令</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#slide1down">17.3.4. ベクトルSlide1down命令</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">17.4. ベクトルレジスタギャザー命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">17.5. ベクトル圧縮命令</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter18_exception.html">18. 例外処理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter19_zvediv.html">19. 要素分割拡張命令 (‘Zvediv’)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter20_listing.html">20. ベクトル命令一覧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendixA_examples.html">付録A: ベクトルアセンブリコード例</a></li>
 </ul>
 
             
@@ -365,6 +385,15 @@ VLMAX)、要素の値としてゼロが返される。</p>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="chapter18_exception.html" class="btn btn-neutral float-right" title="18. 例外処理" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="chapter16_vector_mask.html" class="btn btn-neutral float-left" title="16. ベクトルマスク命令" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
