@@ -224,6 +224,75 @@
 <h2>3. 実装例<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>実装における仕様決定を助けるために、タスクグループでは以下の表を作成した。実装の範囲は非常に小さな組み込み向けプロセッサから巨大なスーパコンピュータノードまでカバーしている。</p>
 <p>表2. ベクトル実装例</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">説明</th>
+<th class="head">命令発行</th>
+<th class="head">VLEN</th>
+<th class="head">データパス
+サイズ</th>
+<th class="head">アーキテクチャの
+ストレージ</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>最小</td>
+<td>InO</td>
+<td>32b</td>
+<td>32b</td>
+<td>128B</td>
+</tr>
+<tr class="row-odd"><td colspan="2">InO         | InO
+空間的なスーパスカラ |</td>
+<td>128b</td>
+<td>128b</td>
+<td>512B</td>
+</tr>
+<tr class="row-even"><td colspan="2">InO         | InO
+短い中間レジスタ |</td>
+<td>512b</td>
+<td>128b</td>
+<td>2,048B</td>
+</tr>
+<tr class="row-odd"><td colspan="2">InO         | InO
+長い中間レジスタ |</td>
+<td>4,096b</td>
+<td>64b</td>
+<td>16,384B</td>
+</tr>
+<tr class="row-even"><td colspan="2">OoO         | OoO
+空間的なスーパスカラ |</td>
+<td>128b</td>
+<td>128b</td>
+<td>512B</td>
+</tr>
+<tr class="row-odd"><td colspan="2">OoO         | OoO
+中間スーパスカラ |</td>
+<td>512b</td>
+<td>128b</td>
+<td>2,048B</td>
+</tr>
+<tr class="row-even"><td colspan="2">OoO         | OoO
+スーパスカラサーバ |</td>
+<td>2,048b</td>
+<td>512b</td>
+<td>8,192B</td>
+</tr>
+<tr class="row-odd"><td>HPC ノード</td>
+<td>OoO</td>
+<td>16,384b</td>
+<td>2048b</td>
+<td>65,536B</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="id4">
 <h2>4. 書き込み要素の「変更なし」の実装<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
