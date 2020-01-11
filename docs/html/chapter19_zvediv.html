@@ -193,17 +193,15 @@
   <div class="section" id="zvediv">
 <h1>19. 要素分割拡張命令 (‘Zvediv’)<a class="headerlink" href="#zvediv" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <blockquote>
-<div>EDIVの仕様の大部分は大幅に変更される可能性があります。</div></blockquote>
+<div>EDIV拡張は現在では“V”基本命令には取り込まれない予定である。現在の仕様から大幅に変更となる可能性がある。</div></blockquote>
 <p>要素分割拡張は、各ベクトルの要素をさらに小さなサブベクトルとして取り扱うための拡張である。この拡張により、よりビット幅の小さなデータの取り扱いや、複数のビット幅が混在した算術演算や、小さなベクトルのループ外領域のベクトル化、行列の演算などに使用できる。既存の命令の挙動の変更に加え、EDIV
 &gt; 1の際にはいくつかの新しい命令を定義する。</p>
-<blockquote>
-<div>これは今のところ拡張として書かれているが、Unixのベクトルプロファイルの必須ベースの一部になる可能性がある。</div></blockquote>
 <p>要素分割拡張では、<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタに<code class="docutils literal notranslate"><span class="pre">vediv[1:0]</span></code>という2ビットのフィールドを追加する。</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="21%" />
-<col width="21%" />
-<col width="58%" />
+<col width="26%" />
+<col width="26%" />
+<col width="49%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">ビット</th>
@@ -214,7 +212,8 @@
 <tbody valign="top">
 <tr class="row-even"><td>XLEN-1</td>
 <td>vill</td>
-<td>このビットが設定されると、不正な設定が行われたことを意味する。</td>
+<td>このビットが設定されると、不正な設定が行わ
+れたことを意味する。</td>
 </tr>
 <tr class="row-odd"><td>XLEN-2:7</td>
 <td>&#160;</td>
@@ -226,11 +225,14 @@
 </tr>
 <tr class="row-odd"><td>4:2</td>
 <td>vsew[2:0]</td>
-<td>Standard element width (SEW) の設定</td>
+<td>Standard element
+width (SEW) の設定</td>
 </tr>
 <tr class="row-even"><td>1:0</td>
 <td>vlmul[1:0]</td>
-<td>Vector register group multiplier (LMUL)の設定</td>
+<td>Vector register group
+multiplier (LMUL)
+の設定</td>
 </tr>
 </tbody>
 </table>

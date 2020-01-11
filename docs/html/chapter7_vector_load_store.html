@@ -113,6 +113,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#id9">7.8.3. ベクトルインデックスセグメントロードストア命令</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">7.9. 全体ベクトルレジスタ・ベクトルロードストア命令</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html">8. ベクトルAMO操作(<code class="docutils literal notranslate"><span class="pre">Zvamo</span></code>)</a></li>
@@ -220,8 +221,8 @@ Encoding</a>
 </div>
 <table border="1" class="docutils">
 <colgroup>
-<col width="30%" />
-<col width="70%" />
+<col width="34%" />
+<col width="66%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">フィールド</th>
@@ -248,16 +249,19 @@ Encoding</a>
 <td>ベクトルマスク</td>
 </tr>
 <tr class="row-even"><td>width[2:0]</td>
-<td>メモリ要素のサイズを指定する。FPスカラの場合と値のエンコーディングは同一である。</td>
+<td>メモリ要素のサイズを指定する。FPスカラの場合と値のエンコーディン
+グは同一である。</td>
 </tr>
 <tr class="row-odd"><td>mop[2:0]</td>
 <td>メモリのアドレッシングモードを指定する。</td>
 </tr>
 <tr class="row-even"><td>nf[2:0]</td>
-<td>セグメントロード・ストア命令のための、各セグメントのフィールド数を指定する。</td>
+<td>セグメントロード・ストア命令のための、各セグメントのフィールド数を
+指定する。</td>
 </tr>
 <tr class="row-odd"><td>lumop[4:0]/sumop[4:0]</td>
-<td>ユニットストライド命令のための追加のフィールドエンコーディングを指定する。</td>
+<td>ユニットストライド命令のための追加のフィールドエンコーディングを指
+定する。</td>
 </tr>
 </tbody>
 </table>
@@ -268,7 +272,7 @@ Encoding</a>
 <p>すべてのベクトル命令のベース有効アドレスは整数レジスタの<code class="docutils literal notranslate"><span class="pre">rs1</span></code>で指定される。</p>
 <p>ベクトルのユニットストライド操作はメモリ内に連続している要素に対して、ベースの有効アドレスから順番に操作を行う。</p>
 <p>ベクトルストライド操作は、ベース有効アドレスから始まる最初のメモリ要素に対して捜査を行い、後続の要素に対しては<code class="docutils literal notranslate"><span class="pre">rs2</span></code>で指定される整数ベクトルレジスタの値に基づいてバイトオフセットを増加させながらアクセスを行う。</p>
-<p>ベクトルインデックス操作命令は、各要素の有効アドレスに対して<code class="docutils literal notranslate"><span class="pre">vs2</span></code>で指定されるベクトルレジスタで指定されるベクトルオフセットを各要素に加算する。もしベクトルオフセット要素がXLENよりも小さい場合はベース有効アドレスとの加算前にXLENビットまで符号拡張される。もしベクトルオフセット要素がXLENよりも小さい場合は、アドレス計算のために最も小さいXLENビットが使用される。</p>
+<p>ベクトルインデックス操作命令は、各要素の有効アドレスに対して<code class="docutils literal notranslate"><span class="pre">vs2</span></code>で指定されるベクトルレジスタで指定されるベクトルオフセットを各要素に加算する。もしベクトルオフセット要素がXLENよりも小さい場合はベース有効アドレスとの加算前にXLENビットにゼロ拡張される。もしベクトルオフセット要素がXLENよりも小さい場合は、アドレス計算のために最も小さいXLENビットが使用される。</p>
 <blockquote>
 <div>現在のベクトルインデックス命令のPoRでは、ベクトルのバイトオフセット(vs2)とベクトル読み書きのためのデータ(vs3/vd)が同一の長さである必要がある。1つの疑問として、べく鳥インデックス命令の中で2つのサイズのベクトルオペランドをどこでどうやって許容するかということである。例えば、64ビットアドレス空間を持つ実装でのscatter/gatherのバイト値は64ビット空間であり、しかしベクトルレジスタが64ビットの空間を持つ必要があるわけではない。</div></blockquote>
 <p>ベクトルアドレッシングモードは3ビットの<code class="docutils literal notranslate"><span class="pre">mop[2:0]</span></code>フィールドを用いてエンコーディングされる。</p>
@@ -409,25 +413,22 @@ Encoding</a>
 <p>ベクトルインデックスメモリ操作命令は2種類の形式がある。オーダー付きとアンオーダーである。インデックス・アンオーダーはメモリに書き込む順番について順序を守らない。</p>
 <blockquote>
 <div>インデックス・アンオーダー形式は実装最適化の可能性の1つとして追加した。実装では最適化を無視し、インデックス・オーダーと同じようにインデックス・アンオーダーを自由に実装できる。</div></blockquote>
-<p>Additional unit-stride vector addressing modes are encoded using the
-5-bit <code class="docutils literal notranslate"><span class="pre">lumop</span></code> and <code class="docutils literal notranslate"><span class="pre">sumop</span></code> fields in the unit-stride load and store
-instruction encodings respectively.</p>
 <p>ユニットストライドベクトル命令のアドレッシングモードにさらに追加されるフィールドでは、<code class="docutils literal notranslate"><span class="pre">lumop</span></code>と<code class="docutils literal notranslate"><span class="pre">sumop</span></code>フィールドを使ってユニットストライドロード・ストア命令のエンコーディングを拡張する。</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="19%" />
-<col width="5%" />
-<col width="5%" />
-<col width="5%" />
-<col width="5%" />
-<col width="62%" />
+<col width="14%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="59%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">lumop[4:0]</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
+<tr class="row-odd"><th class="head">lumop[4]</th>
+<th class="head">[3]</th>
+<th class="head">[2]</th>
+<th class="head">[1]</th>
+<th class="head">[0]</th>
 <th class="head">Description</th>
 </tr>
 </thead>
@@ -440,7 +441,21 @@ instruction encodings respectively.</p>
 <td>ユニットストライド</td>
 </tr>
 <tr class="row-odd"><td>0</td>
+<td>0</td>
 <td>x</td>
+<td>x</td>
+<td>x</td>
+<td>予約, x!=0</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>すべてのレジスタに対してユニットストライド</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>1</td>
 <td>x</td>
 <td>x</td>
 <td>x</td>
@@ -464,19 +479,19 @@ instruction encodings respectively.</p>
 </table>
 <table border="1" class="docutils">
 <colgroup>
-<col width="27%" />
+<col width="14%" />
 <col width="7%" />
 <col width="7%" />
 <col width="7%" />
 <col width="7%" />
-<col width="45%" />
+<col width="59%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">sumop[4:0]</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
+<tr class="row-odd"><th class="head">sumop[4]</th>
+<th class="head">[3]</th>
+<th class="head">[2]</th>
+<th class="head">[1]</th>
+<th class="head">[0]</th>
 <th class="head">Description</th>
 </tr>
 </thead>
@@ -489,7 +504,21 @@ instruction encodings respectively.</p>
 <td>ユニットストライド</td>
 </tr>
 <tr class="row-odd"><td>0</td>
+<td>0</td>
 <td>x</td>
+<td>x</td>
+<td>x</td>
+<td>予約, x!=0</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>すべてのレジスタに対してユニットストライド</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>1</td>
 <td>x</td>
 <td>x</td>
 <td>x</td>
@@ -509,6 +538,7 @@ Load/Store Segment Instructions
 (``Zvlsseg`</cite>) &lt;<a class="reference external" href="https://riscv.github.io/documents/riscv-v-spec/#sec-aos">https://riscv.github.io/documents/riscv-v-spec/#sec-aos</a>&gt;`__に示すように複数の連続したフィールドに対してアクセスするために使用される。</p>
 <blockquote>
 <div><code class="docutils literal notranslate"><span class="pre">nf</span></code>フィールドはセグメントロードストアのためのフィールドで、同じアドレスビットを使用する条件を置き換えるものである。オフセットは1つの整数の計算に置き換えることができ、またセグメントロードストアはメモリから要素を移動するのに強力なプリミティブを与えるものである。</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">nf[2:0]</span></code>フィールドは、ロード・ストア命令の全体ベクトルレジスタに対して転送するベクトルレジスタの数をエンコードしている。</p>
 </div>
 <div class="section" id="width">
 <h2>7.3. ベクトルロードストア : Widthのエンコーディング<a class="headerlink" href="#width" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -704,8 +734,9 @@ Load/Store Segment Instructions
 
 <span class="n">strlen</span><span class="p">:</span>
     <span class="n">mv</span> <span class="n">a3</span><span class="p">,</span> <span class="n">a0</span>             <span class="c1"># レジスタの退避</span>
+    <span class="n">li</span> <span class="n">t0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>             <span class="c1"># AVLの初期化</span>
 <span class="n">loop</span><span class="p">:</span>
-    <span class="n">vsetvli</span> <span class="n">a1</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">e8</span>    <span class="c1"># 最大長のベクトル長に設定する。</span>
+    <span class="n">vsetvli</span> <span class="n">a1</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">e8</span>    <span class="c1"># 最大長のベクトル長に設定する。</span>
     <span class="n">vlbff</span><span class="o">.</span><span class="n">v</span> <span class="n">v1</span><span class="p">,</span> <span class="p">(</span><span class="n">a3</span><span class="p">)</span>      <span class="c1"># バイトロード</span>
     <span class="n">csrr</span> <span class="n">a1</span><span class="p">,</span> <span class="n">vl</span>           <span class="c1"># 読み込んだバイト数を取得</span>
     <span class="n">vmseq</span><span class="o">.</span><span class="n">vi</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="mi">0</span>    <span class="c1"># v1[i] == 0の結果をv0[i]に格納する。</span>
@@ -727,7 +758,7 @@ fault-only-first命令は大きなセキュリティホールとなるため定�
 <div class="section" id="zvlsseg">
 <h2>7.8. セグメントベクトルロード・ストア命令(<code class="docutils literal notranslate"><span class="pre">Zvlsseg</span></code>)<a class="headerlink" href="#zvlsseg" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <blockquote>
-<div>この命令はベクトル命令の追加拡張として記述されているが、ほとんどのプロファイルでは、操作が一般に省略できないため、ほとんどのプロファイルで必須になっている。。</div></blockquote>
+<div>この命令セット群はベースとなる“V”拡張に取り込まれる予定である。</div></blockquote>
 <p>セグメントベクトルロードストア命令はメモリ中の複数の連続したフィールド連続した複数のベクトルレジスタとの間で移動する命令である。</p>
 <blockquote>
 <div>これらの操作では、構造体のフィールドをアンパックすることで“Array-of-structures”のデータ型複数のベクトルレジスタに格納する操作をサポートする。</div></blockquote>
@@ -735,15 +766,15 @@ fault-only-first命令は大きなセキュリティホールとなるため定�
 <p>ベクトル命令エンコーディング中の3ビットの<code class="docutils literal notranslate"><span class="pre">nf</span></code>フィールドは符号なし整数で、セグメント当たりのフィールドの数<strong>NFIELDS</strong>を示している。</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="38%" />
-<col width="13%" />
-<col width="13%" />
-<col width="38%" />
+<col width="27%" />
+<col width="19%" />
+<col width="19%" />
+<col width="35%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">nf[2:0]</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
+<tr class="row-odd"><th class="head">nf[2]</th>
+<th class="head">[1]</th>
+<th class="head">[0]</th>
 <th class="head">NFIELDS</th>
 </tr>
 </thead>
@@ -895,6 +926,30 @@ GPRに格納されたバイトストライドオフセットに基づいて離�
 <blockquote>
 <div>この制約により、インデックス付きセグメントロード命令が構造体をロードしている最中に例外が発生した場合にリスタートできるようになる。</div></blockquote>
 <p>順序付きセグメントストア命令のみ定義されている。セグメントは要素の順番に沿って書き込まれる必要がある。</p>
+</div>
+</div>
+<div class="section" id="id10">
+<h2>7.9. 全体ベクトルレジスタ・ベクトルロードストア命令<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>これらの命令はまだ初期検討段階で、仕様に含まれるかどうかは未定である。</p>
+<p>こられの命令はすべてのベクトルレジスタ(例えば、VLENビット)に対してロード・ストアを実行するための命令で、<code class="docutils literal notranslate"><span class="pre">vl</span></code>および<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタの設定を無視することができる。</p>
+<p>こられの命令は現在のコンテキストにおけるベクトルレジスタの<code class="docutils literal notranslate"><span class="pre">type</span></code>および長さが不定である場合にベクトルレジスタの退避・復帰を行うために使用されるか、<code class="docutils literal notranslate"><span class="pre">vl</span></code>および<code class="docutils literal notranslate"><span class="pre">vtype</span></code>を変更することがコスト高である場合に使用される。</p>
+<p>使用例としてはコンパイラのレジスタスピルアウトや、ベクトルレジスタ経由で関数呼び出しの引数を渡す場合、例外ハンドラ、コンテキストスイッチなどである。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ベクトルレジスタ全体を取り扱うベクトルロード命令はLOAD-FP メジャーオペコードに配置される。
+31 29 28 26  25  24      20 19       15 14   12 11      7 6     0
+ nf  | 000 | 1 |   01000   |    rs1    |  111  |    vd   |0000111| VL&lt;nf&gt;R
+
+ベクトルレジスタ全体を取り扱うベクトルストア命令はSTORE-FPメジャーオペコード内に配置される。
+31 29 28 26  25  24      20 19       15 14   12 11      7 6     0
+ nf  | 000 | 1 |   01000   |    rs1    |  111  |   vs3   |0100111| VS&lt;nf&gt;R
+</pre></div>
+</div>
+<p>これらの命令はマスクを使用しないユニットストライドのロードストア命令に似ており、ベースアドレスはスカラの整数レジスタを<code class="docutils literal notranslate"><span class="pre">rs1</span></code>を使用して指定する。ロード命令は<code class="docutils literal notranslate"><span class="pre">vd</span></code>によって指定される1つのベクトルレジスタに転送し、ストア命令は<code class="docutils literal notranslate"><span class="pre">vs3</span></code>によって指定される1つのベクトルレジスタをストアする。これらのレジスタはSEW=8およびLMUL=1であるかのように動作する。</p>
+<p>全体ベクトルロード命令はマスクされていないゼロ拡張のユニットストライドロード命令のように動作する。<code class="docutils literal notranslate"><span class="pre">nf</span></code>フィールドのエンコーディングによっていくつのベクトルレジスタをロード・ストアに使用するかを指定する。全体ベクトルストア命令はマスクされていないユニットストライドのストア命令のエンコーディングと似ている。現在のベース仕様では<code class="docutils literal notranslate"><span class="pre">nf=0</span></code>しかサポートされておらず、他の<code class="docutils literal notranslate"><span class="pre">nf</span></code>の値は予約である。将来の拡張では、複数のレジスタが転送される場合にベクトルレジスタの値をLMUL=1であるかのように、最下位のベクトルレジスタの値から最下位のメモリアドレスに連続して複数のメモリ領域に格納できるようになる。<code class="docutils literal notranslate"><span class="pre">nf</span></code>フィールドのエンコードによってベースのレジスタから順番にいくつのベクトルレジスタを転送するかが決められる。ベースレジスタ+<code class="docutils literal notranslate"><span class="pre">nf</span></code>の値は31を超えてはならず、超えた場合は不定命令例外が発生する。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Format</span>
+<span class="n">vl1r</span><span class="o">.</span><span class="n">v</span> <span class="n">v3</span><span class="p">,</span> <span class="p">(</span><span class="n">a0</span><span class="p">)</span>      <span class="c1"># Load v3 with VLEN/8 bytes held at address in a0</span>
+
+<span class="n">vs1r</span><span class="o">.</span><span class="n">v</span> <span class="n">v3</span><span class="p">,</span> <span class="p">(</span><span class="n">a1</span><span class="p">)</span>      <span class="c1"># Store v3 to address in a1</span>
+</pre></div>
 </div>
 </div>
 </div>

@@ -375,6 +375,7 @@ Layout</a>で説明したレイアウトに基づいて結果を書き込む。<
 NaN入力を受け付けた場合にのみ例外を発生する。<code class="docutils literal notranslate"><span class="pre">vmflt</span></code>, <code class="docutils literal notranslate"><span class="pre">vmfle</span></code>,
 <code class="docutils literal notranslate"><span class="pre">vmfgt</span></code>, <code class="docutils literal notranslate"><span class="pre">vmfge</span></code>命令はSignaling NaNとQuiet
 NaNのどちらでも例外を発生する。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vmfne</span></code>はどちらかのオペランドがNaNである場合は1を書き込む。一方で他の比較命令ではどちらかのオペランドがNaNである場合は0を書き込む。</p>
 <p>すべての比較命令では、LMUL &gt;
 1であり結果の書き込みレジスタはソースオペランドとオーバラップすることはできない。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># Compare equal</span>
@@ -416,28 +417,9 @@ NaNのどちらでも例外を発生する。</p>
 </pre></div>
 </div>
 <blockquote>
-<div>NaNのアンオーダーな比較も正しく処理するためには、すべての形式を定義する必要がある。</div></blockquote>
-<table border="1" class="docutils">
-<colgroup>
-<col width="4%" />
-<col width="96%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">&#160;</th>
-<th class="head">C99 floating-point quiet comparisons can be implemented by
-masking the signaling comparisons when either input is NaN, as
-follows. When the comparand is a non-NaN constant, the middle
-two instructions can be omitted.</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>&#160;</td>
-<td>&#160;</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<div>C99の浮動小数点のQuietな比較操作は、どちらかの入力オペランドがNaNである場合にSignalingの比較をマスクすることで実装できる。この例を以下に示す。比較オペランドがNaNでない定数であれば、真ん中の2命令は除去することができる。</div></blockquote>
+<div><p>NaNのアンオーダーな比較も正しく処理するためには、すべての形式を定義する必要がある。</p>
+<p>C99の浮動小数点のQuietな比較操作は、どちらかの入力オペランドがNaNである場合にSignalingの比較をマスクすることで実装できる。この例を以下に示す。比較オペランドがNaNでない定数であれば、真ん中の2命令は除去することができる。</p>
+</div></blockquote>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># isgreater()の実装例</span>
 <span class="n">vmfeq</span><span class="o">.</span><span class="n">vv</span> <span class="n">v0</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">va</span>        <span class="c1"># AがNaNでない場合のみマスクが設定される。</span>
 <span class="n">vmfeq</span><span class="o">.</span><span class="n">vv</span> <span class="n">v1</span><span class="p">,</span> <span class="n">vb</span><span class="p">,</span> <span class="n">vb</span>        <span class="c1"># BがNanでない場合のみマスクが設定される。</span>
@@ -468,7 +450,8 @@ NaNが含まれてえいる場合に誤って不正値例外を発生してし�
 </pre></div>
 </div>
 <blockquote>
-<div>Zfinxのバリエーションでは、<code class="docutils literal notranslate"><span class="pre">vmerge.vxm</span></code>命令も提供される予定である。</div></blockquote>
+<div>浮動小数点算術演算のように、FLEN &gt;
+SEWであれば<code class="docutils literal notranslate"><span class="pre">vfmerge.vfm</span></code>命令は<code class="docutils literal notranslate"><span class="pre">f[rs1]</span></code>が正しくNaN-Boxedされていない場合にはCanonicalなNaNが代入される。</div></blockquote>
 </div>
 <div class="section" id="id12">
 <h2>14.14. ベクトル浮動小数点移動命令<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -477,8 +460,9 @@ NaNが含まれてえいる場合に誤って不正値例外を発生してし�
 </pre></div>
 </div>
 <blockquote>
-<div><p>Zfinxのバリエーションでは、この命令は<code class="docutils literal notranslate"><span class="pre">vmv.v.x</span></code>と同一である。</p>
-<p><code class="docutils literal notranslate"><span class="pre">vfmv.v.f</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vfmerge.vfm</span></code>命令とエンコーディングを共有しているが、<code class="docutils literal notranslate"><span class="pre">vm=1</span></code>かつ<code class="docutils literal notranslate"><span class="pre">vs2=v0</span></code>であるところが異なる。</p>
+<div><p><code class="docutils literal notranslate"><span class="pre">vfmv.v.f</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vfmerge.vfm</span></code>命令とエンコーディングを共有しているが、<code class="docutils literal notranslate"><span class="pre">vm=1</span></code>かつ<code class="docutils literal notranslate"><span class="pre">vs2=v0</span></code>であるところが異なる。</p>
+<p>浮動小数点算術演算のように、FLEN &gt;
+SEWであれば<code class="docutils literal notranslate"><span class="pre">vfmv.v.f</span></code>命令は<code class="docutils literal notranslate"><span class="pre">f[rs1]</span></code>が正しくNaN-Boxedされていない場合にはCanonicalなNaNが代入される。</p>
 </div></blockquote>
 </div>
 <div class="section" id="id13">
@@ -517,20 +501,24 @@ Instructions</a>を参照のこと)。</p>
 <div class="section" id="id15">
 <h2>14.17. ビット幅を縮小するベクトル浮動小数点変換命令<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>幅の広い整数もしくは浮動小数点の値から、幅の狭い型に対して変換する命令を定義する。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vfncvt</span><span class="o">.</span><span class="n">xu</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 倍のサイズの浮動小数点から符号なし整数へ変換する。</span>
-<span class="n">vfncvt</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 倍のサイズの浮動小数点から符号付き整数へ変換する。</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vfncvt</span><span class="o">.</span><span class="n">xu</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">w</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 倍のサイズの浮動小数点から符号なし整数へ変換する。</span>
+<span class="n">vfncvt</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">w</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 倍のサイズの浮動小数点から符号付き整数へ変換する。</span>
 
-<span class="n">vfncvt</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">xu</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 倍のサイズの符号なし整数から浮動小数点へ変換する。</span>
-<span class="n">vfncvt</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">v</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 倍のサイズの符号付き整数から浮動小数点へ変換する。</span>
+<span class="n">vfncvt</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">xu</span><span class="o">.</span><span class="n">w</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 倍のサイズの符号なし整数から浮動小数点へ変換する。</span>
+<span class="n">vfncvt</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">w</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 倍のサイズの符号付き整数から浮動小数点へ変換する。</span>
 
-<span class="n">vfncvt</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 倍のサイズの浮動小数点から元のサイズの浮動小数点に変換する。</span>
+<span class="n">vfncvt</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">w</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 倍のサイズの浮動小数点から元のサイズの浮動小数点に変換する。</span>
+<span class="n">vfncvt</span><span class="o">.</span><span class="n">rod</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">w</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># 倍のサイズの浮動小数点の値から元のサイズの浮動小数点に変換する。</span>
+                              <span class="c1">#  丸めモードはoddである。</span>
 </pre></div>
 </div>
 <p>これらの命令はビット幅を縮小する他のベクトル命令と同じレジスタオーバラップの制約を持っている(<a class="reference external" href="https://riscv.github.io/documents/riscv-v-spec/#sec-narrowing">Narrowing
 Vector Arithmetic
 Instructions</a>を参照のこと)</p>
 <blockquote>
-<div>すべての浮動小数点の変換を単一の命令でサポートすることはできない。変換処理はいくつかのステップを踏み、等価な丸め処理を行った結果とかな例外フラグを設定することが可能である(複数ステップの中で冗長な例外が発生する可能性はある)。</div></blockquote>
+<div>すべての浮動小数点の変換を単一の命令でサポートすることはできない。変換処理はいくつかのシーケンスを踏む。結果は同等に丸められ、最後のステップ以外ですべてが奇数への丸め（
+<code class="docutils literal notranslate"><span class="pre">vfncvt.rod.f.f.w</span></code>）を使用する場合、同じ例外フラグが発生する。
+最終ステップでのみ、目的の丸めモードを使用する必要がある。</div></blockquote>
 <blockquote>
 <div>整数値のビット幅を半分にする処理は、ビット幅を縮小する整数シフト命令において、シフト量を0に設定することで実現できる。</div></blockquote>
 </div>

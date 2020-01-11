@@ -1,10 +1,6 @@
 11. ベクトル算術演算命令フォーマット
 ------------------------------------
 
-The vector arithmetic instructions use a new major opcode (OP-V =
-10101112) which neighbors OP-FP. The three-bit ``funct3`` field is used
-to define sub-categories of vector instructions.
-
 ベクトル算術演算命令は新しいメジャーオペコード(OP-V =
 b1010111)を使用している。このオペコードはOP-FPと隣接しており、3ビットの\ ``funct3``\ フィールドを使用してベクトル命令のサブカテゴリを定義している。
 
@@ -58,8 +54,8 @@ b1010111)を使用している。このオペコードはOP-FPと隣接してお
 スカラ演算は3つの形式をとることができるが、すべてのケースにおいて\ ``vs2``\ ベクトルレジスタグループにより1つのベクトルオペランドを取り、2番目のスカラソースオペランドは以下の3つのうちどれかの景色を選択する。
 
 1. 整数演算では、スカラ値は\ ``rs1``\ フィールドからエンコードされる5ビットの即値を使用する。値は符号拡張されるか、符号なし拡張される。
-2. 整数演算では、スカラ値は\ ``rs1``\ から指定される整数レジスタ\ ``x``\ から取得される。もし\ ``XLEN>SEW``\ であれば、\ ``x``\ レジスタのうち界のビットが使用される。XLEN<SEWであれば、\ ``x``\ レジスタの値はSEWビットまで符号拡張される。
-3. 浮動小数点演算では、スカラ値は浮動小数点スカラレジスタ\ ``f``\ から取得される。FLEN>SEWであれば、\ ``f``\ レジスタはNaN-boxされた値かどうかをチェックし、\ ``f``\ レジスタの会のビットが使用される。NaN-boxされた値でなければNaNが使用される。FLEN<SEWであれば、値はNaN-boxされSEWビット長まで拡張される。
+2. 整数演算では、スカラ値は\ ``rs1``\ から指定される整数レジスタ\ ``x``\ から取得される。もし\ ``XLEN>SEW``\ であれば、\ ``x``\ レジスタのうち下位のSEWビットが使用される。XLEN<SEWであれば、\ ``x``\ レジスタの値はSEWビットまで符号拡張される。
+3. 浮動小数点演算では、スカラ値は浮動小数点スカラレジスタ\ ``f``\ から取得される。FLEN>SEWであれば、\ ``f``\ レジスタはNaN-boxされた値かどうかをチェックし、\ ``f``\ レジスタの下位のSEWビットが使用される。NaN-boxされた値でなければNaNが使用される。FLEN<SEWであれば、値はNaN-boxされSEWビット長まで拡張される。
 
 ..
 
@@ -108,17 +104,9 @@ b1010111)を使用している。このオペコードはOP-FPと隣接してお
 11.2. ビット幅が広がるベクトル算術演算命令
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A few vector arithmetic instructions are defined to be *widening*
-operations where the destination elements are 2*SEW wide and are stored
-in a vector register group with twice the number of vector registers.
-
 いくつかのベクトル算術演算命令では\ **ビット幅が拡張される**\ 演算命令として定義されており、書き込み先の要素は
 2*SEW
 ビットまで拡張され、書き込み先のベクトルレジスタグループは2つ分使用される。
-
-The first operand can be either single or double-width. These are
-generally written with a ``vw*`` prefix on the opcode or ``vfw*`` for
-vector floating-point operations.
 
 1番目のオペランドでは、1倍幅もしくは2倍幅である。通常これらの命令はプレフィックスとして\ ``vw*``\ がつけられ、ベクトル浮動小数点命令の場合は\ ``vfw*``\ プレフィックスが付けられる。
 
@@ -152,10 +140,6 @@ vector floating-point operations.
 
 書き込み先のベクトルレジスタグループはベクトルレジスタ番号で指定し、書き込み先のLMULの値において有効な値である必要がある。そうでなければ、不正命令例外が発生する。
 
-The destination vector register group cannot overlap a source vector
-register group of a different element width (including the mask register
-if masked), otherwise an illegal instruction exception is raised.
-
 書き込み先のベクトルレジスタグループは別の要素幅を持つソースベクトルレジスタグループとオーバラップしてはならない(マスクレジスタを使用していても、マスクを含めて被ってはならない)。そうでなければ、不正命令例外が発生する。
 
    非ゼロの\ ``vstart``\ をサポートする必要がある。
@@ -181,10 +165,7 @@ if masked), otherwise an illegal instruction exception is raised.
 
    LMULと幅が同一で、要素のサイズが書き込みベクトルレジスタと同一のLMUL=1のときにマスクレジスタを上書きするために2番目のソースベクトルレジスタグループを上書きするのは安全であるxxx。
 
-A ``vn*`` prefix on the opcode is used to distinguish these instructions
-in the assembler, or a ``vfn*`` prefix for narrowing floating-point
-opcodes.
-
-アセンブラ中で命令を区別するために、\ ``vn*``\ プレフィックスをオペコードに使用するか、浮動小数点命令の場合は\ ``vfn*``\ プレフィックスを使用する。
+アセンブラ中で命令を区別するために、\ ``vn*``\ プレフィックスをオペコードに使用するか、浮動小数点命令の場合は\ ``vfn*``\ プレフィックスを使用する。倍幅のソースベクトルレジスタグループは\ ``w``\ をソースオペランドサフィックスに指定することで指定する(例:
+``vnsra.wv``)
 
    マスクレジスタを設定する比較演算命令も、暗黙的にビット幅を縮小する演算である。

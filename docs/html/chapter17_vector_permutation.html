@@ -114,13 +114,14 @@
 <li class="toctree-l2"><a class="reference internal" href="#id3">17.2. 浮動小数点スカラ移動命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id4">17.3. ベクトルスライド命令</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id5">17.3.1. ベクトルスライドアップ命令</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#vector-slidedown-instructions">17.3.2. Vector Slidedown Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">17.3.2. ベクトルストライドダウン命令</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#slide1up">17.3.3. ベクトルSlide1up命令</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#slide1down">17.3.4. ベクトルSlide1down命令</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">17.4. ベクトルレジスタギャザー命令</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">17.5. ベクトル圧縮命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">17.4. ベクトルレジスタギャザー命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">17.5. ベクトル圧縮命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">17.6 全体ベクトルレジスタ移動命令</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="chapter18_exception.html">18. 例外処理</a></li>
@@ -242,8 +243,6 @@ FLENであれば、値はSEWビットまでNaN-Boxing(1拡張)される。書き
 </div>
 <div class="section" id="id4">
 <h2>17.3. ベクトルスライド命令<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>The slide instructions move elements up and down a vector register
-group.</p>
 <p>ベクトルの要素の位置を変更するための命令が定義されている。</p>
 <blockquote>
 <div>レジスタのギャザー命令を使用するより、スライド操作はより効率的に実装することができる。実装では<code class="docutils literal notranslate"><span class="pre">vslideup</span></code>と<code class="docutils literal notranslate"><span class="pre">vslidedown</span></code>命令のための特定のOFFSET値に最適化することができる。特に、オフセットの値が2の累乗である場合は他のオフセットよりも全体的に高速な実装を実現できる。</div></blockquote>
@@ -252,45 +251,45 @@ group.</p>
 <code class="docutils literal notranslate"><span class="pre">vl</span></code>であれば、命令は何も実行せず、書き込みベクトルレジスタの値は更新されない。</p>
 <blockquote>
 <div>結果として、<code class="docutils literal notranslate"><span class="pre">vl</span></code>=0であれば、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>の値に関わらず書き込みベクトルレジスタグループは更新されない。</div></blockquote>
+<p>マスク要素<span class="math notranslate nohighlight">\(i\)</span>が書き込み要素<span class="math notranslate nohighlight">\(i\)</span>を制御しているスライド命令はマスクされる。</p>
 <div class="section" id="id5">
 <h3>17.3.1. ベクトルスライドアップ命令<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vslideup</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>        <span class="c1"># vd[i+rs1] = vs2[i]</span>
 <span class="n">vslideup</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span> <span class="n">vm</span>  <span class="c1"># vd[i+uimm] = vs2[i]</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">vslideup</span></code>命令では、<code class="docutils literal notranslate"><span class="pre">vl</span></code>の値は書き込まれるベクトルの要素の数を示している。書き込みレジスタの開始インデックス(OFFSET)は符号なし整数として整数<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタに格納しておき、<code class="docutils literal notranslate"><span class="pre">rs1</span></code>として参照するか、5ビットのサイズまでであれば即値命令を使用して指定できる。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vslideup</span></code>命令では、<code class="docutils literal notranslate"><span class="pre">vl</span></code>の値は書き込まれるベクトルの最大要素の数を示している。書き込みレジスタの開始インデックス(OFFSET)は符号なし整数として整数<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタに格納しておき、<code class="docutils literal notranslate"><span class="pre">rs1</span></code>として参照するか、5ビットのサイズまでであれば即値命令を使用して指定できる。</p>
+<p>XLEN &gt;
+SEWであるならば、SEWビットは切り取られない。マスクされておらず、かつOFFSET
+&lt; <code class="docutils literal notranslate"><span class="pre">vl</span></code>ならばOFFSETから<code class="docutils literal notranslate"><span class="pre">vl</span></code>-1までの要素は書き込まれる。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span> vslideup命令での書き込みベクトル要素の動作
 
  OFFSETはスライドアップの量であり、xレジスタもしくは5ビットの即値で与えられる。
                   0 &lt;  i &lt; max(vstart, OFFSET)  変化なし
 max(vstart, OFFSET) &lt;= i &lt; vl                   マスクが有効ならばvd[i] = vs2[i-OFFSET]
                                                  そうでなければ変化なし
-                 vl &lt;= i &lt; VLMAX                テール要素。vd[i] = 0
+                 vl &lt;= i &lt; VLMAX                テール要素。変更なし。
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">vslideup</span></code>の書き込みベクトルレジスタグループソースベクトルレジスタグループとオーバラップすることはできなない。操作がマスクされてベクトルマスクレジスタとオーバラップしないならば良いが、そうでなければ不正命令例外が発生する。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vslideup</span></code>の書き込みベクトルレジスタグループとソースベクトルレジスタグループとオーバラップすることはできなない。操作がマスクされてベクトルマスクレジスタとオーバラップしないならば良いが、そうでなければ不正命令例外が発生する。</p>
 <blockquote>
-<div>オーバラップしない条件は、入力べくとに対するWARハザードの発生を抑止する目的と、非ゼロの<code class="docutils literal notranslate"><span class="pre">vstart</span></code>から再開するためである。</div></blockquote>
+<div>オーバラップしない条件は、入力ベクトルに対するWARハザードの発生を抑止する目的と、非ゼロの<code class="docutils literal notranslate"><span class="pre">vstart</span></code>から再開するためである。</div></blockquote>
 </div>
-<div class="section" id="vector-slidedown-instructions">
-<h3>17.3.2. Vector Slidedown Instructions<a class="headerlink" href="#vector-slidedown-instructions" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id6">
+<h3>17.3.2. ベクトルストライドダウン命令<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vslidedown</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>       <span class="c1"># vd[i] = vs2[i+rs1]</span>
 <span class="n">vslidedown</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span> <span class="n">vm</span> <span class="c1"># vd[i] = vs2[i+uimm]</span>
 </pre></div>
 </div>
-<p>For <code class="docutils literal notranslate"><span class="pre">vslidedown</span></code>, the value in <code class="docutils literal notranslate"><span class="pre">vl</span></code> specifies the number of
-destination elements that are written.</p>
-<p>The start index (<em>OFFSET</em>) for the source can be either specified using
-an unsigned integer in the <code class="docutils literal notranslate"><span class="pre">x</span></code> register specified by <code class="docutils literal notranslate"><span class="pre">rs1</span></code>, or a
-5-bit immediate treated as an unsigned 5-bit quantity.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vslidedown</span> <span class="n">behavior</span> <span class="k">for</span> <span class="n">source</span> <span class="n">elements</span> <span class="k">for</span> <span class="n">element</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">slide</span>
-                 <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="o">+</span><span class="n">OFFSET</span> <span class="o">&lt;</span> <span class="n">VLMAX</span>   <span class="n">Read</span> <span class="n">vs2</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">offset</span><span class="p">]</span>
-             <span class="n">VLMAX</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="o">+</span><span class="n">OFFSET</span>           <span class="n">Read</span> <span class="k">as</span> <span class="mi">0</span>
+<p><code class="docutils literal notranslate"><span class="pre">vslidedown</span></code>命令では、<code class="docutils literal notranslate"><span class="pre">vl</span></code>の値はいくつの書き込み先要素に書き込みが行われるかを示す。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>vslidedownの要素iのソース要素の動作
+                 0 &lt;= i+OFFSET &lt; VLMAX   vs2[i+OFFSET]を読み出す。
+             VLMAX &lt;= i+OFFSET           0として読みだされる。
 
-<span class="n">vslidedown</span> <span class="n">behavior</span> <span class="k">for</span> <span class="n">destination</span> <span class="n">element</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">slide</span>
-                 <span class="mi">0</span> <span class="o">&lt;</span>  <span class="n">i</span> <span class="o">&lt;</span> <span class="n">vstart</span>         <span class="n">Unchanged</span>
-            <span class="n">vstart</span> <span class="o">&lt;=</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">vl</span>             <span class="n">Updated</span> <span class="k">if</span> <span class="n">mask</span> <span class="n">enabled</span><span class="p">,</span> <span class="n">unchanged</span> <span class="k">if</span> <span class="ow">not</span>
-                <span class="n">vl</span> <span class="o">&lt;=</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">VLMAX</span>          <span class="n">Zeroed</span>
+vslidedownの要素iの書き込み要素の動作
+                 0 &lt;  i &lt; vstart         変更なし。
+            vstart &lt;= i &lt; vl             マスクが有効ならばアップデートされる。そうでなければアップデートされない。
+                vl &lt;= i &lt; VLMAX          変更なし。
 </pre></div>
 </div>
 </div>
@@ -301,7 +300,7 @@ an unsigned integer in the <code class="docutils literal notranslate"><span clas
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">vslide1up</span></code>命令は<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタ引数を取り、書き込みベクトルレジスタの要素0番がアクティブであればその値を挿入し、そうでなければその書き込み要素は変化しない。XLEN
-&lt; SEWであれば、値はSEWビットまでゼロ拡張される。XLEN &gt;
+&lt; SEWであれば、値はSEWビットまで符号拡張される。XLEN &gt;
 SEWであれば、SEWビット分の値がコピーされ、SEW-XLENビット分の値は無視される。</p>
 <p>残っているアクティブな<code class="docutils literal notranslate"><span class="pre">vl</span></code>-1個の要素はソースベクトルレジスタのインデックス*i*から書き込みベクトルレジスタグループの<em>i</em>+1要素にコピーされる。</p>
 <p><code class="docutils literal notranslate"><span class="pre">vl</span></code>レジスタは書き込みベクトルレジスタ要素のうちいくつの要素に書き込みが行われるかを示しており、テールの要素はゼロが設定される。</p>
@@ -310,7 +309,7 @@ SEWであれば、SEWビット分の値がコピーされ、SEW-XLENビット分
                   i &lt; vstart  変化なし
               0 = i = vstart  マスクが有効ならば vd[i] = x[rs1]、そうでなければ変化なし。
 max(vstart, 1) &lt;= i &lt; vl      マスクが有効ならば vd[i] = vs2[i-1]、そうでなければ変化なし。
-            vl &lt;= i &lt; VLMAX   テール要素。 vd[i] = 0
+            vl &lt;= i &lt; VLMAX   テール要素。 変更なし。
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">vslide1up</span></code>命令は、マスクレジスタがマスクされており、書き込み先ベクトルレジスタとオーバラップしてはならない。そうでなければ、不正命令例外が発生する。</p>
@@ -318,7 +317,7 @@ max(vstart, 1) &lt;= i &lt; vl      マスクが有効ならば vd[i] = vs2[i-1]
 <div class="section" id="slide1down">
 <h3>17.3.4. ベクトルSlide1down命令<a class="headerlink" href="#slide1down" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">vslide1down</span></code>命令はアクティブなベクトル要素のうち最初の<code class="docutils literal notranslate"><span class="pre">vl</span></code>-1個のアクティブの要素を*i*+1のソースベクトルレジスタインデックスから書き込みベクトルレジスタグループの<em>i</em>のインデックスにコピーする。</p>
-<p><code class="docutils literal notranslate"><span class="pre">vl</span></code>レジスタは書き込みベクトルレジスタ要素のうちいくつの要素に書き込みが行われるかを示しており、テールの要素はゼロが設定される。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vl</span></code>レジスタは書き込みベクトルレジスタ要素のうちいくつの要素に書き込みが行われるかを示しており、テールの要素の値は変更されない。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vslide1down</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>      <span class="c1"># vd[i] = vs2[i+1], vd[vl-1]=x[rs1]</span>
 </pre></div>
 </div>
@@ -330,18 +329,18 @@ SEWであれば、SEWビット分の値がコピーされ、SEW-XLENビット分
                     i &lt; vstart  変化しない
           vstart &lt;= i &lt; vl-1    マスクが有効ならばvd[i] = vs2[i+1]。そうでなければ変化なし。
           vstart &lt;= i = vl-1    マスクが有効ならばvd[vl-1] = x[rs1]。そうでなければ変化なし。
-              vl &lt;= i &lt; VLMAX   テール要素。vd[i] = 0
+              vl &lt;= i &lt; VLMAX   テール要素。変更なし。
 </pre></div>
 </div>
 <blockquote>
 <div><code class="docutils literal notranslate"><span class="pre">vslide1down</span></code>命令はメモリを使用せずに、他のベクトルレジスタを汚すことなく値をベクトルレジスタにロードすることができる。これはデバッガがベクトルレジスタの値をデバッグするときに使用でるが、非常に低速であり、また<code class="docutils literal notranslate"><span class="pre">vslide1down</span></code>命令を何度も発行する必要がある。</div></blockquote>
 </div>
 </div>
-<div class="section" id="id6">
-<h2>17.4. ベクトルレジスタギャザー命令<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id7">
+<h2>17.4. ベクトルレジスタギャザー命令<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ベクトルレジスタギャザー命令は最初のソースベクトルレジスタグループから2番目のソースベクトルレジスタグループが示す場所のデータを読み込む。2番目のベクトルに入っているインデックス値は符号なし整数として扱われる。ソースベクトルは、<code class="docutils literal notranslate"><span class="pre">vl</span></code>の値に関わらず、index
 &lt;
-VLMAXの範囲で読み込むことができる。書き込むことのできるレジスタ数は<code class="docutils literal notranslate"><span class="pre">vl</span></code>で与えられ、<code class="docutils literal notranslate"><span class="pre">vl</span></code>以降の書き込みベクトルレジスタの値は0に設定される。この演算はマスクを使用することができる。</p>
+VLMAXの範囲で読み込むことができる。書き込むことのできるレジスタ数は<code class="docutils literal notranslate"><span class="pre">vl</span></code>で与えられ、<code class="docutils literal notranslate"><span class="pre">vl</span></code>以降の書き込みベクトルレジスタの値は変更されない。この演算はマスクされることができる。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vrgather</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># vd[i] = (vs1[i] &gt;= VLMAX) ? 0 : vs2[vs1[i]];</span>
 </pre></div>
 </div>
@@ -350,33 +349,54 @@ VLMAX)、要素の値としてゼロが返される。</p>
 <p>ベクトル － スカラおよびベクトル －
 即値の形式をとることができる。これらの命令では、ソースベクトルレジスタからインデックスを読み込み、ベクトルレジスタの最初の位置から<code class="docutils literal notranslate"><span class="pre">vl</span></code>この要素を書き込む。スカラレジスタに格納されているインデックスの値および即値の値は符号なし整数として扱われる。</p>
 <p>この命令の形式は、任意のベクトル要素を、すべてのベクトルに対して展開するために使用できる。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vrgather</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># vd[i] = (x[rs1] &gt;= VLMAX) ? 0 : vs2[rs1]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vrgather</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># vd[i] = (x[rs1] &gt;= VLMAX) ? 0 : vs2[x[rs1]]</span>
 <span class="n">vrgather</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># vd[i] = (uimm &gt;= VLMAX) ? 0 : vs2[uimm]</span>
 </pre></div>
 </div>
 <p>任意の<code class="docutils literal notranslate"><span class="pre">vrgather</span></code>命令では、書き込みベクトルレジスタぐルールはマスクレジスタを含めて書き込みベクトルレジスタとオーバラップしてはならない。そうでなければ、不定命令例外が発生する。</p>
 <blockquote>
-<div>SEW=8の場合、ベクトル要素0-255のみが参照可能である。</div></blockquote>
+<div>SEW=8の場合、<code class="docutils literal notranslate"><span class="pre">vgather.vv</span></code>命令はベクトル要素0-255のみが参照可能である。</div></blockquote>
 </div>
-<div class="section" id="id7">
-<h2>17.5. ベクトル圧縮命令<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id8">
+<h2>17.5. ベクトル圧縮命令<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ベクトル圧縮命令はソースベクトルレジスタグループからベクトルマスクレジスタにより選択された要素を、書き込みベクトルレジスタグループの先頭から連続した要素に並べ替える。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vcompress</span><span class="o">.</span><span class="n">vm</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span>  <span class="c1"># vs1が有効なマスクであるvs2の要素を圧縮してvd2に書き込む。</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">vs1</span></code>により指定されるベクトルマスクレジスタは、最初の<code class="docutils literal notranslate"><span class="pre">vl</span></code>この要素を使用して<code class="docutils literal notranslate"><span class="pre">vs2</span></code>ベクトルの要素を抽出し連続する要素にパックし、<code class="docutils literal notranslate"><span class="pre">vd</span></code>の先頭から書き込む。任意の残された<code class="docutils literal notranslate"><span class="pre">vd</span></code>の値はゼロが書き込まれる。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vs1</span></code>により指定されるベクトルマスクレジスタは、最初の<code class="docutils literal notranslate"><span class="pre">vl</span></code>この要素を使用して<code class="docutils literal notranslate"><span class="pre">vs2</span></code>ベクトルの要素を抽出し連続する要素にパックし、<code class="docutils literal notranslate"><span class="pre">vd</span></code>の先頭から書き込む。任意の残された<code class="docutils literal notranslate"><span class="pre">vd</span></code>の値は変更されない。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vcompress命令の使用例</span>
 
     <span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span>   <span class="n">v0</span>
     <span class="mi">8</span> <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>   <span class="n">v1</span>
+    <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span>   <span class="n">v2</span>
+
                             <span class="n">vcompress</span><span class="o">.</span><span class="n">vm</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v0</span>
-    <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">8</span> <span class="mi">7</span> <span class="mi">5</span> <span class="mi">2</span> <span class="mi">0</span>   <span class="n">v2</span>
+    <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">8</span> <span class="mi">7</span> <span class="mi">5</span> <span class="mi">2</span> <span class="mi">0</span>   <span class="n">v2</span>
 </pre></div>
 </div>
+<p><code class="docutils literal notranslate"><span class="pre">vcompress</span></code>はマスクされない命令(<code class="docutils literal notranslate"><span class="pre">vm=1</span></code>)としてエンコードされる。マスクされる命令(<code class="docutils literal notranslate"><span class="pre">vm=0</span></code>)のエンコードは予約である。</p>
 <p>書き込みベクトルレジスタグループは、ソースベクトルレジスタ及びソースベクトルマスクレジスタとオーバラップしてはならないという制約がある。そうでなければ、不正命令例外が発生する。</p>
 <p><code class="docutils literal notranslate"><span class="pre">vcompress</span></code>命令の例外は、常に<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が0であるとして通知される。<code class="docutils literal notranslate"><span class="pre">vstart</span></code>非ゼロのままで<code class="docutils literal notranslate"><span class="pre">vcompress</span></code>命令を実行すると、不正命令例外が発生する。</p>
 <blockquote>
 <div>不可能ではないものの、<code class="docutils literal notranslate"><span class="pre">vcompress</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vstart</span></code>がゼロでないとして最も再開が難しい命令の非辰である。つまり、実装はそのような動作はしないものとして実装するか、その代わりに要素0から再開するものとして実装する。これは、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>書き込みレジスタの要素はすでにアップデートされているものと仮定していることを意味する。</div></blockquote>
+</div>
+<div class="section" id="id9">
+<h2>17.6 全体ベクトルレジスタ移動命令<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">vmv&lt;nf&gt;r.v</span></code>命令は現在の<code class="docutils literal notranslate"><span class="pre">vl</span></code>および<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタの設定を無視してすべてのベクトルレジスタ(例えば、すべてのVLENビット)をコピーする。すべてのベクトルレジスタをコピーすることも可能である。</p>
+<blockquote>
+<div>この命令はコンパイラがベクトルレジスタを<code class="docutils literal notranslate"><span class="pre">vl</span></code>および<code class="docutils literal notranslate"><span class="pre">vtype</span></code>を使用せずにシャッフルすることを助けるための命令である。</div></blockquote>
+<p>この命令はOPIVI命令としてエンコードされる。コピーされるベクトルレジスタの数はsimmフィールドの最下位ビットとしてエンコードされ、メモリアクセス命令のnfフィールドと同様である。simmフィールドの上位ビットはゼロを設定しなければならず、他のエンコーディングは予約されている。<code class="docutils literal notranslate"><span class="pre">nf</span></code>の値は1,
+2, 4, 8レジスタのどれかを指定しなければならない。</p>
+<blockquote>
+<div>将来の拡張では移動することのできるレジスタの数を上記以外でもサポートする予定である。しかし、現在ではnfが3,
+5, 6, 7の場合のエンコーディングは予約されている。</div></blockquote>
+<blockquote>
+<div>この命令はvsmul命令と同様のエンコーディングをfunct6で使用しているが、即値オペランドを持っており、アンマスクされたバージョンしか定義されていない(<code class="docutils literal notranslate"><span class="pre">vm=1</span></code>)。エンコーディングは関連した<code class="docutils literal notranslate"><span class="pre">vmerge</span></code>のエンコーディングと近いものを選択しており、<code class="docutils literal notranslate"><span class="pre">vsmul</span></code>命令と違い即値の形式の利点を活用している。</div></blockquote>
+<p>ソースレジスタと書き込みレジスタはベクトルレジスタグループサイズにアラインしたアドレスでなければならない。</p>
+<blockquote>
+<div>将来の拡張では、このアラインの制約を除去する予定である。</div></blockquote>
+<blockquote>
+<div><code class="docutils literal notranslate"><span class="pre">vd</span></code>が<code class="docutils literal notranslate"><span class="pre">vs2</span></code>と同じである場合、この命令はNOPである。</div></blockquote>
 </div>
 </div>
 

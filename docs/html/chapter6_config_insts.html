@@ -189,18 +189,55 @@
 <p>アプリケーションの要求に応じて<code class="docutils literal notranslate"><span class="pre">vl</span></code>と<code class="docutils literal notranslate"><span class="pre">vtype</span></code>を簡単に設定できるような命令群が定義されている。</p>
 <div class="section" id="vsetvli-vsetvl">
 <h2>6.1. <code class="docutils literal notranslate"><span class="pre">vsetvli</span></code>/<code class="docutils literal notranslate"><span class="pre">vsetvl</span></code> 命令<a class="headerlink" href="#vsetvli-vsetvl" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">vsetvli</span></code>命令は引数に基づいて<code class="docutils literal notranslate"><span class="pre">vtype</span></code>と<code class="docutils literal notranslate"><span class="pre">vl</span></code>
+CSRの値を設定し、新しい<code class="docutils literal notranslate"><span class="pre">vl</span></code>の値を<code class="docutils literal notranslate"><span class="pre">rd</span></code>に書き込む。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vsetvli</span> <span class="n">rd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vtypei</span> <span class="c1"># rd = 新しいvlの値, rs1 = AVL, vtypei = 新しいvtypeの値</span>
-                        <span class="c1"># rs1 = x0の場合、最大のベクトル長が使用される。</span>
 <span class="n">vsetvl</span>  <span class="n">rd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">rs2</span>    <span class="c1"># rd = 新しいvlの値, rs1 = AVL, rs2 = 新しいvtypeの値</span>
-                        <span class="c1"># rs1 = x0の場合、最大のベクトル長が使用される。</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">vsetvli</span></code> instruction sets the <code class="docutils literal notranslate"><span class="pre">vtype</span></code> and <code class="docutils literal notranslate"><span class="pre">vl</span></code> CSRs based on
-its arguments, and writes the new value of <code class="docutils literal notranslate"><span class="pre">vl</span></code> into <code class="docutils literal notranslate"><span class="pre">rd</span></code>.</p>
-<p><code class="docutils literal notranslate"><span class="pre">vsetvli</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vtype</span></code>と<code class="docutils literal notranslate"><span class="pre">vl</span></code>のCSRレジスタをその引数に応じて設定し、新しい<code class="docutils literal notranslate"><span class="pre">vl</span></code>の値を<code class="docutils literal notranslate"><span class="pre">rd</span></code>に書き込む。</p>
-<p>The new <code class="docutils literal notranslate"><span class="pre">vtype</span></code> setting is encoded in the immediate fields of
-<code class="docutils literal notranslate"><span class="pre">vsetvli</span></code> and in the <code class="docutils literal notranslate"><span class="pre">rs2</span></code> register for <code class="docutils literal notranslate"><span class="pre">vsetvl</span></code>.</p>
-<p><code class="docutils literal notranslate"><span class="pre">vtype</span></code>の新しい設定値は<code class="docutils literal notranslate"><span class="pre">vsetvli</span></code>のフィールドの即値として設定され、<code class="docutils literal notranslate"><span class="pre">vsetvl</span></code>命令の場合は<code class="docutils literal notranslate"><span class="pre">rs2</span></code>レジスタで指定される。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vtype</span></code>の新しい設定値は<code class="docutils literal notranslate"><span class="pre">vsetvli</span></code>のフィールドの即値として設定され、<code class="docutils literal notranslate"><span class="pre">vsetvl</span></code>命令の場合は<code class="docutils literal notranslate"><span class="pre">rs2</span></code>レジスタで指定される。新しいベクトル長の設定はアプリケーションベクトル長(AVL)によって設定される。この値は<code class="docutils literal notranslate"><span class="pre">rs1</span></code>と<code class="docutils literal notranslate"><span class="pre">rd</span></code>フィールドの値によって次のようにしてエンコーディングされる。</p>
+<p>Table 7. <code class="docutils literal notranslate"><span class="pre">vsetvli</span></code>および<code class="docutils literal notranslate"><span class="pre">vsetvl</span></code>命令によって使用されるAVL値。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="27%" />
+<col width="61%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">rd</th>
+<th class="head">rs1</th>
+<th class="head">AVL値</th>
+<th class="head">説明・使用方法</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>0</td>
+<td>vlレジスタ内の値</td>
+<td>vlの値を変更することなくvtypeが変更される。</td>
+</tr>
+<tr class="row-odd"><td>!0</td>
+<td>0</td>
+<td>~0</td>
+<td>vlはVLMAXに設定される。</td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>!0</td>
+<td><code class="docutils literal notranslate"><span class="pre">x[rs1]</span></code>内の値</td>
+<td>通常のストリップマイニング</td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">rs1</span></code>が<code class="docutils literal notranslate"><span class="pre">x0</span></code>でない場合、AVLは<code class="docutils literal notranslate"><span class="pre">rs1</span></code>で指定された整数レジスタ内の符号なし整数であり、新しい<code class="docutils literal notranslate"><span class="pre">vl</span></code>の値は<code class="docutils literal notranslate"><span class="pre">rd</span></code>によって指定された整数レジスタに書き込まれる。</p>
+<p><code class="docutils literal notranslate"><span class="pre">rs1=x0</span></code>かつ<code class="docutils literal notranslate"><span class="pre">rd!=0</span></code>の場合は、AVLの値は整数の最大サイズ(<code class="docutils literal notranslate"><span class="pre">~0</span></code>)が使用される。結果として<code class="docutils literal notranslate"><span class="pre">vl</span></code>にはVLMAXが書き込まれ、<code class="docutils literal notranslate"><span class="pre">rd</span></code>により指定された整数レジスタにも書き込みが行われる。</p>
+<p><code class="docutils literal notranslate"><span class="pre">rs1=x0</span></code>および<code class="docutils literal notranslate"><span class="pre">rd=0</span></code>である場合、現在のベクトル長<code class="docutils literal notranslate"><span class="pre">vl</span></code>がAVLとして使用される。結果の値は<code class="docutils literal notranslate"><span class="pre">vl</span></code>にのみ書き込まれる。</p>
+<blockquote>
+<div>この形式の命令は<code class="docutils literal notranslate"><span class="pre">vl</span></code>を変更することなく<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタを変更することを許している。VLMAXの値は減る事は無い。現在の<code class="docutils literal notranslate"><span class="pre">vl</span></code>値はそのまま<code class="docutils literal notranslate"><span class="pre">vl</span></code>
+CSRから読み込まれる。</div></blockquote>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>OP-Vメジャーオペコードを使用したベクトルコンフィグレーション命令のフォーマット。
 
  31 30         25 24      20 19      15 14   12 11      7 6     0
@@ -269,14 +306,8 @@ its arguments, and writes the new value of <code class="docutils literal notrans
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">vtype</span></code>の設定値が実装によってサポートされていない場合、<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタ内の<code class="docutils literal notranslate"><span class="pre">vill</span></code>ビットが設定され、それ以外の<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタのビットフィールドはゼロが設定され、<code class="docutils literal notranslate"><span class="pre">vl</span></code>レジスタの値もゼロに設定される。</p>
-<p>アプリケーションにより必要となるベクトル長(Application Vector Length :
-AVL)は<code class="docutils literal notranslate"><span class="pre">rs1</span></code>レジスタ内に、符号なし整数として設定される。<code class="docutils literal notranslate"><span class="pre">rs1</span></code>のレジスタ指定として<code class="docutils literal notranslate"><span class="pre">x0</span></code>を設定することで、無限長の<code class="docutils literal notranslate"><span class="pre">AVL</span></code>を指定することになり、これは実装可能なベクトル長の最大値を設定したことになる。</p>
 <blockquote>
-<div><code class="docutils literal notranslate"><span class="pre">vsetvl{i}</span></code>において、AVL=<code class="docutils literal notranslate"><span class="pre">x0</span></code>を指定することで現在のVLMAX値を取得することができる。この命令では、<code class="docutils literal notranslate"><span class="pre">vl</span></code>の変更は発生しない。</div></blockquote>
-<blockquote>
-<div><p><code class="docutils literal notranslate"><span class="pre">vsetvl{i}</span></code>の動きは<code class="docutils literal notranslate"><span class="pre">rd</span></code>=<code class="docutils literal notranslate"><span class="pre">x0</span></code>であるかに依存しない。<code class="docutils literal notranslate"><span class="pre">rd</span></code>=<code class="docutils literal notranslate"><span class="pre">x0</span></code>では、アプリケーションがすでに<code class="docutils literal notranslate"><span class="pre">vl</span></code>の値がなんであるかを仮定している場合に使用できる。例えば、SEWとLMULをAVLの定数に置き換える場合に使用できる。</p>
-<p>初期の仕様では<code class="docutils literal notranslate"><span class="pre">vtype</span></code>に不正な値を設定すると例外が発生する仕様になっていた。ISAへのCSR書き込みに最初にデータ依存の例外を追加することになる。現在のスキームでは、特定の設定に対して<code class="docutils literal notranslate"><span class="pre">vill</span></code>がクリアされているかどうかを確認することによってベクトルユニットの設定の問い合わせを軽量化する手法をサポートしている。</p>
-</div></blockquote>
+<div>初期の仕様では<code class="docutils literal notranslate"><span class="pre">vtype</span></code>に不正な値を設定すると例外が発生する仕様になっていた。ISAへのCSR書き込みに最初にデータ依存の例外を追加することになる。現在のスキームでは、特定の設定に対して<code class="docutils literal notranslate"><span class="pre">vill</span></code>がクリアされているかどうかを確認することによってベクトルユニットの設定の問い合わせを軽量化する手法をサポートしている。</div></blockquote>
 </div>
 <div class="section" id="vl">
 <h2>6.2. <code class="docutils literal notranslate"><span class="pre">vl</span></code>への設定条件<a class="headerlink" href="#vl" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -285,7 +316,7 @@ AVL)は<code class="docutils literal notranslate"><span class="pre">rs1</span></
 <p><code class="docutils literal notranslate"><span class="pre">vsetvl{i}</span></code>命令は、最初に引数の<code class="docutils literal notranslate"><span class="pre">vtype</span></code>に基づいてVLMAXを設定し、以下が成り立つ。</p>
 <ol class="arabic simple">
 <li><code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">≤</span> <span class="pre">VLMAX</span></code>である場合、<code class="docutils literal notranslate"><span class="pre">vl</span> <span class="pre">=</span> <span class="pre">AVL</span></code>である。</li>
-<li><code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">&lt;</span> <span class="pre">(2</span> <span class="pre">*</span> <span class="pre">VLMAX)</span></code>である場合、<code class="docutils literal notranslate"><span class="pre">vl</span> <span class="pre">≥</span> <span class="pre">ceil(AVL</span> <span class="pre">/</span> <span class="pre">2)</span></code>
+<li><code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">&lt;</span> <span class="pre">(2</span> <span class="pre">*</span> <span class="pre">VLMAX)</span></code>である場合、<code class="docutils literal notranslate"><span class="pre">ceil(AVL</span> <span class="pre">/</span> <span class="pre">2)</span> <span class="pre">≦</span> <span class="pre">vl</span> <span class="pre">≦</span> <span class="pre">VLMAX</span></code>
 を設定する。</li>
 <li><code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">≥</span> <span class="pre">(2</span> <span class="pre">*</span> <span class="pre">VLMAX)</span></code>である場合、<code class="docutils literal notranslate"><span class="pre">vl</span> <span class="pre">=</span> <span class="pre">VLMAX</span></code>を設定する。</li>
 <li>AVLとVLMAXの値が同じならば、どのような実装でも同じ値が書き込まれる。</li>

@@ -185,9 +185,6 @@
             
   <div class="section" id="id1">
 <h1>11. ベクトル算術演算命令フォーマット<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<p>The vector arithmetic instructions use a new major opcode (OP-V =
-10101112) which neighbors OP-FP. The three-bit <code class="docutils literal notranslate"><span class="pre">funct3</span></code> field is used
-to define sub-categories of vector instructions.</p>
 <p>ベクトル算術演算命令は新しいメジャーオペコード(OP-V =
 b1010111)を使用している。このオペコードはOP-FPと隣接しており、3ビットの<code class="docutils literal notranslate"><span class="pre">funct3</span></code>フィールドを使用してベクトル命令のサブカテゴリを定義している。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OP</span><span class="o">-</span><span class="n">Vメジャーオペコード下におけるベクトル算術命令のフォーマット</span>
@@ -300,8 +297,8 @@ b1010111)を使用している。このオペコードはOP-FPと隣接してお
 スカラ演算は3つの形式をとることができるが、すべてのケースにおいて<code class="docutils literal notranslate"><span class="pre">vs2</span></code>ベクトルレジスタグループにより1つのベクトルオペランドを取り、2番目のスカラソースオペランドは以下の3つのうちどれかの景色を選択する。</p>
 <ol class="arabic simple">
 <li>整数演算では、スカラ値は<code class="docutils literal notranslate"><span class="pre">rs1</span></code>フィールドからエンコードされる5ビットの即値を使用する。値は符号拡張されるか、符号なし拡張される。</li>
-<li>整数演算では、スカラ値は<code class="docutils literal notranslate"><span class="pre">rs1</span></code>から指定される整数レジスタ<code class="docutils literal notranslate"><span class="pre">x</span></code>から取得される。もし<code class="docutils literal notranslate"><span class="pre">XLEN&gt;SEW</span></code>であれば、<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタのうち界のビットが使用される。XLEN&lt;SEWであれば、<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタの値はSEWビットまで符号拡張される。</li>
-<li>浮動小数点演算では、スカラ値は浮動小数点スカラレジスタ<code class="docutils literal notranslate"><span class="pre">f</span></code>から取得される。FLEN&gt;SEWであれば、<code class="docutils literal notranslate"><span class="pre">f</span></code>レジスタはNaN-boxされた値かどうかをチェックし、<code class="docutils literal notranslate"><span class="pre">f</span></code>レジスタの会のビットが使用される。NaN-boxされた値でなければNaNが使用される。FLEN&lt;SEWであれば、値はNaN-boxされSEWビット長まで拡張される。</li>
+<li>整数演算では、スカラ値は<code class="docutils literal notranslate"><span class="pre">rs1</span></code>から指定される整数レジスタ<code class="docutils literal notranslate"><span class="pre">x</span></code>から取得される。もし<code class="docutils literal notranslate"><span class="pre">XLEN&gt;SEW</span></code>であれば、<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタのうち下位のSEWビットが使用される。XLEN&lt;SEWであれば、<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタの値はSEWビットまで符号拡張される。</li>
+<li>浮動小数点演算では、スカラ値は浮動小数点スカラレジスタ<code class="docutils literal notranslate"><span class="pre">f</span></code>から取得される。FLEN&gt;SEWであれば、<code class="docutils literal notranslate"><span class="pre">f</span></code>レジスタはNaN-boxされた値かどうかをチェックし、<code class="docutils literal notranslate"><span class="pre">f</span></code>レジスタの下位のSEWビットが使用される。NaN-boxされた値でなければNaNが使用される。FLEN&lt;SEWであれば、値はNaN-boxされSEWビット長まで拡張される。</li>
 </ol>
 <blockquote>
 <div>現在提案されているZfinxバリアントは浮動小数点スカラの引数を<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタから取ることができる。</div></blockquote>
@@ -343,15 +340,9 @@ b1010111)を使用している。このオペコードはOP-FPと隣接してお
 </div>
 <div class="section" id="id3">
 <h2>11.2. ビット幅が広がるベクトル算術演算命令<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>A few vector arithmetic instructions are defined to be <em>widening</em>
-operations where the destination elements are 2*SEW wide and are stored
-in a vector register group with twice the number of vector registers.</p>
 <p>いくつかのベクトル算術演算命令では<strong>ビット幅が拡張される</strong>演算命令として定義されており、書き込み先の要素は
 2*SEW
 ビットまで拡張され、書き込み先のベクトルレジスタグループは2つ分使用される。</p>
-<p>The first operand can be either single or double-width. These are
-generally written with a <code class="docutils literal notranslate"><span class="pre">vw*</span></code> prefix on the opcode or <code class="docutils literal notranslate"><span class="pre">vfw*</span></code> for
-vector floating-point operations.</p>
 <p>1番目のオペランドでは、1倍幅もしくは2倍幅である。通常これらの命令はプレフィックスとして<code class="docutils literal notranslate"><span class="pre">vw*</span></code>がつけられ、ベクトル浮動小数点命令の場合は<code class="docutils literal notranslate"><span class="pre">vfw*</span></code>プレフィックスが付けられる。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ビット幅が拡張されるベクトル算術演算命令のアセンブリ文法パタン</span>
 
@@ -375,9 +366,6 @@ SEWSEW)。これは<code class="docutils literal notranslate"><span class="pre">
 <p>書き込み先のベクトルレジスタグループはSEWとLMULが現在の設定よりも2倍になったかのように配置される(例えば、書き込み先の要素のサイズが2SEWであり、書き込み先のベクトルレジスタグループのLMULは2LMULとなっているように見える)。</p>
 <p>すべてのビット幅を拡張する命令のために、書き込み先の要素の幅はサポートされているビット幅の範囲であり、LMULの値もサポートされているLMULの範囲に収まっている必要がある(例えば、現在のLMULが&lt;=4であれば、&lt;=8となる)。</p>
 <p>書き込み先のベクトルレジスタグループはベクトルレジスタ番号で指定し、書き込み先のLMULの値において有効な値である必要がある。そうでなければ、不正命令例外が発生する。</p>
-<p>The destination vector register group cannot overlap a source vector
-register group of a different element width (including the mask register
-if masked), otherwise an illegal instruction exception is raised.</p>
 <p>書き込み先のベクトルレジスタグループは別の要素幅を持つソースベクトルレジスタグループとオーバラップしてはならない(マスクレジスタを使用していても、マスクを含めて被ってはならない)。そうでなければ、不正命令例外が発生する。</p>
 <blockquote>
 <div>非ゼロの<code class="docutils literal notranslate"><span class="pre">vstart</span></code>をサポートする必要がある。</div></blockquote>
@@ -395,10 +383,8 @@ if masked), otherwise an illegal instruction exception is raised.</p>
 <p>書き込み先ベクトルレジスタグループは、1番目のベクトルレジスタグループ(<code class="docutils literal notranslate"><span class="pre">vs2</span></code>で指定される)とオーバラップしてはならない。書き込み先ベクトルレジスタグループは、マスクを使用する場合はLMUL=1でない限りマスクレジスタとオーバラップしてはならない。もしこの制約を違反する場合、不正命令例外が発生する。</p>
 <blockquote>
 <div>LMULと幅が同一で、要素のサイズが書き込みベクトルレジスタと同一のLMUL=1のときにマスクレジスタを上書きするために2番目のソースベクトルレジスタグループを上書きするのは安全であるxxx。</div></blockquote>
-<p>A <code class="docutils literal notranslate"><span class="pre">vn*</span></code> prefix on the opcode is used to distinguish these instructions
-in the assembler, or a <code class="docutils literal notranslate"><span class="pre">vfn*</span></code> prefix for narrowing floating-point
-opcodes.</p>
-<p>アセンブラ中で命令を区別するために、<code class="docutils literal notranslate"><span class="pre">vn*</span></code>プレフィックスをオペコードに使用するか、浮動小数点命令の場合は<code class="docutils literal notranslate"><span class="pre">vfn*</span></code>プレフィックスを使用する。</p>
+<p>アセンブラ中で命令を区別するために、<code class="docutils literal notranslate"><span class="pre">vn*</span></code>プレフィックスをオペコードに使用するか、浮動小数点命令の場合は<code class="docutils literal notranslate"><span class="pre">vfn*</span></code>プレフィックスを使用する。倍幅のソースベクトルレジスタグループは<code class="docutils literal notranslate"><span class="pre">w</span></code>をソースオペランドサフィックスに指定することで指定する(例:
+<code class="docutils literal notranslate"><span class="pre">vnsra.wv</span></code>)</p>
 <blockquote>
 <div>マスクレジスタを設定する比較演算命令も、暗黙的にビット幅を縮小する演算である。</div></blockquote>
 </div>

@@ -37,24 +37,31 @@ Nビットの各ベクトル要素には、-2\ :sup:`N-1から2`\ N-1-1までの
 
 平均加算減算命令は\ ``vxrm``\ の設定に基づき、2つの値の加減算の結果と1ビットを加算したものを1ビット右にシフトしたものを返す。この命令ではオーバフローは発生しない。
 
+符号拡張・符号拡張無しのどちらの命令も定義されている。\ ``vaaddu``,
+``vaadd``,
+``vasub``\ では、結果のオーバフローは発生しない。\ ``vasubu``\ では、オーバフローは無視される。
+
 ::
 
-   # vrxm=rnu の場合、 round = 1
-
    # 平均加算
-   # result = (src1 + src2 + round) >> 1;
 
-   # 整数平均加算命令
-   vaadd.vv vd, vs2, vs1, vm   # ベクトル - ベクトル
-   vaadd.vx vd, vs2, rs1, vm   # ベクトル - スカラ
-   vaadd.vi vd, vs2, imm, vm   # ベクトル - 即値
+   # 符号なし整数の平均加算
+   vaaddu.vv vd, vs2, vs1, vm # roundoff_unsigned(vs2[i] + vs1[i], 1)
+   vaaddu.vx vd, vs2, rs1, vm # roundoff_unsigned(vs2[i] + x[rs1], 1)
+
+   # 符号あり整数の平均加算
+   vaadd.vv vd, vs2, vs1, vm # roundoff_signed(vs2[i] + vs1[i], 1)
+   vaadd.vx vd, vs2, rs1, vm # roundoff_signed(vs2[i] + x[rs1], 1)
 
    # 平均減算
-   # result = (src1 - src2 + round) >> 1;
 
-   # 整数平均減算命令
-   vasub.vv vd, vs2, vs1, vm   # ベクトル - ベクトル
-   vasub.vx vd, vs2, rs1, vm   # ベクトル - スカラ
+   # 符号なし整数の平均減算
+   vasubu.vv vd, vs2, vs1, vm # roundoff_unsigned(vs2[i] - vs1[i], 1)
+   vasubu.vx vd, vs2, rs1, vm # roundoff_unsigned(vs2[i] - x[rs1], 1)
+
+   # 符号あり整数の平均減算
+   vasub.vv vd, vs2, vs1, vm # roundoff_signed(vs2[i] - vs1[i], 1)
+   vasub.vx vd, vs2, rs1, vm # roundoff_signed(vs2[i] - x[rs1], 1)
 
 13.3. 丸めと飽和付き 単一ビット幅ベクトル分数乗算命令
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -64,8 +71,9 @@ Nビットの各ベクトル要素には、-2\ :sup:`N-1から2`\ N-1-1までの
 ::
 
    # 丸めと飽和付き 符号付き分数乗算命令
-   vsmul.vv vd, vs2, vs1, vm  # vd[i] = clip((vs2[i]*vs1[i]+round)>>(SEW-1))
-   vsmul.vx vd, vs2, rs1, vm  # vd[i] = clip((vs2[i]*x[rs1]+round)>>(SEW-1))
+   # vxrmの丸めモードの計算方法を参照のこと。
+   vsmul.vv vd, vs2, vs1, vm  # vd[i] = clip(roundoff_signed(vs2[i]*vs1[i], SEW-1))
+   vsmul.vx vd, vs2, rs1, vm  # vd[i] = clip(roundoff_signed(vs2[i]*x[rs1], SEW-1))
 
 ..
 
@@ -74,66 +82,22 @@ Nビットの各ベクトル要素には、-2\ :sup:`N-1から2`\ N-1-1までの
    より固定小数点命令のサポートを強化するために、\ ``vxrm``\ で制御される丸めモードを\ ``vmulhu``,
    ``vmulhsu,``\ vmulh`に追加することも考えられる。これらの命令では飽和は発生しない。
 
-13.4. ビット幅拡張飽和付き累積乗算加算命令
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-ビット幅拡張飽和付き乗算加算命令はSEWビット同士の入力値を乗算し2SEWビットの積を生成する。この結果はSEW/2ビットだけ右にシフトされ\ ``vxrm``\ のビット設定に基づいて丸めが行われ、2SEWビットの書き込みレジスタアキュムレータの値と加算される。結果が書き込みレジスタの中で飽和すると、オーバフローが発生し、\ ``vxsat``\ ビットが設定される。
-
-もし乗算オペランドが符号付であれば、乗算の結果は符号付の値としてオーバフロー・飽和処理が行われる。両方の乗算オペランドが符号なしであれば、乗算の結果は符号なしの値としてオーバフロー・飽和処理が行われる。
-
-+-----+----------------+----------------+--------------------------+--------------+
-| SEW | 除算のビット幅 | 丸めのビット幅 | アキュムレータのビット幅 | ガードビット |
-+=====+================+================+==========================+==============+
-| 8   | 16             | 12             | 16                       | 4            |
-+-----+----------------+----------------+--------------------------+--------------+
-| 16  | 32             | 24             | 32                       | 8            |
-+-----+----------------+----------------+--------------------------+--------------+
-| 32  | 64             | 48             | 64                       | 16           |
-+-----+----------------+----------------+--------------------------+--------------+
-
-::
-
-   # ビット幅拡張符号なし累積乗算加算命令
-   vwsmaccu.vv vd, vs1, vs2, vm # vd[i] = clipu((+(vs1[i]*vs2[i]+round)>>SEW/2)+vd[i])
-   vwsmaccu.vx vd, rs1, vs2, vm # vd[i] = clipu((+(x[rs1]*vs2[i]+round)>>SEW/2)+vd[i])
-
-   # ビット幅拡張符号付き累積乗算加算命令
-   vwsmacc.vv vd, vs1, vs2, vm  # vd[i] = clip((+(vs1[i]*vs2[i]+round)>>SEW/2)+vd[i])
-   vwsmacc.vx vd, rs1, vs2, vm  # vd[i] = clip((+(x[rs1]*vs2[i]+round)>>SEW/2)+vd[i])
-
-   # ビット幅拡張符号付きー符号なし累積乗算加算命令
-   vwsmaccsu.vv vd, vs1, vs2, vm
-                # vd[i] = clip(((signed(vs1[i])*unsigned(vs2[i])+round)>>SEW/2)+vd[i])
-   vwsmaccsu.vx vd, rs1, vs2, vm
-                # vd[i] = clip(((signed(x[rs1])*unsigned(vs2[i])+round)>>SEW/2)+vd[i])
-
-   # ビット幅拡張符号なしー符号付き累積乗算加算命令
-   vwsmaccus.vx vd, rs1, vs2, vm
-                # vd[i] = clip(((unsigned(x[rs1])*signed(vs2[i])+round)>>SEW/2)+vd[i])
-
-   # xvrm=rnuの場合、round = (1 << (SEW/2-1))
-
-..
-
-   より柔軟なスケーリング・シフト量をサポートするためには、4番目のソースオペランドが必要となってしまう。
-
-13.5. 単一幅ベクトルスケーリングシフト命令
+13.4. 単一幅ベクトルスケーリングシフト命令
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 これらの命令は入力値を右シフトし、\ ``vxrm``\ の設定に基づいてシフトした値を丸める。スケーリング右シフト命令はゼロ拡張(\ ``vssrl``)と符号拡張(\ ``vssra``)の形式を用意している。ベクトル・スカラのシフト量の下位のlg2(SEW)ビットが使用される。即値もサポートされるが、シフト量は最大でも31までである。
 
 ::
 
-    # vxrm=rnuでは、round = 1 << (src2-1)である。ここでsrc2 は vs1[i], x[rs1], uimm のどれか。
     # スケーリング論理右シフト命令
-    vssrl.vv vd, vs2, vs1, vm   # vd[i] = ((vs2[i] + round)>>vs1[i])
-    vssrl.vx vd, vs2, rs1, vm   # vd[i] = ((vs2[i] + round)>>x[rs1])
-    vssrl.vi vd, vs2, uimm, vm   # vd[i] = ((vs2[i] + round)>>uimm)
+    vssrl.vv vd, vs2, vs1, vm   # vd[i] = roundoff_unsigned(vs2[i], vs1[i])
+    vssrl.vx vd, vs2, rs1, vm   # vd[i] = roundoff_unsigned(vs2[i], x[rs1])
+    vssrl.vi vd, vs2, uimm, vm   # vd[i] = roundoff_unsigned(vs2[i], uimm)
 
     # スケーリング算術右シフト命令
-    vssra.vv vd, vs2, vs1, vm   # vd[i] = ((vs2[i] + round)>>vs1[i])
-    vssra.vx vd, vs2, rs1, vm   # vd[i] = ((vs2[i] + round)>>x[rs1])
-    vssra.vi vd, vs2, uimm, vm   # vd[i] = ((vs2[i] + round)>>uimm)
+    vssra.vv vd, vs2, vs1, vm   # vd[i] = roundoff_signed(vs2[i],vs1[i])
+    vssra.vx vd, vs2, rs1, vm   # vd[i] = roundoff_signed(vs2[i], x[rs1])
+    vssra.vi vd, vs2, uimm, vm   # vd[i] = roundoff_signed(vs2[i], uimm)
 
 13.6. ビット幅縮小固定小数点ベクトルクリップ命令
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -145,15 +109,15 @@ Nビットの各ベクトル要素には、-2\ :sup:`N-1から2`\ N-1-1までの
 ::
 
     # 符号なしビット幅縮小クリップ命令
-    vnclipu.vv vd, vs2, vs1, vm   # ベクトル - ベクトル
-    vnclipu.vx vd, vs2, rs1, vm   # ベクトル - スカラ
-    vnclipu.vi vd, vs2, uimm, vm   # ベクトル - 即値
+    #                                SEW                            2*SEW   SEW
+    vnclipu.wv vd, vs2, vs1, vm   # vd[i] = clip(roundoff_unsigned(vs2[i], vs1[i]))
+    vnclipu.wx vd, vs2, rs1, vm   # vd[i] = clip(roundoff_unsigned(vs2[i], x[rs1]))
+    vnclipu.wi vd, vs2, uimm, vm  # vd[i] = clip(roundoff_unsigned(vs2[i], uimm5))
 
-   # 符号付きビット幅縮小クリップ命令,  vd[i] = clip(round(vs2[i] + rnd) >> vs1[i])
-   #                              SEW           2*SEW                 SEW
-    vnclip.vv vd, vs2, vs1, vm   # ベクトル - ベクトル
-    vnclip.vx vd, vs2, rs1, vm   # ベクトル - スカラ
-    vnclip.vi vd, vs2, uimm, vm   # ベクトル - 即値
+   # 符号付きビット幅縮小クリップ命令
+    vnclip.wv vd, vs2, vs1, vm   # vd[i] = clip(roundoff_signed(vs2[i], vs1[i]))
+    vnclip.wx vd, vs2, rs1, vm   # vd[i] = clip(roundoff_signed(vs2[i], x[rs1]))
+    vnclip.wi vd, vs2, uimm, vm  # vd[i] = clip(roundoff_signed(vs2[i], uimm5))
 
 ``vnclipu``,/\ ``vnclip``\ 命令では、丸めモードは\ ``vxrm``\ CSRに基づいて実行される。丸めは飽和処理実行前に、書き込み値の最下位ビットに対して行われる。
 

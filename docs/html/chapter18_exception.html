@@ -211,12 +211,6 @@ CSRに格納される例外が発生したベクトル要素インデックス�
 </div>
 <div class="section" id="id3">
 <h2>18.2. 不正確なベクトル例外<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Imprecise vector traps are traps that are not precise. In particular,
-instructions newer than <code class="docutils literal notranslate"><span class="pre">*epc</span></code> may have committed results, and
-instructions older than <code class="docutils literal notranslate"><span class="pre">*epc</span></code> may have not completed execution.
-Imprecise traps are primarily intended to be used in situations where
-reporting an error and terminating execution is the appropriate
-response.</p>
 <p>不正確なベクトル例外では、正確でない例外である。特に、<code class="docutils literal notranslate"><span class="pre">*epc</span></code>よりも新しい命令が結果をコミットしており、<code class="docutils literal notranslate"><span class="pre">*epc</span></code>よりも古い命令が結果をコミットしていない状況である。不正確な例外は、エラーを通知し異常終了することが適切でない応答である場合に使用される。</p>
 <p>プラットフォームによっては、割り込み処理が正確でどの、他の例外が不正確であるか指定している場合がある。多くの組み込みプラットフォームでは、不正確な例外しか生成せず、ベクトル命令にとっては致命的なエラーとなることを想定している。したがって再開可能なトラップはそのような環境では必要ない。</p>
 </div>

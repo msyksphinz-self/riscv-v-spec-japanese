@@ -185,7 +185,7 @@
 The expectation is that the Unix profile will require vector AMO
 operations.</div></blockquote>
 <blockquote>
-<div>プロファイルでは、どこにベクトルAMO命令がサポートされているかについて述べている。想定では、UnixのプロファイルではベクトルAMO操作が必要になる。</div></blockquote>
+<div>プロファイルでは、どこにベクトルAMO命令がサポートされているかについて述べている。想定では“V”拡張はUnixのプロファイルでベクトルAMO操作が必要になる。</div></blockquote>
 <p>ベクトルAMO命令がサポートされている場合、スカラのZaamo命令(標準A拡張からのアトミック操作)のサポートは必須である。</p>
 <p>ベクトルAMO操作は標準的なAMOメジャーオペコードに基づく、不必要なビット幅のエンコーディングを使用している。アックアクティブ要素はアトミックなRead-modify-writeを単一のメモリ領域に対して実行する。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AMOメジャーオペコードを使用したベクトルAMO命令のフォーマット
@@ -216,19 +216,19 @@ initial value of the memory element. If the <code class="docutils literal notran
 <p>ベクトルAMOは、同じ命令内において要素に対する演算の順序は保証しない。</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="25%" />
-<col width="15%" />
-<col width="4%" />
-<col width="4%" />
+<col width="24%" />
+<col width="13%" />
+<col width="6%" />
+<col width="6%" />
 <col width="19%" />
 <col width="21%" />
 <col width="12%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">&#160;</th>
-<th class="head">Width [2:0]</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
+<th class="head">Width [2]</th>
+<th class="head">[1]</th>
+<th class="head">[0]</th>
 <th class="head">メモリのビット</th>
 <th class="head">レジスタのビット</th>
 <th class="head">Opcode</th>
@@ -271,7 +271,7 @@ initial value of the memory element. If the <code class="docutils literal notran
 <td>1</td>
 <td>1</td>
 <td>1</td>
-<td>64</td>
+<td>SEW</td>
 <td>vl*SEW</td>
 <td>VAMO*E.V</td>
 </tr>
@@ -282,11 +282,10 @@ initial value of the memory element. If the <code class="docutils literal notran
 <p>ベクトルAMOには2種類のサイズの命令がが存在している。1つは32ビットを1ワードとし、もう一つhあSEWビットを1ワードとするものである。32ビットベクトルAMO操作では、SEWは少なくとも32ビット以上でなければならず、そうでなければ不正命令例外が発生する。SEW
 &gt;
 32ビットであれば、メモリから戻ってくる値はSEW長にするために符号拡張が行われる。</p>
-<p>SEWがXLENよりも小さい場合、ベクトル<code class="docutils literal notranslate"><span class="pre">vs2</span></code>内のアドレスはXLENビットまで符号拡張される。SEWがXLEｎよりも大きい場合、不正命令例外が発生する。</p>
-<p>ベクトルAMO命令はメモリ要素の幅はスカラアーキテクチャの実装でサポートされている幅のみをサポートしている。他のデータサイズでは、不正命令例外が発生する。</p>
-<p>The vector <code class="docutils literal notranslate"><span class="pre">amoop[4:0]</span></code> field uses the same encoding as the scalar
-5-bit AMO instruction field, except that LR and SC are not supported.</p>
-<p>ベクトルお<code class="docutils literal notranslate"><span class="pre">amoop[4:0]</span></code>フィールドはスカラAMO命令フィールドの5ビットと同一であるが、LR/SCをサポートしていない点が異なる。</p>
+<p>SEWがXLENよりも小さい場合、ベクトル<code class="docutils literal notranslate"><span class="pre">vs2</span></code>内のアドレスはXLENビットまでゼロ拡張される。SEWがXLENよりも大きい場合、不正命令例外が発生する。</p>
+<blockquote>
+<div>より小さなSEWに格納されているアドレスの符号拡張は短い仮想アドレスをどのようにして扱うかというという想定と一致しているが、インデックスロードストアのようにオフセットをゼロ拡張場合と大きく異なる。ベクトルAMO命令のもっとも一般的なユースケースではアドレスの要素がSEW=XLENであるということであり、この場合は拡張は発生しない。この決定により、ハードウェアをシンプルにできる。必要ならばソフトウェアは常に明示的により短いアドレスを符号拡張してより大きなアドレスに変換することができる。</div></blockquote>
+<p>ベクトルの<code class="docutils literal notranslate"><span class="pre">amoop[4:0]</span></code>フィールドはスカラAMO命令フィールドの5ビットと同一であるが、LR/SCをサポートしていない点が異なる。</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="24%" />

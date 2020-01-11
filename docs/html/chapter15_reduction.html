@@ -195,9 +195,9 @@
 <blockquote>
 <div>スカラオペランドとベクトルレジスタの要素0に結果を書き込むというリダクションの操作は、スカラプロセッサ側とのデータの受け渡しによる性能低下を避けるためのものであり、スカラユニットでサポートされていない将来の型で将来のポリモーフィック使用をサポートする(xxx:
 意味不明)。</div></blockquote>
-<p>リダクション操作では、インアクティブな要素は演算対象から除外される。</p>
+<p>ソースベクトルレジスタグループのインアクティブな要素は演算対象から外されるが、スカラオペランドに関してはマスクに関係なく常に演算対象に含まれる。</p>
 <p>書き込み先のベクトルレジスタの書き込み要素以外の要素(0 &lt; index &lt;
-VLEN/SEW)は0に設定される。</p>
+VLEN/SEW)の値は変更されない。</p>
 <p><code class="docutils literal notranslate"><span class="pre">vl</span></code>=0であれば、演算は実行されず、ベクトルレジスタへの書き込みも発生しない。</p>
 <p>ベクトルリダクションにおける例外発生時は、常に<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が0であるものとして発生する。ベクトルリダクションにおいて<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が0以外であった場合、不定命令例外が発生する。</p>
 <p>アセンブラの表記においてリダクション操作は<code class="docutils literal notranslate"><span class="pre">vredop.vs</span></code>と表記し、サフィックスに<code class="docutils literal notranslate"><span class="pre">.vs</span></code>を付け、最初のオペランドがベクトルレジスタグループであり、2番目のオペランドがベクトルレジスタの要素0を含んだスカラ値であることを示している。</p>
@@ -241,7 +241,7 @@ VLEN/SEW)は0に設定される。</p>
 <div class="section" id="id5">
 <h3>15.3.1. 単一ビット幅ベクトルオーダー付き浮動小数点加算命令<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">vfredosum</span></code>
-命令は浮動小数点のベクトル要素を順番に加算しなければならず、vs1[0]から始まり、以下のような計算を行う。<code class="docutils literal notranslate"><span class="pre">(((vs1[0]</span> <span class="pre">+</span> <span class="pre">vs2[0])</span> <span class="pre">+</span> <span class="pre">vs2[1])</span> <span class="pre">+</span> <span class="pre">…)</span> <span class="pre">+</span> <span class="pre">vs2[vl-1]</span></code>それぞれの加算はスカラの浮動小数点命令と同じように実行され、例外の動作も同一であり、特殊な値を生成したあとその値が伝搬していく。</p>
+命令は浮動小数点のベクトル要素を順番に加算しなければならず、vs1[0]から始まり、以下のような計算を行う。<code class="docutils literal notranslate"><span class="pre">(((vs1[0]</span> <span class="pre">+</span> <span class="pre">vs2[0])</span> <span class="pre">+</span> <span class="pre">vs2[1])</span> <span class="pre">+</span> <span class="pre">…)</span> <span class="pre">+</span> <span class="pre">vs2[vl-1]</span></code>それぞれの加算はスカラの浮動小数点命令と同じように実行され、例外の動作も同一であり、特殊な値を生成したあともその値が伝搬していく。</p>
 <blockquote>
 <div>順序付きのリダクション命令のサポートは、コンパイラにより自動ベクトル化をサポートするための命令であり、一方でアンオーダーな浮動小数点加算命令の方が高速な実装となる。</div></blockquote>
 <p>演算操作がマスクされた場合(<code class="docutils literal notranslate"><span class="pre">vm=0</span></code>)、マスクされた値は計算されず、例外も発生しない。</p>

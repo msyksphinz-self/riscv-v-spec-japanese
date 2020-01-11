@@ -186,11 +186,13 @@
 <li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id4">3.1 ベクトルレジスタ</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vtype">3.2 ベクトル型レジスタ, <code class="docutils literal notranslate"><span class="pre">vtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#mstatus">3.2 <code class="docutils literal notranslate"><span class="pre">mstatus</span></code>内でのベクトルコンテキストの状態</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vtype">3.3 ベクトル型レジスタ, <code class="docutils literal notranslate"><span class="pre">vtype</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vl">3.3. ベクトル長レジスタ<code class="docutils literal notranslate"><span class="pre">vl</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#csrvstart">3.4. ベクトルスタートインデックスCSR<code class="docutils literal notranslate"><span class="pre">vstart</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vxrm">3.5. ベクトル固定小数点丸めモードレジスタ<code class="docutils literal notranslate"><span class="pre">vxrm</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vxsat">3.6. ベクトル固定小数点飽和フラグ<code class="docutils literal notranslate"><span class="pre">vxsat</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vlenb">3.4 ベクトルバイト長レジスタ<code class="docutils literal notranslate"><span class="pre">vlenb</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#csrvstart">3.5. ベクトルスタートインデックスCSR<code class="docutils literal notranslate"><span class="pre">vstart</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vxrm">3.6. ベクトル固定小数点丸めモードレジスタ<code class="docutils literal notranslate"><span class="pre">vxrm</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vxsat">3.7. ベクトル固定小数点飽和フラグ<code class="docutils literal notranslate"><span class="pre">vxsat</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#fcsr">3.7. <code class="docutils literal notranslate"><span class="pre">fcsr</span></code>のベクトル固定小数点フィールド</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id5">3.8. ベクトル拡張のリセット状態について</a></li>
 </ul>
@@ -225,6 +227,7 @@
 <li class="toctree-l2"><a class="reference internal" href="chapter7_vector_load_store.html#id6">7.6. ベクトルインデックスロードストア命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chapter7_vector_load_store.html#fault-only-first">7.7. ユニットストライドFault-Only-Firstロード命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chapter7_vector_load_store.html#zvlsseg">7.8. セグメントベクトルロード・ストア命令(<code class="docutils literal notranslate"><span class="pre">Zvlsseg</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter7_vector_load_store.html#id10">7.9. 全体ベクトルレジスタ・ベクトルロードストア命令</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="chapter8_vector_amo.html">8. ベクトルAMO操作(<code class="docutils literal notranslate"><span class="pre">Zvamo</span></code>)</a></li>
@@ -250,17 +253,17 @@
 <li class="toctree-l2"><a class="reference internal" href="chapter12_vector_arithmetic_insts.html#id11">12.11. ビット幅拡張ベクトル整数乗算命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chapter12_vector_arithmetic_insts.html#id12">12.12. 同一ビット幅ベクトル乗算加算命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chapter12_vector_arithmetic_insts.html#id13">12.13. ビット幅拡張ベクトル整数乗算加算命令</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chapter12_vector_arithmetic_insts.html#id14">12.14. ベクトル整数マージ命令</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chapter12_vector_arithmetic_insts.html#id15">12.15. ベクトル整数移動命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter12_vector_arithmetic_insts.html#id14">12.13 4倍ビット幅拡張ベクトル整数乗算加算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter12_vector_arithmetic_insts.html#id15">12.14. ベクトル整数マージ命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter12_vector_arithmetic_insts.html#id16">12.15. ベクトル整数移動命令</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="chapter13_fixedpoint.html">13. ベクトル固定小数点演算命令</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="chapter13_fixedpoint.html#id2">13.1. 単一ビット幅ベクトル飽和加算減算命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chapter13_fixedpoint.html#id3">13.2. 単一幅ベクトル平均加算減算命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chapter13_fixedpoint.html#id4">13.3. 丸めと飽和付き 単一ビット幅ベクトル分数乗算命令</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chapter13_fixedpoint.html#id5">13.4. ビット幅拡張飽和付き累積乗算加算命令</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chapter13_fixedpoint.html#id6">13.5. 単一幅ベクトルスケーリングシフト命令</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chapter13_fixedpoint.html#id7">13.6. ビット幅縮小固定小数点ベクトルクリップ命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter13_fixedpoint.html#id5">13.4. 単一幅ベクトルスケーリングシフト命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter13_fixedpoint.html#id6">13.6. ビット幅縮小固定小数点ベクトルクリップ命令</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="chapter14_floatingpoint.html">14. ベクトル浮動小数点命令</a><ul>
@@ -306,8 +309,9 @@
 <li class="toctree-l2"><a class="reference internal" href="chapter17_vector_permutation.html#id2">17.1. 整数スカラ移動命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chapter17_vector_permutation.html#id3">17.2. 浮動小数点スカラ移動命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chapter17_vector_permutation.html#id4">17.3. ベクトルスライド命令</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chapter17_vector_permutation.html#id6">17.4. ベクトルレジスタギャザー命令</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chapter17_vector_permutation.html#id7">17.5. ベクトル圧縮命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter17_vector_permutation.html#id7">17.4. ベクトルレジスタギャザー命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter17_vector_permutation.html#id8">17.5. ベクトル圧縮命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter17_vector_permutation.html#id9">17.6 全体ベクトルレジスタ移動命令</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="chapter18_exception.html">18. 例外処理</a><ul>

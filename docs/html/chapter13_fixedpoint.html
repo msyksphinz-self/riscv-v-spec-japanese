@@ -109,9 +109,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#id2">13.1. 単一ビット幅ベクトル飽和加算減算命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">13.2. 単一幅ベクトル平均加算減算命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id4">13.3. 丸めと飽和付き 単一ビット幅ベクトル分数乗算命令</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">13.4. ビット幅拡張飽和付き累積乗算加算命令</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">13.5. 単一幅ベクトルスケーリングシフト命令</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">13.6. ビット幅縮小固定小数点ベクトルクリップ命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">13.4. 単一幅ベクトルスケーリングシフト命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">13.6. ビット幅縮小固定小数点ベクトルクリップ命令</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="chapter14_floatingpoint.html">14. ベクトル浮動小数点命令</a></li>
@@ -218,22 +217,28 @@
 <div class="section" id="id3">
 <h2>13.2. 単一幅ベクトル平均加算減算命令<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>平均加算減算命令は<code class="docutils literal notranslate"><span class="pre">vxrm</span></code>の設定に基づき、2つの値の加減算の結果と1ビットを加算したものを1ビット右にシフトしたものを返す。この命令ではオーバフローは発生しない。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># vrxm=rnu の場合、 round = 1</span>
+<p>符号拡張・符号拡張無しのどちらの命令も定義されている。<code class="docutils literal notranslate"><span class="pre">vaaddu</span></code>,
+<code class="docutils literal notranslate"><span class="pre">vaadd</span></code>,
+<code class="docutils literal notranslate"><span class="pre">vasub</span></code>では、結果のオーバフローは発生しない。<code class="docutils literal notranslate"><span class="pre">vasubu</span></code>では、オーバフローは無視される。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 平均加算</span>
 
-<span class="c1"># 平均加算</span>
-<span class="c1"># result = (src1 + src2 + round) &gt;&gt; 1;</span>
+<span class="c1"># 符号なし整数の平均加算</span>
+<span class="n">vaaddu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># roundoff_unsigned(vs2[i] + vs1[i], 1)</span>
+<span class="n">vaaddu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># roundoff_unsigned(vs2[i] + x[rs1], 1)</span>
 
-<span class="c1"># 整数平均加算命令</span>
-<span class="n">vaadd</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
-<span class="n">vaadd</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
-<span class="n">vaadd</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">imm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - 即値</span>
+<span class="c1"># 符号あり整数の平均加算</span>
+<span class="n">vaadd</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># roundoff_signed(vs2[i] + vs1[i], 1)</span>
+<span class="n">vaadd</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># roundoff_signed(vs2[i] + x[rs1], 1)</span>
 
 <span class="c1"># 平均減算</span>
-<span class="c1"># result = (src1 - src2 + round) &gt;&gt; 1;</span>
 
-<span class="c1"># 整数平均減算命令</span>
-<span class="n">vasub</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
-<span class="n">vasub</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
+<span class="c1"># 符号なし整数の平均減算</span>
+<span class="n">vasubu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># roundoff_unsigned(vs2[i] - vs1[i], 1)</span>
+<span class="n">vasubu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># roundoff_unsigned(vs2[i] - x[rs1], 1)</span>
+
+<span class="c1"># 符号あり整数の平均減算</span>
+<span class="n">vasub</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># roundoff_signed(vs2[i] - vs1[i], 1)</span>
+<span class="n">vasub</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># roundoff_signed(vs2[i] - x[rs1], 1)</span>
 </pre></div>
 </div>
 </div>
@@ -241,8 +246,9 @@
 <h2>13.3. 丸めと飽和付き 単一ビット幅ベクトル分数乗算命令<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>符号付整数分数乗算命令は2つのSEWビット長の入力から2*SEWの積を計算し、結果をSEW-1ビット右シフトし、<code class="docutils literal notranslate"><span class="pre">vxrm</span></code>の設定に基づいて丸め処理を行い、SEWビットに結果を飽和する。計算結果に飽和が発生すると、<code class="docutils literal notranslate"><span class="pre">vxsat</span></code>ビットが設定される。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 丸めと飽和付き 符号付き分数乗算命令</span>
-<span class="n">vsmul</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = clip((vs2[i]*vs1[i]+round)&gt;&gt;(SEW-1))</span>
-<span class="n">vsmul</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = clip((vs2[i]*x[rs1]+round)&gt;&gt;(SEW-1))</span>
+<span class="c1"># vxrmの丸めモードの計算方法を参照のこと。</span>
+<span class="n">vsmul</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = clip(roundoff_signed(vs2[i]*vs1[i], SEW-1))</span>
+<span class="n">vsmul</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = clip(roundoff_signed(vs2[i]*x[rs1], SEW-1))</span>
 </pre></div>
 </div>
 <blockquote>
@@ -252,100 +258,34 @@
 </div></blockquote>
 </div>
 <div class="section" id="id5">
-<h2>13.4. ビット幅拡張飽和付き累積乗算加算命令<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>ビット幅拡張飽和付き乗算加算命令はSEWビット同士の入力値を乗算し2SEWビットの積を生成する。この結果はSEW/2ビットだけ右にシフトされ<code class="docutils literal notranslate"><span class="pre">vxrm</span></code>のビット設定に基づいて丸めが行われ、2SEWビットの書き込みレジスタアキュムレータの値と加算される。結果が書き込みレジスタの中で飽和すると、オーバフローが発生し、<code class="docutils literal notranslate"><span class="pre">vxsat</span></code>ビットが設定される。</p>
-<p>もし乗算オペランドが符号付であれば、乗算の結果は符号付の値としてオーバフロー・飽和処理が行われる。両方の乗算オペランドが符号なしであれば、乗算の結果は符号なしの値としてオーバフロー・飽和処理が行われる。</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="6%" />
-<col width="21%" />
-<col width="21%" />
-<col width="34%" />
-<col width="18%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">SEW</th>
-<th class="head">除算のビット幅</th>
-<th class="head">丸めのビット幅</th>
-<th class="head">アキュムレータのビット幅</th>
-<th class="head">ガードビット</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>8</td>
-<td>16</td>
-<td>12</td>
-<td>16</td>
-<td>4</td>
-</tr>
-<tr class="row-odd"><td>16</td>
-<td>32</td>
-<td>24</td>
-<td>32</td>
-<td>8</td>
-</tr>
-<tr class="row-even"><td>32</td>
-<td>64</td>
-<td>48</td>
-<td>64</td>
-<td>16</td>
-</tr>
-</tbody>
-</table>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ビット幅拡張符号なし累積乗算加算命令</span>
-<span class="n">vwsmaccu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># vd[i] = clipu((+(vs1[i]*vs2[i]+round)&gt;&gt;SEW/2)+vd[i])</span>
-<span class="n">vwsmaccu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># vd[i] = clipu((+(x[rs1]*vs2[i]+round)&gt;&gt;SEW/2)+vd[i])</span>
-
-<span class="c1"># ビット幅拡張符号付き累積乗算加算命令</span>
-<span class="n">vwsmacc</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = clip((+(vs1[i]*vs2[i]+round)&gt;&gt;SEW/2)+vd[i])</span>
-<span class="n">vwsmacc</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = clip((+(x[rs1]*vs2[i]+round)&gt;&gt;SEW/2)+vd[i])</span>
-
-<span class="c1"># ビット幅拡張符号付きー符号なし累積乗算加算命令</span>
-<span class="n">vwsmaccsu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>
-             <span class="c1"># vd[i] = clip(((signed(vs1[i])*unsigned(vs2[i])+round)&gt;&gt;SEW/2)+vd[i])</span>
-<span class="n">vwsmaccsu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>
-             <span class="c1"># vd[i] = clip(((signed(x[rs1])*unsigned(vs2[i])+round)&gt;&gt;SEW/2)+vd[i])</span>
-
-<span class="c1"># ビット幅拡張符号なしー符号付き累積乗算加算命令</span>
-<span class="n">vwsmaccus</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>
-             <span class="c1"># vd[i] = clip(((unsigned(x[rs1])*signed(vs2[i])+round)&gt;&gt;SEW/2)+vd[i])</span>
-
-<span class="c1"># xvrm=rnuの場合、round = (1 &lt;&lt; (SEW/2-1))</span>
-</pre></div>
-</div>
-<blockquote>
-<div>より柔軟なスケーリング・シフト量をサポートするためには、4番目のソースオペランドが必要となってしまう。</div></blockquote>
-</div>
-<div class="section" id="id6">
-<h2>13.5. 単一幅ベクトルスケーリングシフト命令<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>13.4. 単一幅ベクトルスケーリングシフト命令<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>これらの命令は入力値を右シフトし、<code class="docutils literal notranslate"><span class="pre">vxrm</span></code>の設定に基づいてシフトした値を丸める。スケーリング右シフト命令はゼロ拡張(<code class="docutils literal notranslate"><span class="pre">vssrl</span></code>)と符号拡張(<code class="docutils literal notranslate"><span class="pre">vssra</span></code>)の形式を用意している。ベクトル・スカラのシフト量の下位のlg2(SEW)ビットが使用される。即値もサポートされるが、シフト量は最大でも31までである。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># vxrm=rnuでは、round = 1 &lt;&lt; (src2-1)である。ここでsrc2 は vs1[i], x[rs1], uimm のどれか。</span>
-<span class="c1"># スケーリング論理右シフト命令</span>
-<span class="n">vssrl</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = ((vs2[i] + round)&gt;&gt;vs1[i])</span>
-<span class="n">vssrl</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = ((vs2[i] + round)&gt;&gt;x[rs1])</span>
-<span class="n">vssrl</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = ((vs2[i] + round)&gt;&gt;uimm)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># スケーリング論理右シフト命令</span>
+<span class="n">vssrl</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = roundoff_unsigned(vs2[i], vs1[i])</span>
+<span class="n">vssrl</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = roundoff_unsigned(vs2[i], x[rs1])</span>
+<span class="n">vssrl</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = roundoff_unsigned(vs2[i], uimm)</span>
 
 <span class="c1"># スケーリング算術右シフト命令</span>
-<span class="n">vssra</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = ((vs2[i] + round)&gt;&gt;vs1[i])</span>
-<span class="n">vssra</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = ((vs2[i] + round)&gt;&gt;x[rs1])</span>
-<span class="n">vssra</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = ((vs2[i] + round)&gt;&gt;uimm)</span>
+<span class="n">vssra</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = roundoff_signed(vs2[i],vs1[i])</span>
+<span class="n">vssra</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = roundoff_signed(vs2[i], x[rs1])</span>
+<span class="n">vssra</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = roundoff_signed(vs2[i], uimm)</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id7">
-<h2>13.6. ビット幅縮小固定小数点ベクトルクリップ命令<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id6">
+<h2>13.6. ビット幅縮小固定小数点ベクトルクリップ命令<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">vnclip</span></code>命令は固定小数点の値をよりビット幅の小さいレジスタに書き込む。この命令では書き込みレジスタのフォーマットに合わせて丸め、スケーリング、飽和をサポートする。</p>
 <p>命令の2番目の引数(ベクトル要素、スカラ値、即値のどれか)は本命令の右シフト量を示し、これによりスケーリングが行われる。ベクトルレジスタ要素、スカラシフト量のうちlg2(2*SEW)ビットが使用される(例えば、SEW=64ビットで、32ビットにビット幅縮小するのであれば、シフト量は6ビット分使用される)。即値形式の場合では、最大で31までがサポートされる。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="c1"># 符号なしビット幅縮小クリップ命令</span>
- <span class="n">vnclipu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
- <span class="n">vnclipu</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
- <span class="n">vnclipu</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - 即値</span>
+ <span class="c1">#                                SEW                            2*SEW   SEW</span>
+ <span class="n">vnclipu</span><span class="o">.</span><span class="n">wv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = clip(roundoff_unsigned(vs2[i], vs1[i]))</span>
+ <span class="n">vnclipu</span><span class="o">.</span><span class="n">wx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = clip(roundoff_unsigned(vs2[i], x[rs1]))</span>
+ <span class="n">vnclipu</span><span class="o">.</span><span class="n">wi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = clip(roundoff_unsigned(vs2[i], uimm5))</span>
 
-<span class="c1"># 符号付きビット幅縮小クリップ命令,  vd[i] = clip(round(vs2[i] + rnd) &gt;&gt; vs1[i])</span>
-<span class="c1">#                              SEW           2*SEW                 SEW</span>
- <span class="n">vnclip</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - ベクトル</span>
- <span class="n">vnclip</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - スカラ</span>
- <span class="n">vnclip</span><span class="o">.</span><span class="n">vi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># ベクトル - 即値</span>
+<span class="c1"># 符号付きビット幅縮小クリップ命令</span>
+ <span class="n">vnclip</span><span class="o">.</span><span class="n">wv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = clip(roundoff_signed(vs2[i], vs1[i]))</span>
+ <span class="n">vnclip</span><span class="o">.</span><span class="n">wx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[i] = clip(roundoff_signed(vs2[i], x[rs1]))</span>
+ <span class="n">vnclip</span><span class="o">.</span><span class="n">wi</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">uimm</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># vd[i] = clip(roundoff_signed(vs2[i], uimm5))</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">vnclipu</span></code>,/<code class="docutils literal notranslate"><span class="pre">vnclip</span></code>命令では、丸めモードは<code class="docutils literal notranslate"><span class="pre">vxrm</span></code>CSRに基づいて実行される。丸めは飽和処理実行前に、書き込み値の最下位ビットに対して行われる。</p>
