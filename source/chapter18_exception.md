@@ -21,8 +21,6 @@
 
 ### 18.2. 不正確なベクトル例外
 
-Imprecise vector traps are traps that are not precise. In particular, instructions newer than `*epc` may have committed results, and instructions older than `*epc` may have not completed execution. Imprecise traps are primarily intended to be used in situations where reporting an error and terminating execution is the appropriate response.
-
 不正確なベクトル例外では、正確でない例外である。特に、`*epc`よりも新しい命令が結果をコミットしており、`*epc`よりも古い命令が結果をコミットしていない状況である。不正確な例外は、エラーを通知し異常終了することが適切でない応答である場合に使用される。
 
 プラットフォームによっては、割り込み処理が正確でどの、他の例外が不正確であるか指定している場合がある。多くの組み込みプラットフォームでは、不正確な例外しか生成せず、ベクトル命令にとっては致命的なエラーとなることを想定している。したがって再開可能なトラップはそのような環境では必要ない。

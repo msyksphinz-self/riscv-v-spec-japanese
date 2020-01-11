@@ -176,6 +176,8 @@ The vector floating-point `vfmin` and `vfmax` instructions have the same behavio
 
 ベクトル浮動小数点比較命令はスカラの浮動小数点比較命令に基づいて設計されている。`vmfeq`と`vmfne`はSignaling NaN入力を受け付けた場合にのみ例外を発生する。`vmflt`, `vmfle`, `vmfgt`, `vmfge`命令はSignaling NaNとQuiet NaNのどちらでも例外を発生する。
 
+`vmfne`はどちらかのオペランドがNaNである場合は1を書き込む。一方で他の比較命令ではどちらかのオペランドがNaNである場合は0を書き込む。
+
 すべての比較命令では、LMUL > 1であり結果の書き込みレジスタはソースオペランドとオーバラップすることはできない。
 
 ```
@@ -219,10 +221,6 @@ f     はスカラの浮動小数点レジスタ
 
 > NaNのアンオーダーな比較も正しく処理するためには、すべての形式を定義する必要がある。
 
-|      | C99 floating-point quiet comparisons can be implemented by masking the signaling comparisons when either input is NaN, as follows. When the comparand is a non-NaN constant, the middle two instructions can be omitted. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
 > C99の浮動小数点のQuietな比較操作は、どちらかの入力オペランドがNaNである場合にSignalingの比較をマスクすることで実装できる。この例を以下に示す。比較オペランドがNaNでない定数であれば、真ん中の2命令は除去することができる。
 
 ```
@@ -255,7 +253,7 @@ f     はスカラの浮動小数点レジスタ
 vfmerge.vfm vd, vs2, rs1, v0  # vd[i] = v0[i].LSB ? f[rs1] : vs2[i]
 ```
 
-> Zfinxのバリエーションでは、`vmerge.vxm`命令も提供される予定である。
+> 浮動小数点算術演算のように、FLEN > SEWであれば`vfmerge.vfm`命令は`f[rs1]`が正しくNaN-Boxedされていない場合にはCanonicalなNaNが代入される。
 
 ### 14.14. ベクトル浮動小数点移動命令
 
@@ -265,9 +263,9 @@ vfmerge.vfm vd, vs2, rs1, v0  # vd[i] = v0[i].LSB ? f[rs1] : vs2[i]
 vfmv.v.f vd, rs1  # vd[i] = f[rs1]
 ```
 
-> Zfinxのバリエーションでは、この命令は`vmv.v.x`と同一である。
-
 > `vfmv.v.f`命令は`vfmerge.vfm`命令とエンコーディングを共有しているが、`vm=1`かつ`vs2=v0`であるところが異なる。
+
+> 浮動小数点算術演算のように、FLEN > SEWであれば`vfmv.v.f`命令は`f[rs1]`が正しくNaN-Boxedされていない場合にはCanonicalなNaNが代入される。
 
 ### 14.15. 単一ビット幅浮動小数点 整数変換命令
 
@@ -310,18 +308,20 @@ vfwcvt.f.f.v vd, vs2, vm   # 1ワード分の浮動小数点の値から倍の�
 幅の広い整数もしくは浮動小数点の値から、幅の狭い型に対して変換する命令を定義する。
 
 ```
-vfncvt.xu.f.v vd, vs2, vm   # 倍のサイズの浮動小数点から符号なし整数へ変換する。
-vfncvt.x.f.v  vd, vs2, vm   # 倍のサイズの浮動小数点から符号付き整数へ変換する。
+vfncvt.xu.f.w vd, vs2, vm   # 倍のサイズの浮動小数点から符号なし整数へ変換する。
+vfncvt.x.f.w  vd, vs2, vm   # 倍のサイズの浮動小数点から符号付き整数へ変換する。
 
-vfncvt.f.xu.v vd, vs2, vm   # 倍のサイズの符号なし整数から浮動小数点へ変換する。
-vfncvt.f.x.v  vd, vs2, vm   # 倍のサイズの符号付き整数から浮動小数点へ変換する。
+vfncvt.f.xu.w vd, vs2, vm   # 倍のサイズの符号なし整数から浮動小数点へ変換する。
+vfncvt.f.x.w  vd, vs2, vm   # 倍のサイズの符号付き整数から浮動小数点へ変換する。
 
-vfncvt.f.f.v vd, vs2, vm   # 倍のサイズの浮動小数点から元のサイズの浮動小数点に変換する。
+vfncvt.f.f.w vd, vs2, vm   # 倍のサイズの浮動小数点から元のサイズの浮動小数点に変換する。
+vfncvt.rod.f.f.w vd, vs2, vm  # 倍のサイズの浮動小数点の値から元のサイズの浮動小数点に変換する。
+                              #  丸めモードはoddである。
 ```
 
 これらの命令はビット幅を縮小する他のベクトル命令と同じレジスタオーバラップの制約を持っている([Narrowing Vector Arithmetic Instructions](https://riscv.github.io/documents/riscv-v-spec/#sec-narrowing)を参照のこと)
 
-> すべての浮動小数点の変換を単一の命令でサポートすることはできない。変換処理はいくつかのステップを踏み、等価な丸め処理を行った結果とかな例外フラグを設定することが可能である(複数ステップの中で冗長な例外が発生する可能性はある)。
+> すべての浮動小数点の変換を単一の命令でサポートすることはできない。変換処理はいくつかのシーケンスを踏む。結果は同等に丸められ、最後のステップ以外ですべてが奇数への丸め（ `vfncvt.rod.f.f.w`）を使用する場合、同じ例外フラグが発生する。 最終ステップでのみ、目的の丸めモードを使用する必要がある。
 
 > 整数値のビット幅を半分にする処理は、ビット幅を縮小する整数シフト命令において、シフト量を0に設定することで実現できる。
 

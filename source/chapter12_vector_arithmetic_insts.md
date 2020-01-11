@@ -57,14 +57,18 @@ vwsub.wx  vd, vs2, rs1, vm  # ベクトル - スカラ
 
 複数ワードの整数演算をサポートそるために、キャリービットを使用する命令を定義する。加減算操作において、2つの命令が定義されている: 1つは結果をSEWの長さで生成し、2つ目はキャリー出力(マスクのBoolean値の1ビットとして生成される)命令である。
 
-これらの命令はマスクを使用しない命令(vm=1)として定義され、すべての要素に対して演算が実行される。マスクを適用する命令(vm=0)のようにエンコードする場合、この命令は予約されている。
-
 キャリーの入力と出力はマスクレジスタレイアウトの章で説明した[マスクレジスタのレイアウト](https://riscv.github.io/documents/riscv-v-spec/#sec-mask-register-layout)として記述されている。エンコーディングの制約により、キャリー入力は`v0`レジスタより入力される必要があるが、キャリーの出力は任意のベクトルレジスタに書き込んでよい。ただし、ソースレジスタ・書き込みレジスタのオーバラップの条件に従う必要がある。
+
+`vadc`と`vsbc`命令はソースオペランドとキャリーイン・ボローインの加減算を行い、結果をベクトルレジスタ`vd`に書き込む。これらの命令はマスク命令(`vm=0`)としてエンコードされるが、この命令ではすべてのエレメントに対して演算が行われて、書き込みも発生する。アンマスクの場合のエンコーディングは予約されている。
+
+`vmadc`および`vmsbc`命令はソースオペランドと、オプションでマスクがされている場合(`vm=0`)キャリーイン・ボローインの加減算を行い、結果をマスクレジスタ`vd`に書き込む。
+
+マスクされていない場合(`vm=1`)はキャリーインとボローインは使用されない。これらの命令はすべての要素に対して演算が実行され、マスクがされていたとしても書き込みが行われる。
 
 ```
  # キャリー付き加算命令
 
-# vd[i] = vs2[i] + vs1[i] + v0[i].LSB
+ # vd[i] = vs2[i] + vs1[i] + v0[i].LSB
  vadc.vvm   vd, vs2, vs1, v0  # ベクトル - ベクトル
 
  # vd[i] = vs2[i] + x[rs1] + v0[i].LSB
@@ -75,7 +79,7 @@ vwsub.wx  vd, vs2, rs1, vm  # ベクトル - スカラ
 
  # マスクレジスタのフォーマットに従ってキャリーを生成する命令
 
-# vd[i] = carry_out(vs2[i] + vs1[i] + v0[i].LSB)
+ # vd[i] = carry_out(vs2[i] + vs1[i] + v0[i].LSB)
  vmadc.vvm   vd, vs2, vs1, v0  # ベクトル - ベクトル
 
  # vd[i] = carry_out(vs2[i] + x[rs1] + v0[i].LSB)
@@ -83,6 +87,15 @@ vwsub.wx  vd, vs2, rs1, vm  # ベクトル - スカラ
 
  # vd[i] = carry_out(vs2[i] + imm + v0[i].LSB)
  vmadc.vim   vd, vs2, imm, v0  # ベクトル - 即値
+ 
+ # vd[i] = carry_out(vs2[i] + vs1[i])
+ vmadc.vv    vd, vs2, vs1      # Vector-vector, no carry-in
+
+ # vd[i] = carry_out(vs2[i] + x[rs1])
+ vmadc.vx    vd, vs2, rs1      # Vector-scalar, no carry-in
+
+ # vd[i] = carry_out(vs2[i] + imm)
+ vmadc.vi    vd, vs2, imm      # Vector-immediate, no carry-in
 ```
 
 キャリー伝搬を実装するためには、既存の2つの命令に加えて、正しい答えを得るために破壊的なアキュムレータが必要になる。
@@ -112,9 +125,15 @@ vwsub.wx  vd, vs2, rs1, vm  # ベクトル - スカラ
 
  # vd[i] = borrow_out(vs2[i] - x[rs1] - v0[i].LSB)
  vmsbc.vxm   vd, vs2, rs1, v0  # ベクトル - スカラ
+ 
+ # vd[i] = borrow_out(vs2[i] - vs1[i])
+ vmsbc.vv    vd, vs2, vs1      # Vector-vector, no borrow-in
+
+ # vd[i] = borrow_out(vs2[i] - x[rs1])
+ vmsbc.vx    vd, vs2, rs1      # Vector-scalar, no borrow-in
 ```
 
-`vmsbc`では、差分が発生した場合にはtruncationが発生する前に1が生成される、これは負の数である(xxx 役者注: 意味不明)。
+`vmsbc`では、差分が発生した場合にはtruncationが発生する前に1が生成される、これは負の数である(xxx 訳者注: 意味不明)。
 
 `vadc`と`vsbc`命令は書き込み先ベクトルレジスタが`v0`である場合、かつ`LMUL>1`である場合には不正命令例外が発生する。
 
@@ -167,21 +186,19 @@ vsra.vi vd, vs2, uimm, vm   # ベクトル - 即値
 
 ### 12.6. ベクトル幅を縮退する整数右シフト命令
 
-The narrowing right shifts extract a smaller field from a wider operand and have both zero-extending (`srl`) and sign-extending (`sra`) forms. The shift amount can come from a vector or a scalar `x` register or a 5-bit immediate. The low lg2(2*SEW) bits of the vector or scalar shift amount value are used (e.g., the low 6 bits for a SEW=64-bit to SEW=32-bit narrowing operation). The unsigned immediate form supports shift amounts up to 31 only.
-
 大きなビット幅のオペランドから、右シフト命令によってより小さなフィールドに縮退する命令は2種類定義されている。ゼロ拡張を行う命令(`srl`)と符号拡張を行う命令(`sra`)である。シフト量はスカラの整数レジスタもしくは5ビットの即値である。ベクトルもしくはスカラレジスタの下位lg2(2*SEW)ビットがシフト量として使用される(例えば、SEW=64-bitからSEW=32-bitへのビット縮退のシフト命令であれば、下位の6ビットがシフト量として使用される。
 
 ```
  # ビット縮退論理右シフト命令, SEw = (2*SEW) >> SEW
  
- vnsrl.vv vd, vs2, vs1, vm   # ベクトル - ベクトル
- vnsrl.vx vd, vs2, rs1, vm   # ベクトル - スカラ
- vnsrl.vi vd, vs2, uimm, vm   # ベクトル - 即値
+ vnsrl.wv vd, vs2, vs1, vm   # ベクトル - ベクトル
+ vnsrl.wx vd, vs2, rs1, vm   # ベクトル - スカラ
+ vnsrl.wi vd, vs2, uimm, vm   # ベクトル - 即値
 
  # ビット縮退算術右シフト命令, SEW = (2*SEW) >> SEW
- vnsra.vv vd, vs2, vs1, vm   # ベクトル - ベクトル
- vnsra.vx vd, vs2, rs1, vm   # ベクトル - スカラ
- vnsra.vi vd, vs2, uimm, vm   # ベクトル - 即値
+ vnsra.wv vd, vs2, vs1, vm   # ベクトル - ベクトル
+ vnsra.wx vd, vs2, rs1, vm   # ベクトル - スカラ
+ vnsra.wi vd, vs2, uimm, vm   # ベクトル - 即値
 ```
 
 > バリエーションとして、1/4のサイズまでビット縮小を行うn4命令を定義することもできる。
@@ -447,6 +464,35 @@ vwmaccsu.vx vd, rs1, vs2, vm    # vd[i] = +(signed(x[rs1]) * unsigned(vs2[i])) +
 vwmaccus.vx vd, rs1, vs2, vm    # vd[i] = +(unsigned(x[rs1]) * signed(vs2[i])) + vd[i]
 ```
 
+### 12.13 4倍ビット幅拡張ベクトル整数乗算加算命令
+
+4倍ビット幅整数乗算加算命令はSEWビット\*SEWビットの乗算の結果に4\*SEWビット幅の値を加算し、4\*SEWビット幅の結果を生成する。符号あり、符号なしのすべての組み合わせのオペランドをサポートしている。
+
+> これらの命令は現在"V"ベース命令への取り込みは計画されていない。
+
+> ELEN=32のマシンでは、8b * 8b = 16bの結果を32bのアキュムレータに書き込むモードしかサポートされていない。ELEN=64の場合には16b * 16b = 32b の結果を、64bにアキュムレートする。
+
+```
+# Quad-widening unsigned-integer multiply-add, overwrite addend
+# 4倍ビット幅拡張符号なし整数乗算加算命令、加算のオペランドは上書き
+vqmaccu.vv vd, vs1, vs2, vm    # vd[i] = +(vs1[i] * vs2[i]) + vd[i]
+vqmaccu.vx vd, rs1, vs2, vm    # vd[i] = +(x[rs1] * vs2[i]) + vd[i]
+
+# Quad-widening signed-integer multiply-add, overwrite addend
+# 4倍ビット幅符号拡張あり整数乗算加算命令、加算のオペランドを上書き
+vqmacc.vv vd, vs1, vs2, vm    # vd[i] = +(vs1[i] * vs2[i]) + vd[i]
+vqmacc.vx vd, rs1, vs2, vm    # vd[i] = +(x[rs1] * vs2[i]) + vd[i]
+
+# Quad-widening signed-unsigned-integer multiply-add, overwrite addend
+# 4倍ビット幅符号拡張あり・符号拡張なし整数乗算加算命令、加算のオペランドを上書き。
+vqmaccsu.vv vd, vs1, vs2, vm    # vd[i] = +(signed(vs1[i]) * unsigned(vs2[i])) + vd[i]
+vqmaccsu.vx vd, rs1, vs2, vm    # vd[i] = +(signed(x[rs1]) * unsigned(vs2[i])) + vd[i]
+
+# Quad-widening unsigned-signed-integer multiply-add, overwrite addend
+# 4倍ビット幅符号拡張なし・符号拡張あり整数乗算加算命令、加算のオペランドを上書き。
+vqmaccus.vx vd, rs1, vs2, vm    # vd[i] = +(unsigned(x[rs1]) * signed(vs2[i])) + vd[i]
+```
+
 ### 12.14. ベクトル整数マージ命令
 
 ベクトル整数マージ命令は、2つのソースオペランドをマスクフィールドに基づいてマージする命令である。通常の算術演算命令と違い、マージの操作はすべてのボディー要素に対して適用される(つまり、`vstart`から`vl`までのすべてのベクトル要素に対して適用される)。
@@ -472,6 +518,4 @@ vmv.v.i vd, imm # vd[i] = imm
 > マスクの値は`vmv.v.i vd, 0; vmerge.vim vd, vd, 1, v0`の命令列を使用してSEWビット幅まで拡張することができる。
 
 > ベクトル整数移動命令はベクトルマージ命令とエンコーディングを共有している。`vm=1`かつ`vs2=v0`であるところだけが異なる。
-
-​	うう
 
