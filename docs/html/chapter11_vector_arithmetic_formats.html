@@ -206,11 +206,11 @@ b1010111)を使用している。このオペコードはOP-FPと隣接してお
 <table border="1" class="docutils">
 <colgroup>
 <col width="17%" />
-<col width="4%" />
-<col width="4%" />
-<col width="9%" />
-<col width="27%" />
-<col width="39%" />
+<col width="2%" />
+<col width="2%" />
+<col width="8%" />
+<col width="29%" />
+<col width="43%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">funct3[2:0]</th>
@@ -375,7 +375,7 @@ SEWSEW)。これは<code class="docutils literal notranslate"><span class="pre">
 <div class="section" id="id4">
 <h2>11.3. ビット幅を縮小するベクトル算術演算命令<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>いくつかの命令では、2倍幅のソースベクトルオペランドを1倍幅の書き込みベクトルレジスタに書き込む命令が存在する。この命令では、ソースベクトルレジスタのサイズは現在のLMULおよびSEWの設定よりも2倍になっているように設定されており、通常のLMUL/SEWサイズのベクトルレジスタグループに縮小するための命令である。</p>
-<p>(2*LMUL &gt; 8)もしくは(2* SEW) &gt; ELENであれば、不正命令例外が発生する。</p>
+<p>(2<em>LMUL &gt; 8)もしくは(2</em> SEW) &gt; ELENであれば、不正命令例外が発生する。</p>
 <blockquote>
 <div>別の設計方針としては、LMULの設定をソースベクトルレジスタグループのサイズとして取り扱うというものである。この選択肢は、LMULの変更量を少なくできるという利点を持つと考えられている。</div></blockquote>
 <p>ソースベクトルレジスタグループと書き込みベクトルレジスタグループは、LMULの設定における有効なベクトルアドレスを指定しなければならない。そうでなければ、不正命令例外が発生する。</p>

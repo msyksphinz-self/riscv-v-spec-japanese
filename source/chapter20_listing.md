@@ -1,11 +1,11 @@
 ## 20. ベクトル命令一覧
 
-| Integer | Integer | FP   |      |      |        |      |      |      |        |      |      |      |
-| :------ | :------ | :--- | ---- | ---- | ------ | ---- | ---- | ---- | ------ | ---- | ---- | ---- |
-| funct3  |         |      |      |      | funct3 |      |      |      | funct3 |      |      |      |
-| OPIVV   | V       |      |      |      | OPMVV  | V    |      |      | OPFVV  | V    |      |      |
-| OPIVX   |         | X    |      |      | OPMVX  |      | X    |      | OPFVF  |      | F    |      |
-| OPIVI   |         |      | I    |      |        |      |      |      |        |      |      |      |
+| Integer | Integer | Integer | Integer | Integer | Integer | Integer | Integer | Integer | FP     | FP   | FP   | FP   |
+| :------ | :------ | :------ | ------- | ------- | ------- | ------- | ------- | ------- | ------ | ---- | ---- | ---- |
+| funct3  |         |         |         |         | funct3  |         |         |         | funct3 |      |      |      |
+| OPIVV   | V       |         |         |         | OPMVV   | V       |         |         | OPFVV  | V    |      |      |
+| OPIVX   |         | X       |         |         | OPMVX   |         | X       |         | OPFVF  |      | F    |      |
+| OPIVI   |         |         | I       |         |         |         |         |         |        |      |      |      |
 
 | funct6 | funct6 | funct6 |      |            |        |      |      |             |        |      |      |           |
 | :----- | :----- | :----- | ---- | ---------- | ------ | ---- | ---- | ----------- | ------ | ---- | ---- | --------- |

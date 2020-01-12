@@ -110,7 +110,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#vxrm">3.6. ベクトル固定小数点丸めモードレジスタ<code class="docutils literal notranslate"><span class="pre">vxrm</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#vxsat">3.7. ベクトル固定小数点飽和フラグ<code class="docutils literal notranslate"><span class="pre">vxsat</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#fcsr">3.7. <code class="docutils literal notranslate"><span class="pre">fcsr</span></code>のベクトル固定小数点フィールド</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">3.8. ベクトル拡張のリセット状態について</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">3.8. ベクトル拡張のリセット状態について</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
@@ -252,10 +252,10 @@ ISAに対して32個のベクトルレジスタと、5つの非特権CSRレジ�
 <p>表1. 新ベクトルCSR</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="12%" />
-<col width="15%" />
-<col width="11%" />
-<col width="63%" />
+<col width="10%" />
+<col width="13%" />
+<col width="9%" />
+<col width="67%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Address</th>
@@ -341,9 +341,9 @@ CSRもしくは<code class="docutils literal notranslate"><span class="pre">f</s
 <p>表2. <code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタレイアウト</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="27%" />
-<col width="27%" />
-<col width="45%" />
+<col width="15%" />
+<col width="18%" />
+<col width="67%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Bits</th>
@@ -366,14 +366,13 @@ CSRもしくは<code class="docutils literal notranslate"><span class="pre">f</s
 </tr>
 <tr class="row-odd"><td>4:2</td>
 <td>vsew[2:0]</td>
-<td>SEW(Standard-Element-
-Width:標準エレメント幅)の設定に使用
-される</td>
+<td>SEW(Standard-Element
+-Width:標準エレメント幅)の設定に使用される</td>
 </tr>
 <tr class="row-even"><td>1:0</td>
 <td>vlmul[1:0]</td>
-<td>ベクトルレジスタのグループ乗算(LMUL)
-の設定に使用される</td>
+<td>ベクトルレジ
+スタのグループ乗算(LMUL)の設定に使用される</td>
 </tr>
 </tbody>
 </table>
@@ -395,10 +394,10 @@ SEW標準幅エレメントに分割されているように見ることがで�
 <p>表3. <code class="docutils literal notranslate"><span class="pre">vsew[2:0]</span></code>(standard element width)エンコーディング</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="48%" />
-<col width="13%" />
-<col width="13%" />
-<col width="26%" />
+<col width="60%" />
+<col width="7%" />
+<col width="7%" />
+<col width="27%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">vsew[2:0]</th>
@@ -453,8 +452,8 @@ SEW標準幅エレメントに分割されているように見ることがで�
 <p>表4. VLEN=128ビットの場合の例</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="14%" />
-<col width="86%" />
+<col width="10%" />
+<col width="90%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">SEW</th>
@@ -484,12 +483,12 @@ SEW標準幅エレメントに分割されているように見ることがで�
 <p>VLMAX=LMUL*VLEN/SEWは、現在のSEWおよびLMULの構成で実行できる単一のベクトル命令の最大データエレメントの数である。</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="10%" />
-<col width="4%" />
 <col width="9%" />
+<col width="2%" />
+<col width="7%" />
 <col width="13%" />
 <col width="18%" />
-<col width="45%" />
+<col width="51%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">vlmul</th>
@@ -594,38 +593,37 @@ LMUL=8, SEW=8でVLMAXが32となる)を保持するために6ビットが必要�
 <p>固定小数点の丸めアルゴリズムは以下のように指定される。丸め前の値が<code class="docutils literal notranslate"><span class="pre">v</span></code>であり、<code class="docutils literal notranslate"><span class="pre">d</span></code>ビット長であるとする。この場合丸め後の値は<code class="docutils literal notranslate"><span class="pre">(v</span> <span class="pre">&gt;&gt;</span> <span class="pre">d)</span> <span class="pre">+</span> <span class="pre">r</span></code>であり、<code class="docutils literal notranslate"><span class="pre">r</span></code>は以下に示す丸めモードの表によって決定される。</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="18%" />
-<col width="18%" />
-<col width="18%" />
-<col width="18%" />
-<col width="30%" />
+<col width="15%" />
+<col width="14%" />
+<col width="9%" />
+<col width="31%" />
+<col width="31%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Bits [1]</th>
 <th class="head">Bits[0]</th>
 <th class="head">略称</th>
 <th class="head">丸めモード</th>
-<th class="head">丸めインクリメント<code class="docutils literal notranslate"><span class="pre">r</span></code></th>
+<th class="head">丸めイン
+クリメント<code class="docutils literal notranslate"><span class="pre">r</span></code></th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>0</td>
 <td>0</td>
 <td>rnu</td>
-<td>round-to-ne
-arest-up
-(add +0.5
-LSB)</td>
+<td>r
+ound-to-nearest-up
+(add +0.5 LSB)</td>
 <td><code class="docutils literal notranslate"><span class="pre">v[d-1]</span></code></td>
 </tr>
 <tr class="row-odd"><td>0</td>
 <td>1</td>
 <td>rne</td>
-<td>round-to-ne
-arest-even</td>
-<td><code class="docutils literal notranslate"><span class="pre">v[d-1]</span> <span class="pre">&amp;</span>
-<span class="pre">(v[d-2:0]!=</span>
-<span class="pre">0</span></code></td>
+<td>rou
+nd-to-nearest-even</td>
+<td><code class="docutils literal notranslate"><span class="pre">v[d-1</span>
+<span class="pre">]</span> <span class="pre">&amp;</span> <span class="pre">(v[d-2:0]!=0</span></code></td>
 </tr>
 <tr class="row-even"><td>1</td>
 <td>0</td>
@@ -637,14 +635,14 @@ arest-even</td>
 <tr class="row-odd"><td>1</td>
 <td>1</td>
 <td>rod</td>
-<td>round-to-od
-d
-(OR bits
-into LSB,
-aka “jam”)</td>
-<td><code class="docutils literal notranslate"><span class="pre">!v[d]</span> <span class="pre">&amp;</span> <span class="pre">v</span>
-<span class="pre">[d-1:0]</span> <span class="pre">!=</span>
-<span class="pre">0</span></code></td>
+<td>round-to-odd (OR
+bits into LSB, aka
+“jam”)</td>
+<td><dl class="first last docutils">
+<dt><a href="#id5"><span class="problematic" id="id6">``</span></a>!v[d]</dt>
+<dd>&amp; v[d-1:0] != 0``</dd>
+</dl>
+</td>
 </tr>
 </tbody>
 </table>
@@ -667,9 +665,9 @@ aka “jam”)</td>
 <p><code class="docutils literal notranslate"><span class="pre">vxrm</span></code>および<code class="docutils literal notranslate"><span class="pre">vxsat</span></code>は分離されたCSRであり浮動小数点CSR<code class="docutils literal notranslate"><span class="pre">fcsr</span></code>からアクセスすることができる。<code class="docutils literal notranslate"><span class="pre">fcsr</span></code>レジスタは浮動小数点をサポートしていない実装でも、ベクトル拡張をサポートしている場合には追加する必要がある。</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="15%" />
-<col width="20%" />
-<col width="65%" />
+<col width="12%" />
+<col width="18%" />
+<col width="71%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Bits</th>
@@ -699,8 +697,8 @@ aka “jam”)</td>
 <blockquote>
 <div>これらのフィールドは<code class="docutils literal notranslate"><span class="pre">fcsr</span></code>にパッキングされるのは、コンテキストの保存と回復を高速化させるためである。</div></blockquote>
 </div>
-<div class="section" id="id5">
-<h2>3.8. ベクトル拡張のリセット状態について<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id7">
+<h2>3.8. ベクトル拡張のリセット状態について<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ベクトル拡張はリセット時に矛盾の発生していない状態でなければならない。特に、<code class="docutils literal notranslate"><span class="pre">vtype</span></code>および<code class="docutils literal notranslate"><span class="pre">vl</span></code>は<code class="docutils literal notranslate"><span class="pre">vsetvl</span></code>命令により読み込みおよびリストアできなければならない。</p>
 <blockquote>
 <div>リセット時には<code class="docutils literal notranslate"><span class="pre">vtype.vill</span></code>は1が設定されており、残りの<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタはゼロが設定されており、<code class="docutils literal notranslate"><span class="pre">vl</span></code>は0が設定されている状態が推奨される。</div></blockquote>

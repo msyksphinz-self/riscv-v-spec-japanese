@@ -199,9 +199,9 @@
 <p>要素分割拡張では、<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタに<code class="docutils literal notranslate"><span class="pre">vediv[1:0]</span></code>という2ビットのフィールドを追加する。</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="26%" />
-<col width="26%" />
-<col width="49%" />
+<col width="15%" />
+<col width="18%" />
+<col width="67%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">ビット</th>
@@ -212,8 +212,8 @@
 <tbody valign="top">
 <tr class="row-even"><td>XLEN-1</td>
 <td>vill</td>
-<td>このビットが設定されると、不正な設定が行わ
-れたことを意味する。</td>
+<td>このビットが設定され
+ると、不正な設定が行われたことを意味する。</td>
 </tr>
 <tr class="row-odd"><td>XLEN-2:7</td>
 <td>&#160;</td>
@@ -225,13 +225,11 @@
 </tr>
 <tr class="row-odd"><td>4:2</td>
 <td>vsew[2:0]</td>
-<td>Standard element
-width (SEW) の設定</td>
+<td>Standard element width (SEW) の設定</td>
 </tr>
 <tr class="row-even"><td>1:0</td>
 <td>vlmul[1:0]</td>
-<td>Vector register group
-multiplier (LMUL)
+<td>Vector register group multiplier (LMUL)
 の設定</td>
 </tr>
 </tbody>
@@ -240,9 +238,9 @@ multiplier (LMUL)
 <table border="1" class="docutils">
 <colgroup>
 <col width="25%" />
-<col width="6%" />
-<col width="6%" />
-<col width="63%" />
+<col width="2%" />
+<col width="2%" />
+<col width="70%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">vediv [1:0]</th>
@@ -276,11 +274,11 @@ multiplier (LMUL)
 </table>
 <table border="1" class="docutils">
 <colgroup>
+<col width="11%" />
+<col width="11%" />
 <col width="13%" />
 <col width="13%" />
-<col width="13%" />
-<col width="13%" />
-<col width="13%" />
+<col width="11%" />
 <col width="13%" />
 <col width="13%" />
 <col width="13%" />
@@ -288,17 +286,25 @@ multiplier (LMUL)
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">SEW</th>
 <th class="head">EDIV</th>
-<th class="head" colspan="6"><dl class="first last docutils">
-<dt>サブ要素 | 整数アキュム |  | 浮動小数点加 |  |</dt>
-<dd><div class="first last line-block">
-<div class="line">レータ |        | 算・ドットア |  |</div>
-<div class="line-block">
-<div class="line">|        | キュムレータ |  |</div>
-</div>
-</div>
-</dd>
-</dl>
-</th>
+<th class="head">サブ
+要素</th>
+<th class="head">整
+数ア
+キュ
+ムレ
+ータ</th>
+<th class="head">&#160;</th>
+<th class="head">浮動
+小数
+点加
+算・
+ドッ
+トア
+キュ
+ムレ
+ータ</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
 </tr>
 </thead>
 <tbody valign="top">
@@ -307,12 +313,12 @@ multiplier (LMUL)
 <td>&#160;</td>
 <td>sum</td>
 <td>dot</td>
-<td>FLEN=3
-2</td>
-<td>FLEN=6
-4</td>
-<td>FLEN=1
-28</td>
+<td>FL
+EN=32</td>
+<td>FL
+EN=64</td>
+<td>FLE
+N=128</td>
 </tr>
 <tr class="row-odd"><td>8b</td>
 <td>2</td>
@@ -572,8 +578,8 @@ multiplier (LMUL)
 <p>ベクトルロードストア・AMO命令はEDIVに影響せず、要素全体に対してデータの移動を行う。</p>
 <p>ベクトルマスク論理演算についてはEDIVの設定に影響せず、ベクトル要素全体に対してマスクの適用を行う。</p>
 <p>マスク付きPopulation
-Count(<code class="docutils literal notranslate"><span class="pre">vpopc</span></code>)、ビット先頭探索に関連する命令(<code class="docutils literal notranslate"><span class="pre">vfirst</span></code>,
-<code class="docutils literal notranslate"><span class="pre">vmsbf</span></code>, <code class="docutils literal notranslate"><span class="pre">vmsif</span></code>,
+Count(<code class="docutils literal notranslate"><span class="pre">vpopc</span></code>)、ビット先頭探索に関連する命令(<code class="docutils literal notranslate"><span class="pre">vfirst</span></code>, <code class="docutils literal notranslate"><span class="pre">vmsbf</span></code>,
+<code class="docutils literal notranslate"><span class="pre">vmsif</span></code>,
 <code class="docutils literal notranslate"><span class="pre">vmsof</span></code>)、iota(<code class="docutils literal notranslate"><span class="pre">viota</span></code>)、要素インデックス(<code class="docutils literal notranslate"><span class="pre">vid</span></code>)命令についても、EDIVの設定に影響しない。</p>
 <p>ベクトルインデックスビット挿入・抽出命令および整数・浮動小数点スカラ移動命令についてもEDIVに影響しない。</p>
 <p>ベクトルスライドアップ・スライドダウン命令についても、EDIVの設定に影響しない。</p>

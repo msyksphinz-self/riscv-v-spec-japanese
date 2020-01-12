@@ -302,7 +302,7 @@ vslidedownの要素iの書き込み要素の動作
 <p><code class="docutils literal notranslate"><span class="pre">vslide1up</span></code>命令は<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタ引数を取り、書き込みベクトルレジスタの要素0番がアクティブであればその値を挿入し、そうでなければその書き込み要素は変化しない。XLEN
 &lt; SEWであれば、値はSEWビットまで符号拡張される。XLEN &gt;
 SEWであれば、SEWビット分の値がコピーされ、SEW-XLENビット分の値は無視される。</p>
-<p>残っているアクティブな<code class="docutils literal notranslate"><span class="pre">vl</span></code>-1個の要素はソースベクトルレジスタのインデックス*i*から書き込みベクトルレジスタグループの<em>i</em>+1要素にコピーされる。</p>
+<p>残っているアクティブな<code class="docutils literal notranslate"><span class="pre">vl</span></code>-1個の要素はソースベクトルレジスタのインデックス<em>i</em>から書き込みベクトルレジスタグループの<em>i</em>+1要素にコピーされる。</p>
 <p><code class="docutils literal notranslate"><span class="pre">vl</span></code>レジスタは書き込みベクトルレジスタ要素のうちいくつの要素に書き込みが行われるかを示しており、テールの要素はゼロが設定される。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span> vslide1upの動作
 
@@ -316,7 +316,7 @@ max(vstart, 1) &lt;= i &lt; vl      マスクが有効ならば vd[i] = vs2[i-1]
 </div>
 <div class="section" id="slide1down">
 <h3>17.3.4. ベクトルSlide1down命令<a class="headerlink" href="#slide1down" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">vslide1down</span></code>命令はアクティブなベクトル要素のうち最初の<code class="docutils literal notranslate"><span class="pre">vl</span></code>-1個のアクティブの要素を*i*+1のソースベクトルレジスタインデックスから書き込みベクトルレジスタグループの<em>i</em>のインデックスにコピーする。</p>
+<p><code class="docutils literal notranslate"><span class="pre">vslide1down</span></code>命令はアクティブなベクトル要素のうち最初の<code class="docutils literal notranslate"><span class="pre">vl</span></code>-1個のアクティブの要素を<em>i</em>+1のソースベクトルレジスタインデックスから書き込みベクトルレジスタグループの<em>i</em>のインデックスにコピーする。</p>
 <p><code class="docutils literal notranslate"><span class="pre">vl</span></code>レジスタは書き込みベクトルレジスタ要素のうちいくつの要素に書き込みが行われるかを示しており、テールの要素の値は変更されない。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vslide1down</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>      <span class="c1"># vd[i] = vs2[i+1], vd[vl-1]=x[rs1]</span>
 </pre></div>

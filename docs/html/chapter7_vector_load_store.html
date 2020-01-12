@@ -231,37 +231,41 @@ Encoding</a>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>rs1[4:0]</td>
-<td>ベースアドレスを格納した整数レジスタを指定する。</td>
+<td>ベース
+アドレスを格納した整数レジスタを指定する。</td>
 </tr>
 <tr class="row-odd"><td>rs2[4:0]</td>
-<td>ストライドを格納した整数レジスタを指定する。</td>
+<td>ス
+トライドを格納した整数レジスタを指定する。</td>
 </tr>
 <tr class="row-even"><td>vs2[4:0]</td>
-<td>アドレスオフセットを格納したVレジスタを指定する。</td>
+<td>アドレ
+スオフセットを格納したVレジスタを指定する。</td>
 </tr>
 <tr class="row-odd"><td>vs3[4:0]</td>
 <td>ストアデータを格納したVレジスタを指定する。</td>
 </tr>
 <tr class="row-even"><td>vd[4:0]</td>
-<td>ロード命令の書き込み先のVレジスタを指定する。</td>
+<td>ロ
+ード命令の書き込み先のVレジスタを指定する。</td>
 </tr>
 <tr class="row-odd"><td>vm</td>
 <td>ベクトルマスク</td>
 </tr>
 <tr class="row-even"><td>width[2:0]</td>
-<td>メモリ要素のサイズを指定する。FPスカラの場合と値のエンコーディン
-グは同一である。</td>
+<td>メモリ要素のサイズを指定する。FPスカラ
+の場合と値のエンコーディングは同一である。</td>
 </tr>
 <tr class="row-odd"><td>mop[2:0]</td>
 <td>メモリのアドレッシングモードを指定する。</td>
 </tr>
 <tr class="row-even"><td>nf[2:0]</td>
-<td>セグメントロード・ストア命令のための、各セグメントのフィールド数を
-指定する。</td>
+<td>セグメントロード・ストア命令のため
+の、各セグメントのフィールド数を指定する。</td>
 </tr>
 <tr class="row-odd"><td>lumop[4:0]/sumop[4:0]</td>
-<td>ユニットストライド命令のための追加のフィールドエンコーディングを指
-定する。</td>
+<td>ユニットストライド命令のための追
+加のフィールドエンコーディングを指定する。</td>
 </tr>
 </tbody>
 </table>
@@ -279,10 +283,10 @@ Encoding</a>
 <table border="1" class="docutils">
 <colgroup>
 <col width="19%" />
-<col width="5%" />
-<col width="5%" />
-<col width="48%" />
-<col width="22%" />
+<col width="2%" />
+<col width="2%" />
+<col width="54%" />
+<col width="23%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">mop [2:0]</th>
@@ -346,9 +350,9 @@ Encoding</a>
 <table border="1" class="docutils">
 <colgroup>
 <col width="19%" />
-<col width="5%" />
-<col width="5%" />
-<col width="49%" />
+<col width="2%" />
+<col width="2%" />
+<col width="55%" />
 <col width="21%" />
 </colgroup>
 <thead valign="bottom">
@@ -416,12 +420,12 @@ Encoding</a>
 <p>ユニットストライドベクトル命令のアドレッシングモードにさらに追加されるフィールドでは、<code class="docutils literal notranslate"><span class="pre">lumop</span></code>と<code class="docutils literal notranslate"><span class="pre">sumop</span></code>フィールドを使ってユニットストライドロード・ストア命令のエンコーディングを拡張する。</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="14%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="59%" />
+<col width="13%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="68%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">lumop[4]</th>
@@ -479,12 +483,12 @@ Encoding</a>
 </table>
 <table border="1" class="docutils">
 <colgroup>
-<col width="14%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="59%" />
+<col width="13%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="68%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">sumop[4]</th>
@@ -766,10 +770,10 @@ fault-only-first命令は大きなセキュリティホールとなるため定�
 <p>ベクトル命令エンコーディング中の3ビットの<code class="docutils literal notranslate"><span class="pre">nf</span></code>フィールドは符号なし整数で、セグメント当たりのフィールドの数<strong>NFIELDS</strong>を示している。</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="27%" />
-<col width="19%" />
-<col width="19%" />
-<col width="35%" />
+<col width="28%" />
+<col width="17%" />
+<col width="17%" />
+<col width="39%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">nf[2]</th>
