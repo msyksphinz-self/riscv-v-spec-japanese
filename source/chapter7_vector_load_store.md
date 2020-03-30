@@ -295,9 +295,9 @@ The assembler prefixes `vlseg`/`vsseg` are used for unit-stride segment loads an
 
 ```
 # フォーマット
-vlseg<nf>{b,h,w}.v vd, (rs1),  vm    # ユニットストライド富豪的セグメントロード命令のテンプレート
+vlseg<nf>{b,h,w}.v vd, (rs1),  vm    # ユニットストライド符号付きセグメントロード命令のテンプレート
 vlseg<nf>e.v vd, (rs1), vm           # ユニットストライドセグメントロード命令のテンプレート
-vlseg<nf>{b,h,w}u.v vd, (rs1), vm    # ユニットストライド冨居なしセグメントロード命令のテンプレート
+vlseg<nf>{b,h,w}u.v vd, (rs1), vm    # ユニットストライド符号なしセグメントロード命令のテンプレート
 vsseg<nf>{b,h,w,e}.v vs3, (rs1), vm  # ユニットストライドセグメントストア命令のテンプレート
 
 # 例
@@ -352,7 +352,7 @@ vlseg<nf>{b,h,w}uff.v vd, (rs1),   vm  # ユニットストライド符号なし
     vlsseg3b.v v4, (x5), x6   # アドレスx5+i*x6のデータをv4[i]に格納し、
                               #  アドレスx5+i*x6+1のデータをv5[i]に格納し、
                               #  アドレスx5+i*x6+2のデータをv6[i]に格納する。
-                              
+
     # Examples
     vssseg2w.v v2, (x5), x6   # v2[i]をアドレスx5+i*x6に格納し、
                               #   v3[i]をアドレスx5+i*x6+4に格納する。
@@ -417,4 +417,3 @@ vlseg<nf>{b,h,w}uff.v vd, (rs1),   vm  # ユニットストライド符号なし
 
    vs1r.v v3, (a1)      # Store v3 to address in a1
 ```
-
