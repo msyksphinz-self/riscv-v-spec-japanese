@@ -240,8 +240,9 @@ Andrew Waterman, Jim Wilson.</p>
 <blockquote>
 <div>コードにより実装パラメータの違いを表現できるようになる。</div></blockquote>
 <blockquote>
-<div>アクティブなベクトル状態のスレッドコンテキストで、異なるVLEN, ELEN,
-SLENパラメータを持つスレッド同士はmitigateすることはできない。</div></blockquote>
+<div>ベクトル状態がアクティブなスレッドコンテキストは、
+VLEN, ELEN, SLENパラメータのいずれかが異なるハードウェアスレッド間では、
+実行中に合流することはできない。</div></blockquote>
 </div>
 <div class="section" id="id3">
 <h1>3. ベクトル拡張のプログラミングモデル<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h1>
