@@ -492,8 +492,7 @@ XLENビット長の読み込み専用CSRである\ ``vl``\ は\ ``vsetvli``\ お
 
 ::
 
-   roundoff_unsigned(v, d) = (unsigned(v) >> d) + r
-   roundoff_signed(v, d) = (signed(v) >> d) + r
+   roundoff(v, d) = (v >> d) + r
 
 Bits[XLEN-1:2]はゼロである。
 

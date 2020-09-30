@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<html class="writer-html5" lang="ja" >
 <head>
   <meta charset="utf-8">
   
@@ -12,38 +11,31 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
     <link rel="next" title="17. ベクトル並べ替え命令" href="chapter17_vector_permutation.html" />
@@ -61,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> riscv-v-spec-japanese
           
 
           
@@ -84,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -93,9 +86,10 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">v0.9からの変更点</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id4">3. ベクトル拡張のプログラミングモデル</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
@@ -130,6 +124,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -168,7 +163,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>16. ベクトルマスク命令</li>
     
@@ -215,167 +210,169 @@
 </pre></div>
 </div>
 <blockquote>
-<div>vmcpy.m命令はvmmvとは呼ばない。アーキテクチャ内では、mvという用語はビット全体を意味を持たずコピーするという意味を持つからである。vmcpy.m命令は書き込みマスクレジスタの上位ビットをクリアし、これらのビットの値にか買わざる、マスクレジスタの上位ビットをゼロに設定する。</div></blockquote>
+<div><p>vmcpy.m命令はvmmvとは呼ばない。アーキテクチャ内では、mvという用語はビット全体を意味を持たずコピーするという意味を持つからである。vmcpy.m命令は書き込みマスクレジスタの上位ビットをクリアし、これらのビットの値にか買わざる、マスクレジスタの上位ビットをゼロに設定する。</p>
+</div></blockquote>
 <p>8つのマスク論理命令は、2つの入力マスクによって16個のマスク関数を生成することができる:</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="46%" />
-<col width="8%" />
-<col width="8%" />
-<col width="8%" />
-<col width="31%" />
+<col style="width: 46%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 31%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">inputs</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>inputs</p></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>0</td>
-<td>0</td>
-<td>1</td>
-<td>1</td>
-<td>src1</td>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>src1</p></td>
 </tr>
-<tr class="row-odd"><td>0</td>
-<td>1</td>
-<td>0</td>
-<td>1</td>
-<td>src2</td>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>src2</p></td>
 </tr>
 </tbody>
 </table>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="12%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="51%" />
-<col width="31%" />
+<col style="width: 12%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 51%" />
+<col style="width: 31%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">output</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
-<th class="head">instruction</th>
-<th class="head">疑似命令</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>output</p></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"><p>instruction</p></th>
+<th class="head"><p>疑似命令</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>vmxor.mm vd, vd, vd</td>
-<td>vmclr.m vd</td>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>vmxor.mm vd, vd, vd</p></td>
+<td><p>vmclr.m vd</p></td>
 </tr>
-<tr class="row-odd"><td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>vmnor.mm vd, src1, src2</td>
-<td>&#160;</td>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>vmnor.mm vd, src1, src2</p></td>
+<td></td>
 </tr>
-<tr class="row-even"><td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>vmandnot.mm vd, src2, src1</td>
-<td>&#160;</td>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>vmandnot.mm vd, src2, src1</p></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td>1</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>vmnand.mm vd, src1, src1</td>
-<td>vmnot.m vd, src1</td>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>vmnand.mm vd, src1, src1</p></td>
+<td><p>vmnot.m vd, src1</p></td>
 </tr>
-<tr class="row-even"><td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>vmandnot.mm vd, src1, src2</td>
-<td>&#160;</td>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>vmandnot.mm vd, src1, src2</p></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td>1</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>vmnand.mm vd, src2, src2</td>
-<td>vmnot.m vd, src2</td>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>vmnand.mm vd, src2, src2</p></td>
+<td><p>vmnot.m vd, src2</p></td>
 </tr>
-<tr class="row-even"><td>0</td>
-<td>1</td>
-<td>1</td>
-<td>0</td>
-<td>vmxor.mm vd, src1, src2</td>
-<td>&#160;</td>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>vmxor.mm vd, src1, src2</p></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td>1</td>
-<td>1</td>
-<td>1</td>
-<td>0</td>
-<td>vmnand.mm vd, src1, src2</td>
-<td>&#160;</td>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>vmnand.mm vd, src1, src2</p></td>
+<td></td>
 </tr>
-<tr class="row-even"><td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>vmand.mm vd, src1, src2</td>
-<td>&#160;</td>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>vmand.mm vd, src1, src2</p></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td>1</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>vmxnor.mm vd, src1, src2</td>
-<td>&#160;</td>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>vmxnor.mm vd, src1, src2</p></td>
+<td></td>
 </tr>
-<tr class="row-even"><td>0</td>
-<td>1</td>
-<td>0</td>
-<td>1</td>
-<td>vmand.mm vd, src2, src2</td>
-<td>vmcpy.m vd, src2</td>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>vmand.mm vd, src2, src2</p></td>
+<td><p>vmcpy.m vd, src2</p></td>
 </tr>
-<tr class="row-odd"><td>1</td>
-<td>1</td>
-<td>0</td>
-<td>1</td>
-<td>vmornot.mm vd, src2, src1</td>
-<td>&#160;</td>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>vmornot.mm vd, src2, src1</p></td>
+<td></td>
 </tr>
-<tr class="row-even"><td>0</td>
-<td>0</td>
-<td>1</td>
-<td>1</td>
-<td>vmand.mm vd, src1, src1</td>
-<td>vmcpy.m vd, src1</td>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>vmand.mm vd, src1, src1</p></td>
+<td><p>vmcpy.m vd, src1</p></td>
 </tr>
-<tr class="row-odd"><td>1</td>
-<td>0</td>
-<td>1</td>
-<td>1</td>
-<td>vmornot.mm vd, src1, src2</td>
-<td>&#160;</td>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>vmornot.mm vd, src1, src2</p></td>
+<td></td>
 </tr>
-<tr class="row-even"><td>1</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>vmxnor.mm vd, vd, vd</td>
-<td>vmset.m vd</td>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>vmxnor.mm vd, vd, vd</p></td>
+<td><p>vmset.m vd</p></td>
 </tr>
 </tbody>
 </table>
 <blockquote>
-<div>ベクトルマスク命令は後続のマスクベクトル操作と簡単に結合できるように設計されている。使用する前に、<code class="docutils literal notranslate"><span class="pre">v0</span></code>レジスタに値を移動することでプレディケートレジスタの数を拡張することができる。</div></blockquote>
+<div><p>ベクトルマスク命令は後続のマスクベクトル操作と簡単に結合できるように設計されている。使用する前に、<code class="docutils literal notranslate"><span class="pre">v0</span></code>レジスタに値を移動することでプレディケートレジスタの数を拡張することができる。</p>
+</div></blockquote>
 </div>
 <div class="section" id="population-countvpopc">
 <h2>16.2. ベクトルマスクPopulation Count命令<code class="docutils literal notranslate"><span class="pre">vpopc</span></code><a class="headerlink" href="#population-countvpopc" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -399,7 +396,8 @@ Layout</a>の形式で格納している。</p>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">vfirst</span></code>命令はソースマスクベクトルの中から、アクティブ要素の中でLSBが1に設定されている最も小さな要素のインデックスを探し、そのインデックス値をGPRに格納する。もしLSBが1に設定されている要素が1つも存在しなければ、GPRには-1が格納される。</p>
 <blockquote>
-<div>ソフトウェアは、<code class="docutils literal notranslate"><span class="pre">vfirst</span></code>命令の結果、整数レジスタの値が負の数である(再上位ビットが1に設定されている)ならば、該当する要素が見つからなかったと考えることができる。これは任意の実装でベクトル長が231を超えることがないという環境での想定である。</div></blockquote>
+<div><p>ソフトウェアは、<code class="docutils literal notranslate"><span class="pre">vfirst</span></code>命令の結果、整数レジスタの値が負の数である(再上位ビットが1に設定されている)ならば、該当する要素が見つからなかったと考えることができる。これは任意の実装でベクトル長が231を超えることがないという環境での想定である。</p>
+</div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">vfirst</span></code>命令の例外は常に<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が0であるものとして通知される。<code class="docutils literal notranslate"><span class="pre">vfirst</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が0でない場合に不正命令例外を発生させる。</p>
 </div>
 <div class="section" id="vmsbf-m-set-before-first">
@@ -565,7 +563,8 @@ Layout</a>の形式で格納している。</p>
 <p><code class="docutils literal notranslate"><span class="pre">viota.m</span></code>命令の例外が発生した場合はvstart`は0として通知される。。トラップハンドラから復帰しした後は、この命令は最初から再開される。</p>
 <p>書き込み先のベクトルレジスタグループがソースベクトルマスクレジスタとオーバラップしていた場合に不正命令例外が発生する。命令がマスクされている場合は、書き込みレジスタグループが<code class="docutils literal notranslate"><span class="pre">v0</span></code>とオーバラップしている場合に不正命令例外が発生する。</p>
 <blockquote>
-<div>これらの制約は2つの理由で付けられている。1つ目は、一時的な長いベクトルレジスタと、ベクトルレジスタリネーミングを実行しない場合のWARハザードを簡単に避けるためのものである。2番目は、トラップ後の命令の実行再開を簡単にするためである。</div></blockquote>
+<div><p>これらの制約は2つの理由で付けられている。1つ目は、一時的な長いベクトルレジスタと、ベクトルレジスタリネーミングを実行しない場合のWARハザードを簡単に避けるためのものである。2番目は、トラップ後の命令の実行再開を簡単にするためである。</p>
+</div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">viota.m</span></code>命令はメモリスキャッタ命令(インデック付きストア命令)と併用して、ベクトル圧縮関数として使用できる。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># 入力メモリの配列の中から非ゼロの値を拾って圧縮し、配列にストアする。</span>
     <span class="c1">#</span>
@@ -622,9 +621,11 @@ Layout</a>の形式で格納している。</p>
 <p>この命令の<code class="docutils literal notranslate"><span class="pre">vs2</span></code>フィールドは<code class="docutils literal notranslate"><span class="pre">v0</span></code>に設定しなければならず、それ以外の場合はエンコーディングは予約となる。</p>
 <p>SEWの値が結果の値よりも大きい場合には、値はゼロ拡張される。もし結果の値がSEWのビット幅よりもオーバフローした場合には、SEWビットの下位ビットが保持される。</p>
 <blockquote>
-<div>この制約は、リネーミングを行わない長いベクトルの実装においてWARハザードを避けるためと、命令の実行再開をサポートするためである。</div></blockquote>
+<div><p>この制約は、リネーミングを行わない長いベクトルの実装においてWARハザードを避けるためと、命令の実行再開をサポートするためである。</p>
+</div></blockquote>
 <blockquote>
-<div>マイクロアーキテクチャとして、<code class="docutils literal notranslate"><span class="pre">vid.v</span></code>命令は<code class="docutils literal notranslate"><span class="pre">viota.m</span></code>命令と同じデータパスを使用して実装できるが、暗黙的にマスクのソースを指定する必要がある。</div></blockquote>
+<div><p>マイクロアーキテクチャとして、<code class="docutils literal notranslate"><span class="pre">vid.v</span></code>命令は<code class="docutils literal notranslate"><span class="pre">viota.m</span></code>命令と同じデータパスを使用して実装できるが、暗黙的にマスクのソースを指定する必要がある。</p>
+</div></blockquote>
 </div>
 </div>
 
@@ -648,11 +649,19 @@ Layout</a>の形式で格納している。</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, msyksphinz
+        
+        &copy; 著作権 2019, msyksphinz
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -663,7 +672,6 @@ Layout</a>の形式で格納している。</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

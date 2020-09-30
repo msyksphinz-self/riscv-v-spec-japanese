@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<html class="writer-html5" lang="ja" >
 <head>
   <meta charset="utf-8">
   
@@ -12,38 +11,31 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
     <link rel="next" title="6. コンフィグレーション設定命令" href="chapter6_config_insts.html" />
@@ -61,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> riscv-v-spec-japanese
           
 
           
@@ -84,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -93,9 +86,10 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">v0.9からの変更点</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id4">3. ベクトル拡張のプログラミングモデル</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">5. ベクトル命令フォーマット</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">5.1. スカラオペランド</a></li>
@@ -128,6 +122,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -166,7 +161,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>5. ベクトル命令フォーマット</li>
     
@@ -242,8 +237,9 @@ AMO)および新しいメジャーオペコード(OP-V)を使用している。<
 <code class="docutils literal notranslate"><span class="pre">f</span></code>,
 もしくはベクトルレジスタの要素0番目に書き込まれる。LMULのセッティングに関係なく、どのようなベクトルレジスタもスカラの値を保持することができる。</p>
 <blockquote>
-<div>0.6からの仕様変更として、浮動小数点レジスタはベクトルレジスタとオーバレイしなくなった点と、スカラの要素嘘として整数と浮動小数点レジスタを取ることができるということが挙げられる。<code class="docutils literal notranslate"><span class="pre">f</span></code>レジスタとのオーバレイの仕様を削除したことにより、ベクトルレジスタのレジスタプレッシャの問題を削減し、標準的な呼び出し規約での相互干渉を避けることができる。また、高性能スカラ浮動小数点演算命令において実装を簡単化する。また、Zfinx
-ISAとの互換性をサポートする。<code class="docutils literal notranslate"><span class="pre">f</span></code>レジスタを<code class="docutils literal notranslate"><span class="pre">v</span></code>レジスタとオーバレイすることのメリットはいくつかの実装で状態ビットの数を削減することができるが、高性能な設計では実装が複雑化し、Zfinxオプションでの処理が複雑化する。</div></blockquote>
+<div><p>0.6からの仕様変更として、浮動小数点レジスタはベクトルレジスタとオーバレイしなくなった点と、スカラの要素嘘として整数と浮動小数点レジスタを取ることができるということが挙げられる。<code class="docutils literal notranslate"><span class="pre">f</span></code>レジスタとのオーバレイの仕様を削除したことにより、ベクトルレジスタのレジスタプレッシャの問題を削減し、標準的な呼び出し規約での相互干渉を避けることができる。また、高性能スカラ浮動小数点演算命令において実装を簡単化する。また、Zfinx
+ISAとの互換性をサポートする。<code class="docutils literal notranslate"><span class="pre">f</span></code>レジスタを<code class="docutils literal notranslate"><span class="pre">v</span></code>レジスタとオーバレイすることのメリットはいくつかの実装で状態ビットの数を削減することができるが、高性能な設計では実装が複雑化し、Zfinxオプションでの処理が複雑化する。</p>
+</div></blockquote>
 </div>
 <div class="section" id="id3">
 <h2>5.2. ベクトルオペランド<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -255,55 +251,59 @@ ISAとの互換性をサポートする。<code class="docutils literal notransl
 <p>多くのベクトル命令ではマスクイングをサポートしている。マスクされた要素に対する演算は、書き込みレジスタ要素の値を更新せず、例外も発生しない。</p>
 <p>ベースレジスタ拡張では、マスクの値はマスク付きベクトル命令によって使用され、マスクの値は常にベクトルレジスタ<code class="docutils literal notranslate"><span class="pre">v0</span></code>から与えられる。各要素の再開ビットが制御命令のマスクベクタとして使用される。</p>
 <blockquote>
-<div>将来のベクトル拡張では、マスクレジスタとしてすべての空間を利用できるような長い命令エンコーディングを提供する予定である。</div></blockquote>
+<div><p>将来のベクトル拡張では、マスクレジスタとしてすべての空間を利用できるような長い命令エンコーディングを提供する予定である。</p>
+</div></blockquote>
 <p>マスク付きベクトル命令の書き込みレジスタグループは、LMUL=1の時のみオーバラップすることができる。それ以外の場合は不定命令例外が発生する。</p>
 <blockquote>
-<div>この制約では、非ゼロの<code class="docutils literal notranslate"><span class="pre">vstart</span></code>値による再開がサポートされる。</div></blockquote>
+<div><p>この制約では、非ゼロの<code class="docutils literal notranslate"><span class="pre">vstart</span></code>値による再開がサポートされる。</p>
+</div></blockquote>
 <p>他のベクトルレジスタは計算中のマスクを保持することができ、プレディケートの計算のためにベクトル論理演算などを適用できる。</p>
 <div class="section" id="id5">
 <h3>5.3.1. マスクのエンコーディング<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>マスクが使用可能な場合、命令中の<code class="docutils literal notranslate"><span class="pre">inst[25]</span></code>に配置されている<code class="docutils literal notranslate"><span class="pre">vm</span></code>1ビットとしてエンコードされる。</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="5%" />
-<col width="95%" />
+<col style="width: 5%" />
+<col style="width: 95%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">vm</th>
-<th class="head">説明</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>vm</p></th>
+<th class="head"><p>説明</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>0</td>
-<td>vector result, only where v0[i].LSB = 1</td>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>vector result, only where v0[i].LSB = 1</p></td>
 </tr>
-<tr class="row-odd"><td>1</td>
-<td>unmasked</td>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>unmasked</p></td>
 </tr>
 </tbody>
 </table>
 <blockquote>
-<div>初期の仕様では、<code class="docutils literal notranslate"><span class="pre">vm</span></code>は2ビットであり<code class="docutils literal notranslate"><span class="pre">vm[1:0]</span></code>とし、スカラ命令と同様に<code class="docutils literal notranslate"><span class="pre">v0</span></code>を使用して双方とも1もしくは排他的なマスクをサポートしていた。</div></blockquote>
+<div><p>初期の仕様では、<code class="docutils literal notranslate"><span class="pre">vm</span></code>は2ビットであり<code class="docutils literal notranslate"><span class="pre">vm[1:0]</span></code>とし、スカラ命令と同様に<code class="docutils literal notranslate"><span class="pre">v0</span></code>を使用して双方とも1もしくは排他的なマスクをサポートしていた。</p>
+</div></blockquote>
 <p>ベクトルのマスクはアセンブラコードでは追加のベクトルオペランドとして表現される。<code class="docutils literal notranslate"><span class="pre">.t</span></code>は<code class="docutils literal notranslate"><span class="pre">v0[i].LSB</span></code>が1である場合に演算が発生する。マスクが指定されていないと、マスク無しベクトル命令(<code class="docutils literal notranslate"><span class="pre">vm=1</span></code>)として演算が実行される。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vop</span><span class="o">.</span><span class="n">v</span><span class="o">*</span>    <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span>  <span class="c1"># enabled where v0[i].LSB=1, m=0</span>
 <span class="n">vop</span><span class="o">.</span><span class="n">v</span><span class="o">*</span>    <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v3</span>        <span class="c1"># unmasked vector operation, m=1</span>
 </pre></div>
 </div>
 <blockquote>
-<div><code class="docutils literal notranslate"><span class="pre">v0</span></code>によるTrueの形のプレディケーションをベクトルマスクレジスタをサポートしているにも関わらず、アセンブリの構文ではマスクレジスタの指定としてすべてのベクトルレジスタを指定でき、Both
-Trueと排他的なマスクをサポートできるように設計している。<code class="docutils literal notranslate"><span class="pre">.t</span></code>はマスクの仕様を視覚的にエンコードすることを助ける。</div></blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">v0</span></code>によるTrueの形のプレディケーションをベクトルマスクレジスタをサポートしているにも関わらず、アセンブリの構文ではマスクレジスタの指定としてすべてのベクトルレジスタを指定でき、Both
+Trueと排他的なマスクをサポートできるように設計している。<code class="docutils literal notranslate"><span class="pre">.t</span></code>はマスクの仕様を視覚的にエンコードすることを助ける。</p>
+</div></blockquote>
 </div>
 </div>
 <div class="section" id="id6">
 <h2>5.4 プリスタート・アクティブ・インアクティブ・ボディー・テールの要素定義<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ベクトル命令を実行中に、演算が適用される要素は以下の4つの別々の状態に分類される。</p>
 <ul class="simple">
-<li><strong>プリスタート(prestart)</strong>
-要素は、その要素のインデックが<code class="docutils literal notranslate"><span class="pre">vstart</span></code>に格納されている初期値よりも小さいものを指す。プリスタート状態の要素は例外を発生させず、書き込みレジスタに指定されても要素のアップデートは行われない。</li>
-<li><strong>アクティブ(active)</strong>要素は現在のベクトル長の設定に含まれているベクトル要素であり、現在のマスク設定により有効化されている要素である。アクティブな要素は例外を発生する可能性があり、書き込みベクトルレジスタグループにより書き込みが発生する可能性がある。</li>
-<li><strong>インアクティブ(inactive)</strong>な要素は現在のベクトル長の設定に含まれているベクトル要素であるが、現在のマスクそっていにより有効化されていないベクトル要素である。インアクティブな要素は例外を発生させず、書き込みレジスタに指定されても書き込みが行われない。</li>
-<li><strong>テール(tail)</strong>要素はベクトル命令の実行中に、現在のベクトル長の設定よりも後ろのベクトル要素である。テールのベクトル要素は例外を発生させないが、ベクトルレジスタグループにおいて書き込み時はゼロが書き込まれる。</li>
-<li>加えて、他の要素として<strong>ボディー(body)</strong>要素は、アクティブ要素とインアクティブ要素の両方を示したものである。つまり、プリスタート以降で、テール以前の要素を指す。</li>
+<li><p><strong>プリスタート(prestart)</strong>
+要素は、その要素のインデックが<code class="docutils literal notranslate"><span class="pre">vstart</span></code>に格納されている初期値よりも小さいものを指す。プリスタート状態の要素は例外を発生させず、書き込みレジスタに指定されても要素のアップデートは行われない。</p></li>
+<li><p><strong>アクティブ(active)</strong>要素は現在のベクトル長の設定に含まれているベクトル要素であり、現在のマスク設定により有効化されている要素である。アクティブな要素は例外を発生する可能性があり、書き込みベクトルレジスタグループにより書き込みが発生する可能性がある。</p></li>
+<li><p><strong>インアクティブ(inactive)</strong>な要素は現在のベクトル長の設定に含まれているベクトル要素であるが、現在のマスクそっていにより有効化されていないベクトル要素である。インアクティブな要素は例外を発生させず、書き込みレジスタに指定されても書き込みが行われない。</p></li>
+<li><p><strong>テール(tail)</strong>要素はベクトル命令の実行中に、現在のベクトル長の設定よりも後ろのベクトル要素である。テールのベクトル要素は例外を発生させないが、ベクトルレジスタグループにおいて書き込み時はゼロが書き込まれる。</p></li>
+<li><p>加えて、他の要素として<strong>ボディー(body)</strong>要素は、アクティブ要素とインアクティブ要素の両方を示したものである。つまり、プリスタート以降で、テール以前の要素を指す。</p></li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ベクトル要素のインデックス xについて、
 プリスタート     = (0 &lt;= x &lt; vstart)
@@ -341,11 +341,19 @@ mask(x)        = unmasked || v0[x].LSB == 1
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, msyksphinz
+        
+        &copy; 著作権 2019, msyksphinz
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -356,7 +364,6 @@ mask(x)        = unmasked || v0[x].LSB == 1
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

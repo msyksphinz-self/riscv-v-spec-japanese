@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<html class="writer-html5" lang="ja" >
 <head>
   <meta charset="utf-8">
   
@@ -12,38 +11,31 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
     <link rel="next" title="20. ベクトル命令一覧" href="chapter20_listing.html" />
@@ -61,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> riscv-v-spec-japanese
           
 
           
@@ -84,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -93,9 +86,10 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">v0.9からの変更点</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id4">3. ベクトル拡張のプログラミングモデル</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
@@ -131,6 +125,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -169,7 +164,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>19. 要素分割拡張命令 (‘Zvediv’)</li>
     
@@ -193,108 +188,109 @@
   <div class="section" id="zvediv">
 <h1>19. 要素分割拡張命令 (‘Zvediv’)<a class="headerlink" href="#zvediv" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <blockquote>
-<div>EDIV拡張は現在では“V”基本命令には取り込まれない予定である。現在の仕様から大幅に変更となる可能性がある。</div></blockquote>
+<div><p>EDIV拡張は現在では“V”基本命令には取り込まれない予定である。現在の仕様から大幅に変更となる可能性がある。</p>
+</div></blockquote>
 <p>要素分割拡張は、各ベクトルの要素をさらに小さなサブベクトルとして取り扱うための拡張である。この拡張により、よりビット幅の小さなデータの取り扱いや、複数のビット幅が混在した算術演算や、小さなベクトルのループ外領域のベクトル化、行列の演算などに使用できる。既存の命令の挙動の変更に加え、EDIV
 &gt; 1の際にはいくつかの新しい命令を定義する。</p>
 <p>要素分割拡張では、<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタに<code class="docutils literal notranslate"><span class="pre">vediv[1:0]</span></code>という2ビットのフィールドを追加する。</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="15%" />
-<col width="18%" />
-<col width="67%" />
+<col style="width: 15%" />
+<col style="width: 18%" />
+<col style="width: 67%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">ビット</th>
-<th class="head">名前</th>
-<th class="head">説明</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>ビット</p></th>
+<th class="head"><p>名前</p></th>
+<th class="head"><p>説明</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>XLEN-1</td>
-<td>vill</td>
-<td>このビットが設定され
-ると、不正な設定が行われたことを意味する。</td>
+<tbody>
+<tr class="row-even"><td><p>XLEN-1</p></td>
+<td><p>vill</p></td>
+<td><p>このビットが設定され
+ると、不正な設定が行われたことを意味する。</p></td>
 </tr>
-<tr class="row-odd"><td>XLEN-2:7</td>
-<td>&#160;</td>
-<td>予約</td>
+<tr class="row-odd"><td><p>XLEN-2:7</p></td>
+<td></td>
+<td><p>予約</p></td>
 </tr>
-<tr class="row-even"><td>6:5</td>
-<td>vediv[1:0]</td>
-<td>EDIV拡張のために使用される。</td>
+<tr class="row-even"><td><p>6:5</p></td>
+<td><p>vediv[1:0]</p></td>
+<td><p>EDIV拡張のために使用される。</p></td>
 </tr>
-<tr class="row-odd"><td>4:2</td>
-<td>vsew[2:0]</td>
-<td>Standard element width (SEW) の設定</td>
+<tr class="row-odd"><td><p>4:2</p></td>
+<td><p>vsew[2:0]</p></td>
+<td><p>Standard element width (SEW) の設定</p></td>
 </tr>
-<tr class="row-even"><td>1:0</td>
-<td>vlmul[1:0]</td>
-<td>Vector register group multiplier (LMUL)
-の設定</td>
+<tr class="row-even"><td><p>1:0</p></td>
+<td><p>vlmul[1:0]</p></td>
+<td><p>Vector register group multiplier (LMUL)
+の設定</p></td>
 </tr>
 </tbody>
 </table>
 <p><code class="docutils literal notranslate"><span class="pre">vediv</span></code>フィールドはEDIVがSEWビットの要素をどのように分割するかについて設定する。ベクトルレジスタグループはサブベクトルのベクトル列として考える。</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="25%" />
-<col width="2%" />
-<col width="2%" />
-<col width="70%" />
+<col style="width: 25%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 70%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">vediv [1:0]</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
-<th class="head">Division EDIV</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>vediv [1:0]</p></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"><p>Division EDIV</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>0</td>
-<td>0</td>
-<td>1</td>
-<td>分割しない。ベースISA</td>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>分割しない。ベースISA</p></td>
 </tr>
-<tr class="row-odd"><td>0</td>
-<td>1</td>
-<td>2</td>
-<td>2つの等幅のサブ要素に分割する。</td>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>2つの等幅のサブ要素に分割する。</p></td>
 </tr>
-<tr class="row-even"><td>1</td>
-<td>0</td>
-<td>4</td>
-<td>4つの等幅のサブ要素に分割する。</td>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>4</p></td>
+<td><p>4つの等幅のサブ要素に分割する。</p></td>
 </tr>
-<tr class="row-odd"><td>1</td>
-<td>1</td>
-<td>8</td>
-<td>8つの等幅のサブ要素に分割する。</td>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>8</p></td>
+<td><p>8つの等幅のサブ要素に分割する。</p></td>
 </tr>
 </tbody>
 </table>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="11%" />
-<col width="11%" />
-<col width="13%" />
-<col width="13%" />
-<col width="11%" />
-<col width="13%" />
-<col width="13%" />
-<col width="13%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 11%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">SEW</th>
-<th class="head">EDIV</th>
-<th class="head">サブ
-要素</th>
-<th class="head">整
+<thead>
+<tr class="row-odd"><th class="head"><p>SEW</p></th>
+<th class="head"><p>EDIV</p></th>
+<th class="head"><p>サブ
+要素</p></th>
+<th class="head"><p>整
 数ア
 キュ
 ムレ
-ータ</th>
-<th class="head">&#160;</th>
-<th class="head">浮動
+ータ</p></th>
+<th class="head"></th>
+<th class="head"><p>浮動
 小数
 点加
 算・
@@ -302,279 +298,281 @@
 トア
 キュ
 ムレ
-ータ</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
+ータ</p></th>
+<th class="head"></th>
+<th class="head"></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>&#160;</td>
-<td>&#160;</td>
-<td>&#160;</td>
-<td>sum</td>
-<td>dot</td>
-<td>FL
-EN=32</td>
-<td>FL
-EN=64</td>
-<td>FLE
-N=128</td>
+<tbody>
+<tr class="row-even"><td></td>
+<td></td>
+<td></td>
+<td><p>sum</p></td>
+<td><p>dot</p></td>
+<td><p>FL
+EN=32</p></td>
+<td><p>FL
+EN=64</p></td>
+<td><p>FLE
+N=128</p></td>
 </tr>
-<tr class="row-odd"><td>8b</td>
-<td>2</td>
-<td>4b</td>
-<td>8b</td>
-<td>8b</td>
-<td><ul class="first last simple">
+<tr class="row-odd"><td><p>8b</p></td>
+<td><p>2</p></td>
+<td><p>4b</p></td>
+<td><p>8b</p></td>
+<td><p>8b</p></td>
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
-<td><ul class="first last simple">
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-</tr>
-<tr class="row-even"><td>8b</td>
-<td>4</td>
-<td>2b</td>
-<td>8b</td>
-<td>8b</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-<td><ul class="first last simple">
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
 </tr>
-<tr class="row-odd"><td>8b</td>
-<td>8</td>
-<td>1b</td>
-<td>8b</td>
-<td>8b</td>
-<td><ul class="first last simple">
+<tr class="row-even"><td><p>8b</p></td>
+<td><p>4</p></td>
+<td><p>2b</p></td>
+<td><p>8b</p></td>
+<td><p>8b</p></td>
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
-<td><ul class="first last simple">
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-</tr>
-<tr class="row-even"><td>16b</td>
-<td>2</td>
-<td>8b</td>
-<td>16b</td>
-<td>16b</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-<td><ul class="first last simple">
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
 </tr>
-<tr class="row-odd"><td>16b</td>
-<td>4</td>
-<td>4b</td>
-<td>8b</td>
-<td>16b</td>
-<td><ul class="first last simple">
+<tr class="row-odd"><td><p>8b</p></td>
+<td><p>8</p></td>
+<td><p>1b</p></td>
+<td><p>8b</p></td>
+<td><p>8b</p></td>
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
-<td><ul class="first last simple">
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-</tr>
-<tr class="row-even"><td>16b</td>
-<td>8</td>
-<td>2b</td>
-<td>8b</td>
-<td>8b</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-<td><ul class="first last simple">
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
 </tr>
-<tr class="row-odd"><td>32b</td>
-<td>2</td>
-<td>16b</td>
-<td>32b</td>
-<td>32b</td>
-<td>32b</td>
-<td>32b</td>
-<td>32b</td>
-</tr>
-<tr class="row-even"><td>32b</td>
-<td>4</td>
-<td>8b</td>
-<td>16b</td>
-<td>32b</td>
-<td><ul class="first last simple">
+<tr class="row-even"><td><p>16b</p></td>
+<td><p>2</p></td>
+<td><p>8b</p></td>
+<td><p>16b</p></td>
+<td><p>16b</p></td>
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
-<td><ul class="first last simple">
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
-<td><ul class="first last simple">
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
 </tr>
-<tr class="row-odd"><td>32b</td>
-<td>8</td>
-<td>4b</td>
-<td>8b</td>
-<td>16b</td>
-<td><ul class="first last simple">
+<tr class="row-odd"><td><p>16b</p></td>
+<td><p>4</p></td>
+<td><p>4b</p></td>
+<td><p>8b</p></td>
+<td><p>16b</p></td>
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
-<td><ul class="first last simple">
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-</tr>
-<tr class="row-even"><td>64b</td>
-<td>2</td>
-<td>32b</td>
-<td>64b</td>
-<td>64b</td>
-<td>32b</td>
-<td>64b</td>
-<td>64b</td>
-</tr>
-<tr class="row-odd"><td>64b</td>
-<td>4</td>
-<td>16b</td>
-<td>32b</td>
-<td>64b</td>
-<td>32b</td>
-<td>32b</td>
-<td>32b</td>
-</tr>
-<tr class="row-even"><td>64b</td>
-<td>8</td>
-<td>8b</td>
-<td>16b</td>
-<td>32b</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-<td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-<td><ul class="first last simple">
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
 </tr>
-<tr class="row-odd"><td>128b</td>
-<td>2</td>
-<td>64b</td>
-<td>128b</td>
-<td>128b</td>
-<td>32b</td>
-<td>64b</td>
-<td>128b</td>
+<tr class="row-even"><td><p>16b</p></td>
+<td><p>8</p></td>
+<td><p>2b</p></td>
+<td><p>8b</p></td>
+<td><p>8b</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
 </tr>
-<tr class="row-even"><td>128b</td>
-<td>4</td>
-<td>32b</td>
-<td>64b</td>
-<td>128b</td>
-<td>32b</td>
-<td>64b</td>
-<td>64b</td>
+<tr class="row-odd"><td><p>32b</p></td>
+<td><p>2</p></td>
+<td><p>16b</p></td>
+<td><p>32b</p></td>
+<td><p>32b</p></td>
+<td><p>32b</p></td>
+<td><p>32b</p></td>
+<td><p>32b</p></td>
 </tr>
-<tr class="row-odd"><td>128b</td>
-<td>8</td>
-<td>16b</td>
-<td>32b</td>
-<td>64b</td>
-<td>32b</td>
-<td>32b</td>
-<td>32b</td>
+<tr class="row-even"><td><p>32b</p></td>
+<td><p>4</p></td>
+<td><p>8b</p></td>
+<td><p>16b</p></td>
+<td><p>32b</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
 </tr>
-<tr class="row-even"><td>256b</td>
-<td>2</td>
-<td>128b</td>
-<td>256b</td>
-<td>256b</td>
-<td>32b</td>
-<td>64b</td>
-<td>128b</td>
+<tr class="row-odd"><td><p>32b</p></td>
+<td><p>8</p></td>
+<td><p>4b</p></td>
+<td><p>8b</p></td>
+<td><p>16b</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
 </tr>
-<tr class="row-odd"><td>256b</td>
-<td>4</td>
-<td>64b</td>
-<td>128b</td>
-<td>256b</td>
-<td>32b</td>
-<td>64b</td>
-<td>128b</td>
+<tr class="row-even"><td><p>64b</p></td>
+<td><p>2</p></td>
+<td><p>32b</p></td>
+<td><p>64b</p></td>
+<td><p>64b</p></td>
+<td><p>32b</p></td>
+<td><p>64b</p></td>
+<td><p>64b</p></td>
 </tr>
-<tr class="row-even"><td>256b</td>
-<td>8</td>
-<td>32b</td>
-<td>64b</td>
-<td>128b</td>
-<td>32b</td>
-<td>64b</td>
-<td>64b</td>
+<tr class="row-odd"><td><p>64b</p></td>
+<td><p>4</p></td>
+<td><p>16b</p></td>
+<td><p>32b</p></td>
+<td><p>64b</p></td>
+<td><p>32b</p></td>
+<td><p>32b</p></td>
+<td><p>32b</p></td>
+</tr>
+<tr class="row-even"><td><p>64b</p></td>
+<td><p>8</p></td>
+<td><p>8b</p></td>
+<td><p>16b</p></td>
+<td><p>32b</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>128b</p></td>
+<td><p>2</p></td>
+<td><p>64b</p></td>
+<td><p>128b</p></td>
+<td><p>128b</p></td>
+<td><p>32b</p></td>
+<td><p>64b</p></td>
+<td><p>128b</p></td>
+</tr>
+<tr class="row-even"><td><p>128b</p></td>
+<td><p>4</p></td>
+<td><p>32b</p></td>
+<td><p>64b</p></td>
+<td><p>128b</p></td>
+<td><p>32b</p></td>
+<td><p>64b</p></td>
+<td><p>64b</p></td>
+</tr>
+<tr class="row-odd"><td><p>128b</p></td>
+<td><p>8</p></td>
+<td><p>16b</p></td>
+<td><p>32b</p></td>
+<td><p>64b</p></td>
+<td><p>32b</p></td>
+<td><p>32b</p></td>
+<td><p>32b</p></td>
+</tr>
+<tr class="row-even"><td><p>256b</p></td>
+<td><p>2</p></td>
+<td><p>128b</p></td>
+<td><p>256b</p></td>
+<td><p>256b</p></td>
+<td><p>32b</p></td>
+<td><p>64b</p></td>
+<td><p>128b</p></td>
+</tr>
+<tr class="row-odd"><td><p>256b</p></td>
+<td><p>4</p></td>
+<td><p>64b</p></td>
+<td><p>128b</p></td>
+<td><p>256b</p></td>
+<td><p>32b</p></td>
+<td><p>64b</p></td>
+<td><p>128b</p></td>
+</tr>
+<tr class="row-even"><td><p>256b</p></td>
+<td><p>8</p></td>
+<td><p>32b</p></td>
+<td><p>64b</p></td>
+<td><p>128b</p></td>
+<td><p>32b</p></td>
+<td><p>64b</p></td>
+<td><p>64b</p></td>
 </tr>
 </tbody>
 </table>
 <p>各実装では、SELENと呼ばれるサブ要素の最小サイズを定義することができる。この値は最大で8ビットでなければならない。</p>
 <blockquote>
-<div>SLENは実装に依存するパラメータであるが、8よりも小さな値は更なる拡張として定義される可能性がある。</div></blockquote>
+<div><p>SLENは実装に依存するパラメータであるが、8よりも小さな値は更なる拡張として定義される可能性がある。</p>
+</div></blockquote>
 <div class="section" id="ediv">
 <h2>19.1. EDIVの変更に影響しない命令群<a class="headerlink" href="#ediv" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ベクトル開始レジスタ<code class="docutils literal notranslate"><span class="pre">vstart</span></code>と例外通知については、これまでと同様に動作する。</p>
 <p>ベクトル長<code class="docutils literal notranslate"><span class="pre">vl</span></code>制御レジスタおよびベクトルマスクについては、これまで通り要素レベルで動作する。</p>
 <p>ベクトルマスクはこれまで通り要素レベルで動作し、従ってサブ要素に対して個々にマスクをすることはできない。</p>
 <blockquote>
-<div>SEWは、8ビット以上のサブ要素のエレメントごとのマスキングを有効にするために動的に変更できる。</div></blockquote>
+<div><p>SEWは、8ビット以上のサブ要素のエレメントごとのマスキングを有効にするために動的に変更できる。</p>
+</div></blockquote>
 <p>ベクトルロードストア・AMO命令はEDIVに影響せず、要素全体に対してデータの移動を行う。</p>
 <p>ベクトルマスク論理演算についてはEDIVの設定に影響せず、ベクトル要素全体に対してマスクの適用を行う。</p>
 <p>マスク付きPopulation
@@ -721,11 +719,19 @@ FLEN)ビットの計算結果を出力し、必要であればNaN Boxingを行�
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, msyksphinz
+        
+        &copy; 著作権 2019, msyksphinz
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -736,7 +742,6 @@ FLEN)ビットの計算結果を出力し、必要であればNaN Boxingを行�
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

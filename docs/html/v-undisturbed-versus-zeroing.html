@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<html class="writer-html5" lang="ja" >
 <head>
   <meta charset="utf-8">
   
@@ -12,38 +11,31 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" /> 
 </head>
@@ -59,7 +51,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> riscv-v-spec-japanese
           
 
           
@@ -82,6 +74,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -91,9 +84,10 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">v0.9からの変更点</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id4">3. ベクトル拡張のプログラミングモデル</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
@@ -117,6 +111,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -155,7 +150,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>インアクティブおよびテール要素の「変更なし」と「ゼロ設定」に関する議論</li>
     
@@ -182,18 +177,19 @@
 <h2>1. イントロダクション<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>この文章では、ベクトル命令においてアクティブでない要素に対する書き込みについて、</p>
 <ul class="simple">
-<li><ol class="first loweralpha">
-<li>値の変更なし</li>
+<li><ol class="loweralpha simple">
+<li><p>値の変更なし</p></li>
 </ol>
 </li>
-<li><ol class="first loweralpha" start="2">
-<li>ゼロ化</li>
+<li><ol class="loweralpha simple" start="2">
+<li><p>ゼロ化</p></li>
 </ol>
 </li>
 </ul>
 <p>の方式について議論をまとめたものである。</p>
 <blockquote>
-<div>ベクトルの設計における3つ目の選択肢として、これらの要素の値を「未定義」とするものがある。この選択肢を採用しなかったのは、各実装において互換性が維持できないと考えたためであり、また同時にセキュリティに関する問題も発生するためである。</div></blockquote>
+<div><p>ベクトルの設計における3つ目の選択肢として、これらの要素の値を「未定義」とするものがある。この選択肢を採用しなかったのは、各実装において互換性が維持できないと考えたためであり、また同時にセキュリティに関する問題も発生するためである。</p>
+</div></blockquote>
 </div>
 <div class="section" id="v0-7-1">
 <h2>2. これまでの仕様 (v0.7.1)<a class="headerlink" href="#v0-7-1" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -202,28 +198,28 @@
 <p>現在のベクトル仕様(v0.7.1)では、ベクトル命令は書き込みレジスタグループに対して以下の表に基づいて動作する:</p>
 <p>表1.
 0.7.1のベクトル仕様におけるベクトルレジスタグループの書き込み時の動作</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="39%" />
-<col width="61%" />
+<col style="width: 39%" />
+<col style="width: 61%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">要素のカテゴリ</th>
-<th class="head">書き込みレジスタの動作</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>要素のカテゴリ</p></th>
+<th class="head"><p>書き込みレジスタの動作</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>プリスタート</td>
-<td>変更なし</td>
+<tbody>
+<tr class="row-even"><td><p>プリスタート</p></td>
+<td><p>変更なし</p></td>
 </tr>
-<tr class="row-odd"><td>アクティブ</td>
-<td>新しい値を書き込む</td>
+<tr class="row-odd"><td><p>アクティブ</p></td>
+<td><p>新しい値を書き込む</p></td>
 </tr>
-<tr class="row-even"><td>インアクティブ</td>
-<td>変更なし</td>
+<tr class="row-even"><td><p>インアクティブ</p></td>
+<td><p>変更なし</p></td>
 </tr>
-<tr class="row-odd"><td>テール</td>
-<td>ゼロを書き込む</td>
+<tr class="row-odd"><td><p>テール</p></td>
+<td><p>ゼロを書き込む</p></td>
 </tr>
 </tbody>
 </table>
@@ -235,85 +231,85 @@
 <h2>3. 実装例<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>実装における仕様決定を助けるために、タスクグループでは以下の表を作成した。実装の範囲は非常に小さな組み込み向けプロセッサから巨大なスーパコンピュータノードまでカバーしている。</p>
 <p>表2. ベクトル実装例</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="23%" />
-<col width="16%" />
-<col width="14%" />
-<col width="23%" />
-<col width="23%" />
+<col style="width: 23%" />
+<col style="width: 16%" />
+<col style="width: 14%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">説明</th>
-<th class="head">命令発行</th>
-<th class="head">VLEN</th>
-<th class="head">デー
-タパスサイズ</th>
-<th class="head">ア
+<thead>
+<tr class="row-odd"><th class="head"><p>説明</p></th>
+<th class="head"><p>命令発行</p></th>
+<th class="head"><p>VLEN</p></th>
+<th class="head"><p>デー
+タパスサイズ</p></th>
+<th class="head"><p>ア
 ーキテクチャ
-のストレージ</th>
+のストレージ</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>最小</td>
-<td>InO</td>
-<td>32b</td>
-<td>32b</td>
-<td>128B</td>
+<tbody>
+<tr class="row-even"><td><p>最小</p></td>
+<td><p>InO</p></td>
+<td><p>32b</p></td>
+<td><p>32b</p></td>
+<td><p>128B</p></td>
 </tr>
-<tr class="row-odd"><td>InO
+<tr class="row-odd"><td><p>InO
 空間的な
-スーパスカラ</td>
-<td>InO</td>
-<td>128b</td>
-<td>128b</td>
-<td>512B</td>
+スーパスカラ</p></td>
+<td><p>InO</p></td>
+<td><p>128b</p></td>
+<td><p>128b</p></td>
+<td><p>512B</p></td>
 </tr>
-<tr class="row-even"><td>InO
+<tr class="row-even"><td><p>InO
 短い
-中間レジスタ</td>
-<td>InO</td>
-<td>512b</td>
-<td>128b</td>
-<td>2,048B</td>
+中間レジスタ</p></td>
+<td><p>InO</p></td>
+<td><p>512b</p></td>
+<td><p>128b</p></td>
+<td><p>2,048B</p></td>
 </tr>
-<tr class="row-odd"><td>InO
+<tr class="row-odd"><td><p>InO
 長い
-中間レジスタ</td>
-<td>InO</td>
-<td>4,096b</td>
-<td>64b</td>
-<td>16,384B</td>
+中間レジスタ</p></td>
+<td><p>InO</p></td>
+<td><p>4,096b</p></td>
+<td><p>64b</p></td>
+<td><p>16,384B</p></td>
 </tr>
-<tr class="row-even"><td>OoO
+<tr class="row-even"><td><p>OoO
 空間的な
-スーパスカラ</td>
-<td>OoO</td>
-<td>128b</td>
-<td>128b</td>
-<td>512B</td>
+スーパスカラ</p></td>
+<td><p>OoO</p></td>
+<td><p>128b</p></td>
+<td><p>128b</p></td>
+<td><p>512B</p></td>
 </tr>
-<tr class="row-odd"><td>OoO
+<tr class="row-odd"><td><p>OoO
 中間
-スーパスカラ</td>
-<td>OoO</td>
-<td>512b</td>
-<td>128b</td>
-<td>2,048B</td>
+スーパスカラ</p></td>
+<td><p>OoO</p></td>
+<td><p>512b</p></td>
+<td><p>128b</p></td>
+<td><p>2,048B</p></td>
 </tr>
-<tr class="row-even"><td>OoO
+<tr class="row-even"><td><p>OoO
 スーパ
-スカラサーバ</td>
-<td>OoO</td>
-<td>2,048b</td>
-<td>512b</td>
-<td>8,192B</td>
+スカラサーバ</p></td>
+<td><p>OoO</p></td>
+<td><p>2,048b</p></td>
+<td><p>512b</p></td>
+<td><p>8,192B</p></td>
 </tr>
-<tr class="row-odd"><td>HPC ノード</td>
-<td>OoO</td>
-<td>16,384b</td>
-<td>2048b</td>
-<td>65,536B</td>
+<tr class="row-odd"><td><p>HPC ノード</p></td>
+<td><p>OoO</p></td>
+<td><p>16,384b</p></td>
+<td><p>2048b</p></td>
+<td><p>65,536B</p></td>
 </tr>
 </tbody>
 </table>
@@ -384,11 +380,19 @@ Multiply-Add命令を持つために設計された。オペコードの領域�
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, msyksphinz
+        
+        &copy; 著作権 2019, msyksphinz
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -399,7 +403,6 @@ Multiply-Add命令を持つために設計された。オペコードの領域�
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

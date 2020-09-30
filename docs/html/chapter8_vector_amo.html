@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<html class="writer-html5" lang="ja" >
 <head>
   <meta charset="utf-8">
   
@@ -12,38 +11,31 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
     <link rel="next" title="11. ベクトル算術演算命令フォーマット" href="chapter11_vector_arithmetic_formats.html" />
@@ -61,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> riscv-v-spec-japanese
           
 
           
@@ -84,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -93,9 +86,10 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">v0.9からの変更点</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id4">3. ベクトル拡張のプログラミングモデル</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
@@ -119,6 +113,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -157,7 +152,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>8. ベクトルAMO操作(<code class="docutils literal notranslate"><span class="pre">Zvamo</span></code>)</li>
     
@@ -181,11 +176,13 @@
   <div class="section" id="amo-zvamo">
 <h1>8. ベクトルAMO操作(<code class="docutils literal notranslate"><span class="pre">Zvamo</span></code>)<a class="headerlink" href="#amo-zvamo" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <blockquote>
-<div>Profiles will dictate whether vector AMO operations are supported.
+<div><p>Profiles will dictate whether vector AMO operations are supported.
 The expectation is that the Unix profile will require vector AMO
-operations.</div></blockquote>
+operations.</p>
+</div></blockquote>
 <blockquote>
-<div>プロファイルでは、どこにベクトルAMO命令がサポートされているかについて述べている。想定では“V”拡張はUnixのプロファイルでベクトルAMO操作が必要になる。</div></blockquote>
+<div><p>プロファイルでは、どこにベクトルAMO命令がサポートされているかについて述べている。想定では“V”拡張はUnixのプロファイルでベクトルAMO操作が必要になる。</p>
+</div></blockquote>
 <p>ベクトルAMO命令がサポートされている場合、スカラのZaamo命令(標準A拡張からのアトミック操作)のサポートは必須である。</p>
 <p>ベクトルAMO操作は標準的なAMOメジャーオペコードに基づく、不必要なビット幅のエンコーディングを使用している。アックアクティブ要素はアトミックなRead-modify-writeを単一のメモリ領域に対して実行する。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AMOメジャーオペコードを使用したベクトルAMO命令のフォーマット
@@ -209,71 +206,73 @@ initial value of the memory element. If the <code class="docutils literal notran
 <code class="docutils literal notranslate"><span class="pre">vd</span></code> register is not written.</p>
 <p><code class="docutils literal notranslate"><span class="pre">wd</span></code>ビットが設定されている場合、<code class="docutils literal notranslate"><span class="pre">vd</span></code>レジスタにメモリ要素のアトミック操作前の値が書き込まれる。もし<code class="docutils literal notranslate"><span class="pre">wd</span></code>がクリアされている場合、<code class="docutils literal notranslate"><span class="pre">vd</span></code>レジスタには何も書きこまれない。</p>
 <blockquote>
-<div><code class="docutils literal notranslate"><span class="pre">wd</span></code>がクリアされている場合、メモリシステムはメモリの初期値を返す必要がなく、また<code class="docutils literal notranslate"><span class="pre">vd</span></code>の初期値は保持される。</div></blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">wd</span></code>がクリアされている場合、メモリシステムはメモリの初期値を返す必要がなく、また<code class="docutils literal notranslate"><span class="pre">vd</span></code>の初期値は保持される。</p>
+</div></blockquote>
 <blockquote>
-<div>AMO命令は、レジスタリネーミングにおいて全体的なメモリパイプラインの読み込みポートを削減するように、読み込みデータのレジスタを上書きするように設計されている。これは、ベクトルインデックス操作と同じアドレッシングモードをサポートするため、またベクトルAMOは通常の並列メモリリダクション操作において結果をレジスタに保持する必要がないためである。</div></blockquote>
+<div><p>AMO命令は、レジスタリネーミングにおいて全体的なメモリパイプラインの読み込みポートを削減するように、読み込みデータのレジスタを上書きするように設計されている。これは、ベクトルインデックス操作と同じアドレッシングモードをサポートするため、またベクトルAMOは通常の並列メモリリダクション操作において結果をレジスタに保持する必要がないためである。</p>
+</div></blockquote>
 <p>ベクトルAMO操作は、<code class="docutils literal notranslate"><span class="pre">aq</span></code>と<code class="docutils literal notranslate"><span class="pre">rl</span></code>ビットはゼロが設定されているものとして動作し、同じhart乗の他の命令との順序を守るように設計されている。</p>
 <p>ベクトルAMOは、同じ命令内において要素に対する演算の順序は保証しない。</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="24%" />
-<col width="13%" />
-<col width="6%" />
-<col width="6%" />
-<col width="19%" />
-<col width="21%" />
-<col width="12%" />
+<col style="width: 24%" />
+<col style="width: 13%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 19%" />
+<col style="width: 21%" />
+<col style="width: 12%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">&#160;</th>
-<th class="head">Width [2]</th>
-<th class="head">[1]</th>
-<th class="head">[0]</th>
-<th class="head">メモリのビット</th>
-<th class="head">レジスタのビット</th>
-<th class="head">Opcode</th>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>Width [2]</p></th>
+<th class="head"><p>[1]</p></th>
+<th class="head"><p>[0]</p></th>
+<th class="head"><p>メモリのビット</p></th>
+<th class="head"><p>レジスタのビット</p></th>
+<th class="head"><p>Opcode</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>標準的なスカラのAMO</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>32</td>
-<td>XLEN</td>
-<td>AMO*.W</td>
+<tbody>
+<tr class="row-even"><td><p>標準的なスカラのAMO</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>32</p></td>
+<td><p>XLEN</p></td>
+<td><p>AMO*.W</p></td>
 </tr>
-<tr class="row-odd"><td>標準的なスカラのAMO</td>
-<td>0</td>
-<td>1</td>
-<td>1</td>
-<td>64</td>
-<td>XLEN</td>
-<td>AMO*.D</td>
+<tr class="row-odd"><td><p>標準的なスカラのAMO</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>64</p></td>
+<td><p>XLEN</p></td>
+<td><p>AMO*.D</p></td>
 </tr>
-<tr class="row-even"><td>標準的なスカラのAMO</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>128</td>
-<td>XLEN</td>
-<td>AMO*.Q</td>
+<tr class="row-even"><td><p>標準的なスカラのAMO</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>128</p></td>
+<td><p>XLEN</p></td>
+<td><p>AMO*.Q</p></td>
 </tr>
-<tr class="row-odd"><td>ベクトルAMO</td>
-<td>1</td>
-<td>1</td>
-<td>0</td>
-<td>32</td>
-<td>vl*SEW</td>
-<td>VAMO*W.V</td>
+<tr class="row-odd"><td><p>ベクトルAMO</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>32</p></td>
+<td><p>vl*SEW</p></td>
+<td><p>VAMO*W.V</p></td>
 </tr>
-<tr class="row-even"><td>ベクトルAMO</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>SEW</td>
-<td>vl*SEW</td>
-<td>VAMO*E.V</td>
+<tr class="row-even"><td><p>ベクトルAMO</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>SEW</p></td>
+<td><p>vl*SEW</p></td>
+<td><p>VAMO*E.V</p></td>
 </tr>
 </tbody>
 </table>
@@ -284,89 +283,90 @@ initial value of the memory element. If the <code class="docutils literal notran
 32ビットであれば、メモリから戻ってくる値はSEW長にするために符号拡張が行われる。</p>
 <p>SEWがXLENよりも小さい場合、ベクトル<code class="docutils literal notranslate"><span class="pre">vs2</span></code>内のアドレスはXLENビットまでゼロ拡張される。SEWがXLENよりも大きい場合、不正命令例外が発生する。</p>
 <blockquote>
-<div>より小さなSEWに格納されているアドレスの符号拡張は短い仮想アドレスをどのようにして扱うかというという想定と一致しているが、インデックスロードストアのようにオフセットをゼロ拡張場合と大きく異なる。ベクトルAMO命令のもっとも一般的なユースケースではアドレスの要素がSEW=XLENであるということであり、この場合は拡張は発生しない。この決定により、ハードウェアをシンプルにできる。必要ならばソフトウェアは常に明示的により短いアドレスを符号拡張してより大きなアドレスに変換することができる。</div></blockquote>
+<div><p>より小さなSEWに格納されているアドレスの符号拡張は短い仮想アドレスをどのようにして扱うかというという想定と一致しているが、インデックスロードストアのようにオフセットをゼロ拡張場合と大きく異なる。ベクトルAMO命令のもっとも一般的なユースケースではアドレスの要素がSEW=XLENであるということであり、この場合は拡張は発生しない。この決定により、ハードウェアをシンプルにできる。必要ならばソフトウェアは常に明示的により短いアドレスを符号拡張してより大きなアドレスに変換することができる。</p>
+</div></blockquote>
 <p>ベクトルの<code class="docutils literal notranslate"><span class="pre">amoop[4:0]</span></code>フィールドはスカラAMO命令フィールドの5ビットと同一であるが、LR/SCをサポートしていない点が異なる。</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="29%" />
-<col width="6%" />
-<col width="6%" />
-<col width="6%" />
-<col width="6%" />
-<col width="47%" />
+<col style="width: 29%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 47%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">amoop</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
-<th class="head">opcode</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>amoop</p></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"><p>opcode</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>vamoswap</td>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>vamoswap</p></td>
 </tr>
-<tr class="row-odd"><td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>vamoadd</td>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>vamoadd</p></td>
 </tr>
-<tr class="row-even"><td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>vamoxor</td>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>vamoxor</p></td>
 </tr>
-<tr class="row-odd"><td>0</td>
-<td>1</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>vamoand</td>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>vamoand</p></td>
 </tr>
-<tr class="row-even"><td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>vamoor</td>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>vamoor</p></td>
 </tr>
-<tr class="row-odd"><td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>vamomin</td>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>vamomin</p></td>
 </tr>
-<tr class="row-even"><td>1</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>vamomax</td>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>vamomax</p></td>
 </tr>
-<tr class="row-odd"><td>1</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>vamominu</td>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>vamominu</p></td>
 </tr>
-<tr class="row-even"><td>1</td>
-<td>1</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>vamomaxu</td>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>vamomaxu</p></td>
 </tr>
 </tbody>
 </table>
@@ -438,7 +438,8 @@ initial value of the memory element. If the <code class="docutils literal notran
 <h1>10. ベクトルメモリのコンシステンシモデル<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>ベクトルメモリ命令は、ローカルのHartのプログラムの順番に従って実行される。ベクトルメモリ命令は命令レベルでRVWMOのメモリコンシステンシモデルに従い、要素の操作は構文的に独立したスカラー命令の要素順に並べられたシーケンスによって実行されるかのように、命令内で順序付けられる。ベクトルインデックスオーダーのストア命令はメモリに対して要素の順序を守って書き込みが行われる。ベクトルインデックスのアンオーダーストア命令は、単一の命令の中で要素の順序を守らない。</p>
 <blockquote>
-<div>もう少し詳細を肉付けする必要あり。</div></blockquote>
+<div><p>もう少し詳細を肉付けする必要あり。</p>
+</div></blockquote>
 </div>
 
 
@@ -461,11 +462,19 @@ initial value of the memory element. If the <code class="docutils literal notran
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, msyksphinz
+        
+        &copy; 著作権 2019, msyksphinz
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -476,7 +485,6 @@ initial value of the memory element. If the <code class="docutils literal notran
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

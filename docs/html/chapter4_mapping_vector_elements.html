@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<html class="writer-html5" lang="ja" >
 <head>
   <meta charset="utf-8">
   
@@ -12,42 +11,35 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
     <link rel="next" title="5. ベクトル命令フォーマット" href="chapter5_vector_instruction_format.html" />
-    <link rel="prev" title="1. イントロダクション" href="chapter1_3_riscv_vector_insts.html" /> 
+    <link rel="prev" title="v0.9からの変更点" href="chapter1_3_riscv_vector_insts.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -61,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> riscv-v-spec-japanese
           
 
           
@@ -84,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -93,9 +86,10 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">v0.9からの変更点</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id4">3. ベクトル拡張のプログラミングモデル</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">4. ベクトル要素のベクトルレジスタへの割り付け</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#lmul-1">4.1 LMUL=1のマッピング</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id2">4.2. LMUL &gt; 1のマッピング</a></li>
@@ -125,6 +119,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -163,7 +158,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>4. ベクトル要素のベクトルレジスタへの割り付け</li>
     
@@ -191,14 +186,16 @@ VLENの実装と同様に、現在のSEWおよびLMULの設定に基づいてベ
 <p>Elements are packed into each vector register with the least-significant
 byte in the lowest-numbered bits.</p>
 <blockquote>
-<div>以前のRISC-V Vector Proposal(&lt;
+<div><p>以前のRISC-V Vector Proposal(&lt;
 バージョン0.6)ではこのマッピングをソフトウェアから隠していたが、今回のProposalではすべての構成について具体的なマッピングについて説明している。これにより実装の柔軟性が失われるが、コンフィグレーションが変更されることによりゼロ埋めの必要性が除去される。マッピングを明示することにより、明示的なコンテキストの保存・回復コードを簡単化することができる。つまりコンフィグレーションを読み込まずにすべてのベクトルレジスタを保存するのではなく、<code class="docutils literal notranslate"><span class="pre">vl</span></code>,<code class="docutils literal notranslate"><span class="pre">vtype</span></code>を保存して、<code class="docutils literal notranslate"><span class="pre">vtype</span></code>を便利な値にリセットする(例えば、LMUL=8,
-SEW=ELENとする4つのベクトルグループ)ことができる。この逆の処理を行えば、ベクトルの状態を回復させることができる。</div></blockquote>
+SEW=ELENとする4つのベクトルグループ)ことができる。この逆の処理を行えば、ベクトルの状態を回復させることができる。</p>
+</div></blockquote>
 <div class="section" id="lmul-1">
 <h2>4.1 LMUL=1のマッピング<a class="headerlink" href="#lmul-1" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>LMUL=1の場合、要素はベクトルレジスタに対して単純に最下位から最上位に向けてパッキングされる。</p>
 <blockquote>
-<div>可読性を向上させるために、ベクトルレジスタのレイアウトはバイトサイズで右から左にバイトアドレスを増加させる形式でく述する。エレメント内のビットはリトルエンディアンの形式で記述し、ビットインデックスは右から左へと増加していく。</div></blockquote>
+<div><p>可読性を向上させるために、ベクトルレジスタのレイアウトはバイトサイズで右から左にバイトアドレスを増加させる形式でく述する。エレメント内のビットはリトルエンディアンの形式で記述し、ビットインデックスは右から左へと増加していく。</p>
+</div></blockquote>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>要素のインデックは16進数で記述し、格納されている要素のうち最も下位の位置に記述している。ELEN&lt;=128かつLMUL=1である。
 
  VLEN=32b
@@ -273,7 +270,8 @@ SEW=ELENとする4つのベクトルグループ)ことができる。この逆�
 SLENの場合、ストライピングパターンは、グループ内の次のベクトルレジスタに移動する前に、グループ内の各ベクトルレジスタに1つの要素を配置する。
 したがって、LMUL=2の場合、偶数ベクトルレジスタにはベクトルの偶数要素が含まれ、奇数ベクトルレジスタにはベクトルの奇数要素が含まれます。</p>
 <blockquote>
-<div>ほとんどの実装では、SLEN≥ELENである。</div></blockquote>
+<div><p>ほとんどの実装では、SLEN≥ELENである。</p>
+</div></blockquote>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">例</span><span class="p">:</span> <span class="n">VLEN</span><span class="o">=</span><span class="mi">256</span><span class="n">b</span><span class="p">,</span> <span class="n">SEW</span><span class="o">=</span><span class="mi">256</span><span class="n">b</span><span class="p">,</span> <span class="n">LMUL</span><span class="o">=</span><span class="mi">2</span>
 
 <span class="n">Byte</span>     <span class="mi">1</span><span class="n">F1E1D1C1B1A19181716151413121110</span> <span class="n">F</span> <span class="n">E</span> <span class="n">D</span> <span class="n">C</span> <span class="n">B</span> <span class="n">A</span> <span class="mi">9</span> <span class="mi">8</span> <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span>
@@ -349,9 +347,11 @@ SLENの場合、ストライピングパターンは、グループ内の次の�
 <p>アーキテクチャ上はさまざまなストライピングパターンが表示されるが、ストライピングパターンに関係なく同じ結果を生成するソフトウェアを作成できる。
 主な制約は、ベクトルレジスタグループに保持されている値にアクセスするために使用されるLMULを変更しないことである(つまり、グループに値を書き込むために使用されるものとは異なるLMULで値を読み取らない)。</p>
 <blockquote>
-<div>実装のストライピング長SLENは、幅が広いユニットのストライドメモリアクセスをベクターレジスタファイルの並列アクセスにコーナーターンするために必要な、幅の異なる操作のデータパス配線とバッファリングのトレードオフを最適化するように設定される。</div></blockquote>
+<div><p>実装のストライピング長SLENは、幅が広いユニットのストライドメモリアクセスをベクターレジスタファイルの並列アクセスにコーナーターンするために必要な、幅の異なる操作のデータパス配線とバッファリングのトレードオフを最適化するように設定される。</p>
+</div></blockquote>
 <blockquote>
-<div>以前の明示的なコンフィグレーションデザインでは、これらのトレードオフをマイクロアーキテクチャレベルで管理し、構成ごとに最適化することができた。</div></blockquote>
+<div><p>以前の明示的なコンフィグレーションデザインでは、これらのトレードオフをマイクロアーキテクチャレベルで管理し、構成ごとに最適化することができた。</p>
+</div></blockquote>
 </div>
 <div class="section" id="mixed-width">
 <h2>4.3. Mixed-Width演算へのマッピング<a class="headerlink" href="#mixed-width" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -562,7 +562,7 @@ LMUL=8)までの値を取ることができ、したがって単一のベクト�
         <a href="chapter5_vector_instruction_format.html" class="btn btn-neutral float-right" title="5. ベクトル命令フォーマット" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="chapter1_3_riscv_vector_insts.html" class="btn btn-neutral float-left" title="1. イントロダクション" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="chapter1_3_riscv_vector_insts.html" class="btn btn-neutral float-left" title="v0.9からの変更点" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -571,11 +571,19 @@ LMUL=8)までの値を取ることができ、したがって単一のベクト�
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, msyksphinz
+        
+        &copy; 著作権 2019, msyksphinz
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -586,7 +594,6 @@ LMUL=8)までの値を取ることができ、したがって単一のベクト�
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

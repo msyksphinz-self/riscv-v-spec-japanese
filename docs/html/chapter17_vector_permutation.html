@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<html class="writer-html5" lang="ja" >
 <head>
   <meta charset="utf-8">
   
@@ -12,38 +11,31 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
     <link rel="next" title="18. 例外処理" href="chapter18_exception.html" />
@@ -61,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> riscv-v-spec-japanese
           
 
           
@@ -84,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -93,9 +86,10 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">v0.9からの変更点</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id4">3. ベクトル拡張のプログラミングモデル</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
@@ -133,6 +127,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -171,7 +166,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>17. ベクトル並べ替え命令</li>
     
@@ -214,7 +209,8 @@ XLENであれば、値はSEWビットまでゼロ拡張される。書き込み�
 &lt; index &lt; VLEN/SEW)はゼロが設定される。 <code class="docutils literal notranslate"><span class="pre">vstart</span></code> ≥ <code class="docutils literal notranslate"><span class="pre">vl</span></code>
 の場合、書き込みベクトルレジスタに対する操作は行われない。</p>
 <blockquote>
-<div>結果とし、<code class="docutils literal notranslate"><span class="pre">vl</span></code>=0の場合、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>の値に関わらず書き込みベクトルレジスタグループに対するデータの更新は行われない。</div></blockquote>
+<div><p>結果とし、<code class="docutils literal notranslate"><span class="pre">vl</span></code>=0の場合、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>の値に関わらず書き込みベクトルレジスタグループに対するデータの更新は行われない。</p>
+</div></blockquote>
 <p>エンコーディングでは、<code class="docutils literal notranslate"><span class="pre">vmv.x.s</span></code> and <code class="docutils literal notranslate"><span class="pre">vmv.s.x</span></code>
 のマスクされたバリエーション(<code class="docutils literal notranslate"><span class="pre">vm=0</span></code>)の命令は予約されている。</p>
 </div>
@@ -237,7 +233,8 @@ FLENであれば、値はSEWビットまでNaN-Boxing(1拡張)される。書き
 &lt; index &lt; VLEN/SEW)はゼロが設定される。 <code class="docutils literal notranslate"><span class="pre">vstart</span></code> ≥ <code class="docutils literal notranslate"><span class="pre">vl</span></code>
 の場合、書き込みベクトルレジスタに対する操作は行われない。</p>
 <blockquote>
-<div>結果とし、<code class="docutils literal notranslate"><span class="pre">vl</span></code>=0の場合、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>の値に関わらず書き込みベクトルレジスタグループに対するデータの更新は行われない。</div></blockquote>
+<div><p>結果とし、<code class="docutils literal notranslate"><span class="pre">vl</span></code>=0の場合、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>の値に関わらず書き込みベクトルレジスタグループに対するデータの更新は行われない。</p>
+</div></blockquote>
 <p>エンコーディングでは、<code class="docutils literal notranslate"><span class="pre">vfmv.f.s</span></code> and <code class="docutils literal notranslate"><span class="pre">vfmv.s.f</span></code>
 のマスクされたバリエーション(<code class="docutils literal notranslate"><span class="pre">vm=0</span></code>)の命令は予約されている。</p>
 </div>
@@ -245,12 +242,14 @@ FLENであれば、値はSEWビットまでNaN-Boxing(1拡張)される。書き
 <h2>17.3. ベクトルスライド命令<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ベクトルの要素の位置を変更するための命令が定義されている。</p>
 <blockquote>
-<div>レジスタのギャザー命令を使用するより、スライド操作はより効率的に実装することができる。実装では<code class="docutils literal notranslate"><span class="pre">vslideup</span></code>と<code class="docutils literal notranslate"><span class="pre">vslidedown</span></code>命令のための特定のOFFSET値に最適化することができる。特に、オフセットの値が2の累乗である場合は他のオフセットよりも全体的に高速な実装を実現できる。</div></blockquote>
+<div><p>レジスタのギャザー命令を使用するより、スライド操作はより効率的に実装することができる。実装では<code class="docutils literal notranslate"><span class="pre">vslideup</span></code>と<code class="docutils literal notranslate"><span class="pre">vslidedown</span></code>命令のための特定のOFFSET値に最適化することができる。特に、オフセットの値が2の累乗である場合は他のオフセットよりも全体的に高速な実装を実現できる。</p>
+</div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">vslideup</span></code>, <code class="docutils literal notranslate"><span class="pre">vslidedown</span></code>, <code class="docutils literal notranslate"><span class="pre">vslide1up</span></code>,
 <code class="docutils literal notranslate"><span class="pre">vslide1down</span></code>命令のすべてでは、<code class="docutils literal notranslate"><span class="pre">vstart</span></code> ≥
 <code class="docutils literal notranslate"><span class="pre">vl</span></code>であれば、命令は何も実行せず、書き込みベクトルレジスタの値は更新されない。</p>
 <blockquote>
-<div>結果として、<code class="docutils literal notranslate"><span class="pre">vl</span></code>=0であれば、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>の値に関わらず書き込みベクトルレジスタグループは更新されない。</div></blockquote>
+<div><p>結果として、<code class="docutils literal notranslate"><span class="pre">vl</span></code>=0であれば、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>の値に関わらず書き込みベクトルレジスタグループは更新されない。</p>
+</div></blockquote>
 <p>マスク要素<span class="math notranslate nohighlight">\(i\)</span>が書き込み要素<span class="math notranslate nohighlight">\(i\)</span>を制御しているスライド命令はマスクされる。</p>
 <div class="section" id="id5">
 <h3>17.3.1. ベクトルスライドアップ命令<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
@@ -273,7 +272,8 @@ max(vstart, OFFSET) &lt;= i &lt; vl                   マスクが有効なら�
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">vslideup</span></code>の書き込みベクトルレジスタグループとソースベクトルレジスタグループとオーバラップすることはできなない。操作がマスクされてベクトルマスクレジスタとオーバラップしないならば良いが、そうでなければ不正命令例外が発生する。</p>
 <blockquote>
-<div>オーバラップしない条件は、入力ベクトルに対するWARハザードの発生を抑止する目的と、非ゼロの<code class="docutils literal notranslate"><span class="pre">vstart</span></code>から再開するためである。</div></blockquote>
+<div><p>オーバラップしない条件は、入力ベクトルに対するWARハザードの発生を抑止する目的と、非ゼロの<code class="docutils literal notranslate"><span class="pre">vstart</span></code>から再開するためである。</p>
+</div></blockquote>
 </div>
 <div class="section" id="id6">
 <h3>17.3.2. ベクトルストライドダウン命令<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
@@ -333,7 +333,8 @@ SEWであれば、SEWビット分の値がコピーされ、SEW-XLENビット分
 </pre></div>
 </div>
 <blockquote>
-<div><code class="docutils literal notranslate"><span class="pre">vslide1down</span></code>命令はメモリを使用せずに、他のベクトルレジスタを汚すことなく値をベクトルレジスタにロードすることができる。これはデバッガがベクトルレジスタの値をデバッグするときに使用でるが、非常に低速であり、また<code class="docutils literal notranslate"><span class="pre">vslide1down</span></code>命令を何度も発行する必要がある。</div></blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">vslide1down</span></code>命令はメモリを使用せずに、他のベクトルレジスタを汚すことなく値をベクトルレジスタにロードすることができる。これはデバッガがベクトルレジスタの値をデバッグするときに使用でるが、非常に低速であり、また<code class="docutils literal notranslate"><span class="pre">vslide1down</span></code>命令を何度も発行する必要がある。</p>
+</div></blockquote>
 </div>
 </div>
 <div class="section" id="id7">
@@ -355,7 +356,8 @@ VLMAX)、要素の値としてゼロが返される。</p>
 </div>
 <p>任意の<code class="docutils literal notranslate"><span class="pre">vrgather</span></code>命令では、書き込みベクトルレジスタぐルールはマスクレジスタを含めて書き込みベクトルレジスタとオーバラップしてはならない。そうでなければ、不定命令例外が発生する。</p>
 <blockquote>
-<div>SEW=8の場合、<code class="docutils literal notranslate"><span class="pre">vgather.vv</span></code>命令はベクトル要素0-255のみが参照可能である。</div></blockquote>
+<div><p>SEW=8の場合、<code class="docutils literal notranslate"><span class="pre">vgather.vv</span></code>命令はベクトル要素0-255のみが参照可能である。</p>
+</div></blockquote>
 </div>
 <div class="section" id="id8">
 <h2>17.5. ベクトル圧縮命令<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -378,25 +380,39 @@ VLMAX)、要素の値としてゼロが返される。</p>
 <p>書き込みベクトルレジスタグループは、ソースベクトルレジスタ及びソースベクトルマスクレジスタとオーバラップしてはならないという制約がある。そうでなければ、不正命令例外が発生する。</p>
 <p><code class="docutils literal notranslate"><span class="pre">vcompress</span></code>命令の例外は、常に<code class="docutils literal notranslate"><span class="pre">vstart</span></code>が0であるとして通知される。<code class="docutils literal notranslate"><span class="pre">vstart</span></code>非ゼロのままで<code class="docutils literal notranslate"><span class="pre">vcompress</span></code>命令を実行すると、不正命令例外が発生する。</p>
 <blockquote>
-<div>不可能ではないものの、<code class="docutils literal notranslate"><span class="pre">vcompress</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vstart</span></code>がゼロでないとして最も再開が難しい命令の非辰である。つまり、実装はそのような動作はしないものとして実装するか、その代わりに要素0から再開するものとして実装する。これは、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>書き込みレジスタの要素はすでにアップデートされているものと仮定していることを意味する。</div></blockquote>
+<div><p>不可能ではないものの、<code class="docutils literal notranslate"><span class="pre">vcompress</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vstart</span></code>がゼロでないとして最も再開が難しい命令の非辰である。つまり、実装はそのような動作はしないものとして実装するか、その代わりに要素0から再開するものとして実装する。これは、<code class="docutils literal notranslate"><span class="pre">vstart</span></code>書き込みレジスタの要素はすでにアップデートされているものと仮定していることを意味する。</p>
+</div></blockquote>
 </div>
 <div class="section" id="id9">
 <h2>17.6 全体ベクトルレジスタ移動命令<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">vmv&lt;nf&gt;r.v</span></code>命令は現在の<code class="docutils literal notranslate"><span class="pre">vl</span></code>および<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタの設定を無視してすべてのベクトルレジスタ(例えば、すべてのVLENビット)をコピーする。すべてのベクトルレジスタをコピーすることも可能である。</p>
 <blockquote>
-<div>この命令はコンパイラがベクトルレジスタを<code class="docutils literal notranslate"><span class="pre">vl</span></code>および<code class="docutils literal notranslate"><span class="pre">vtype</span></code>を使用せずにシャッフルすることを助けるための命令である。</div></blockquote>
+<div><p>この命令はコンパイラがベクトルレジスタを<code class="docutils literal notranslate"><span class="pre">vl</span></code>および<code class="docutils literal notranslate"><span class="pre">vtype</span></code>を使用せずにシャッフルすることを助けるための命令である。</p>
+</div></blockquote>
 <p>この命令はOPIVI命令としてエンコードされる。コピーされるベクトルレジスタの数はsimmフィールドの最下位ビットとしてエンコードされ、メモリアクセス命令のnfフィールドと同様である。simmフィールドの上位ビットはゼロを設定しなければならず、他のエンコーディングは予約されている。<code class="docutils literal notranslate"><span class="pre">nf</span></code>の値は1,
 2, 4, 8レジスタのどれかを指定しなければならない。</p>
 <blockquote>
-<div>将来の拡張では移動することのできるレジスタの数を上記以外でもサポートする予定である。しかし、現在ではnfが3,
-5, 6, 7の場合のエンコーディングは予約されている。</div></blockquote>
+<div><p>将来の拡張では移動することのできるレジスタの数を上記以外でもサポートする予定である。しかし、現在ではnfが3,
+5, 6, 7の場合のエンコーディングは予約されている。</p>
+</div></blockquote>
 <blockquote>
-<div>この命令はvsmul命令と同様のエンコーディングをfunct6で使用しているが、即値オペランドを持っており、アンマスクされたバージョンしか定義されていない(<code class="docutils literal notranslate"><span class="pre">vm=1</span></code>)。エンコーディングは関連した<code class="docutils literal notranslate"><span class="pre">vmerge</span></code>のエンコーディングと近いものを選択しており、<code class="docutils literal notranslate"><span class="pre">vsmul</span></code>命令と違い即値の形式の利点を活用している。</div></blockquote>
+<div><p>この命令はvsmul命令と同様のエンコーディングをfunct6で使用しているが、即値オペランドを持っており、アンマスクされたバージョンしか定義されていない(<code class="docutils literal notranslate"><span class="pre">vm=1</span></code>)。エンコーディングは関連した<code class="docutils literal notranslate"><span class="pre">vmerge</span></code>のエンコーディングと近いものを選択しており、<code class="docutils literal notranslate"><span class="pre">vsmul</span></code>命令と違い即値の形式の利点を活用している。</p>
+</div></blockquote>
+<div class="highlight-assembly notranslate"><div class="highlight"><pre><span></span>vmv&lt;nf&gt;r.v vd, vs2  # 一般的な形式
+
+vmv1r.v v1, v2   #  v1=v2のコピー
+vmv2r.v v10, v12 #  v10=v12; v11=v13のコピー
+vmv4r.v v4, v8   #  v4=v8; v5=v9; v6=v10; v7=v11のコピー
+vmv8r.v v0, v8   #  v0=v8; v1=v9; ...;  v7=v15のコピー
+</pre></div>
+</div>
 <p>ソースレジスタと書き込みレジスタはベクトルレジスタグループサイズにアラインしたアドレスでなければならない。</p>
 <blockquote>
-<div>将来の拡張では、このアラインの制約を除去する予定である。</div></blockquote>
+<div><p>将来の拡張では、このアラインの制約を除去する予定である。</p>
+</div></blockquote>
 <blockquote>
-<div><code class="docutils literal notranslate"><span class="pre">vd</span></code>が<code class="docutils literal notranslate"><span class="pre">vs2</span></code>と同じである場合、この命令はNOPである。</div></blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">vd</span></code>が<code class="docutils literal notranslate"><span class="pre">vs2</span></code>と同じである場合、この命令はNOPである。</p>
+</div></blockquote>
 </div>
 </div>
 
@@ -420,11 +436,19 @@ VLMAX)、要素の値としてゼロが返される。</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, msyksphinz
+        
+        &copy; 著作権 2019, msyksphinz
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -435,7 +459,6 @@ VLMAX)、要素の値としてゼロが返される。</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

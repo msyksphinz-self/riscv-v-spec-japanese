@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<html class="writer-html5" lang="ja" >
 <head>
   <meta charset="utf-8">
   
@@ -12,38 +11,31 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
     <link rel="next" title="13. ベクトル固定小数点演算命令" href="chapter13_fixedpoint.html" />
@@ -61,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> riscv-v-spec-japanese
           
 
           
@@ -84,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -93,9 +86,10 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">v0.9からの変更点</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id4">3. ベクトル拡張のプログラミングモデル</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
@@ -137,6 +131,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -175,7 +170,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>12. ベクトル整数算術演算命令</li>
     
@@ -247,7 +242,8 @@
 </pre></div>
 </div>
 <blockquote>
-<div>整数の値はスカラオペランド<code class="docutils literal notranslate"><span class="pre">x0</span></code>の加算命令を使用してビット幅を倍に拡張することができる。疑似命令として<code class="docutils literal notranslate"><span class="pre">vwcvt.x.x.v</span> <span class="pre">vd,vs,vm</span> <span class="pre">=</span> <span class="pre">vwadd.vx</span> <span class="pre">vd,vs,x0,vm</span></code>と<code class="docutils literal notranslate"><span class="pre">vwcvtu.x.x.v</span> <span class="pre">vd,vs,vm</span> <span class="pre">=</span> <span class="pre">vwaddu.vx</span> <span class="pre">vd,vs,x0,vm</span></code>を定義することができる。</div></blockquote>
+<div><p>整数の値はスカラオペランド<code class="docutils literal notranslate"><span class="pre">x0</span></code>の加算命令を使用してビット幅を倍に拡張することができる。疑似命令として<code class="docutils literal notranslate"><span class="pre">vwcvt.x.x.v</span> <span class="pre">vd,vs,vm</span> <span class="pre">=</span> <span class="pre">vwadd.vx</span> <span class="pre">vd,vs,x0,vm</span></code>と<code class="docutils literal notranslate"><span class="pre">vwcvtu.x.x.v</span> <span class="pre">vd,vs,vm</span> <span class="pre">=</span> <span class="pre">vwaddu.vx</span> <span class="pre">vd,vs,x0,vm</span></code>を定義することができる。</p>
+</div></blockquote>
 </div>
 <div class="section" id="id4">
 <h2>12.3. キャリー付きベクトル整数加算命令、ボロー付きベクトル整数減算命令<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -324,7 +320,8 @@
 訳者注: 意味不明)。</p>
 <p><code class="docutils literal notranslate"><span class="pre">vadc</span></code>と<code class="docutils literal notranslate"><span class="pre">vsbc</span></code>命令は書き込み先ベクトルレジスタが<code class="docutils literal notranslate"><span class="pre">v0</span></code>である場合、かつ<code class="docutils literal notranslate"><span class="pre">LMUL&gt;1</span></code>である場合には不正命令例外が発生する。</p>
 <blockquote>
-<div>この制約は、マスクベクトル演算に関して、マスクレジスタを上書きする場合の制約に相当する。</div></blockquote>
+<div><p>この制約は、マスクベクトル演算に関して、マスクレジスタを上書きする場合の制約に相当する。</p>
+</div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">vmadc</span></code>および<code class="docutils literal notranslate"><span class="pre">vmsbc</span></code>では、書き込み先ベクトルレジスタがソースベクトルレジスタグループとオーバラップし、かつ<code class="docutils literal notranslate"><span class="pre">LMUL</span> <span class="pre">&gt;</span> <span class="pre">1</span></code>である場合に不正命令例外が発生する。</p>
 </div>
 <div class="section" id="id5">
@@ -344,7 +341,8 @@
 </pre></div>
 </div>
 <blockquote>
-<div>スカラの即値を持つ<code class="docutils literal notranslate"><span class="pre">xvor</span></code>命令で、即値オペランドを-1とすることで論理NOT命令として使用することができる。これは疑似アセンブラ命令<code class="docutils literal notranslate"><span class="pre">vnot.v</span></code>として使用できる。</div></blockquote>
+<div><p>スカラの即値を持つ<code class="docutils literal notranslate"><span class="pre">xvor</span></code>命令で、即値オペランドを-1とすることで論理NOT命令として使用することができる。これは疑似アセンブラ命令<code class="docutils literal notranslate"><span class="pre">vnot.v</span></code>として使用できる。</p>
+</div></blockquote>
 </div>
 <div class="section" id="id6">
 <h2>12.5. 同一幅ベクトルビットシフト命令<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -383,7 +381,8 @@
 </pre></div>
 </div>
 <blockquote>
-<div>バリエーションとして、1/4のサイズまでビット縮小を行うn4命令を定義することもできる。</div></blockquote>
+<div><p>バリエーションとして、1/4のサイズまでビット縮小を行うn4命令を定義することもできる。</p>
+</div></blockquote>
 </div>
 <div class="section" id="id8">
 <h2>12.7. 整数ベクトル比較命令<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -460,7 +459,8 @@
 </div></blockquote>
 <p>エンコーディング領域を節約するために、<code class="docutils literal notranslate"><span class="pre">vmsge{u}.vx</span></code>の形式は直接は定義されず、<code class="docutils literal notranslate"><span class="pre">va</span> <span class="pre">≥</span> <span class="pre">x</span></code>の場合に特殊な処理を行う。</p>
 <blockquote>
-<div><code class="docutils literal notranslate"><span class="pre">vmsge{}.vx</span></code>の形式は<code class="docutils literal notranslate"><span class="pre">vmslt{u}</span></code>形式の使用されないOPIVIバリエーションの中で、直行性を持たずに定義されている。これらの命令はOPIVI命令の中でスカラの整数レジスタを使用する唯一の命令となる予定である。その代わりに、さらなる2つのfunct6エンコーディングを使用することができるが、これらの命令形式では、同じfunct6の8つのグループと同じエンコーディングではなく、さらに異なるオペランドのフォーマットを使用する予定である(マスクレジスタへの書き込みなど)。現在のPoRではこれらの命令は除外されており、以下で説明する。</div></blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">vmsge{}.vx</span></code>の形式は<code class="docutils literal notranslate"><span class="pre">vmslt{u}</span></code>形式の使用されないOPIVIバリエーションの中で、直行性を持たずに定義されている。これらの命令はOPIVI命令の中でスカラの整数レジスタを使用する唯一の命令となる予定である。その代わりに、さらなる2つのfunct6エンコーディングを使用することができるが、これらの命令形式では、同じfunct6の8つのグループと同じエンコーディングではなく、さらに異なるオペランドのフォーマットを使用する予定である(マスクレジスタへの書き込みなど)。現在のPoRではこれらの命令は除外されており、以下で説明する。</p>
+</div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">vmsge{u}.vx</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vmsgt{u}.vx</span></code>の命令のオペランドを1つ減算することにより合成することができる。この場合に、整数レジスタはアンダーフローは発生しないことが知られている。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>`vmsge{u}.vx`命令の生成シーケンス
 
@@ -595,8 +595,9 @@ va &gt;= x,  x &gt; minimum
 <code class="docutils literal notranslate"><span class="pre">vnmsub</span></code>)。</p>
 <p>加減算の項では、3番目のオペランドと積の下位半分のビットに対して演算が実行される。</p>
 <blockquote>
-<div>“sac”命令は“subtract from
-accumulator”の意味である。オペコードは“vnmsac”であり、(残念ながら直観に反するが)浮動小数点の<code class="docutils literal notranslate"><span class="pre">fnmsub</span></code>命令の定義にマッチする。“vnmsub”命令も同様である。</div></blockquote>
+<div><p>“sac”命令は“subtract from
+accumulator”の意味である。オペコードは“vnmsac”であり、(残念ながら直観に反するが)浮動小数点の<code class="docutils literal notranslate"><span class="pre">fnmsub</span></code>命令の定義にマッチする。“vnmsub”命令も同様である。</p>
+</div></blockquote>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 整数乗算加算、加算のオペランドを上書き</span>
 <span class="n">vmacc</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(vs1[i] * vs2[i]) + vd[i]</span>
 <span class="n">vmacc</span><span class="o">.</span><span class="n">vx</span> <span class="n">vd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(x[rs1] * vs2[i]) + vd[i]</span>
@@ -639,11 +640,13 @@ accumulator”の意味である。オペコードは“vnmsac”であり、(�
 <h2>12.13 4倍ビット幅拡張ベクトル整数乗算加算命令<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>4倍ビット幅整数乗算加算命令はSEWビット*SEWビットの乗算の結果に4*SEWビット幅の値を加算し、4*SEWビット幅の結果を生成する。符号あり、符号なしのすべての組み合わせのオペランドをサポートしている。</p>
 <blockquote>
-<div>これらの命令は現在“V”ベース命令への取り込みは計画されていない。</div></blockquote>
+<div><p>これらの命令は現在“V”ベース命令への取り込みは計画されていない。</p>
+</div></blockquote>
 <blockquote>
-<div>ELEN=32のマシンでは、8b * 8b =
+<div><p>ELEN=32のマシンでは、8b * 8b =
 16bの結果を32bのアキュムレータに書き込むモードしかサポートされていない。ELEN=64の場合には16b
-* 16b = 32b の結果を、64bにアキュムレートする。</div></blockquote>
+* 16b = 32b の結果を、64bにアキュムレートする。</p>
+</div></blockquote>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Quad-widening unsigned-integer multiply-add, overwrite addend</span>
 <span class="c1"># 4倍ビット幅拡張符号なし整数乗算加算命令、加算のオペランドは上書き</span>
 <span class="n">vqmaccu</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># vd[i] = +(vs1[i] * vs2[i]) + vd[i]</span>
@@ -711,11 +714,19 @@ accumulator”の意味である。オペコードは“vnmsac”であり、(�
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, msyksphinz
+        
+        &copy; 著作権 2019, msyksphinz
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -726,7 +737,6 @@ accumulator”の意味である。オペコードは“vnmsac”であり、(�
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

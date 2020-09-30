@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<html class="writer-html5" lang="ja" >
 <head>
   <meta charset="utf-8">
   
@@ -12,38 +11,31 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
     <link rel="next" title="12. ベクトル整数算術演算命令" href="chapter12_vector_arithmetic_insts.html" />
@@ -61,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> riscv-v-spec-japanese
           
 
           
@@ -84,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -93,9 +86,10 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">v0.9からの変更点</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id4">3. ベクトル拡張のプログラミングモデル</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
@@ -124,6 +118,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -162,7 +157,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>11. ベクトル算術演算命令フォーマット</li>
     
@@ -203,89 +198,89 @@ b1010111)を使用している。このオペコードはOP-FPと隣接してお
 <div class="section" id="id2">
 <h2>11.1. ベクトル算術演算命令のエンコーディング<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">funct3</span></code>フィールドがオペランドの型とソースオペランドの場所をエンコードしている。</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="17%" />
-<col width="2%" />
-<col width="2%" />
-<col width="8%" />
-<col width="29%" />
-<col width="43%" />
+<col style="width: 17%" />
+<col style="width: 2%" />
+<col style="width: 2%" />
+<col style="width: 8%" />
+<col style="width: 29%" />
+<col style="width: 43%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">funct3[2:0]</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
-<th class="head">&#160;</th>
-<th class="head">Operands</th>
-<th class="head">スカラオペランドのソース</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>funct3[2:0]</p></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"><p>Operands</p></th>
+<th class="head"><p>スカラオペランドのソース</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>0</td>
-<td>0</td>
-<td>0</td>
-<td>OPIVV</td>
-<td>ベクトル - ベクトル</td>
-<td><ul class="first last simple">
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>OPIVV</p></td>
+<td><p>ベクトル - ベクトル</p></td>
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
 </tr>
-<tr class="row-odd"><td>0</td>
-<td>0</td>
-<td>1</td>
-<td>OPFVV</td>
-<td>ベクトル - ベクトル</td>
-<td><ul class="first last simple">
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>OPFVV</p></td>
+<td><p>ベクトル - ベクトル</p></td>
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
 </tr>
-<tr class="row-even"><td>0</td>
-<td>1</td>
-<td>0</td>
-<td>OPMVV</td>
-<td>ベクトル - ベクトル</td>
-<td><ul class="first last simple">
+<tr class="row-even"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>OPMVV</p></td>
+<td><p>ベクトル - ベクトル</p></td>
+<td><ul class="simple">
 <li></li>
 </ul>
 </td>
 </tr>
-<tr class="row-odd"><td>0</td>
-<td>1</td>
-<td>1</td>
-<td>OPIVI</td>
-<td>ベクトル - 即値</td>
-<td>imm[4:0]</td>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>OPIVI</p></td>
+<td><p>ベクトル - 即値</p></td>
+<td><p>imm[4:0]</p></td>
 </tr>
-<tr class="row-even"><td>1</td>
-<td>0</td>
-<td>0</td>
-<td>OPIVX</td>
-<td>ベクトル - スカラ</td>
-<td>GPR x register rs1</td>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>OPIVX</p></td>
+<td><p>ベクトル - スカラ</p></td>
+<td><p>GPR x register rs1</p></td>
 </tr>
-<tr class="row-odd"><td>1</td>
-<td>0</td>
-<td>1</td>
-<td>OPFVF</td>
-<td>ベクトル - スカラ</td>
-<td>FP f register rs1</td>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>OPFVF</p></td>
+<td><p>ベクトル - スカラ</p></td>
+<td><p>FP f register rs1</p></td>
 </tr>
-<tr class="row-even"><td>1</td>
-<td>1</td>
-<td>0</td>
-<td>OPMVX</td>
-<td>ベクトル - スカラ</td>
-<td>GPR x register rs1</td>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>OPMVX</p></td>
+<td><p>ベクトル - スカラ</p></td>
+<td><p>GPR x register rs1</p></td>
 </tr>
-<tr class="row-odd"><td>1</td>
-<td>1</td>
-<td>1</td>
-<td>OPCFG</td>
-<td>スカラ - 即値</td>
-<td>GPR x register rs1 &amp; rs2/imm</td>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>OPCFG</p></td>
+<td><p>スカラ - 即値</p></td>
+<td><p>GPR x register rs1 &amp; rs2/imm</p></td>
 </tr>
 </tbody>
 </table>
@@ -296,12 +291,13 @@ b1010111)を使用している。このオペコードはOP-FPと隣接してお
 <p>ベクトル -
 スカラ演算は3つの形式をとることができるが、すべてのケースにおいて<code class="docutils literal notranslate"><span class="pre">vs2</span></code>ベクトルレジスタグループにより1つのベクトルオペランドを取り、2番目のスカラソースオペランドは以下の3つのうちどれかの景色を選択する。</p>
 <ol class="arabic simple">
-<li>整数演算では、スカラ値は<code class="docutils literal notranslate"><span class="pre">rs1</span></code>フィールドからエンコードされる5ビットの即値を使用する。値は符号拡張されるか、符号なし拡張される。</li>
-<li>整数演算では、スカラ値は<code class="docutils literal notranslate"><span class="pre">rs1</span></code>から指定される整数レジスタ<code class="docutils literal notranslate"><span class="pre">x</span></code>から取得される。もし<code class="docutils literal notranslate"><span class="pre">XLEN&gt;SEW</span></code>であれば、<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタのうち下位のSEWビットが使用される。XLEN&lt;SEWであれば、<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタの値はSEWビットまで符号拡張される。</li>
-<li>浮動小数点演算では、スカラ値は浮動小数点スカラレジスタ<code class="docutils literal notranslate"><span class="pre">f</span></code>から取得される。FLEN&gt;SEWであれば、<code class="docutils literal notranslate"><span class="pre">f</span></code>レジスタはNaN-boxされた値かどうかをチェックし、<code class="docutils literal notranslate"><span class="pre">f</span></code>レジスタの下位のSEWビットが使用される。NaN-boxされた値でなければNaNが使用される。FLEN&lt;SEWであれば、値はNaN-boxされSEWビット長まで拡張される。</li>
+<li><p>整数演算では、スカラ値は<code class="docutils literal notranslate"><span class="pre">rs1</span></code>フィールドからエンコードされる5ビットの即値を使用する。値は符号拡張されるか、符号なし拡張される。</p></li>
+<li><p>整数演算では、スカラ値は<code class="docutils literal notranslate"><span class="pre">rs1</span></code>から指定される整数レジスタ<code class="docutils literal notranslate"><span class="pre">x</span></code>から取得される。もし<code class="docutils literal notranslate"><span class="pre">XLEN&gt;SEW</span></code>であれば、<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタのうち下位のSEWビットが使用される。XLEN&lt;SEWであれば、<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタの値はSEWビットまで符号拡張される。</p></li>
+<li><p>浮動小数点演算では、スカラ値は浮動小数点スカラレジスタ<code class="docutils literal notranslate"><span class="pre">f</span></code>から取得される。FLEN&gt;SEWであれば、<code class="docutils literal notranslate"><span class="pre">f</span></code>レジスタはNaN-boxされた値かどうかをチェックし、<code class="docutils literal notranslate"><span class="pre">f</span></code>レジスタの下位のSEWビットが使用される。NaN-boxされた値でなければNaNが使用される。FLEN&lt;SEWであれば、値はNaN-boxされSEWビット長まで拡張される。</p></li>
 </ol>
 <blockquote>
-<div>現在提案されているZfinxバリアントは浮動小数点スカラの引数を<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタから取ることができる。</div></blockquote>
+<div><p>現在提案されているZfinxバリアントは浮動小数点スカラの引数を<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタから取ることができる。</p>
+</div></blockquote>
 <p>ベクトル算術演算命令は、vmフィールドの制御に基づいてマスクを適用することができる。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ベクトルバイナリ算術演算命令のアセンブリ文法パタン</span>
 
@@ -360,33 +356,39 @@ b1010111)を使用している。このオペコードはOP-FPと隣接してお
 <p>浮動小数手のビット幅拡張命令は<code class="docutils literal notranslate"><span class="pre">vwf*</span></code>から<code class="docutils literal notranslate"><span class="pre">vfw*</span></code>に変更した。これはスカラの浮動小数点ビット幅拡張命令である<code class="docutils literal notranslate"><span class="pre">fw*</span></code>との一貫性を保つためである。</p>
 </div></blockquote>
 <blockquote>
-<div>整数の乗算加算命令では、乗算加算命令のサイズを4SEWに増やすという選択肢があり得る(例えば
+<div><p>整数の乗算加算命令では、乗算加算命令のサイズを4SEWに増やすという選択肢があり得る(例えば
 4SEW +=
-SEWSEW)。これは<code class="docutils literal notranslate"><span class="pre">vw4</span></code>プレフィックスをオペコードに付与することで区別する。今回はこの命令は含まれていないが、仕様に追加される可能性がある。</div></blockquote>
+SEWSEW)。これは<code class="docutils literal notranslate"><span class="pre">vw4</span></code>プレフィックスをオペコードに付与することで区別する。今回はこの命令は含まれていないが、仕様に追加される可能性がある。</p>
+</div></blockquote>
 <p>書き込み先のベクトルレジスタグループはSEWとLMULが現在の設定よりも2倍になったかのように配置される(例えば、書き込み先の要素のサイズが2SEWであり、書き込み先のベクトルレジスタグループのLMULは2LMULとなっているように見える)。</p>
 <p>すべてのビット幅を拡張する命令のために、書き込み先の要素の幅はサポートされているビット幅の範囲であり、LMULの値もサポートされているLMULの範囲に収まっている必要がある(例えば、現在のLMULが&lt;=4であれば、&lt;=8となる)。</p>
 <p>書き込み先のベクトルレジスタグループはベクトルレジスタ番号で指定し、書き込み先のLMULの値において有効な値である必要がある。そうでなければ、不正命令例外が発生する。</p>
 <p>書き込み先のベクトルレジスタグループは別の要素幅を持つソースベクトルレジスタグループとオーバラップしてはならない(マスクレジスタを使用していても、マスクを含めて被ってはならない)。そうでなければ、不正命令例外が発生する。</p>
 <blockquote>
-<div>非ゼロの<code class="docutils literal notranslate"><span class="pre">vstart</span></code>をサポートする必要がある。</div></blockquote>
+<div><p>非ゼロの<code class="docutils literal notranslate"><span class="pre">vstart</span></code>をサポートする必要がある。</p>
+</div></blockquote>
 <blockquote>
-<div><code class="docutils literal notranslate"><span class="pre">vw&lt;op&gt;.wv</span> <span class="pre">vd,</span> <span class="pre">vs2,</span> <span class="pre">vs1</span></code>フォーマットの命令では、<code class="docutils literal notranslate"><span class="pre">vd</span></code>と<code class="docutils literal notranslate"><span class="pre">vs2</span></code>が同一であっても問題ない。</div></blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">vw&lt;op&gt;.wv</span> <span class="pre">vd,</span> <span class="pre">vs2,</span> <span class="pre">vs1</span></code>フォーマットの命令では、<code class="docutils literal notranslate"><span class="pre">vd</span></code>と<code class="docutils literal notranslate"><span class="pre">vs2</span></code>が同一であっても問題ない。</p>
+</div></blockquote>
 </div>
 <div class="section" id="id4">
 <h2>11.3. ビット幅を縮小するベクトル算術演算命令<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>いくつかの命令では、2倍幅のソースベクトルオペランドを1倍幅の書き込みベクトルレジスタに書き込む命令が存在する。この命令では、ソースベクトルレジスタのサイズは現在のLMULおよびSEWの設定よりも2倍になっているように設定されており、通常のLMUL/SEWサイズのベクトルレジスタグループに縮小するための命令である。</p>
 <p>(2<em>LMUL &gt; 8)もしくは(2</em> SEW) &gt; ELENであれば、不正命令例外が発生する。</p>
 <blockquote>
-<div>別の設計方針としては、LMULの設定をソースベクトルレジスタグループのサイズとして取り扱うというものである。この選択肢は、LMULの変更量を少なくできるという利点を持つと考えられている。</div></blockquote>
+<div><p>別の設計方針としては、LMULの設定をソースベクトルレジスタグループのサイズとして取り扱うというものである。この選択肢は、LMULの変更量を少なくできるという利点を持つと考えられている。</p>
+</div></blockquote>
 <p>ソースベクトルレジスタグループと書き込みベクトルレジスタグループは、LMULの設定における有効なベクトルアドレスを指定しなければならない。そうでなければ、不正命令例外が発生する。</p>
 <p>2番目路ベクトルレジスタ(<code class="docutils literal notranslate"><span class="pre">vs1</span></code>で指定される)は、書き込みベクトルレジスタと同一のサイズ(縮小されたサイズ)でなければならない。</p>
 <p>書き込み先ベクトルレジスタグループは、1番目のベクトルレジスタグループ(<code class="docutils literal notranslate"><span class="pre">vs2</span></code>で指定される)とオーバラップしてはならない。書き込み先ベクトルレジスタグループは、マスクを使用する場合はLMUL=1でない限りマスクレジスタとオーバラップしてはならない。もしこの制約を違反する場合、不正命令例外が発生する。</p>
 <blockquote>
-<div>LMULと幅が同一で、要素のサイズが書き込みベクトルレジスタと同一のLMUL=1のときにマスクレジスタを上書きするために2番目のソースベクトルレジスタグループを上書きするのは安全であるxxx。</div></blockquote>
+<div><p>LMULと幅が同一で、要素のサイズが書き込みベクトルレジスタと同一のLMUL=1のときにマスクレジスタを上書きするために2番目のソースベクトルレジスタグループを上書きするのは安全であるxxx。</p>
+</div></blockquote>
 <p>アセンブラ中で命令を区別するために、<code class="docutils literal notranslate"><span class="pre">vn*</span></code>プレフィックスをオペコードに使用するか、浮動小数点命令の場合は<code class="docutils literal notranslate"><span class="pre">vfn*</span></code>プレフィックスを使用する。倍幅のソースベクトルレジスタグループは<code class="docutils literal notranslate"><span class="pre">w</span></code>をソースオペランドサフィックスに指定することで指定する(例:
 <code class="docutils literal notranslate"><span class="pre">vnsra.wv</span></code>)</p>
 <blockquote>
-<div>マスクレジスタを設定する比較演算命令も、暗黙的にビット幅を縮小する演算である。</div></blockquote>
+<div><p>マスクレジスタを設定する比較演算命令も、暗黙的にビット幅を縮小する演算である。</p>
+</div></blockquote>
 </div>
 </div>
 
@@ -410,11 +412,19 @@ SEWSEW)。これは<code class="docutils literal notranslate"><span class="pre">
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, msyksphinz
+        
+        &copy; 著作権 2019, msyksphinz
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -425,7 +435,6 @@ SEWSEW)。これは<code class="docutils literal notranslate"><span class="pre">
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

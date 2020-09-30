@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<html class="writer-html5" lang="ja" >
 <head>
   <meta charset="utf-8">
   
@@ -12,41 +11,34 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
-    <link rel="next" title="1. イントロダクション" href="chapter1_3_riscv_vector_insts.html" /> 
+    <link rel="next" title="v0.9からの変更点" href="chapter1_3_riscv_vector_insts.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -60,7 +52,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> riscv-v-spec-japanese
+            <a href="#" class="icon icon-home" alt="Documentation Home"> riscv-v-spec-japanese
           
 
           
@@ -83,6 +75,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -92,9 +85,10 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">v0.9からの変更点</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id4">3. ベクトル拡張のプログラミングモデル</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
@@ -118,6 +112,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -156,7 +151,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#">Docs</a> &raquo;</li>
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
         
       <li>RISC-V “V” Extension</li>
     
@@ -182,10 +177,24 @@
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id4">3.1 ベクトルレジスタ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">v0.9からの変更点</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#slen-vlen">SLEN=VLENレイアウトが必須</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#lmul-1elen-vlen">LMUL &gt; 1におけるELEN &gt; VLENのサポート</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vector-fp">Vector FP例外の動作についての定義</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#misa-vmstatus-vs"><code class="docutils literal notranslate"><span class="pre">misa.v</span></code>および<code class="docutils literal notranslate"><span class="pre">mstatus.vs</span></code>の相互作用について</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id1">逆数及び逆数の平方根を推論する命令の追加</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#wholeeew">wholeレジスタ移動およびロードストア命令におけるEEWエンコーディングのサポート。マイクロアーキテクチャにおける内部データ再構成をサポートするため。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vrgatherei16"><code class="docutils literal notranslate"><span class="pre">vrgatherei16</span></code>命令のサポート</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vtypevlmul"><code class="docutils literal notranslate"><span class="pre">vtype</span></code>ビットレイアウトを変更し<code class="docutils literal notranslate"><span class="pre">vlmul</span></code>を連続したビットフィールドに設定</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#edivv1-0dot">EDIVを付録に移動し、v1.0に含まれないことを明確にするためにdot命令をエンコーディングから削除</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#quad-widerning-mulaccv1-0">Quad-widerning mulacc命令を付録に移動し、v1.0に含まれないことを明確にするために命令エンコーディングから削除</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vnegvfneg"><code class="docutils literal notranslate"><span class="pre">vneg</span></code>と<code class="docutils literal notranslate"><span class="pre">vfneg</span></code>の疑似命令を追加</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id4">3. ベクトル拡張のプログラミングモデル</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id5">3.1 ベクトルレジスタ</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#mstatus">3.2 <code class="docutils literal notranslate"><span class="pre">mstatus</span></code>内でのベクトルコンテキストの状態</a></li>
 <li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vtype">3.3 ベクトル型レジスタ, <code class="docutils literal notranslate"><span class="pre">vtype</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vl">3.3. ベクトル長レジスタ<code class="docutils literal notranslate"><span class="pre">vl</span></code></a></li>
@@ -194,7 +203,7 @@
 <li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vxrm">3.6. ベクトル固定小数点丸めモードレジスタ<code class="docutils literal notranslate"><span class="pre">vxrm</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#vxsat">3.7. ベクトル固定小数点飽和フラグ<code class="docutils literal notranslate"><span class="pre">vxsat</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#fcsr">3.7. <code class="docutils literal notranslate"><span class="pre">fcsr</span></code>のベクトル固定小数点フィールド</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id7">3.8. ベクトル拡張のリセット状態について</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id8">3.8. ベクトル拡張のリセット状態について</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a><ul>
@@ -344,9 +353,9 @@
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">索引</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">モジュール索引</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">検索ページ</span></a></li>
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">索引</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">モジュール索引</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">検索ページ</span></a></p></li>
 </ul>
 </div>
 
@@ -358,7 +367,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="chapter1_3_riscv_vector_insts.html" class="btn btn-neutral float-right" title="1. イントロダクション" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="chapter1_3_riscv_vector_insts.html" class="btn btn-neutral float-right" title="v0.9からの変更点" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>
@@ -368,11 +377,19 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, msyksphinz
+        
+        &copy; 著作権 2019, msyksphinz
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -383,7 +400,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

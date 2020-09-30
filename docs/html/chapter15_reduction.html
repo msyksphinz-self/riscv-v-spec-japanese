@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<html class="writer-html5" lang="ja" >
 <head>
   <meta charset="utf-8">
   
@@ -12,38 +11,31 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
     <link rel="next" title="16. ベクトルマスク命令" href="chapter16_vector_mask.html" />
@@ -61,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> riscv-v-spec-japanese
           
 
           
@@ -84,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -93,9 +86,10 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">v0.9からの変更点</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id4">3. ベクトル拡張のプログラミングモデル</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
@@ -130,6 +124,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -168,7 +163,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>15. ベクトルリダクション操作</li>
     
@@ -193,8 +188,9 @@
 <h1>15. ベクトルリダクション操作<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>ベクトルリダクション操作はベクトルレジスタグループの要素と、ベクトルレジスタの要素0の値を持つスカラ値をオペランドに取り、バイナリ操作を行ってリダクション操作を行い、ベクトルレジスタの要素0に巣からの結果を返す命令である。スカラの入力値と出力オペランドはベクトルレジスタの要素0を使用し、ベクトルレジスタグループは使用しない。したがってLMULの設定にかかわらず、任意のベクトルレジスタはスカラのソースとベクトルリダクションの結果を受け取ることができる。</p>
 <blockquote>
-<div>スカラオペランドとベクトルレジスタの要素0に結果を書き込むというリダクションの操作は、スカラプロセッサ側とのデータの受け渡しによる性能低下を避けるためのものであり、スカラユニットでサポートされていない将来の型で将来のポリモーフィック使用をサポートする(xxx:
-意味不明)。</div></blockquote>
+<div><p>スカラオペランドとベクトルレジスタの要素0に結果を書き込むというリダクションの操作は、スカラプロセッサ側とのデータの受け渡しによる性能低下を避けるためのものであり、スカラユニットでサポートされていない将来の型で将来のポリモーフィック使用をサポートする(xxx:
+意味不明)。</p>
+</div></blockquote>
 <p>ソースベクトルレジスタグループのインアクティブな要素は演算対象から外されるが、スカラオペランドに関してはマスクに関係なく常に演算対象に含まれる。</p>
 <p>書き込み先のベクトルレジスタの書き込み要素以外の要素(0 &lt; index &lt;
 VLEN/SEW)の値は変更されない。</p>
@@ -243,10 +239,12 @@ VLEN/SEW)の値は変更されない。</p>
 <p><code class="docutils literal notranslate"><span class="pre">vfredosum</span></code>
 命令は浮動小数点のベクトル要素を順番に加算しなければならず、vs1[0]から始まり、以下のような計算を行う。<code class="docutils literal notranslate"><span class="pre">(((vs1[0]</span> <span class="pre">+</span> <span class="pre">vs2[0])</span> <span class="pre">+</span> <span class="pre">vs2[1])</span> <span class="pre">+</span> <span class="pre">…)</span> <span class="pre">+</span> <span class="pre">vs2[vl-1]</span></code>それぞれの加算はスカラの浮動小数点命令と同じように実行され、例外の動作も同一であり、特殊な値を生成したあともその値が伝搬していく。</p>
 <blockquote>
-<div>順序付きのリダクション命令のサポートは、コンパイラにより自動ベクトル化をサポートするための命令であり、一方でアンオーダーな浮動小数点加算命令の方が高速な実装となる。</div></blockquote>
+<div><p>順序付きのリダクション命令のサポートは、コンパイラにより自動ベクトル化をサポートするための命令であり、一方でアンオーダーな浮動小数点加算命令の方が高速な実装となる。</p>
+</div></blockquote>
 <p>演算操作がマスクされた場合(<code class="docutils literal notranslate"><span class="pre">vm=0</span></code>)、マスクされた値は計算されず、例外も発生しない。</p>
 <blockquote>
-<div>アクティブな要素が存在しない場合、加算操作は実行されず、スカラ値<code class="docutils literal notranslate"><span class="pre">vs1[0]</span></code>が単純に書き込みレジスタにコピーされる。この場合NaNの値が正規化されるが、例外フラグは設定されない。この動作はスカラの加算ループを自動ベクトル化した場合にNaNの処理、例外、丸め操作を行うための仕様である。</div></blockquote>
+<div><p>アクティブな要素が存在しない場合、加算操作は実行されず、スカラ値<code class="docutils literal notranslate"><span class="pre">vs1[0]</span></code>が単純に書き込みレジスタにコピーされる。この場合NaNの値が正規化されるが、例外フラグは設定されない。この動作はスカラの加算ループを自動ベクトル化した場合にNaNの処理、例外、丸め操作を行うための仕様である。</p>
+</div></blockquote>
 </div>
 <div class="section" id="id6">
 <h3>15.3.2. 単一ビット幅ベクトルアンオーダー浮動小数点リダクション加算命令<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
@@ -257,15 +255,18 @@ IEEEスカラ浮動小数点の仕様に基づいて、現在のアクティブ�
 +0.0を加算することも許されている。</p>
 <p>リダクションツリーの構造は与えられた<code class="docutils literal notranslate"><span class="pre">vtype</span></code>と<code class="docutils literal notranslate"><span class="pre">vl</span></code>において決定的でなければならない。</p>
 <blockquote>
-<div>この定義の結果として、実装ではアクティブな要素が存在しない場合にはリダクションツリーにおいてNaNのペイロードを伝搬する必要がない。特に、すべての要素がアクティブでなく、スカラの入力がNaNであった場合、この値がSignaling
-NaNであった場合には実装ではNaNの値を正規化し、不正例外フラグを設定する。<code class="docutils literal notranslate"><span class="pre">vfredosum</span></code>命令のように、オリジナルのNaNの値をそのまま渡して、例外フラグを設定しないこともできる。</div></blockquote>
+<div><p>この定義の結果として、実装ではアクティブな要素が存在しない場合にはリダクションツリーにおいてNaNのペイロードを伝搬する必要がない。特に、すべての要素がアクティブでなく、スカラの入力がNaNであった場合、この値がSignaling
+NaNであった場合には実装ではNaNの値を正規化し、不正例外フラグを設定する。<code class="docutils literal notranslate"><span class="pre">vfredosum</span></code>命令のように、オリジナルのNaNの値をそのまま渡して、例外フラグを設定しないこともできる。</p>
+</div></blockquote>
 <blockquote>
-<div><code class="docutils literal notranslate"><span class="pre">vfredosum</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vfredsum</span></code>命令の正確な実装である。</div></blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">vfredosum</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vfredsum</span></code>命令の正確な実装である。</p>
+</div></blockquote>
 </div>
 <div class="section" id="max-min">
 <h3>15.3.3. 単一ビット幅浮動小数点Max/Minリダクション命令<a class="headerlink" href="#max-min" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <blockquote>
-<div>浮動小数点のMax/Minリダクション命令は演算の順番にかかわらず、常に同じ結果と同じ例外が発生する必要がある。</div></blockquote>
+<div><p>浮動小数点のMax/Minリダクション命令は演算の順番にかかわらず、常に同じ結果と同じ例外が発生する必要がある。</p>
+</div></blockquote>
 </div>
 </div>
 <div class="section" id="id7">
@@ -300,11 +301,19 @@ NaNであった場合には実装ではNaNの値を正規化し、不正例外�
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, msyksphinz
+        
+        &copy; 著作権 2019, msyksphinz
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -315,7 +324,6 @@ NaNであった場合には実装ではNaNの値を正規化し、不正例外�
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

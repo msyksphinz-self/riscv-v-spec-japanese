@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<html class="writer-html5" lang="ja" >
 <head>
   <meta charset="utf-8">
   
@@ -12,38 +11,31 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
     <link rel="next" title="7. ベクトルロードストア命令" href="chapter7_vector_load_store.html" />
@@ -61,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> riscv-v-spec-japanese
           
 
           
@@ -84,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -93,9 +86,10 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">v0.9からの変更点</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id4">3. ベクトル拡張のプログラミングモデル</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">6. コンフィグレーション設定命令</a><ul>
@@ -125,6 +119,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -163,7 +158,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>6. コンフィグレーション設定命令</li>
     
@@ -197,38 +192,38 @@ CSRの値を設定し、新しい<code class="docutils literal notranslate"><spa
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">vtype</span></code>の新しい設定値は<code class="docutils literal notranslate"><span class="pre">vsetvli</span></code>のフィールドの即値として設定され、<code class="docutils literal notranslate"><span class="pre">vsetvl</span></code>命令の場合は<code class="docutils literal notranslate"><span class="pre">rs2</span></code>レジスタで指定される。新しいベクトル長の設定はアプリケーションベクトル長(AVL)によって設定される。この値は<code class="docutils literal notranslate"><span class="pre">rs1</span></code>と<code class="docutils literal notranslate"><span class="pre">rd</span></code>フィールドの値によって次のようにしてエンコーディングされる。</p>
 <p>Table 7. <code class="docutils literal notranslate"><span class="pre">vsetvli</span></code>および<code class="docutils literal notranslate"><span class="pre">vsetvl</span></code>命令によって使用されるAVL値。</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="3%" />
-<col width="5%" />
-<col width="27%" />
-<col width="65%" />
+<col style="width: 3%" />
+<col style="width: 5%" />
+<col style="width: 27%" />
+<col style="width: 65%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">rd</th>
-<th class="head">rs1</th>
-<th class="head">AVL値</th>
-<th class="head">説明・使用方法</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>rd</p></th>
+<th class="head"><p>rs1</p></th>
+<th class="head"><p>AVL値</p></th>
+<th class="head"><p>説明・使用方法</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>0</td>
-<td>0</td>
-<td>vlレジスタ内の値</td>
-<td>vlの値を変更することなくvtypeが変更される。</td>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>vlレジスタ内の値</p></td>
+<td><p>vlの値を変更することなくvtypeが変更される。</p></td>
 </tr>
-<tr class="row-odd"><td>!0</td>
-<td>0</td>
-<td>~0</td>
-<td>vlはVLMAXに設定される。</td>
+<tr class="row-odd"><td><p>!0</p></td>
+<td><p>0</p></td>
+<td><p>~0</p></td>
+<td><p>vlはVLMAXに設定される。</p></td>
 </tr>
-<tr class="row-even"><td><ul class="first last simple">
+<tr class="row-even"><td><ul class="simple">
 <li></li>
 </ul>
 </td>
-<td>!0</td>
-<td><code class="docutils literal notranslate"><span class="pre">x[rs1]</span></code>内の値</td>
-<td>通常のストリップマイニング</td>
+<td><p>!0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">x[rs1]</span></code>内の値</p></td>
+<td><p>通常のストリップマイニング</p></td>
 </tr>
 </tbody>
 </table>
@@ -236,8 +231,9 @@ CSRの値を設定し、新しい<code class="docutils literal notranslate"><spa
 <p><code class="docutils literal notranslate"><span class="pre">rs1=x0</span></code>かつ<code class="docutils literal notranslate"><span class="pre">rd!=0</span></code>の場合は、AVLの値は整数の最大サイズ(<code class="docutils literal notranslate"><span class="pre">~0</span></code>)が使用される。結果として<code class="docutils literal notranslate"><span class="pre">vl</span></code>にはVLMAXが書き込まれ、<code class="docutils literal notranslate"><span class="pre">rd</span></code>により指定された整数レジスタにも書き込みが行われる。</p>
 <p><code class="docutils literal notranslate"><span class="pre">rs1=x0</span></code>および<code class="docutils literal notranslate"><span class="pre">rd=0</span></code>である場合、現在のベクトル長<code class="docutils literal notranslate"><span class="pre">vl</span></code>がAVLとして使用される。結果の値は<code class="docutils literal notranslate"><span class="pre">vl</span></code>にのみ書き込まれる。</p>
 <blockquote>
-<div>この形式の命令は<code class="docutils literal notranslate"><span class="pre">vl</span></code>を変更することなく<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタを変更することを許している。VLMAXの値は減る事は無い。現在の<code class="docutils literal notranslate"><span class="pre">vl</span></code>値はそのまま<code class="docutils literal notranslate"><span class="pre">vl</span></code>
-CSRから読み込まれる。</div></blockquote>
+<div><p>この形式の命令は<code class="docutils literal notranslate"><span class="pre">vl</span></code>を変更することなく<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタを変更することを許している。VLMAXの値は減る事は無い。現在の<code class="docutils literal notranslate"><span class="pre">vl</span></code>値はそのまま<code class="docutils literal notranslate"><span class="pre">vl</span></code>
+CSRから読み込まれる。</p>
+</div></blockquote>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>OP-Vメジャーオペコードを使用したベクトルコンフィグレーション命令のフォーマット。
 
  31 30         25 24      20 19      15 14   12 11      7 6     0
@@ -246,38 +242,38 @@ CSRから読み込まれる。</div></blockquote>
  1        6            5          5        3        5        7
 </pre></div>
 </div>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="13%" />
-<col width="16%" />
-<col width="72%" />
+<col style="width: 13%" />
+<col style="width: 16%" />
+<col style="width: 72%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">ビット</th>
-<th class="head">名前</th>
-<th class="head">説明</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>ビット</p></th>
+<th class="head"><p>名前</p></th>
+<th class="head"><p>説明</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>XLEN-1</td>
-<td>vill</td>
-<td>不正な値が設定されたことを示す。</td>
+<tbody>
+<tr class="row-even"><td><p>XLEN-1</p></td>
+<td><p>vill</p></td>
+<td><p>不正な値が設定されたことを示す。</p></td>
 </tr>
-<tr class="row-odd"><td>XLEN-2:7</td>
-<td>&#160;</td>
-<td>予約領域(0が書き込まれる)</td>
+<tr class="row-odd"><td><p>XLEN-2:7</p></td>
+<td></td>
+<td><p>予約領域(0が書き込まれる)</p></td>
 </tr>
-<tr class="row-even"><td>6:5</td>
-<td>vediv[1:0]</td>
-<td>EDIV拡張に使用される。</td>
+<tr class="row-even"><td><p>6:5</p></td>
+<td><p>vediv[1:0]</p></td>
+<td><p>EDIV拡張に使用される。</p></td>
 </tr>
-<tr class="row-odd"><td>4:2</td>
-<td>vsew[2:0]</td>
-<td>Standard element width (SEW) の設定。</td>
+<tr class="row-odd"><td><p>4:2</p></td>
+<td><p>vsew[2:0]</p></td>
+<td><p>Standard element width (SEW) の設定。</p></td>
 </tr>
-<tr class="row-even"><td>1:0</td>
-<td>vlmul[1:0]</td>
-<td>Vector register group multiplier (LMUL) の設定</td>
+<tr class="row-even"><td><p>1:0</p></td>
+<td><p>vlmul[1:0]</p></td>
+<td><p>Vector register group multiplier (LMUL) の設定</p></td>
 </tr>
 </tbody>
 </table>
@@ -307,7 +303,8 @@ CSRから読み込まれる。</div></blockquote>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">vtype</span></code>の設定値が実装によってサポートされていない場合、<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタ内の<code class="docutils literal notranslate"><span class="pre">vill</span></code>ビットが設定され、それ以外の<code class="docutils literal notranslate"><span class="pre">vtype</span></code>レジスタのビットフィールドはゼロが設定され、<code class="docutils literal notranslate"><span class="pre">vl</span></code>レジスタの値もゼロに設定される。</p>
 <blockquote>
-<div>初期の仕様では<code class="docutils literal notranslate"><span class="pre">vtype</span></code>に不正な値を設定すると例外が発生する仕様になっていた。ISAへのCSR書き込みに最初にデータ依存の例外を追加することになる。現在のスキームでは、特定の設定に対して<code class="docutils literal notranslate"><span class="pre">vill</span></code>がクリアされているかどうかを確認することによってベクトルユニットの設定の問い合わせを軽量化する手法をサポートしている。</div></blockquote>
+<div><p>初期の仕様では<code class="docutils literal notranslate"><span class="pre">vtype</span></code>に不正な値を設定すると例外が発生する仕様になっていた。ISAへのCSR書き込みに最初にデータ依存の例外を追加することになる。現在のスキームでは、特定の設定に対して<code class="docutils literal notranslate"><span class="pre">vill</span></code>がクリアされているかどうかを確認することによってベクトルユニットの設定の問い合わせを軽量化する手法をサポートしている。</p>
+</div></blockquote>
 </div>
 <div class="section" id="vl">
 <h2>6.2. <code class="docutils literal notranslate"><span class="pre">vl</span></code>への設定条件<a class="headerlink" href="#vl" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -315,32 +312,35 @@ CSRから読み込まれる。</div></blockquote>
 <code class="docutils literal notranslate"><span class="pre">vtype</span></code> argument, then set <code class="docutils literal notranslate"><span class="pre">vl</span></code> obeying the following constraints:</p>
 <p><code class="docutils literal notranslate"><span class="pre">vsetvl{i}</span></code>命令は、最初に引数の<code class="docutils literal notranslate"><span class="pre">vtype</span></code>に基づいてVLMAXを設定し、以下が成り立つ。</p>
 <ol class="arabic simple">
-<li><code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">≤</span> <span class="pre">VLMAX</span></code>である場合、<code class="docutils literal notranslate"><span class="pre">vl</span> <span class="pre">=</span> <span class="pre">AVL</span></code>である。</li>
-<li><code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">&lt;</span> <span class="pre">(2</span> <span class="pre">*</span> <span class="pre">VLMAX)</span></code>である場合、<code class="docutils literal notranslate"><span class="pre">ceil(AVL</span> <span class="pre">/</span> <span class="pre">2)</span> <span class="pre">≦</span> <span class="pre">vl</span> <span class="pre">≦</span> <span class="pre">VLMAX</span></code>
-を設定する。</li>
-<li><code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">≥</span> <span class="pre">(2</span> <span class="pre">*</span> <span class="pre">VLMAX)</span></code>である場合、<code class="docutils literal notranslate"><span class="pre">vl</span> <span class="pre">=</span> <span class="pre">VLMAX</span></code>を設定する。</li>
-<li>AVLとVLMAXの値が同じならば、どのような実装でも同じ値が書き込まれる。</li>
-<li>以下の制約は、上記の設定に基づいて常に成立する。<ol class="arabic">
-<li><code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">=</span> <span class="pre">0</span></code>の場合<code class="docutils literal notranslate"><span class="pre">vl</span> <span class="pre">=</span> <span class="pre">0</span></code>が設定される。</li>
-<li><code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>の場合、<code class="docutils literal notranslate"><span class="pre">vl</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>である。</li>
-<li><code class="docutils literal notranslate"><span class="pre">vl</span> <span class="pre">≤</span> <span class="pre">VLMAX</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">vl</span> <span class="pre">≤</span> <span class="pre">AVL</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">vsetvl</span> <span class="pre">{i}</span></code>のAVL引数として使用されたときに
+<li><p><code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">≤</span> <span class="pre">VLMAX</span></code>である場合、<code class="docutils literal notranslate"><span class="pre">vl</span> <span class="pre">=</span> <span class="pre">AVL</span></code>である。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">&lt;</span> <span class="pre">(2</span> <span class="pre">*</span> <span class="pre">VLMAX)</span></code>である場合、<code class="docutils literal notranslate"><span class="pre">ceil(AVL</span> <span class="pre">/</span> <span class="pre">2)</span> <span class="pre">≦</span> <span class="pre">vl</span> <span class="pre">≦</span> <span class="pre">VLMAX</span></code>
+を設定する。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">≥</span> <span class="pre">(2</span> <span class="pre">*</span> <span class="pre">VLMAX)</span></code>である場合、<code class="docutils literal notranslate"><span class="pre">vl</span> <span class="pre">=</span> <span class="pre">VLMAX</span></code>を設定する。</p></li>
+<li><p>AVLとVLMAXの値が同じならば、どのような実装でも同じ値が書き込まれる。</p></li>
+<li><p>以下の制約は、上記の設定に基づいて常に成立する。</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">=</span> <span class="pre">0</span></code>の場合<code class="docutils literal notranslate"><span class="pre">vl</span> <span class="pre">=</span> <span class="pre">0</span></code>が設定される。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>の場合、<code class="docutils literal notranslate"><span class="pre">vl</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>である。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vl</span> <span class="pre">≤</span> <span class="pre">VLMAX</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vl</span> <span class="pre">≤</span> <span class="pre">AVL</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vsetvl</span> <span class="pre">{i}</span></code>のAVL引数として使用されたときに
 <code class="docutils literal notranslate"><span class="pre">vl</span></code>から読み取られた値は、結果のVLMAXが<code class="docutils literal notranslate"><span class="pre">vl</span></code>が読み取られた時点のVLMAXの値に等しい場合、
-<code class="docutils literal notranslate"><span class="pre">vl</span></code>で同じ値になる。</li>
+<code class="docutils literal notranslate"><span class="pre">vl</span></code>で同じ値になる。</p></li>
 </ol>
 </li>
 </ol>
 <blockquote>
-<div><code class="docutils literal notranslate"><span class="pre">vl</span></code>の設定制約は、<code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">≤</span> <span class="pre">VLMAX</span></code>のレジスタスピルとコンテキストスワップ全体で<code class="docutils literal notranslate"><span class="pre">vl</span></code>の動作を維持するのに十分に厳格でありながら、<code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">&gt;</span>&#160; <span class="pre">VLMAX</span></code>のベクターレーン使用率を実装できるように十分に柔軟に設計されている。例えば、これにより、実装が<code class="docutils literal notranslate"><span class="pre">VLMAX</span> <span class="pre">&lt;</span> <span class="pre">AVL</span> <span class="pre">&lt;</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">VLMAX</span></code>の場合に<code class="docutils literal notranslate"><span class="pre">vl</span> <span class="pre">=</span> <span class="pre">ceil（AVL</span> <span class="pre">/</span> <span class="pre">2）</span></code>を設定して、ストリップマインループの最後の2回の繰り返しで作業を均等に分散できる。
+<div><p><code class="docutils literal notranslate"><span class="pre">vl</span></code>の設定制約は、<code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">≤</span> <span class="pre">VLMAX</span></code>のレジスタスピルとコンテキストスワップ全体で<code class="docutils literal notranslate"><span class="pre">vl</span></code>の動作を維持するのに十分に厳格でありながら、<code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">&gt;</span>&#160; <span class="pre">VLMAX</span></code>のベクターレーン使用率を実装できるように十分に柔軟に設計されている。例えば、これにより、実装が<code class="docutils literal notranslate"><span class="pre">VLMAX</span> <span class="pre">&lt;</span> <span class="pre">AVL</span> <span class="pre">&lt;</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">VLMAX</span></code>の場合に<code class="docutils literal notranslate"><span class="pre">vl</span> <span class="pre">=</span> <span class="pre">ceil（AVL</span> <span class="pre">/</span> <span class="pre">2）</span></code>を設定して、ストリップマインループの最後の2回の繰り返しで作業を均等に分散できる。
 要件2は、リダクションループの最初のストリップマイン反復が、<code class="docutils literal notranslate"><span class="pre">AVL</span> <span class="pre">&lt;</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">VLMAX</span></code>の場合でも、すべての反復の最大ベクトル長を使用することを保証する。
-これにより、ソフトウェアはストリップループ中に観測されたベクトル長の最大値を明示的に計算する必要がなくなる。</div></blockquote>
+これにより、ソフトウェアはストリップループ中に観測されたベクトル長の最大値を明示的に計算する必要がなくなる。</p>
+</div></blockquote>
 </div>
 <div class="section" id="vsetvl">
 <h2>6.3. <code class="docutils literal notranslate"><span class="pre">vsetvl</span></code>命令<a class="headerlink" href="#vsetvl" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">vsetvl</span></code>命令は<code class="docutils literal notranslate"><span class="pre">vsetvli</span></code>命令と同様な動作をするが、<code class="docutils literal notranslate"><span class="pre">vtype</span></code>の設定が<code class="docutils literal notranslate"><span class="pre">rs2</span></code>レジスタの内容に基づいて設定されることが異なる。コンテキストのリストアに使用さたり、<code class="docutils literal notranslate"><span class="pre">vtypei</span></code>の即値フィールドが所望の設定に対して小さすぎる場合に使用される。</p>
 <blockquote>
-<div>いくつかのアクティブな複雑な型では、<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタに異なる値を設定する必要があり、必要に応じて<code class="docutils literal notranslate"><span class="pre">vsetvl</span></code>命令を使用してスワップする必要がある。</div></blockquote>
+<div><p>いくつかのアクティブな複雑な型では、<code class="docutils literal notranslate"><span class="pre">x</span></code>レジスタに異なる値を設定する必要があり、必要に応じて<code class="docutils literal notranslate"><span class="pre">vsetvl</span></code>命令を使用してスワップする必要がある。</p>
+</div></blockquote>
 </div>
 <div class="section" id="id2">
 <h2>6.4. 例<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -404,11 +404,19 @@ CSRから読み込まれる。</div></blockquote>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, msyksphinz
+        
+        &copy; 著作権 2019, msyksphinz
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -419,7 +427,6 @@ CSRから読み込まれる。</div></blockquote>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

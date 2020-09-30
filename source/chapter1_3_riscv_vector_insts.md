@@ -325,8 +325,7 @@ XLENビット長の読み込み専用CSRである`vl`は`vsetvli`および`vsetv
 以下の丸め関数は、命令の説明時に丸めの操作を説明表現するために使用する。
 
 ```
-roundoff_unsigned(v, d) = (unsigned(v) >> d) + r
-roundoff_signed(v, d) = (signed(v) >> d) + r
+roundoff(v, d) = (v >> d) + r
 ```
 
 Bits[XLEN-1:2]はゼロである。
@@ -363,3 +362,4 @@ Bits[XLEN-1:2]はゼロである。
 > ベクトルユニットを使用するときはいかなる時も最初に`vsetvl{i}`を実行し、`vstart`をリセットさせる必要がある。`vxrm`および`vxsat`フィールドはソフトウェアにより使用前に明示的にリセットを行うべきである。
 
 ベクトルレジスタはリセット時にはどのような値が設定されていても構わない。
+

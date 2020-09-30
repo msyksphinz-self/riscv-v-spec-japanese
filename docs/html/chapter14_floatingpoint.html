@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<html class="writer-html5" lang="ja" >
 <head>
   <meta charset="utf-8">
   
@@ -12,38 +11,31 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/translations.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
     <link rel="next" title="15. ベクトルリダクション操作" href="chapter15_reduction.html" />
@@ -61,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> riscv-v-spec-japanese
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> riscv-v-spec-japanese
           
 
           
@@ -84,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -93,9 +86,10 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">1. イントロダクション</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">2. 実装により決定される定数パラメータ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">3. ベクトル拡張のプログラミングモデル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html">v0.9からの変更点</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id2">1. イントロダクション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id3">2. 実装により決定される定数パラメータ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter1_3_riscv_vector_insts.html#id4">3. ベクトル拡張のプログラミングモデル</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter4_mapping_vector_elements.html">4. ベクトル要素のベクトルレジスタへの割り付け</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter5_vector_instruction_format.html">5. ベクトル命令フォーマット</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chapter6_config_insts.html">6. コンフィグレーション設定命令</a></li>
@@ -138,6 +132,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -176,7 +171,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>14. ベクトル浮動小数点命令</li>
     
@@ -201,14 +196,17 @@
 <h1>14. ベクトル浮動小数点命令<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>標準的なベクトル浮動小数点命令は、16ビット、32ビット、64ビット、128ビットのIEEE-754/2008互換の浮動小数点を扱う。現在のSEWがこれらのIEEE浮動小数点の型に合致しなければ、不正命令例外が発生する。</p>
 <blockquote>
-<div>サポートされる浮動小数点のビット幅はそのプラットフォームに依存する。</div></blockquote>
+<div><p>サポートされる浮動小数点のビット幅はそのプラットフォームに依存する。</p>
+</div></blockquote>
 <blockquote>
-<div>16ビット半精度浮動小数点の型をサポートするプラットフォームはスカラ側も半精度浮動小数点命令を<code class="docutils literal notranslate"><span class="pre">f</span></code>レジスタにおいて実装しなければならない。</div></blockquote>
+<div><p>16ビット半精度浮動小数点の型をサポートするプラットフォームはスカラ側も半精度浮動小数点命令を<code class="docutils literal notranslate"><span class="pre">f</span></code>レジスタにおいて実装しなければならない。</p>
+</div></blockquote>
 <p>ベクトル浮動小数点命令はNaNの取り扱いについてスカラの浮動小数点命令と同様の動きをする。</p>
 <p>ベクトル ー
 スカラ命令におけるスカラの値の取り扱いについては、標準的な<code class="docutils literal notranslate"><span class="pre">f</span></code>スカラレジスタからオペランドを取り込む。</p>
 <blockquote>
-<div>Zfinx命令仕様バリエーションにより、スカラの浮動小数点値は整数レジスタ<code class="docutils literal notranslate"><span class="pre">x</span></code>からも取り込むことができるようになる予定である。</div></blockquote>
+<div><p>Zfinx命令仕様バリエーションにより、スカラの浮動小数点値は整数レジスタ<code class="docutils literal notranslate"><span class="pre">x</span></code>からも取り込むことができるようになる予定である。</p>
+</div></blockquote>
 <div class="section" id="id2">
 <h2>14.1. ベクトル浮動小数点例外フラグ<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ベクトル浮動小数点の例外は任意のアクティブな浮動小数点ベクトルの要素で例外が発生した場合、標準的なFP例外フラグである<code class="docutils literal notranslate"><span class="pre">fflags</span></code>に設定される。インアクティブな要素では、浮動小数点例外は発生しない。</p>
@@ -303,7 +301,8 @@ Multiply-Addの4つのバリエーションについて命令を提供する。�
 </pre></div>
 </div>
 <blockquote>
-<div>スカラの浮動小数点FMAエンコーディングの中で、使用していない丸めモードのビットパタンを使用してオペランドを破壊しないFMAを定義することも可能であるが、その場合はマスクができない形式での3入力1出力の命令となる。</div></blockquote>
+<div><p>スカラの浮動小数点FMAエンコーディングの中で、使用していない丸めモードのビットパタンを使用してオペランドを破壊しないFMAを定義することも可能であるが、その場合はマスクができない形式での3入力1出力の命令となる。</p>
+</div></blockquote>
 </div>
 <div class="section" id="id7">
 <h2>14.7. ビット幅拡張ベクトル浮動小数点Fused Multiply-Add命令<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -428,9 +427,10 @@ NaNのどちらでも例外を発生する。</p>
 </pre></div>
 </div>
 <blockquote>
-<div>上記の命令列では、2番目の<code class="docutils literal notranslate"><span class="pre">vmfeq</span></code>命令をマスクし、<code class="docutils literal notranslate"><span class="pre">vmand</span></code>命令を除去することもできるが、このより効率的なコードでは<code class="docutils literal notranslate"><span class="pre">va</span></code>にQuiet
+<div><p>上記の命令列では、2番目の<code class="docutils literal notranslate"><span class="pre">vmfeq</span></code>命令をマスクし、<code class="docutils literal notranslate"><span class="pre">vmand</span></code>命令を除去することもできるが、このより効率的なコードでは<code class="docutils literal notranslate"><span class="pre">va</span></code>にQuiet
 NaNが含まれており、該当する<code class="docutils literal notranslate"><span class="pre">vb</span></code>の要素にSignaling
-NaNが含まれてえいる場合に誤って不正値例外を発生してしまう。</div></blockquote>
+NaNが含まれてえいる場合に誤って不正値例外を発生してしまう。</p>
+</div></blockquote>
 </div>
 <div class="section" id="id10">
 <h2>14.12. ベクトル浮動小数点分類命令<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -450,8 +450,9 @@ NaNが含まれてえいる場合に誤って不正値例外を発生してし�
 </pre></div>
 </div>
 <blockquote>
-<div>浮動小数点算術演算のように、FLEN &gt;
-SEWであれば<code class="docutils literal notranslate"><span class="pre">vfmerge.vfm</span></code>命令は<code class="docutils literal notranslate"><span class="pre">f[rs1]</span></code>が正しくNaN-Boxedされていない場合にはCanonicalなNaNが代入される。</div></blockquote>
+<div><p>浮動小数点算術演算のように、FLEN &gt;
+SEWであれば<code class="docutils literal notranslate"><span class="pre">vfmerge.vfm</span></code>命令は<code class="docutils literal notranslate"><span class="pre">f[rs1]</span></code>が正しくNaN-Boxedされていない場合にはCanonicalなNaNが代入される。</p>
+</div></blockquote>
 </div>
 <div class="section" id="id12">
 <h2>14.14. ベクトル浮動小数点移動命令<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -493,9 +494,11 @@ SEWであれば<code class="docutils literal notranslate"><span class="pre">vfmv
 Vector Arithmetic
 Instructions</a>を参照のこと)。</p>
 <blockquote>
-<div>倍のビット幅のIEEE浮動小数点は、常に元のビット幅の整数の値を正確に表現することができる。</div></blockquote>
+<div><p>倍のビット幅のIEEE浮動小数点は、常に元のビット幅の整数の値を正確に表現することができる。</p>
+</div></blockquote>
 <blockquote>
-<div>倍のビット幅の浮動小数点の値は元のビット幅のIEEE浮動小数点を正確に表現できる。</div></blockquote>
+<div><p>倍のビット幅の浮動小数点の値は元のビット幅のIEEE浮動小数点を正確に表現できる。</p>
+</div></blockquote>
 <p>すべての浮動小数点のビット幅拡張変換命令は単一の命令ではサポートされないが、複数の変換命令を使用することにより例外を発生させずに正確に同じ操作を表現することができる。</p>
 </div>
 <div class="section" id="id15">
@@ -516,11 +519,13 @@ Instructions</a>を参照のこと)。</p>
 Vector Arithmetic
 Instructions</a>を参照のこと)</p>
 <blockquote>
-<div>すべての浮動小数点の変換を単一の命令でサポートすることはできない。変換処理はいくつかのシーケンスを踏む。結果は同等に丸められ、最後のステップ以外ですべてが奇数への丸め（
+<div><p>すべての浮動小数点の変換を単一の命令でサポートすることはできない。変換処理はいくつかのシーケンスを踏む。結果は同等に丸められ、最後のステップ以外ですべてが奇数への丸め（
 <code class="docutils literal notranslate"><span class="pre">vfncvt.rod.f.f.w</span></code>）を使用する場合、同じ例外フラグが発生する。
-最終ステップでのみ、目的の丸めモードを使用する必要がある。</div></blockquote>
+最終ステップでのみ、目的の丸めモードを使用する必要がある。</p>
+</div></blockquote>
 <blockquote>
-<div>整数値のビット幅を半分にする処理は、ビット幅を縮小する整数シフト命令において、シフト量を0に設定することで実現できる。</div></blockquote>
+<div><p>整数値のビット幅を半分にする処理は、ビット幅を縮小する整数シフト命令において、シフト量を0に設定することで実現できる。</p>
+</div></blockquote>
 </div>
 </div>
 
@@ -544,11 +549,19 @@ Instructions</a>を参照のこと)</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, msyksphinz
+        
+        &copy; 著作権 2019, msyksphinz
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -559,7 +572,6 @@ Instructions</a>を参照のこと)</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
