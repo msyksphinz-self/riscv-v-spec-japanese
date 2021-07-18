@@ -1,0 +1,3 @@
+[submodule "riscv-v-spec"]
+	path = riscv-v-spec
+	url = git@msyksphinz-self:msyksphinz-self/riscv-v-spec.git
