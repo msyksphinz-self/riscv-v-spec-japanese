@@ -858,6 +858,7 @@ NOTE: Agnosticポリシの定義は、小さなインオーダコア上のhart(�
 アセンブリ構文では、 `vsetvli` 命令に2つのフラグが追加されています。
 
 ::
+
    ta   # Tail agnostic
    tu   # Tail undisturbed
    ma   # Mask agnostic
@@ -1200,6 +1201,7 @@ NOTE: マイクロアーキテクチャの異なる 2 つの hart 間でソフ�
 
 以下の命令の説明では、丸め関数を表すために以下の操作が使用されています。
 ::
+
   roundoff_unsigned(v, d) = (unsigned(v) >> d) + r
   roundoff_signed(v, d) = (signed(v) >> d) + r
   
@@ -1357,6 +1359,7 @@ NOTE: 読みやすさを向上させるために、ベクトルレジスタの�
 右から左へのビットインデックスの増加は大きさの増加に対応します。
 
 ::
+
   // LMUL=1 examples.
   LMUL=1の例
   
@@ -1422,6 +1425,7 @@ LMUL < 1 の場合、ベクトルレジスタの最初の LMUL*VLEN/SEW 要素�
 vtaの設定に従わなければなりません。
 
 ::
+
    // Example, VLEN=128b, LMUL=1/4
    VLEN=128b, LMUL=1/4の例
   
@@ -1452,6 +1456,7 @@ LMUL > 1 のマッピング
 各ベクトルレジスタが満たされると、グループ内の次の最高番号(訳注:ここが上手く訳せない)のベクトルレジスタに移動します。
 
 ::
+
   // LMUL > 1 examples
   
   LMUL > 1の例
@@ -1545,6 +1550,7 @@ SEW/LMULを一定に保つことです(したがって、VLMAXも一定になり
 相対的な要素サイズによって増加し、ストリップマイニングコードを簡素化します。
 
 ::
+
   Example VLEN=128b, with SEW/LMUL=16
   
   Byte      F E D C B A 9 8 7 6 5 4 3 2 1 0
@@ -1628,6 +1634,7 @@ LMUL > 1 かつ ELEN > VLEN のマッピング
 グループ内で最も番号の低いレジスタが、メモリレイアウトから最も低いアドレスのバイトを保持します。
 
 ::
+
    LMUL > 1 ELEN>VLEN, examples
   
    VLEN=32b, SEW=64b, LMUL=2
@@ -1697,6 +1704,7 @@ NOTE: 初期のデザイン(0.9以前)では、マスク値あたりのビット
 
 
 ::
+
    VLEN=32b
   
             Byte    3   2   1   0
@@ -1721,6 +1729,7 @@ NOTE: 初期のデザイン(0.9以前)では、マスク値あたりのビット
   
 
 ::
+
    LMUL=2,SEW=8b
                     3   2   1   0
                   [03][02][01][00]
@@ -2105,6 +2114,7 @@ NOTE: 初期の提案では、`vm` は2ビットのフィールド `vm[1:0]` で
   
 
 ::
+
       vop.v*    v1, v2, v3, v0.t  # マスク有効、v0.mask[i]=1の部分がマスクされる
       vop.v*    v1, v2, v3        # マスク無効
   
@@ -2208,6 +2218,7 @@ NOTE: `.mask` という接尾辞は、アセンブリの構文には含まれて
 LMUL < 1の場合、末尾には同じベクトルレジスタに保持されているVLMAX以降の要素が含まれます。
 
 ::
+
       for element index x
       prestart(x) = (0 <= x < vstart)
       body(x)     = (vstart <= x < vl)
@@ -2295,6 +2306,7 @@ RISC-Vのベクトル仕様では、この手法を直接かつポータブル�
 `vset{i}vl{i}` 命令は、その引数に基づいて、`vtype` と `vl` の CSR を設定し、`rd` に `vl` の新しい値を書き込みます。
 
 ::
+
    vsetvli rd, rs1, vtypei   # rd = new vl, rs1 = AVL, vtypei = new vtype setting
    vsetivli rd, uimm, vtypei # rd = new vl, uimm = AVL, vtypei = new vtype setting
    vsetvl  rd, rs1, rs2      # rd = new vl, rs1 = AVL, rs2 = new vtype value
@@ -2346,6 +2358,7 @@ include::vtype-format.adoc[]
   
 
 ::
+
    vset{i}vli の即値vtipeiで提案されるアセンブラ名
   
    e8    # SEW=8b
@@ -2633,6 +2646,7 @@ SEWとLMULの設定を動的に変更することで、1つのループで幅が
   
 
 ::
+
   # 例: 16ビットの値をロードし、32ビットに拡張し乗算を行い、
   # 結果の32ビットを3ビット右にシフトし、結果の32ビットをストアする
   # プログラムの先頭では:
@@ -3151,6 +3165,7 @@ NOTE: RV128では、データおよびインデックスのEEWが128となりま
   
 
 ::
+
       # ベクトルユニットストライドロードストア命令
   
       # vd は書き込みレジスタ, rs1 はベースアドレス, vm はマスクエンコーディング (v0.t or <missing>)
@@ -3198,6 +3213,7 @@ NOTE: RV128では、データおよびインデックスのEEWが128となりま
   
 
 ::
+
       # ベクトルユニットストライドマスクロード命令
       vlm.v vd, (rs1)   #  ceil(vl/8)バイト長だけバイトデータをロードする
   
@@ -3274,6 +3290,7 @@ NOTE: マスクロード/ストアを提供する主な動機は、
   
 
 ::
+
       # ベクトルストライドロードストア命令
   
       # vdは書き込みレジスタ, rs1はベースレジスタ, rs2はバイトストライド
@@ -3389,6 +3406,7 @@ NOTE: 同じメモリアドレスへの順序付きベクトルアクセスを�
   
 
 ::
+
       # ベクトルインデックスロードストア命令
   
       # ベクトル順序無しインデックスロード命令
@@ -3503,6 +3521,7 @@ NOTE: インデックス付き操作のニーモニックには、順序なし�
   
 
 ::
+
       # ベクトルユニットストライドfault-only-firstロード
   
       # vdは書き込みレジスタ, rs1はベースアドレス, vmはマスクエンコーディング (v0.t もしくは<指定なし>)
@@ -3525,6 +3544,7 @@ NOTE: インデックス付き操作のニーモニックには、順序なし�
   
 
 ::
+
   ユニットストライドfault-only-first命令によるstrlenの例
   
   include::example/strlen.s[lines=4..-1]
@@ -3762,6 +3782,7 @@ NOTE: 異なるサイズのフィールドを持つ構造体の場合、セグ�
   
 
 ::
+
       # フォーマット
       vlseg<nf>e<eew>.v vd, (rs1), vm       # ユニットストライドセグメントロードのテンプレート
       vsseg<nf>e<eew>.v vs3, (rs1), vm       # ユニットストライドセグメントストア命令のテンプレート
@@ -3801,6 +3822,7 @@ NOTE: 異なるサイズのフィールドを持つ構造体の場合、セグ�
   
 
 ::
+
       # 例1
       # パッキングされたRGBピクセル(8bppの24ビットデータ構造)
       vsetvli a1, t0, e8, ta, ma
@@ -3831,6 +3853,7 @@ NOTE: 異なるサイズのフィールドを持つ構造体の場合、セグ�
   
 
 ::
+
       # ベクトルfault-only-firstユニットストライドセグメントロード命令の例
       vlseg<nf>e<eew>ff.v vd, (rs1),  vm          # ユニットストライドfault-only-firstセグメントロード
   
@@ -3894,6 +3917,7 @@ NOTE: 負のストライドとゼロのストライドがサポートされて�
   
 
 ::
+
       # フォーマット
       vlsseg<nf>e<eew>.v vd, (rs1), rs2, vm          # ストライドセグメントロード
       vssseg<nf>e<eew>.v vs3, (rs1), rs2, vm         # ストライドセグメントストア
@@ -3973,6 +3997,7 @@ Index-Ordered形式はセグメントを要素順にアクセスします。
   
 
 ::
+
       # 例
       vluxseg<nf>ei<eew>.v vd, (rs1), vs2, vm   # Indexed-unorderedセグメントロード
       vloxseg<nf>ei<eew>.v vd, (rs1), vs2, vm   # Indexed-orderedセグメントロード
@@ -4244,6 +4269,7 @@ NOTE: エンコードされたEEWへの非アラインメントに基づいて�
   
 
 ::
+
      # 全体レジスタロードストア命令のフォーマット
      vl1r.v v3, (a0)       # vl1re8.vの疑似命令
   
@@ -4589,6 +4615,7 @@ NOTE: 提案されているZfinxのバリエーションは、`x` レジスタ�
   
 
 ::
+
   # ベクトル2項算術演算命令のアセンブリ構文パタン
   
   # ベクトル演算の結果はvm(v0.t, <指定なし>)によりマスクされる
@@ -4636,6 +4663,7 @@ NOTE: このエンコーディングでは、`vs2` が第1オペランドで、`
   
 
 ::
+
   # ベクトル3項算術演算命令(multiply-add)のアセンブリ構文パタン
   
   # 加算入力値を上書きする整数演算
@@ -4709,6 +4737,7 @@ NOTE: 三項乗算加算演算では、アセンブラの構文において常�
   
 
 ::
+
   ベクトル幅拡張算術演算命令のアセンブリ構文パタン
   
   # 2つの1倍幅ソースで2倍幅の結果: 2*SEW = SEW op SEW
@@ -4910,6 +4939,7 @@ NOTE: マスク・レジスタを設定する比較演算も、暗黙のうち�
   
 
 ::
+
   # 整数加算
   vadd.vv vd, vs2, vs1, vm   # ベクトル-ベクトル
   vadd.vx vd, vs2, rs1, vm   # ベクトル-スカラ
@@ -4979,6 +5009,7 @@ NOTE: マスク・レジスタを設定する比較演算も、暗黙のうち�
   
 
 ::
+
   # 符号なし整数の幅拡張加減算命令, 2*SEW = SEW +/- SEW
   vwaddu.vv  vd, vs2, vs1, vm  # vector-vector
   vwaddu.vx  vd, vs2, rs1, vm  # vector-scalar
@@ -5047,6 +5078,7 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
   
 
 ::
+
   vzext.vf2 vd, vs2, vm  # SEW/2のソースオペランドをゼロ拡張してSEW幅化し書き込む
   vsext.vf2 vd, vs2, vm  # SEW/2のソースオペランドを符号拡張してSEW幅化し書き込む
   vzext.vf4 vd, vs2, vm  # SEW/4のソースオペランドをゼロ拡張してSEW幅化し書き込む
@@ -5159,6 +5191,7 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
   
 
 ::
+
    # キャリー付き加算命令
   
    # vd[i] = vs2[i] + vs1[i] + v0.mask[i]
@@ -5210,6 +5243,7 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
   
 
 ::
+
     # v4に値を蓄積する複数ワード算術演算命令列
     vmadc.vvm v1, v4, v8, v0  # 一時レジスタv1にキャリーを格納する
     vadc.vvm v4, v4, v8, v0   # 加算を行う
@@ -5226,6 +5260,7 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
 即値での減算命令はありません。
 
 ::
+
    # ボロー付きの差分を計算する
   
    # vd[i] = vs2[i] - vs1[i] - v0.mask[i]
@@ -5294,6 +5329,7 @@ NOTE: この制約は、マスクレジスタを上書きするマスク付き�
   
 
 ::
+
   # 論理命令
   vand.vv vd, vs2, vs1, vm   # ベクトル-ベクトル
   vand.vx vd, vs2, rs1, vm   # ベクトル-スカラ
@@ -5356,6 +5392,7 @@ NOTE: 即値が-1の場合、スカラ即値形式の `vxor` 命令は、ビッ�
   
 
 ::
+
   # ビットシフト操作
   vsll.vv vd, vs2, vs1, vm   # ベクトル-ベクトル
   vsll.vx vd, vs2, rs1, vm   # ベクトル-スカラ
@@ -5407,6 +5444,7 @@ NOTE: 即値が-1の場合、スカラ即値形式の `vxor` 命令は、ビッ�
   
 
 ::
+
    # Narrowing shift right logical, SEW = (2*SEW) >> SEW
    # ビット幅縮退論理右シフト命令, SEW = (2*SEW) >> SEW
    vnsrl.wv vd, vs2, vs1, vm   # vector-vector
@@ -5502,6 +5540,7 @@ NOTE: 整数値は、x0のスカラオペランドを持つ幅縮退の整数シ
   
 
 ::
+
   # Set if equal
   vmseq.vv vd, vs2, vs1, vm  # ベクトル-ベクトル
   vmseq.vx vd, vs2, rs1, vm  # ベクトル-スカラ
@@ -5578,6 +5617,7 @@ NOTE: 整数値は、x0のスカラオペランドを持つ幅縮退の整数シ
   
 
 ::
+
   比較            アセンブラマッピング          アセンブラ疑似命令
   
   va < vb         vmslt{u}.vv vd, va, vb, vm
@@ -5686,6 +5726,7 @@ NOTE: `vmsge{u}.vx` は、使用されていない OPIVI の変形である `vms
   
 
 ::
+
   `vmsge{u}.vx` 命令を合成するための命令列
   
   va >= x,  x > minimum
@@ -5729,6 +5770,7 @@ NOTE: `vmsge{u}.vx` は、使用されていない OPIVI の変形である `vms
   
 
 ::
+
   マスク無し va >= x
   
     疑似命令: vmsge{u}.vx vd, va, x
@@ -5767,6 +5809,7 @@ NOTE: `vmsge{u}.vx` は、使用されていない OPIVI の変形である `vms
   
 
 ::
+
       # (a < b) && (b < c) をマスク付きundisturbedによって2命令で実現する
       vmslt.vv    v0, va, vb        # 全ての要素に書き込みを行う
       vmslt.vv    v0, vb, vc, v0.t  # マスクの設定された場所のみ書き込みを行う
@@ -5813,6 +5856,7 @@ NOTE: `vmsge{u}.vx` は、使用されていない OPIVI の変形である `vms
   
 
 ::
+
   # 符号なし最小値
   vminu.vv vd, vs2, vs1, vm   # ベクトル-ベクトル
   vminu.vx vd, vs2, rs1, vm   # ベクトル-スカラ
@@ -5866,6 +5910,7 @@ NOTE: `vmsge{u}.vx` は、使用されていない OPIVI の変形である `vms
   
 
 ::
+
   # 符号付き乗算、積の下位ビットを返す
   vmul.vv vd, vs2, vs1, vm   # Vector-vector
   vmul.vx vd, vs2, rs1, vm   # vector-scalar
@@ -5939,6 +5984,7 @@ NOTE: 現在の `vmulh*` オペコードは、単純な小数乗算を行いま�
   
 
 ::
+
       # 符号なし除算
       vdivu.vv vd, vs2, vs1, vm   # ベクトル-ベクトル
       vdivu.vx vd, vs2, rs1, vm   # ベクトル-スカラ
@@ -6005,6 +6051,7 @@ NOTE: "ベクトルによるスカラ除算"を実行する命令はありませ
   
 
 ::
+
   # 幅拡張符号付き整数乗算
   vwmul.vv  vd, vs2, vs1, vm # vector-vector
   vwmul.vx  vd, vs2, rs1, vm # vector-scalar
@@ -6069,6 +6116,7 @@ NOTE: `sac` は「アキュムレータからの減算(subtract from accumulator
   
 
 ::
+
   # 整数乗算加算命令、加算項上書き
   vmacc.vv vd, vs1, vs2, vm    # vd[i] = +(vs1[i] * vs2[i]) + vd[i]
   vmacc.vx vd, rs1, vs2, vm    # vd[i] = +(x[rs1] * vs2[i]) + vd[i]
@@ -6123,6 +6171,7 @@ NOTE: `sac` は「アキュムレータからの減算(subtract from accumulator
   
 
 ::
+
   # 幅拡張符号なし整数乗算加算命令、加算項上書き
   vwmaccu.vv vd, vs1, vs2, vm    # vd[i] = +(vs1[i] * vs2[i]) + vd[i]
   vwmaccu.vx vd, rs1, vs2, vm    # vd[i] = +(x[rs1] * vs2[i]) + vd[i]
@@ -6175,6 +6224,7 @@ NOTE: `sac` は「アキュムレータからの減算(subtract from accumulator
 `rs1` で指定されるスカラ `x` レジスタ、または5ビットの符号拡張即値です。
 
 ::
+
   vmerge.vvm vd, vs2, vs1, v0  # vd[i] = v0.mask[i] ? vs1[i] : vs2[i]
   vmerge.vxm vd, vs2, rs1, v0  # vd[i] = v0.mask[i] ? x[rs1] : vs2[i]
   vmerge.vim vd, vs2, imm, v0  # vd[i] = v0.mask[i] ? imm    : vs2[i]
@@ -6203,6 +6253,7 @@ NOTE: `sac` は「アキュムレータからの減算(subtract from accumulator
 第1オペランド指定子(`vs2`)には、 `v0` が含まれていなければならず、 `vs2` に含まれるその他のベクトルレジスタ番号は _予約されています_ 。
 
 ::
+
   vmv.v.v vd, vs1 # vd[i] = vs1[i]
   vmv.v.x vd, rs1 # vd[i] = x[rs1]
   vmv.v.i vd, imm # vd[i] = imm
@@ -6312,6 +6363,7 @@ NOTE: 上述の幅拡張整数演算は、オーバーフローを回避する�
   
 
 ::
+
   # 符号なし整数の飽和加算
   vsaddu.vv vd, vs2, vs1, vm   # ベクトル-ベクトル
   vsaddu.vx vd, vs2, rs1, vm   # ベクトル-スカラ
@@ -6380,6 +6432,7 @@ NOTE: `vasub` では、`rnu` や `rne` の丸め方で最大の数から最小�
   
 
 ::
+
   # 平均加算
   
   # 符号なし整数の平均加算
@@ -6427,6 +6480,7 @@ NOTE: `vasub` では、`rnu` や `rne` の丸め方で最大の数から最小�
   
 
 ::
+
   # 符号付き飽和丸め分数乗算
   # 丸め演算については、vxrmの説明を参照のこと
   vsmul.vv vd, vs2, vs1, vm  # vd[i] = clip(roundoff_signed(vs2[i]*vs1[i], SEW-1))
@@ -6489,6 +6543,7 @@ NOTE: 一方の入力が符号なしの場合には、SEWの上位ビットを�
   ----
   
 ::
+
    # 論理スケーリング右シフト
    vssrl.vv vd, vs2, vs1, vm   # vd[i] = roundoff_unsigned(vs2[i], vs1[i])
    vssrl.vx vd, vs2, rs1, vm   # vd[i] = roundoff_unsigned(vs2[i], x[rs1])
@@ -6542,6 +6597,7 @@ NOTE: 一方の入力が符号なしの場合には、SEWの上位ビットを�
   
 
 ::
+
   # 符号なし幅縮小クリップ命令
   #                                SEW                            2*SEW   SEW
    vnclipu.wv vd, vs2, vs1, vm  # vd[i] = clip(roundoff_unsigned(vs2[i], vs1[i]))
@@ -6697,6 +6753,7 @@ NOTE: 特に16ビット半精度浮動小数点値をサポートするベクト
   
 
 ::
+
       # 浮動小数点加算
       vfadd.vv vd, vs2, vs1, vm   # ベクトル-ベクトル
       vfadd.vf vd, vs2, rs1, vm   # ベクトル-スカラ
@@ -6730,6 +6787,7 @@ NOTE: 特に16ビット半精度浮動小数点値をサポートするベクト
   
 
 ::
+
   # 浮動小数点幅拡張加減算命令, 2*SEW = SEW +/- SEW
   vfwadd.vv vd, vs2, vs1, vm  # ベクトル-ベクトル
   vfwadd.vf vd, vs2, rs1, vm  # ベクトル-スカラ
@@ -6765,6 +6823,7 @@ NOTE: 特に16ビット半精度浮動小数点値をサポートするベクト
   
 
 ::
+
       # 浮動小数点乗算
       vfmul.vv vd, vs2, vs1, vm   # ベクトル-ベクトル
       vfmul.vf vd, vs2, rs1, vm   # ベクトル-スカラ
@@ -6791,6 +6850,7 @@ NOTE: 特に16ビット半精度浮動小数点値をサポートするベクト
   ----
   
 ::
+
   # 幅拡張浮動小数点乗算
   vfwmul.vv    vd, vs2, vs1, vm # ベクトル-ベクトル
   vfwmul.vf    vd, vs2, rs1, vm # ベクトル-スカラ
@@ -6810,6 +6870,7 @@ NOTE: 特に16ビット半精度浮動小数点値をサポートするベクト
 複合乗算加算の4種類すべてが提供されており、加算値または最初の乗算値のいずれかのオペランドを上書きする2つの破壊的な形式があります。
 
 ::
+
   # FP multiply-accumulate, overwrites addend
   vfmacc.vv vd, vs1, vs2, vm    # vd[i] = +(vs1[i] * vs2[i]) + vd[i]
   vfmacc.vf vd, rs1, vs2, vm    # vd[i] = +(f[rs1] * vs2[i]) + vd[i]
@@ -6869,6 +6930,7 @@ NOTE: スカラFPのFMAエンコーディングで使用されていない2つ�
 乗算器の入力はすべてSEW幅で、加算器と出力は2*SEWビット幅です。
 
 ::
+
   # FP widening multiply-accumulate, overwrites addend
   vfwmacc.vv vd, vs1, vs2, vm    # vd[i] = +(vs1[i] * vs2[i]) + vd[i]
   vfwmacc.vf vd, rs1, vs2, vm    # vd[i] = +(f[rs1] * vs2[i]) + vd[i]
@@ -6904,6 +6966,7 @@ NOTE: スカラFPのFMAエンコーディングで使用されていない2つ�
   ----
   
 ::
+
       # 浮動小数点平方根命令
       vfsqrt.v vd, vs2, vm   # ベクトル-ベクトル 平方根
   
@@ -6921,6 +6984,7 @@ NOTE: スカラFPのFMAエンコーディングで使用されていない2つ�
   ----
   
 ::
+
       # 7ビットの浮動小数点逆平方根推定命令
       vfrsqrt7.v vd, vs2, vm
   
@@ -7042,6 +7106,7 @@ NOTE: 7ビットの精度は、0,1,2,3回のニュートンラフソン反復を
   ----
   
 ::
+
       # 7ビットの浮動小数点逆数推定命令
       vfrec7.v vd, vs2, vm
   
@@ -7213,6 +7278,7 @@ NOTE: 7ビットの精度は、bfloat16, FP16, FP32, FP64に近い精度に収�
   
 
 ::
+
       # 浮動小数点最小値
       vfmin.vv vd, vs2, vs1, vm   # ベクトル-ベクトル
       vfmin.vf vd, vs2, rs1, vm   # ベクトル-スカラ
@@ -7250,6 +7316,7 @@ NOTE: 7ビットの精度は、bfloat16, FP16, FP32, FP64に近い精度に収�
   ----
   
 ::
+
       vfsgnj.vv vd, vs2, vs1, vm   # ベクトル-ベクトル
       vfsgnj.vf vd, vs2, rs1, vm   # ベクトル-スカラ
   
@@ -7344,6 +7411,7 @@ NOTE: 浮動小数点要素のベクトルの絶対値は、両方のソース�
   
 
 ::
+
       # 等価比較
       vmfeq.vv vd, vs2, vs1, vm  # ベクトル-ベクトル
       vmfeq.vf vd, vs2, rs1, vm  # ベクトル-スカラ
@@ -7387,6 +7455,7 @@ NOTE: 浮動小数点要素のベクトルの絶対値は、両方のソース�
   
 
 ::
+
   比較            アセンブリ言語マッピング   アセンブリ言語疑似命令
   
   va < vb         vmflt.vv vd, va, vb, vm
@@ -7431,6 +7500,7 @@ NOTE: C99浮動小数点のquiet比較は、以下のように、どちらかの
   
 
 ::
+
       # isgreater() の実装例
       vmfeq.vv v0, va, va        # AがNaNでない場合にのみセットされる
       vmfeq.vv v1, vb, vb        # BがNaNでない場合にのみセットされる
@@ -7468,6 +7538,7 @@ NOTE: 上記のシーケンスでは、2つ目の `vmfeq` 命令をマスクし�
   
 
 ::
+
       vfclass.v vd, vs2, vm   # ベクトル-ベクトル
   
 
@@ -7507,6 +7578,7 @@ NOTE: 上記のシーケンスでは、2つ目の `vmfeq` 命令をマスクし�
 マスク値がゼロの要素では、最初のベクトルオペランドが書き込み要素にコピーされ、そうでない場合は、スカラ浮動小数点レジスタ値が書き込み要素にコピーされます。
 
 ::
+
   vfmerge.vfm vd, vs2, rs1, v0  # vd[i] = v0.mask[i] ? f[rs1] : vs2[i]
   
 
@@ -7530,6 +7602,7 @@ NOTE: 上記のシーケンスでは、2つ目の `vmfeq` 命令をマスクし�
 この命令は、`vs2` フィールドが `v0` に設定されていなければならず、`vs2` の他の値はすべて予約されています。
 
 ::
+
   vfmv.v.f vd, rs1  # vd[i] = f[rs1]
   
 
@@ -7565,6 +7638,7 @@ NOTE: `vfmv.v.f` 命令は、`vfmerge.vfm` 命令とエンコーディングを�
   ----
   
 ::
+
   vfcvt.xu.f.v vd, vs2, vm       # 浮動小数点から符号なし整数への変換.
   vfcvt.x.f.v  vd, vs2, vm       # 浮動小数点から符号付き整数への変換.
   
@@ -7620,6 +7694,7 @@ NOTE: `rtz` バリエーションは、C や Java などの言語で一般的な
   ----
   
 ::
+
   vfwcvt.xu.f.v vd, vs2, vm       # 浮動小数点を倍幅の符号なし整数に変換.
   vfwcvt.x.f.v  vd, vs2, vm       # 浮動小数点を倍幅の符号付き整数に変換.
   
@@ -7688,6 +7763,7 @@ NOTE: 浮動小数点の幅拡張変換のフルセットは、単一の命令�
   
 
 ::
+
   vfncvt.xu.f.w vd, vs2, vm       # 倍幅の浮動小数点を符号付き整数に変換.
   vfncvt.x.f.w  vd, vs2, vm       # 倍幅の浮動小数点を符号なし整数に変換.
   
@@ -7825,6 +7901,7 @@ NOTE: リダクションは、スカラプロセッサとのデカップリン�
   
 
 ::
+
   	# 単純なリダクション命令. [*]は全てのアクティブな要素を意味する:
       vredsum.vs  vd, vs2, vs1, vm   # vd[0] =  sum( vs1[0] , vs2[*] )
       vredmaxu.vs vd, vs2, vs1, vm   # vd[0] = maxu( vs1[0] , vs2[*] )
@@ -7868,6 +7945,7 @@ NOTE: リダクションは、スカラプロセッサとのデカップリン�
   ----
   
 ::
+
   	# 2倍幅での符号なしリダクション加算を倍幅でアキュムレートする
       vwredsumu.vs vd, vs2, vs1, vm   # 2*SEW = 2*SEW + sum(zero-extend(SEW))
   
@@ -7894,6 +7972,7 @@ NOTE: リダクションは、スカラプロセッサとのデカップリン�
   
 
 ::
+
       # 単純なリダクション
       vfredosum.vs vd, vs2, vs1, vm # 順序付き加算
       vfredusum.vs vd, vs2, vs1, vm # 順序無し加算
@@ -7922,6 +8001,7 @@ NOTE: 過去のアセンブラニーモニックである `vfredsum` は `vfreds
 浮動小数点値を要素順に合計しなければなりません--つまり、以下のように計算を行います。
 
 ::
+
    vd[0] = `(((vs1[0] + vs2[0]) + vs2[1]) + ...) + vs2[vl-1]`
   
 ..
@@ -8072,6 +8152,7 @@ NOTE: アクティブな要素が一つもない場合、`vs1[0]` のスカラ�
   ----
   
 ::
+
    # 単純なリダクション
    vfwredosum.vs vd, vs2, vs1, vm # 順序付きリダクション加算
    vfwredusum.vs vd, vs2, vs1, vm # 順序なしリダクション加算命令
@@ -8142,6 +8223,7 @@ NOTE: `vfwredosum.vs` 命令は非アクティブな要素とNaNのペイロー�
 `vl` 以降のマスク要素、つまり末尾エレメントは常にtail-agnosticポリシに基づいて更新されます。
 
 ::
+
       vmand.mm vd, vs2, vs1     # vd.mask[i] =   vs2.mask[i] &&  vs1.mask[i]
       vmnand.mm vd, vs2, vs1    # vd.mask[i] = !(vs2.mask[i] &&  vs1.mask[i])
       vmandnot.mm vd, vs2, vs1  # vd.mask[i] =   vs2.mask[i] && !vs1.mask[i]
@@ -8159,6 +8241,7 @@ NOTE: `vfwredosum.vs` 命令は非アクティブな要素とNaNのペイロー�
 一般的に使用されるマスク論理操作のために、いくつかのアセンブラ疑似命令が定義されています。
 
 ::
+
       vmmv.m vd, vs  => vmand.mm vd, vs, vs  # Copy mask register
       vmclr.m vd     => vmxor.mm vd, vd, vd   # Clear mask register
       vmset.m vd     => vmxnor.mm vd, vd, vd  # Set mask register
@@ -8227,6 +8310,7 @@ NOTE: ベクトルマスク論理命令は、使用前に値を `v0`  に移す�
 =============================================
 
 ::
+
       vpopc.m rd, vs2, vm
   
 
@@ -8250,6 +8334,7 @@ NOTE: ベクトルマスク論理命令は、使用前に値を `v0`  に移す�
 この操作はマスク下で行うことができ、その場合はマスクされた要素のみがカウントされます。
 
 ::
+
    vpopc.m rd, vs2, v0.t # x[rd] = sum__i ( vs2.mask[i] && v0.mask[i] )
   
 
@@ -8270,6 +8355,7 @@ NOTE: ベクトルマスク論理命令は、使用前に値を `v0`  に移す�
 =================================================
 
 ::
+
       vfirst.m rd, vs2, vm
   
 
@@ -8332,6 +8418,7 @@ NOTE: ベクトルマスク論理命令は、使用前に値を `v0`  に移す�
   
 
 ::
+
       vmsbf.m vd, vs2, vm
   
    # 例
@@ -8427,6 +8514,7 @@ NOTE: ベクトルマスク論理命令は、使用前に値を `v0`  に移す�
   
 
 ::
+
       vmsif.m vd, vs2, vm
   
    # 例
@@ -8506,6 +8594,7 @@ set-only-firstベクトル命令はset-before-first命令と似ていますが�
   
 
 ::
+
       vmsof.m vd, vs2, vm
   
    # 例
@@ -8559,9 +8648,11 @@ set-only-firstベクトル命令はset-before-first命令と似ていますが�
 以下はベクトル化されたデータに依存するループ終了コードです。
 
 ::
+
   include::example/strcpy.s[lines=4..-1]
   
 ::
+
   include::example/strncpy.s[lines=4..-1]
   
 
@@ -8609,6 +8700,7 @@ set-only-firstベクトル命令はset-before-first命令と似ていますが�
   ----
   
 ::
+
    viota.m vd, vs2, vm
   
    # 例
@@ -8714,6 +8806,7 @@ NOTE: これらの制約は2つの理由で存在します。
   
 
 ::
+
   	# 入力メモリ配列から、非ゼロの要素を圧縮して出力メモリ配列に格納する
       #
       # size_t compact_non_zero(size_t n, const int* in, int* out)
@@ -8773,6 +8866,7 @@ NOTE: これらの制約は2つの理由で存在します。
   
 
 ::
+
       vid.v vd, vm  # 要素のインデックスを書き込みレジスタに書き込む
   
 
@@ -8831,6 +8925,7 @@ NOTE: マイクロアーキテクチャ上では、`vid.v` 命令は `viota.m` �
 この命令はLMULやベクトルレジスタグループを無視します。
 
 ::
+
   vmv.x.s rd, vs2  # x[rd] = vs2[0] (vs1=0)
   vmv.s.x vd, rs1  # vd[0] = x[rs1] (vs2=0)
   
@@ -8887,6 +8982,7 @@ NOTE: 結論として、 `vl`=0の時は `vstart` に関わらず、書き込み
 この命令は、LMULとベクトルレジスタグループを無視します。
 
 ::
+
   vfmv.f.s rd, vs2  # f[rd] = vs2[0] (rs1=0)
   vfmv.s.f vd, rs1  # vd[0] = f[rs1] (vs2=0)
   
@@ -8979,6 +9075,7 @@ NOTE: 結論として、 `vl`=0の時は `vstart`  に関わらず、書き込�
 ----------------------------------------
 
 ::
+
    vslideup.vx vd, vs2, rs1, vm        # vd[i+rs1] = vs2[i]
    vslideup.vi vd, vs2, uimm, vm       # vd[i+uimm] = vs2[i]
   
@@ -9011,6 +9108,7 @@ XLEN > SEWの場合、_OFFSET_ はSEWビットに切り捨てられません。
   
 
 ::
+
      vslideup の書き込みレジスタ要素の動作
   
      OFFSET is amount to slideup, either from x register or a 5-bit immediate
@@ -9041,6 +9139,7 @@ NOTE: オーバーラップしないという制約は、実行中の入力ベ�
 ----------------------------------------
 
 ::
+
    vslidedown.vx vd, vs2, rs1, vm       # vd[i] = vs2[i+rs1]
    vslidedown.vi vd, vs2, uimm, vm      # vd[i] = vs2[i+uimm]
   
@@ -9065,6 +9164,7 @@ NOTE: オーバーラップしないという制約は、実行中の入力ベ�
 XLEN > SEWの場合、_OFFSET_はSEWビットに切り捨てられません。
 
 ::
+
     vslidedown behavior for source elements for element i in slide
                      0 <= i+OFFSET < VLMAX   src[i] = vs2[i+OFFSET]
                  VLMAX <= i+OFFSET           src[i] = 0
@@ -9091,6 +9191,7 @@ XLEN > SEWの場合、_OFFSET_はSEWビットに切り捨てられません。
 空いた要素の位置にスカラーの整数値を挿入できるものが用意されています。
 
 ::
+
    vslide1up.vx  vd, vs2, rs1, vm        # vd[0]=x[rs1], vd[i+1] = vs2[i]
    vfslide1up.vf vd, vs2, rs1, vm        # vd[0]=f[rs1], vd[i+1] = vs2[i]
   
@@ -9126,6 +9227,7 @@ XLEN > SEWの場合、最下位のビットがコピーされ、SEW-XLENの上�
 `vl` を超えた残りの要素は現在の末尾ポリシ(<<sec-agnostic>>節)に従って処理されます。
 
 ::
+
      vslide1up behavior
   
                       i < vstart  unchanged
@@ -9172,6 +9274,7 @@ XLEN > SEWの場合、最下位のビットがコピーされ、SEW-XLENの上�
 `vl` を超えた残りの要素は現在の末尾ポリシ(<<sec-agnostic>>節)に従って処理されます。
 
 ::
+
    vslide1down.vx  vd, vs2, rs1, vm      # vd[i] = vs2[i+1], vd[vl-1]=x[rs1]
    vfslide1down.vf vd, vs2, rs1, vm      # vd[i] = vs2[i+1], vd[vl-1]=f[rs1]
   
@@ -9190,6 +9293,7 @@ XLEN < SEWの場合、値はSEWビットに符号拡張されます。
 XLEN > SEWの場合、最下位のビットがコピーされ、SEW-XLENの上位ビットは無視されます。
 
 ::
+
      vslide1down behavior
   
                          i < vstart  unchanged
@@ -9241,6 +9345,7 @@ NOTE: `vslide1down` 命令は、メモリを使用せず、他のベクトル・
 
 
 ::
+
   vrgather.vv vd, vs2, vs1, vm # vd[i] = (vs1[i] >= VLMAX) ? 0 : vs2[vs1[i]];
   vrgatherei16.vv vd, vs2, vs1, vm # vd[i] = (vs1[i] >= VLMAX) ? 0 : vs2[vs1[i]];
   
@@ -9290,6 +9395,7 @@ XLEN > SEWの場合，インデックス値はSEWビットまで切り捨てら�
 NOTE: これらの形式では、任意のベクトル要素をベクトル全体に「分散」することができます。
 
 ::
+
   vrgather.vx vd, vs2, rs1, vm # vd[i] = (x[rs1] >= VLMAX) ? 0 : vs2[x[rs1]]
   vrgather.vi vd, vs2, uimm, vm # vd[i] = (uimm >= VLMAX) ? 0 : vs2[uimm]
   
@@ -9322,6 +9428,7 @@ NOTE: これらの形式では、任意のベクトル要素をベクトル全�
   ----
   
 ::
+
     vcompress.vm vd, vs2, vs1  # vs1で有効なvs2の要素をvdに圧縮する
   
 
@@ -9350,6 +9457,7 @@ NOTE: これらの形式では、任意のベクトル要素をベクトル全�
   ----
   
 ::
+
       vcompress命令の使用例
   
           1 1 0 1 0 0 1 0 1   v0
@@ -9416,6 +9524,7 @@ NOTE: 可能ではありますが、`vcompress` は非ゼロの `vstart` で再�
   ----
   
 ::
+
       `vdecompress` の所望の動作
         7 6 5 4 3 2 1 0     # vid
   
@@ -9444,6 +9553,7 @@ NOTE: 可能ではありますが、`vcompress` は非ゼロの `vstart` で再�
   ----
   
 ::
+
        # v0はマスクを保持している
        # v1はパックデータを保持している
        # v11は展開されたベクトルと結果を保持している
@@ -9451,6 +9561,7 @@ NOTE: 可能ではありますが、`vcompress` は非ゼロの `vstart` で再�
        vrgather.vv v11, v1, v10, v0.t  # 書き込みレジスタを展開する
   
 ::
+
      p q r s t u v w    # v11書き込みレジスタ
            e d c b a    # v1ソースレジスタ
      1 0 0 1 1 1 0 1    # v0マスクレジスタ
@@ -9538,6 +9649,7 @@ NOTE: この命令は、`vsmul` 命令と同じfunct6エンコーディングを
   
 
 ::
+
       vmv<nr>r.v vd, vs2  # 一般的なフォーム
   
       vmv1r.v v1, v2   #  v2をv1にコピーする
