@@ -70,13 +70,14 @@ v1.0-rc1からの変更点
   Once ratified, the spec will be given version 2.0.
   
 
-NOTE: 最終的に承認され、リリース候補のタグが外されたバージョン1.0は、RISC-Vインターナショナルの批准プロセスの一環として、
-パブリックレビューのために送り出されることを意図しています。
-また、バージョン1.0は、上流のソフトウェアプロジェクトを含め、ツールチェイン、機能シミュレータ、
-初期実装の開発を開始するのに十分な安定性があると考えられており、
-批准中に重大な問題が発見された場合を除き、
-大きな機能変更はないと予想されています。批准されると、仕様書のバージョンは2.0になります。
+.. note::
 
+  パブリックレビューのために送り出されることを意図しています。
+  また、バージョン1.0は、上流のソフトウェアプロジェクトを含め、ツールチェイン、機能シミュレータ、
+  初期実装の開発を開始するのに十分な安定性があると考えられており、
+  批准中に重大な問題が発見された場合を除き、
+  大きな機能変更はないと予想されています。批准されると、仕様書のバージョンは2.0になります。
+  
 ..
   This draft spec includes the complete set of currently defined vector
   instructions.  Section <<sec-vector-extensions>> lists the standard
@@ -125,13 +126,14 @@ NOTE: 最終的に承認され、リリース候補のタグが外されたバ�
   vector lengths.
   
 
-NOTE: VLENの上限により、ソフトウェアはインデックスが16ビットに収まることを前提に組み立てることができます
-(LMUL=8およびSEW=8でVLEN=65,536の場合、最大のVLMAXは65,536になります)。
-将来的にクトルレジスタあたり64Kib以上に拡張する場合は、
-新しいコンフィグレーション命令が必要になりますが、
-従来のコンフィグレーション命令を使用しているソフトウェアでは、
-ベクトルの長さが大きくなることはありません。
+.. note::
 
+  (LMUL=8およびSEW=8でVLEN=65,536の場合、最大のVLMAXは65,536になります)。
+  将来的にクトルレジスタあたり64Kib以上に拡張する場合は、
+  新しいコンフィグレーション命令が必要になりますが、
+  従来のコンフィグレーション命令を使用しているソフトウェアでは、
+  ベクトルの長さが大きくなることはありません。
+  
 ..
   The ISA supports writing binary code that under certain constraints
   will execute portably on harts with different values for the VLEN
@@ -146,17 +148,19 @@ ISAは、特定の制約の下で、VLENパラメータの値が異なるhart上
   implementation parameters.
   
 
-NOTE: 実装パラメータの違いを露呈するようなコードを書くことも可能です。
+.. note::
 
+  
 ..
   NOTE: In general, thread contexts with active vector state cannot be
   migrated during execution between harts that have any difference in
   VLEN or ELEN parameters.
   
 
-NOTE: 一般的に、ベクトルのステートがアクティブであるスレッドコンテキストは、
-VLENまたはELENパラメータに違いのあるhart間で実行中にコンテキストを移動するとはできません。
+.. note::
 
+  VLENまたはELENパラメータに違いのあるhart間で実行中にコンテキストを移動するとはできません。
+  
 .. // == Vector Extension Programmer's Model
 
 
@@ -231,10 +235,11 @@ VLENまたはELENパラメータに違いのあるhart間で実行中にコン�
   register file.  The 1.0 vector extension is also compatible with Zfinx.
   
 
-NOTE: Zfinx ("F in X") は現在議論が行われている、浮動小数点命令を
-整数レジスタファイル上で実行する新しいISAオプションです。
-Vector 1.0拡張はZfinxに対して互換性があります。
+.. note::
 
+  整数レジスタファイル上で実行する新しいISAオプションです。
+  Vector 1.0拡張はZfinxに対して互換性があります。
+  
 .. // === Vector Context Status in `mstatus`
 
 
@@ -281,9 +286,10 @@ Vector 1.0拡張はZfinxに対して互換性があります。
   will typically use VS to reduce context swap overhead.
   
 
-NOTE: `VS` フィールドの正確な設定は最適化に繋がります。
-ソフトウェアは通常、コンテキストスワップのオーバーヘッドを減らすためにVSを使用します。
+.. note::
 
+  ソフトウェアは通常、コンテキストスワップのオーバーヘッドを減らすためにVSを使用します。
+  
 ..
   Implementations may have a writable `misa.v` field.  Analogous to the
   way in which the floating-point unit is handled, the `mstatus.vs`
@@ -301,9 +307,10 @@ NOTE: `VS` フィールドの正確な設定は最適化に繋がります。
   with writable `misa.v`.
   
 
-NOTE: `misa.v` がクリアされているときに `mstatus.vs` フィールドへのアクセスを許可すると、
-ベクトル操作のエミュレーションが可能になり、書き込み可能な `misa.v` を持つシステムでの `mstatus.vs` の処理が簡単になります。
+.. note::
 
+  ベクトル操作のエミュレーションが可能になり、書き込み可能な `misa.v` を持つシステムでの `mstatus.vs` の処理が簡単になります。
+  
 .. // === Vector type register, `vtype`
 
 
@@ -329,9 +336,10 @@ NOTE: `misa.v` がクリアされているときに `mstatus.vs` フィールド
   simplifies maintenance of the `vtype` register state.
   
 
-NOTE: `vset{i}vl{i}` 命令による更新のみを許可することで、
-`vtype` レジスタの状態の維持が容易になります。
+.. note::
 
+  `vtype` レジスタの状態の維持が容易になります。
+  
 ..
   The `vtype` register has five fields,
   `vill`, `vma`, `vta`, `vsew[2:0]`, and `vlmul[2:0]`.
@@ -350,29 +358,32 @@ include::vtype-format.adoc[]
   bit to hold `vill`.
   
 
-NOTE: ELEN=32 をサポートする小さな実装では、`vtype` には 7 ビットの状態しか必要ありません:
-`ma` と `ta` に 2 ビット、`vsew[1:0]` に 2 ビット、
-`vlmul[2:0]` に 3 ビットです。
-`vill` で表される不正な値は、`vsew[1:0]` の不正な64ビットの組み合わせを使って内部的にエンコードすることができ、
-`vill` を保持するための追加のストレージビットを必要としません。
+.. note::
 
+  `ma` と `ta` に 2 ビット、`vsew[1:0]` に 2 ビット、
+  `vlmul[2:0]` に 3 ビットです。
+  `vill` で表される不正な値は、`vsew[1:0]` の不正な64ビットの組み合わせを使って内部的にエンコードすることができ、
+  `vill` を保持するための追加のストレージビットを必要としません。
+  
 ..
   NOTE: Further standard and custom vector extensions will extend these
   fields to support a greater variety of data types.
   
 
-NOTE: 標準ベクトルやカスタムベクトル拡張により、これらのフィールドが拡張され、
-より多様なデータ型がサポートされるようになります。
+.. note::
 
+  より多様なデータ型がサポートされるようになります。
+  
 ..
   NOTE: It is anticipated that an extended 64-bit instruction encoding
   would allow these fields to be specified statically in the instruction
   encoding.
   
 
-NOTE: 64ビット命令エンコーディングの拡張により、
-これらのフィールドを命令エンコーディング内で静的に指定できるようになることが予想されます。
+.. note::
 
+  これらのフィールドを命令エンコーディング内で静的に指定できるようになることが予想されます。
+  
 
 .. // ==== Vector selected element width `vsew[2:0]`
 
@@ -431,10 +442,11 @@ VLEN/SEW要素に分割されているとみなされます。
   encodings are formally _reserved_ at this point.
   
 
-NOTE: 表に示されているように、より大きなSEWをエンコードするために、
-より大きな `vsew[2:0]` エンコーディング (`100`-`111`) が使用されることが予想されますが、
-このエンコーディングは、現時点では正式には _予約_ です。
+.. note::
 
+  より大きな `vsew[2:0]` エンコーディング (`100`-`111`) が使用されることが予想されますが、
+  このエンコーディングは、現時点では正式には _予約_ です。
+  
 ..
   .Example VLEN = 128 bits
   [cols=">,>"]
@@ -480,15 +492,16 @@ NOTE: 表に示されているように、より大きなSEWをエンコード�
   profile can mandate the minimum SEW at each LMUL setting.
   
 
-NOTE: 一部の実装では、複数のベクトルレジスタのビットを組み合わせた場合にのみ、
-大きなSEWをサポートする場合があります。
-大きなSEWに依存しているソフトウェアは、コードを実行できる実装の数を増やすために、
-最大のLMULを使用し、したがって最小のベクトルレジスタグループを使用するようにしてください。
-また、`vtype` を設定した後に、`vtype` の `vill` ビットをチェックして、
-その構成がサポートされているかどうかを確認し、
-サポートされていない場合には、代替のコードパスを提供する必要があります。
-また、プロファイルでは、各LMULの設定で最小のSEWを義務付けることもできます。
+.. note::
 
+  大きなSEWをサポートする場合があります。
+  大きなSEWに依存しているソフトウェアは、コードを実行できる実装の数を増やすために、
+  最大のLMULを使用し、したがって最小のベクトルレジスタグループを使用するようにしてください。
+  また、`vtype` を設定した後に、`vtype` の `vill` ビットをチェックして、
+  その構成がサポートされているかどうかを確認し、
+  サポートされていない場合には、代替のコードパスを提供する必要があります。
+  また、プロファイルでは、各LMULの設定で最小のSEWを義務付けることもできます。
+  
 .. // ==== Vector Register Grouping (`vlmul[2:0]`)
 
 
@@ -571,11 +584,12 @@ SEW~LMUL1MAX~ はLMUL=1でサポートされる最も広いSEW値です。
   choice.
   
 
-NOTE: LMUL {ge} SEW~LMUL1MIN~/SEW~LMUL1MAX~ を必要とすることで、
-幅の広い要素を保持するために1つのベクトルレジスタのみを使用し、幅の狭い要素を保持するために小数のLMULを使用することができます。
-LMUL < SEW~LMUL1MIN~/SEW~LMUL1MAX~ の場合、VLEN=SEW~LMUL1MAX~ が有効な実装選択であるため、
-少なくとも1つの要素を格納するのに十分なビットが小数ベクトル・レジスタにあるという保証はありません。
+.. note::
 
+  幅の広い要素を保持するために1つのベクトルレジスタのみを使用し、幅の狭い要素を保持するために小数のLMULを使用することができます。
+  LMUL < SEW~LMUL1MIN~/SEW~LMUL1MAX~ の場合、VLEN=SEW~LMUL1MAX~ が有効な実装選択であるため、
+  少なくとも1つの要素を格納するのに十分なビットが小数ベクトル・レジスタにあるという保証はありません。
+  
 ..
   NOTE: The constraint is written using SEW~LMUL1MAX~ and not ELEN
   because some systems might only support larger SEW values for LMUL>1.
@@ -585,11 +599,12 @@ LMUL < SEW~LMUL1MIN~/SEW~LMUL1MAX~ の場合、VLEN=SEW~LMUL1MAX~ が有効な�
   performing operations on narrower widths.
   
 
-NOTE: システムによっては、LMUL>1 に対してより大きなSEW値しかサポートしない場合があるため、
-この制約はELENではなくSEW~LMUL1MAX~ を使用して記述されています。
-このような場合には、コードがより狭い幅の演算も実行しているときに、単一のベクトルレジスタに保持できる最も広くサポートされた要素を保持するために、
-単一のベクトルレジスタ以上のものが必要とされないように、制約が保証されることに注意してください。
+.. note::
 
+  この制約はELENではなくSEW~LMUL1MAX~ を使用して記述されています。
+  このような場合には、コードがより狭い幅の演算も実行しているときに、単一のベクトルレジスタに保持できる最も広くサポートされた要素を保持するために、
+  単一のベクトルレジスタ以上のものが必要とされないように、制約が保証されることに注意してください。
+  
 ..
   The use of `vtype` encodings with LMUL < SEW~LMUL1MIN~/SEW~LMUL1MAX~ is
   __reserved__, but implementations can set `vill` if they do not
@@ -606,19 +621,21 @@ LMUL < SEW~LMUL1MIN~/SEW~LMUL1MAX~ での `vtype` エンコーディングの使
   the use of this case to be __reserved__.
   
 
-NOTE: このケースですべての実装に `vill` を設定することを要求すると、
-将来的に拡張機能でこのケースを使用することができなくなるため、
-LMUL<SEW~LMUL1MIN~/SEW~LMUL1MAX~ の動作を将来的に定義できるように、
-このケースの使用は __予約__ であると考えます。
+.. note::
 
+  将来的に拡張機能でこのケースを使用することができなくなるため、
+  LMUL<SEW~LMUL1MIN~/SEW~LMUL1MAX~ の動作を将来的に定義できるように、
+  このケースの使用は __予約__ であると考えます。
+  
 ..
   NOTE: It is recommended that assemblers provide a warning (not an
   error) if a `vsetvli` instruction attempts to write an LMUL < SEW~LMUL1MIN~/SEW~LMUL1MAX~.
   
 
-NOTE: アセンブラは、`vsetvli` 命令が LMUL < SEW~LMUL1MIN~/SEW~LMUL1MAX~ を書こうとした場合、
-エラーではなく警告を出すことを推奨します。
+.. note::
 
+  エラーではなく警告を出すことを推奨します。
+  
 ..
   LMUL is set by the signed `vlmul` field in `vtype` (LMUL =
   2^`vlmul[2:0]`^).
@@ -778,12 +795,13 @@ Tailセットと非アクティブセットには、<<sec-inactive-defs>> 項で
   calculations.
   
 
-NOTE: Agnosticポリシは、ベクトルレジスタをリネームするマシンや、
-深い一時的なベクトルレジスタを持つマシンに対応するために追加されました。
-Agnosticなポリシでは、新しい物理書き込みベクトルレジスタにコピーするために、
-すべての要素を古い物理書き込みベクトルレジスタから読み込まなければなりません。
-これは、これらの非アクティブまたは末尾の要素値が後続の計算に必要でない場合、効率が悪くなります。
+.. note::
 
+  深い一時的なベクトルレジスタを持つマシンに対応するために追加されました。
+  Agnosticなポリシでは、新しい物理書き込みベクトルレジスタにコピーするために、
+  すべての要素を古い物理書き込みベクトルレジスタから読み込まなければなりません。
+  これは、これらの非アクティブまたは末尾の要素値が後続の計算に必要でない場合、効率が悪くなります。
+  
 ..
   NOTE: Mask tails are always treated as agnostic to reduce complexity
   of managing mask data, which can be written at bit granularity.  There
@@ -795,21 +813,23 @@ Agnosticなポリシでは、新しい物理書き込みベクトルレジスタ
   software intent.
   
 
-NOTE: マスクされた末尾要素は、ビット単位で記述可能なマスクデータの管理の複雑さを軽減するために、常にAgnosticに扱われます。
-マスクレジスタ値のTail Undisturbedをサポートするソフトウェアの必要性はほとんどないと思われます。
-マスクを生成する命令が命令の結果を書き戻すことを許可すると、末尾をマスクアウトするロジックの必要性がなくなります。
-ただし、マスクロードは、ソフトウェアの意図を超えてメモリにアクセスすることになるため、
-宛先のマスクテールにメモリ値を書き込むことはできません。
+.. note::
 
+  マスクレジスタ値のTail Undisturbedをサポートするソフトウェアの必要性はほとんどないと思われます。
+  マスクを生成する命令が命令の結果を書き戻すことを許可すると、末尾をマスクアウトするロジックの必要性がなくなります。
+  ただし、マスクロードは、ソフトウェアの意図を超えてメモリにアクセスすることになるため、
+  宛先のマスクテールにメモリ値を書き込むことはできません。
+  
 ..
   NOTE: The value of all 1s instead of all 0s was chosen for the
   overwrite value to discourage software developers from depending on
   the value written.
   
 
-NOTE: 上書き値として、All-0ではなくAll-1を選択したのは、
-ソフトウェア開発者が書き込まれた値に依存しないようにするためです。
+.. note::
 
+  ソフトウェア開発者が書き込まれた値に依存しないようにするためです。
+  
 ..
   NOTE: A simple in-order implementation can ignore the settings and
   simply execute all vector instructions using the undisturbed
@@ -817,18 +837,20 @@ NOTE: 上書き値として、All-0ではなくAll-1を選択したのは、
   `vtype` for compatibility and to support thread migration.
   
 
-NOTE: シンプルなインオーダー実装であれば、この設定を無視して、単純にundisturbedポリシですべてのベクトル命令を実行することができます。
-互換性とスレッドの移行をサポートするために、`vta` と `vma` のステートビットは `vtype` で提供されなければなりません。
+.. note::
 
+  互換性とスレッドの移行をサポートするために、`vta` と `vma` のステートビットは `vtype` で提供されなければなりません。
+  
 ..
   NOTE: An out-of-order implementation can choose to implement
   tail-agnostic + mask-agnostic using tail-agnostic + mask-undisturbed
   to reduce implementation complexity.
   
 
-NOTE: アウトオブオーダーの実装では、実装の複雑さを軽減するために、
-tail-agnostic + mask-agnostic を tail-agnostic + mask-undisturbed を使って実装することを選択できます。
+.. note::
 
+  tail-agnostic + mask-agnostic を tail-agnostic + mask-undisturbed を使って実装することを選択できます。
+  
 ..
   NOTE: The definition of agnostic result policy is left loose to
   accommodate migrating application threads between harts on a small
@@ -843,14 +865,15 @@ tail-agnostic + mask-agnostic を tail-agnostic + mask-undisturbed を使って�
   renaming to all 1s for granules in the tail.
   
 
-NOTE: Agnosticポリシの定義は、小さなインオーダコア上のhart(おそらくagnostic領域は保持される)と、
-レジスタリネーミングのある大きなアウトオブオーダコア上のhart(おそらくagnostic要素を1で上書きする)の間でアプリケーションスレッドを
-移行することに対応するため、緩く残されています。
-途中で再起動する必要があるかもしれないので、1つのベクトル命令の中で、Agnosticなポリシを任意に混在させることができます。
-このようなポリシの混在を許容することで、
-例えば、アクティブに操作されている要素内ではundisturbedを使用し、テールの要素ではすべて1にリネームするなど、
-ベクトルレジスタの異なる要素に対してポリシを変更するような実装も可能になります。
+.. note::
 
+  レジスタリネーミングのある大きなアウトオブオーダコア上のhart(おそらくagnostic要素を1で上書きする)の間でアプリケーションスレッドを
+  移行することに対応するため、緩く残されています。
+  途中で再起動する必要があるかもしれないので、1つのベクトル命令の中で、Agnosticなポリシを任意に混在させることができます。
+  このようなポリシの混在を許容することで、
+  例えば、アクティブに操作されている要素内ではundisturbedを使用し、テールの要素ではすべて1にリネームするなど、
+  ベクトルレジスタの異なる要素に対してポリシを変更するような実装も可能になります。
+  
 ..
   The assembly syntax adds two flags to the `vsetvli` instruction:
   
@@ -883,15 +906,16 @@ NOTE: Agnosticポリシの定義は、小さなインオーダコア上のhart(�
   to always require them in future assembly code.
   
 
-NOTE: 短期的には後方互換性を維持し、0.9 への移行時にはソフトウェアの変更を減らすために、これらのフラグが `vsetvli` に指定されていない場合は、
-デフォルトで mask-undisturbed/tail-undisturbed とすべきです。
-しかし、これらのフラグを持たない `vsetvli` の使用は非推奨とし、
-フラグ設定の指定が必須となるようにします。
-どちらかというと、デフォルトはtail-agnostic/mask-agnosticにすべきなので、
-ソフトウェアは非アクティブ要素を気にするタイミングを指定する必要がありますが、
-これらのフラグが導入される前の命令の歴史的な意味を考えると、
-将来のアセンブリコードでは常にフラグを要求するのが最も安全です。
+.. note::
 
+  デフォルトで mask-undisturbed/tail-undisturbed とすべきです。
+  しかし、これらのフラグを持たない `vsetvli` の使用は非推奨とし、
+  フラグ設定の指定が必須となるようにします。
+  どちらかというと、デフォルトはtail-agnostic/mask-agnosticにすべきなので、
+  ソフトウェアは非アクティブ要素を気にするタイミングを指定する必要がありますが、
+  これらのフラグが導入される前の命令の歴史的な意味を考えると、
+  将来のアセンブリコードでは常にフラグを要求するのが最も安全です。
+  
 .. // ==== Vector Type Illegal `vill`
 
 
@@ -911,9 +935,10 @@ NOTE: 短期的には後方互換性を維持し、0.9 への移行時にはソ�
   checking for illegal values with a branch on the sign bit.
   
 
-NOTE: `vill` ビットはCSRのXLEN-1ビットに配置され、
-符号を検査する分岐命令で不正な値をチェックできます。
+.. note::
 
+  符号を検査する分岐命令で不正な値をチェックできます。
+  
 ..
   If the `vill` bit is set, then any attempt to execute a vector instruction
   that depends upon `vtype` will raise an illegal-instruction exception.
@@ -927,8 +952,9 @@ NOTE: `vill` ビットはCSRのXLEN-1ビットに配置され、
   upon `vtype`.
   
 
-NOTE: `vset{i}vl{i}` とwhole-registerロード、ストア命令、データ移動命令は `vtype` に依存しません。
+.. note::
 
+  
 ..
   When the `vill` bit is set, the other XLEN-1 bits in `vtype` shall be
   zero.
@@ -969,10 +995,11 @@ _fault-only-first_ ベクトルロード命令によってのみ更新するこ�
   (VLEN=32, with LMUL=8 and SEW=8, yields VLMAX=32).
   
 
-NOTE: `vl` に実装されているビット数は、サポートされている最小のタイプの実装の最大ベクトル長に依存します。
-VLEN=32 で SEW=8 をサポートする最小のベクトル実装では、0～32 の値を保持するために、
-`vl` に少なくとも 6 ビットが必要になります (VLEN=32 で LMUL=8 と SEW=8 を使用すると、VLMAX=32 になります)。
+.. note::
 
+  VLEN=32 で SEW=8 をサポートする最小のベクトル実装では、0～32 の値を保持するために、
+  `vl` に少なくとも 6 ビットが必要になります (VLEN=32 で LMUL=8 と SEW=8 を使用すると、VLMAX=32 になります)。
+  
 .. // === Vector Byte Length `vlenb`
 
 
@@ -993,18 +1020,20 @@ _XLEN_ ビット幅の読み取り専用CSR `vlenb` は、値VLEN/8、すなわ�
   implementation.
   
 
-NOTE: `vlenb` の値は、どのような実装でも設計時の定数となります。
+.. note::
 
+  
 ..
   NOTE: Without this CSR, several instructions are needed to calculate
   VLEN in bytes, and the code has to disturb current `vl` and `vtype`
   settings which require them to be saved and restored.
   
 
-NOTE: このCSRがないと、バイト単位のVLENを計算するためにいくつかの命令が必要になり、
-コードは現在の `vl` と `vtype` の設定を乱す必要があり、
-それらを保存したり復元したりする必要があります。
+.. note::
 
+  コードは現在の `vl` と `vtype` の設定を乱す必要があり、
+  それらを保存したり復元したりする必要があります。
+  
 .. // === Vector Start Index CSR `vstart`
 
 
@@ -1048,8 +1077,9 @@ NOTE: このCSRがないと、バイト単位のVLENを計算するためにい�
   CSR to zero.
   
 
-NOTE: `vset{i}vl{i}` を含むすべてのベクトル命令は、`vstart` CSR をゼロにリセットします。
+.. note::
 
+  
 ..
   `vstart` is not modified by vector instructions that raise illegal-instruction
   exceptions.
@@ -1071,9 +1101,10 @@ NOTE: `vset{i}vl{i}` を含むすべてのベクトル命令は、`vstart` CSR �
   represent indices from 0 through 255.
   
 
-NOTE: 最大のベクトル長は、最大のLMUL設定(8)と最小のSEW設定(8)で得られるため、VLMAX_max = 8*VLEN/8 = VLENとなります。
-例えば、VLEN=256の場合、`vstart` は、0から255までのインデックスを表す8ビットを持つことになります。
+.. note::
 
+  例えば、VLEN=256の場合、`vstart` は、0から255までのインデックスを表す8ビットを持つことになります。
+  
 ..
   The use of `vstart` values greater than the largest element index for
   the current SEW setting is reserved.
@@ -1087,11 +1118,12 @@ NOTE: 最大のベクトル長は、最大のLMUL設定(8)と最小のSEW設定(
   upper `vstart` bits is to store imprecise trap information.
   
 
-NOTE: `vstart` が範囲外の場合には、実装で例外を発生させることが推奨されています。
-上位の `vstart` ビットの将来的な使用法として、
-不正確な例外情報を保存することが考えられるため、
-例外を発生させることは必須ではありません。
+.. note::
 
+  上位の `vstart` ビットの将来的な使用法として、
+  不正確な例外情報を保存することが考えられるため、
+  例外を発生させることは必須ではありません。
+  
 
 ..
   The `vstart` CSR is writable by unprivileged code, but non-zero
@@ -1113,9 +1145,10 @@ NOTE: `vstart` が範囲外の場合には、実装で例外を発生させる�
   threading libraries.
   
 
-NOTE: `vstart` を非特権コードから見えるようにすることは、
-ユーザレベルのスレッディングライブラリをサポートします。
+.. note::
 
+  ユーザレベルのスレッディングライブラリをサポートします。
+  
 ..
   Implementations are permitted to raise illegal instruction exceptions when
   attempting to execute a vector instruction with a value of `vstart` that the
@@ -1135,11 +1168,12 @@ NOTE: `vstart` を非特権コードから見えるようにすることは、
   a vector arithmetic instruction when `vstart` is nonzero.
   
 
-NOTE: 例えば、ある実装では、ベクトル演算命令の実行中には決して割り込みを受け取らず、
-命令が完了するまで待って割り込みを受け取ります。
-そのような実装では、 `vstart` が0でないときにベクトル演算命令を実行しようとすると、
-不正な命令例外を発生させることができます。
+.. note::
 
+  命令が完了するまで待って割り込みを受け取ります。
+  そのような実装では、 `vstart` が0でないときにベクトル演算命令を実行しようとすると、
+  不正な命令例外を発生させることができます。
+  
 ..
   NOTE: When migrating a software thread between two harts with
   different microarchitectures, the `vstart` value might not be
@@ -1150,11 +1184,12 @@ NOTE: 例えば、ある実装では、ベクトル演算命令の実行中に�
   locations.
   
 
-NOTE: マイクロアーキテクチャの異なる 2 つの hart 間でソフトウェア・スレッドを移行する場合、
-`vstart` 値は新しい hart のマイクロアーキテクチャーではサポートされていない可能性があります。
-その場合、受信側の hart のランタイムは、サポートされている vstart 要素の位置への命令実行をエミュレートしなければならないかもしれません。
-あるいは、移行イベントは、相互にサポートされる `vstart` 位置でのみ発生するように制約することもできます。
+.. note::
 
+  `vstart` 値は新しい hart のマイクロアーキテクチャーではサポートされていない可能性があります。
+  その場合、受信側の hart のランタイムは、サポートされている vstart 要素の位置への命令実行をエミュレートしなければならないかもしれません。
+  あるいは、移行イベントは、相互にサポートされる `vstart` 位置でのみ発生するように制約することもできます。
+  
 .. // === Vector Fixed-Point Rounding Mode Register `vxrm`
 
 
@@ -1216,9 +1251,10 @@ NOTE: マイクロアーキテクチャの異なる 2 つの hart 間でソフ�
   rounding mode using a single `csrwi` instruction.
   
 
-NOTE: `csrwi` 1命令を使って、元の丸め込みモードを保存しながら、
-新しい丸め込みモードを設定することができます。
+.. note::
 
+  新しい丸め込みモードを設定することができます。
+  
 .. // === Vector Fixed-Point Saturation Flag `vxsat`
 
 
@@ -1288,8 +1324,9 @@ Vector 制御・ステータスレジスタ `vcsr`
   remaining bits in `vtype` are zero, and `vl` is set to zero.
   
 
-NOTE: リセット時には、`vtype.vill` が設定され、`vtype` の残りのビットはゼロになり、`vl` はゼロになることが推奨されます。
+.. note::
 
+  
 ..
   The `vstart`, `vxrm`, `vxsat` CSRs can have arbitrary values at reset.
   
@@ -1302,10 +1339,11 @@ NOTE: リセット時には、`vtype.vill` が設定され、`vtype` の残り�
   reset explicitly in software before use.
   
 
-NOTE: ベクトルユニットを使用する場合は、初期化のための `vset{i}vl{i}` が必要で、
-これにより `vstart` がリセットされます。
-`vxrm` と `vxsat` フィールドは、使用前にソフトウェアで明示的にリセットする必要があります。
+.. note::
 
+  これにより `vstart` がリセットされます。
+  `vxrm` と `vxsat` フィールドは、使用前にソフトウェアで明示的にリセットする必要があります。
+  
 ..
   The vector registers can have arbitrary values at reset.
   
@@ -1353,11 +1391,12 @@ LMUL=1の場合、要素はベクトルレジスタの最下位ビットから�
   magnitude.
   
 
-NOTE: 読みやすさを向上させるために、ベクトルレジスタのレイアウトは、
-バイトアドレスが右から左に向かって増加するように並べられています。
-要素内のビットはリトルエンディアン形式で番号付けされており、
-右から左へのビットインデックスの増加は大きさの増加に対応します。
+.. note::
 
+  バイトアドレスが右から左に向かって増加するように並べられています。
+  要素内のビットはリトルエンディアン形式で番号付けされており、
+  右から左へのビットインデックスの増加は大きさの増加に対応します。
+  
 ::
 
   // LMUL=1 examples.
@@ -1612,9 +1651,10 @@ LMULの設定を大きくすると、単純にベクトルの長さを長くし�
   architectural registers.
   
 
-NOTE: SEW/LMULの値が2048以上の場合、完全性を保つために表に示していますが、これらの値はレジスタ容量をフルに使用しておらず、
-より多くのアーキテクチャレジスタを有効にしていないため、有用な動作ポイントを追加していません。
+.. note::
 
+  より多くのアーキテクチャレジスタを有効にしていないため、有用な動作ポイントを追加していません。
+  
 .. // === Mapping for LMUL > 1 and ELEN > VLEN
 
 
@@ -1686,9 +1726,10 @@ LMUL > 1 かつ ELEN > VLEN のマッピング
   value (MLEN).  In the 0.9 design, MLEN=1.
   
 
-NOTE: 初期のデザイン(0.9以前)では、マスク値あたりのビット数(MLEN)が変化していました。
-0.9デザインでは、MLEN=1です。
+.. note::
 
+  0.9デザインでは、MLEN=1です。
+  
 .. // ==== Mask Element Locations
 
 -------------------------
@@ -1857,12 +1898,13 @@ include::vcfg-format.adoc[]
   Zfinx ISA option.
   
 
-NOTE: v0.6 からの変更点として、浮動小数点レジスタがベクトルレジスタをオーバーレイしなくなり、スカラは整数または浮動小数点レジスタから得られるようになりました。
-`f` レジスタをオーバーレイしないことで、ベクトルレジスタが圧迫させないようにし、
-標準的な呼び出し規則との相互作用を避け、高性能なスカラ浮動小数点の設計を簡素化し、Zfinx ISA オプションとの互換性を実現します。
-`f` と `v` を重ねると、実装によってはステート・ビット数を減らせるというメリットがありますが、
-高性能な設計が複雑になり、Zfinx ISAオプションとの互換性もなくなります。
+.. note::
 
+  `f` レジスタをオーバーレイしないことで、ベクトルレジスタが圧迫させないようにし、
+  標準的な呼び出し規則との相互作用を避け、高性能なスカラ浮動小数点の設計を簡素化し、Zfinx ISA オプションとの互換性を実現します。
+  `f` と `v` を重ねると、実装によってはステート・ビット数を減らせるというメリットがありますが、
+  高性能な設計が複雑になり、Zfinx ISAオプションとの互換性もなくなります。
+  
 
 .. // === Vector Operands
 
@@ -1967,10 +2009,11 @@ Wideningされたスカラ値(Wideningリダクション演算の結果など)�
   the EMUL for the scalar reduction element.
   
 
-NOTE: 現在のリダクション演算は、入力値と出力値を単一のベクトルレジスタに保持するように定義されており、
-暗黙のうちにEMULが1となるため、wide スカラリダクションの結果を保持するためにベクトルレジスタグループを使用することはできません。
-この場合、スカラリダクション要素のEMULを指定する独立したパラメータが必要になります。
+.. note::
 
+  暗黙のうちにEMULが1となるため、wide スカラリダクションの結果を保持するためにベクトルレジスタグループを使用することはできません。
+  この場合、スカラリダクション要素のEMULを指定する独立したパラメータが必要になります。
+  
 .. // === Vector Masking
 
 
@@ -2005,9 +2048,10 @@ NOTE: 現在のリダクション演算は、入力値と出力値を単一の�
   encodings with space for a full mask register specifier.
   
 
-NOTE: 将来のベクトル拡張は、完全なマスクレジスタ指定のためのスペースを持つ、
-より長い命令エンコーディングを提供するかもしれません。
+.. note::
 
+  より長い命令エンコーディングを提供するかもしれません。
+  
 ..
   The destination vector register group for a masked vector instruction
   cannot overlap the source mask register (`v0`), unless the destination
@@ -2024,8 +2068,9 @@ NOTE: 将来のベクトル拡張は、完全なマスクレジスタ指定の�
   NOTE: This constraint supports restart with a non-zero `vstart` value.
   
 
-NOTE: この制約は、非ゼロの `vstart` 値でのリスタートをサポートします。
+.. note::
 
+  
 ..
   NOTE: Some masked instructions that target `v0` which were legal in
   v0.8 are illegal with the new MLEN=1 mask layout for v1.0. For
@@ -2033,9 +2078,10 @@ NOTE: この制約は、非ゼロの `vstart` 値でのリスタートをサポ�
   it was legal for LMUL=1.
   
 
-NOTE: v0.8では有効だった `v0` を対象としたいくつかのマスクされた命令は、v1.0の新しいMLEN=1のマスク・レイアウトでは違法となります。
-例えば、 `vadd.vv v0, v1, v2, v0.m` は、以前は LMUL=1 の場合には合法でしたが、現在は常に違法です。
+.. note::
 
+  例えば、 `vadd.vv v0, v1, v2, v0.m` は、以前は LMUL=1 の場合には合法でしたが、現在は常に違法です。
+  
 ..
   Other vector registers can be used to hold working mask values, and
   mask vector logical operations are provided to perform predicate
@@ -2093,9 +2139,10 @@ NOTE: v0.8では有効だった `v0` を対象としたいくつかのマスク�
   encoding scalar operations.
   
 
-NOTE: 初期の提案では、`vm` は2ビットのフィールド `vm[1:0]` で、
-`v0` を使った真と補填マスキングと、スカラ演算の符号化を行っていました。
+.. note::
 
+  `v0` を使った真と補填マスキングと、スカラ演算の符号化を行っていました。
+  
 ..
   Vector masking is represented in assembler code as another vector
   operand, with `.t` indicating if operation occurs when `v0.mask[i]` is
@@ -2128,19 +2175,21 @@ NOTE: 初期の提案では、`vm` は2ビットのフィールド `vm[1:0]` で
   to visually encode the use of a mask.
   
 
-NOTE: 現在のベクトル拡張では、1つのベクトルマスクレジスタ `v0` と真の形式のプレディケートしかサポートしていませんが、
-アセンブリ構文では、マスクレジスタ指定子を追加し、真のマスキングと負のマスキングの両方をサポートする可能性のある将来の拡張と互換性を持たせるために、完全な文法を書き出します。
-マスキングオペランドの接尾辞 `.t` は、マスクの使用を視覚的に符号化するのにも役立ちます。
+.. note::
 
+  アセンブリ構文では、マスクレジスタ指定子を追加し、真のマスキングと負のマスキングの両方をサポートする可能性のある将来の拡張と互換性を持たせるために、完全な文法を書き出します。
+  マスキングオペランドの接尾辞 `.t` は、マスクの使用を視覚的に符号化するのにも役立ちます。
+  
 ..
   NOTE: The `.mask` suffix is not part of the assembly syntax.
   We only append it in contexts where a mask vector is subscripted,
   e.g., `v0.mask[i]`.
   
 
-NOTE: `.mask` という接尾辞は、アセンブリの構文には含まれていません。
-`v0.mask[i]` のように文章中にマスクベクトルに添え字として使用されるだけです。
+.. note::
 
+  `v0.mask[i]` のように文章中にマスクベクトルに添え字として使用されるだけです。
+  
 [[sec-inactive-defs]]
 .. // === Prestart, Active, Inactive, Body, and Tail Element Definitions
 
@@ -2243,9 +2292,10 @@ LMUL < 1の場合、末尾には同じベクトルレジスタに保持されて
   regardless of `vstart`.
   
 
-NOTE: 結果として、`vl`=0のときには、 `vstart` にかかわらず、
-書き込みベクトルレジスタグループはAgnosticな要素を含めて、いかなる要素も更新されません。
+.. note::
 
+  書き込みベクトルレジスタグループはAgnosticな要素を含めて、いかなる要素も更新されません。
+  
 ..
   Instructions that write an `x` register or `f` register
   do so even when `vstart` {ge} `vl`, including when `vl`=0.
@@ -2261,10 +2311,11 @@ NOTE: 結果として、`vl`=0のときには、 `vstart` にかかわらず、
   VLMAX in the source vector register group.
   
 
-NOTE: `vslidedown` や `vrgather` などの一部の命令は、ソースベクトルレジスタグループの
-`vl` または VLMAX を超えるインデックスを読み取ることがあります。
-一般的なポリシは、インデックスがソースベクトルレジスタグループのVLMAXよりも大きい場合、値0を返します。
+.. note::
 
+  `vl` または VLMAX を超えるインデックスを読み取ることがあります。
+  一般的なポリシは、インデックスがソースベクトルレジスタグループのVLMAXよりも大きい場合、値0を返します。
+  
 [[sec-vector-config]]
 .. // == Configuration-Setting Instructions (`vsetvli`/`vsetivl`/`vsetvl`)
 
@@ -2412,13 +2463,14 @@ include::vtype-format.adoc[]
   checking if `vill` is clear for a given setting.
   
 
-NOTE: 以前のドラフトでは、`vtype` に不正な値を設定した場合、例外が必要でした。
-しかし、これはISAへのCSRの書き込み時に最初のデータ依存の例外を追加することになりました。
-実装では、 `vill` を設定する代わりに、 `vtype` に不正な値が書き込まれたときに例外することを選択して、
-エミュレーションで新しい構成をサポートできるようにして、将来の互換性を確保することができます。
-現在のスキームは、ある設定に対して `vill` がクリアされているかどうかをチェックすることで、
-サポートされているベクトルユニットの設定をランタイムに軽く照会することをサポートしています。
+.. note::
 
+  しかし、これはISAへのCSRの書き込み時に最初のデータ依存の例外を追加することになりました。
+  実装では、 `vill` を設定する代わりに、 `vtype` に不正な値が書き込まれたときに例外することを選択して、
+  エミュレーションで新しい構成をサポートできるようにして、将来の互換性を確保することができます。
+  現在のスキームは、ある設定に対して `vill` がクリアされているかどうかをチェックすることで、
+  サポートされているベクトルユニットの設定をランタイムに軽く照会することをサポートしています。
+  
 .. // === AVL encoding
 
 ===============================
@@ -2501,13 +2553,14 @@ VLMAXの変更をもたらすような新しいSEW/LMUL比率の命令の使用�
   changed by this instruction to optimize their microarchitecture.
   
 
-NOTE: この命令の最後の形式では、VLMAXが減少しないことを条件に、現在の `vl` を維持しながら `vtype` レジスタを変更することができます。
-この設計は、現在の `vtype` 設定に対して `vl` が常に正当な値を保持するように選択されました。
-現在の `vl` 値は `vl` CSR から読み取ることができます。
-新しいSEW/LMUL比率によってVLMAXが縮小する場合、この命令によって `vl` 値が減少する可能性がありますが、
-これが一般的に有用な動作であることは明らかではないため、このケースは留保されています。
-また、実装は、マイクロアーキテクチャを最適化するために、この命令によって `vl` が変更されないと仮定することができます。
+.. note::
 
+  この設計は、現在の `vtype` 設定に対して `vl` が常に正当な値を保持するように選択されました。
+  現在の `vl` 値は `vl` CSR から読み取ることができます。
+  新しいSEW/LMUL比率によってVLMAXが縮小する場合、この命令によって `vl` 値が減少する可能性がありますが、
+  これが一般的に有用な動作であることは明らかではないため、このケースは留保されています。
+  また、実装は、マイクロアーキテクチャを最適化するために、この命令によって `vl` が変更されないと仮定することができます。
+  
 ..
   For the `vsetivli` instruction, the AVL is encoded as a 5-bit
   zero-extended immediate (0--31) in the `rs1` field.
@@ -2521,8 +2574,9 @@ NOTE: この命令の最後の形式では、VLMAXが減少しないことを条
   CSR immediate values.
   
 
-NOTE: `vsetivli` のAVLのエンコーディングは、通常のCSRの即値と同じです。
+.. note::
 
+  
 ..
   NOTE: The `vsetivli` instruction provides more compact code when the
   dimensions of vectors are small, and known to fit inside the vector
@@ -2835,10 +2889,11 @@ include::vmem-format.adoc[]
   EEW.
   
 
-NOTE: インデックス付き演算は、オブジェクトのベクトル内のフィールドをアクセスするためにも使用できます。
-この場合、`vs2` ベクトルはオブジェクトのベースへのポインタを保持し、スカラ `x` レジスタは各オブジェクト内のメンバ・フィールドのオフセットを保持します。
-このケースをサポートすることが、要素のインデックスをデータEEWでスケーリングするインデックス付き演算が定義されなかった理由です。
+.. note::
 
+  この場合、`vs2` ベクトルはオブジェクトのベースへのポインタを保持し、スカラ `x` レジスタは各オブジェクト内のメンバ・フィールドのオフセットを保持します。
+  このケースをサポートすることが、要素のインデックスをデータEEWでスケーリングするインデックス付き演算が定義されなかった理由です。
+  
 ..
   If the vector offset elements are narrower than XLEN, they are
   zero-extended to XLEN before adding to the base effective address.  If
@@ -2857,8 +2912,9 @@ EEWがオフセット要素に対してサポートされていない場合、�
   EEW (e.g., only up to XLEN) smaller than ELEN.
   
 
-NOTE: プロファイルは、サポートされる最大のインデックスEEWに、ELENよりも小さい上限を設けることができます(例えば、XLENまでのみ)。
+.. note::
 
+  
 ..
   The vector addressing modes are encoded using the 2-bit `mop[1:0]`
   field.
@@ -2940,9 +2996,10 @@ indexed-ordered の場合は、メモリアクセス時の要素の順序を保�
   region, the ordered indexed instructions should be used.
   
 
-NOTE: 強く順序付けられたIO領域への順序付けられたベクトルアクセスを提供するためには、
-順序付けられたインデックス付き命令を使用する必要があります。
+.. note::
 
+  順序付けられたインデックス付き命令を使用する必要があります。
+  
 ..
   For implementations with precise vector traps, exceptions on
   indexed-unordered stores must also be precise.
@@ -3005,11 +3062,12 @@ NOTE: 強く順序付けられたIO領域への順序付けられたベクトル
   add more powerful primitives to move items to and from memory.
   
 
-NOTE: セグメントロード/ストアのための `nf` フィールドは、
-アドレスオフセットフィールドのための同じビットの使用に取って代わりました。
-セグメントロード/ストアは、メモリとの間でアイテムを移動するためのより強力なプリミティブを追加する一方で、
-オフセットは単一のスカラ整数の計算で置き換えることができます。
+.. note::
 
+  アドレスオフセットフィールドのための同じビットの使用に取って代わりました。
+  セグメントロード/ストアは、メモリとの間でアイテムを移動するためのより強力なプリミティブを追加する一方で、
+  オフセットは単一のスカラ整数の計算で置き換えることができます。
+  
 ..
   The `nf[2:0]` field also encodes the number of whole vector registers
   to transfer for the whole vector register load/store instructions.
@@ -3130,8 +3188,9 @@ Index bits は、レジスタにアクセスされる各インデックスのサ
   NOTE: RV128 will require data and index EEW of 128.
   
 
-NOTE: RV128では、データおよびインデックスのEEWが128となります。
+.. note::
 
+  
 .. // === Vector Unit-Stride Instructions
 
 ==============================================
@@ -3240,10 +3299,11 @@ NOTE: RV128では、データおよびインデックスのEEWが128となりま
   churn, these older assembly mnemonics are being retained as aliases.
   
 
-NOTE: 以前のアセンブラのニーモニックである `vle1.v` と `vse1.v` は、
-これらの命令と他の要素のロード/ストア命令で長さの扱いが異なるため、混乱を招きました。
-ソフトウェアの混乱を避けるために、これらの古いアセンブラニーモニックはエイリアスとして残されています。
+.. note::
 
+  これらの命令と他の要素のロード/ストア命令で長さの扱いが異なるため、混乱を招きました。
+  ソフトウェアの混乱を避けるために、これらの古いアセンブラニーモニックはエイリアスとして残されています。
+  
 ..
   NOTE: The primary motivation to provide mask load and store is to
   support machines that internally rearrange data to reduce
@@ -3253,10 +3313,11 @@ NOTE: 以前のアセンブラのニーモニックである `vle1.v` と `vse1.
   `vl`.
   
 
-NOTE: マスクロード/ストアを提供する主な動機は、
-データパス間の配線を減らすためにデータを内部で再配置するマシンをサポートすることです。
-また、 `vl` を変更する必要がないため、マスクのスピル/フィルのコストを削減することができます。
+.. note::
 
+  データパス間の配線を減らすためにデータを内部で再配置するマシンをサポートすることです。
+  また、 `vl` を変更する必要がないため、マスクのスピル/フィルのコストを削減することができます。
+  
 .. // === Vector Strided Instructions
 
 ==================================
@@ -3343,10 +3404,11 @@ NOTE: マスクロード/ストアを提供する主な動機は、
   accesses are performed.
   
 
-NOTE: すべてのメモリ・アクセスの実行を要求する意図がある場合は、
-即時ストライドが `0` のときに rs2 に `x0` 形式を使用しないように、
-コンパイラーは注意しなければなりません。
+.. note::
 
+  即時ストライドが `0` のときに rs2 に `x0` 形式を使用しないように、
+  コンパイラーは注意しなければなりません。
+  
 ..
   When `rs2!=x0` and the value of `x[rs2]=0`, the implementation must
   perform one memory access for each active element (but these accesses
@@ -3361,9 +3423,10 @@ NOTE: すべてのメモリ・アクセスの実行を要求する意図があ�
   address are required, then an ordered indexed operation can be used.
   
 
-NOTE: 同じメモリアドレスへの順序付きベクトルアクセスを繰り返す必要がある場合は、
-順序付きインデックス操作を使用することができます。
+.. note::
 
+  順序付きインデックス操作を使用することができます。
+  
 .. // === Vector Indexed Instructions
 
 =====================================
@@ -3445,10 +3508,11 @@ NOTE: 同じメモリアドレスへの順序付きベクトルアクセスを�
   is of the index not the data.
   
 
-NOTE: インデックス付きロード/ストアのアセンブラ構文では、
-静的にエンコードされたEEWがデータではなくインデックスであることを示すために、
-``e``__x__ の代わりに ``ei``__x__ を使用しています。
+.. note::
 
+  静的にエンコードされたEEWがデータではなくインデックスであることを示すために、
+  ``e``__x__ の代わりに ``ei``__x__ を使用しています。
+  
 ..
   NOTE: The indexed operations mnemonics have a "U" or "O" to
   distinguish between unordered and ordered, while the other vector
@@ -3458,12 +3522,13 @@ NOTE: インデックス付きロード/ストアのアセンブラ構文では�
   retained as an alias during transition to help reduce software churn.
   
 
-NOTE: インデックス付き操作のニーモニックには、順序なしと順序付きを区別するための"U"または"O"がありますが、
-他のベクトルアドレッシングモードには文字がありません。
-この方法は、一貫性に欠けるかもしれませんが、VSXEIが以前は"順序付き"を意味していたように、
-既存のソフトウェアの混乱を最小限に抑えることができます。
-また、移行中にオペコードを別名として保持することで、ソフトウェアの解約を減らすことができます。
+.. note::
 
+  他のベクトルアドレッシングモードには文字がありません。
+  この方法は、一貫性に欠けるかもしれませんが、VSXEIが以前は"順序付き"を意味していたように、
+  既存のソフトウェアの混乱を最小限に抑えることができます。
+  また、移行中にオペコードを別名として保持することで、ソフトウェアの解約を減らすことができます。
+  
 .. // === Unit-stride Fault-Only-First Loads
 
 =====================================================
@@ -3563,13 +3628,14 @@ NOTE: インデックス付き操作のニーモニックには、順序なし�
   variants of non-contiguous accesses in future vector extensions.
   
 
-NOTE: fault-on-firstのロードは、有効な実効アドレスを調べるために使用される可能性があるため、
-セキュリティ上の懸念があります。 ストライドおよびスキャッター/ギャザーのfault-on-firstロード命令は、エンコーディング空間がないため提供されていません。
-また、より大きなセキュリティ全体となる可能性があり、ソフトウェアは例外を経験することなく、
-複数のランダムなページのアクセス性を簡単にチェックすることができます。
-ユニットストライド版では、既知の領域とすぐに隣接する領域のプロービングしかできないため、セキュリティに大きな影響はありません。
-将来のベクトル拡張では、非連続アクセスの fault-only-first を可能にするセキュリティ緩和策が実装される可能性があります。
+.. note::
 
+  セキュリティ上の懸念があります。 ストライドおよびスキャッター/ギャザーのfault-on-firstロード命令は、エンコーディング空間がないため提供されていません。
+  また、より大きなセキュリティ全体となる可能性があり、ソフトウェアは例外を経験することなく、
+  複数のランダムなページのアクセス性を簡単にチェックすることができます。
+  ユニットストライド版では、既知の領域とすぐに隣接する領域のプロービングしかできないため、セキュリティに大きな影響はありません。
+  将来のベクトル拡張では、非連続アクセスの fault-only-first を可能にするセキュリティ緩和策が実装される可能性があります。
+  
 ..
   Even when an exception is not raised, implementations are permitted to process
   fewer than `vl` elements and reduce `vl` accordingly, but if `vstart`=0 and
@@ -3595,10 +3661,11 @@ fault-on-firstロード命令が割り込みによる例外を発生する場合
   otherwise the event might be lost.
   
 
-NOTE: fault-only-first 命令が最初の要素の後にデバッグ・データ・ウォッチポイント・例外をトリガーする場合、
-実装は `vl` を減らすのではなく、イベントが失われる可能性があるため、
-デバッグ・例外をトリガーするべきです。
+.. note::
 
+  実装は `vl` を減らすのではなく、イベントが失われる可能性があるため、
+  デバッグ・例外をトリガーするべきです。
+  
 [[sec-aos]]
 .. // === Vector Load/Store Segment Instructions
 
@@ -3627,9 +3694,10 @@ NOTE: fault-only-first 命令が最初の要素の後にデバッグ・データ
   registers.
   
 
-NOTE: これらの操作は、構造体の各フィールドを別々のベクトルレジスタにアンパックすることで、
-"構造体の配列"データタイプの操作をサポートします。
+.. note::
 
+  "構造体の配列"データタイプの操作をサポートします。
+  
 ..
   The three-bit `nf` field in the vector instruction encoding is an
   unsigned integer that contains one less than the number of fields per
@@ -3701,9 +3769,10 @@ EMUL>1の場合、各フィールドは複数の連続した番号のベクト�
   addressable vector registers.
   
 
-NOTE: この制約は、より多くのアドレス可能なベクトルレジスタを持つ、
-将来のより長い命令エンコーディングとの前方互換性を確保するためのものです。
+.. note::
 
+  将来のより長い命令エンコーディングとの前方互換性を確保するためのものです。
+  
 ..
   The `vl` register gives the number of structures to move, which is
   equal to the number of elements transferred to each vector register
@@ -3757,9 +3826,10 @@ NOTE: この制約は、より多くのアドレス可能なベクトルレジ�
   registers.
   
 
-NOTE: 異なるサイズのフィールドを持つ構造体の場合、セグメント・ロードでデータをベクトルレジスタに取り込んだ後、
-ソフトウェアは追加の命令を使ってセグメントから構造体フィールドをアンパックすることができます。
+.. note::
 
+  ソフトウェアは追加の命令を使ってセグメントから構造体フィールドをアンパックすることができます。
+  
 ..
   The assembler prefixes `vlseg`/`vsseg` are used for unit-stride
   segment loads and stores respectively.
@@ -3895,8 +3965,9 @@ fault-only-firstセグメントのロードでは、セグメントへのアク�
 ..
   NOTE: Negative and zero strides are supported.
   
-NOTE: 負のストライドとゼロのストライドがサポートされています。
+.. note::
 
+  
 ..
   ----
       # Format
@@ -4030,8 +4101,9 @@ Index-Ordered形式はセグメントを要素順にアクセスします。
   that raise exceptions partway through loading a structure.
   
 
-NOTE: この制約は、構造体のロードの途中で例外が発生したインデックス付きセグメント・ロードの再起動をサポートします。
+.. note::
 
+  
 .. // === Vector Load/Store Whole Register Instructions
 
 
@@ -4100,11 +4172,12 @@ LOAD-FPメジャーオペコードのベクトルロード全体レジスタ命�
   of bytes transferred by reading the `vlenb` register.
   
 
-NOTE: これらの命令は、ベクトル・レジスタの現在の内容のタイプや長さがわからない場合や、
-`vl` や `vtype` を変更するとコストがかかる場合に、ベクトル・レジスタの保存や復元に使用することを目的としています。
-例えば、コンパイラのレジスタ・スピル、ベクトル・レジスタで値が渡されるベクトル関数呼び出し、割り込みハンドラ、OSのコンテキスト・スイッチなどです。
-ソフトウェアは、 `vlenb` レジスタを読むことで、転送されたバイト数を知ることができます。
+.. note::
 
+  `vl` や `vtype` を変更するとコストがかかる場合に、ベクトル・レジスタの保存や復元に使用することを目的としています。
+  例えば、コンパイラのレジスタ・スピル、ベクトル・レジスタで値が渡されるベクトル関数呼び出し、割り込みハンドラ、OSのコンテキスト・スイッチなどです。
+  ソフトウェアは、 `vlenb` レジスタを読むことで、転送されたバイト数を知ることができます。
+  
 ..
   The load instructions have an EEW encoded in the `mew` and `width`
   fields following the pattern of regular unit-stride loads.
@@ -4123,13 +4196,14 @@ NOTE: これらの命令は、ベクトル・レジスタの現在の内容の�
   with this EEW, which aids implementations that rearrange data internally.
   
 
-NOTE: レジスタ内ののバイトレイアウトはメモリ内のバイトレイアウトと同じなので、
-EEWに関係なく同じデータが出力先のレジスタ群に書き込まれます。
-そのため、EEW=8 のバリエーションだけを用意すれば十分でした。
-EEWのバリエーションをすべて用意したのは、エンコードされたEEWをヒントにして、
-次にこのEEWでアクセスされる書き込みレジスタグループを示すことができるようにするためで、
-これは内部的にデータを再配置する実装の助けになります。
+.. note::
 
+  EEWに関係なく同じデータが出力先のレジスタ群に書き込まれます。
+  そのため、EEW=8 のバリエーションだけを用意すれば十分でした。
+  EEWのバリエーションをすべて用意したのは、エンコードされたEEWをヒントにして、
+  次にこのEEWでアクセスされる書き込みレジスタグループを示すことができるようにするためで、
+  これは内部的にデータを再配置する実装の助けになります。
+  
 ..
   The vector whole register store instructions are encoded similar to
   unmasked unit-stride store of elements with EEW=8.
@@ -4207,13 +4281,14 @@ SEWの最小サイズ(バイト)(SEW~MIN~/8)のいずれか大きい方に自然
   an ABI.
   
 
-NOTE: エンコードされたEEWへの非アラインメントに基づいてミスアラインの例外を発生させることができるため、
-これらの命令の実装が簡素化されます。
-サブセットの実装によっては、より小さなSEW幅をサポートしていない場合があるため、
-エンコードされたEEWよりも大きくても、サポートされている最小のSEWに対してミスアラインド例外を報告することが許可されています。
-極端な実装では、例えば SEW~MIN~>XLEN のようになります。
-ソフトウェア環境は、ABIをサポートするための最小アラインメント要件を義務付けることができます。
+.. note::
 
+  これらの命令の実装が簡素化されます。
+  サブセットの実装によっては、より小さなSEW幅をサポートしていない場合があるため、
+  エンコードされたEEWよりも大きくても、サポートされている最小のSEWに対してミスアラインド例外を報告することが許可されています。
+  極端な実装では、例えば SEW~MIN~>XLEN のようになります。
+  ソフトウェア環境は、ABIをサポートするための最小アラインメント要件を義務付けることができます。
+  
 ..
   ----
      # Format of whole register load and store instructions.
@@ -4326,18 +4401,20 @@ NOTE: エンコードされたEEWへの非アラインメントに基づいて�
   `vl<nf>r` instructions for EEW values that are not supported.
   
 
-NOTE: サポートされていないEEWの値に対する `vl<nf>r` 命令では、
-実装上、不正命令例外を発生させる必要があります。
+.. note::
 
+  実装上、不正命令例外を発生させる必要があります。
+  
 ..
   NOTE: We have considered adding a whole register mask load
   instruction (``vl1re1.v vd, (rs1)``) as a mask hint but this is not currently on
   PoR.
   
 
-NOTE: マスクヒントとして、レジスタ全体のマスクロード命令(``vl1re1.vd, (rs1)``)を追加することを検討しましたが、
-これは現在PoRにはありません。
+.. note::
 
+  これは現在PoRにはありません。
+  
 .. // == Vector Memory Alignment Constraints
 
 
@@ -4370,9 +4447,10 @@ NOTE: マスクヒントとして、レジスタ全体のマスクロード命�
   misaligned accesses are supported in the associated address range.
   
 
-NOTE: 実装によっては、スカラおよびベクトルメモリアクセスのどちらも、あるいは一方が、あるいは両方が、一部またはすべてのミスアラインドアクセスをハードウェアでサポートすることができます。
-関連するアドレス範囲でベクトルのミスアラインドアクセスがサポートされているかどうかを判断するために、別のPMAを定義する必要があります。
+.. note::
 
+  関連するアドレス範囲でベクトルのミスアラインドアクセスがサポートされているかどうかを判断するために、別のPMAを定義する必要があります。
+  
 ..
   Vector misaligned memory accesses follow the same rules for atomicity
   as scalar misaligned memory accesses.
@@ -4420,8 +4498,9 @@ Index-Ordered形式ロード・ストア命令は、
   NOTE: More formal definitions required.
   
 
-NOTE: より正式な定義が必要です。
+.. note::
 
+  
 ..
   Instructions affected by the vector length register `vl` have a control
   dependency on `vl`, rather than a data dependency.
@@ -4442,12 +4521,13 @@ NOTE: より正式な定義が必要です。
   a misspeculation-recovery mechanism.
   
 
-NOTE: ベクトル長とマスクをデータではなく制御として扱うことは、通常、対応するスカラコードのセマンティクスと一致し、
-ここでは通常、分岐命令が使用されていました。
-マスクを制御として扱うことで、マスクされたベクトルロード命令は、
-マスク値が判明する前にメモリにアクセスすることができ、
-分岐予測失敗時に回復するメカニズムを必要としません。
+.. note::
 
+  ここでは通常、分岐命令が使用されていました。
+  マスクを制御として扱うことで、マスクされたベクトルロード命令は、
+  マスク値が判明する前にメモリにアクセスすることができ、
+  分岐予測失敗時に回復するメカニズムを必要としません。
+  
 .. // == Vector Arithmetic Instruction Formats
 
 
@@ -4507,8 +4587,9 @@ include::valu-format.adoc[]
   considered to be integer operations.
   
 
-NOTE: ここでは、固定小数点演算を整数演算とみなします。
+.. note::
 
+  
 ..
   All standard vector floating-point arithmetic operations follow the
   IEEE-754/2008 standard.  All vector floating-point operations use the
@@ -4530,9 +4611,10 @@ NOTE: ここでは、固定小数点演算を整数演算とみなします。
   logic.
   
 
-NOTE: すべてのベクトル浮動小数点コードは、`frm` に有効な値があるかどうかに依存します。
-実装では、制御ロジックを単純化するために、丸めモードが無効なときにすべてのベクトルFP命令が例外を報告するようにすることができます。
+.. note::
 
+  実装では、制御ロジックを単純化するために、丸めモードが無効なときにすべてのベクトルFP命令が例外を報告するようにすることができます。
+  
 ..
   Vector-vector operations take two vectors of operands from vector
   register groups specified by `vs2` and `vs1` respectively.
@@ -4584,15 +4666,17 @@ FLEN > SEWの場合、 `f` レジスタの値が有効なNaNボックス値で�
   by naming the immediate `uimm` in the assembly syntax.
   
 
-NOTE: 一部の命令では、5ビット即値をゼロ拡張し、アセンブリ構文で即値を `uimm` と命名してこれを示します。
+.. note::
 
+  
 ..
   NOTE: The proposed Zfinx variants will take the floating-point scalar
   argument from the `x` registers.
   
 
-NOTE: 提案されているZfinxのバリエーションは、`x` レジスタから浮動小数点のスカラ引数を取ります。
+.. note::
 
+  
 ..
   Vector arithmetic instructions are masked under control of the `vm`
   field.
@@ -4635,11 +4719,12 @@ NOTE: 提案されているZfinxのバリエーションは、`x` レジスタ�
   `rs1`, and that 5-bit immediates are sourced from the `rs1` field.
   
 
-NOTE: このエンコーディングでは、`vs2` が第1オペランドで、`rs1/imm` が第2オペランドです。
-これは、標準的なスカラの順序とは逆です。
-この配列は、1つのスカラレジスタのみを読み出す命令は `rs1` から読み出すという既存のエンコーディング規約を維持し、
-5ビットの即値は `rs1` フィールドから供給されます。
+.. note::
 
+  これは、標準的なスカラの順序とは逆です。
+  この配列は、1つのスカラレジスタのみを読み出す命令は `rs1` から読み出すという既存のエンコーディング規約を維持し、
+  5ビットの即値は `rs1` フィールドから供給されます。
+  
 ..
   ----
   # Assembly syntax pattern for vector ternary arithmetic instructions (multiply-add)
@@ -4691,11 +4776,12 @@ NOTE: このエンコーディングでは、`vs2` が第1オペランドで、`
   operands are always next to each other.
   
 
-NOTE: 三項乗算加算演算では、アセンブラの構文において常に書き込みベクトルレジスタが最初に置かれ、
-次に `rs1` または `vs1` 、そして `vs2` の順になります。
-この順序では、乗算オペランドが常に隣り合っているため、
-これらの三項演算のアセンブラをより自然に読むことができます。
+.. note::
 
+  次に `rs1` または `vs1` 、そして `vs2` の順になります。
+  この順序では、乗算オペランドが常に隣り合っているため、
+  これらの三項演算のアセンブラをより自然に読むことができます。
+  
 [[sec-widening]]
 .. // === Widening Vector Arithmetic Instructions
 
@@ -4755,18 +4841,20 @@ NOTE: 三項乗算加算演算では、アセンブラの構文において常�
   doubleword integers, so the `w` was moved to prefix.
   
 
-NOTE: 元々、オペコードには `w` という接尾語が使われていましたが、
-2倍幅整数のワードサイズの演算を意味する `w` という接尾語と混同される恐れがあったため、 `w` はプレフィックスに移されました。
+.. note::
 
+  2倍幅整数のワードサイズの演算を意味する `w` という接尾語と混同される恐れがあったため、 `w` はプレフィックスに移されました。
+  
 ..
   NOTE: The floating-point widening operations were changed to `vfw*`
   from `vwf*` to be more consistent with any scalar widening
   floating-point operations that will be written as `fw*`.
   
 
-NOTE: 浮動小数点の拡大演算は、`fw*` と書かれるスカラ拡大浮動小数点演算との整合性をとるために、
-`vwf*` から `vfw*` に変更されました。
+.. note::
 
+  `vwf*` から `vfw*` に変更されました。
+  
 ..
   NOTE: For integer multiply-add, another possible widening option
   increases the size of the accumulator to EEW=4*SEW (i.e., 4*SEW +=
@@ -4775,10 +4863,11 @@ NOTE: 浮動小数点の拡大演算は、`fw*` と書かれるスカラ拡大�
   are a possible addition in a future extension.
   
 
-NOTE: 整数の乗算加算では、アキュムレータのサイズを EEW=4*SEW (すなわち、4*SEW += SEW*SEW) に増やすという別の幅拡張オプションが考えられます。
-これらは4倍にするために、オペコードの前に `vq*` という接頭語を付けることで区別されます。
-これらは、現時点では含まれていませんが、将来の拡張で追加される可能性があります。
+.. note::
 
+  これらは4倍にするために、オペコードの前に `vq*` という接頭語を付けることで区別されます。
+  これらは、現時点では含まれていませんが、将来の拡張で追加される可能性があります。
+  
 ..
   For all widening instructions, the destination EEW and EMUL values
   must be a supported configuration, otherwise the instruction encoding
@@ -4802,15 +4891,17 @@ NOTE: 整数の乗算加算では、アキュムレータのサイズを EEW=4*S
   `vstart`.
   
 
-NOTE: この制約は、非ゼロの `vstart` による再起動をサポートするために必要です。
+.. note::
 
+  
 ..
   NOTE: For the `vw<op>.wv vd, vs2, vs1` format instructions, it is legal
   for vd to equal vs2.
   
 
-NOTE: `vw<op>.wv vd, vs2, vs1` 形式の命令では、vd が vs2 に等しくても許されます。
+.. note::
 
+  
 
 [[sec-narrowing]]
 .. // === Narrowing Vector Arithmetic Instructions
@@ -4844,9 +4935,10 @@ EEW > ELENまたはEMUL > 8の場合、命令のエンコーディングは予�
   `vtype` changes.
   
 
-NOTE: 別の設計上の候補は、SEW/LMULをソースベクトルレジスタグループのサイズを定義するものとして扱うことでした。
-ここでの選択は、選択されたアプローチがより少ない `vtype` の変更を必要とするという信念に基づいています。
+.. note::
 
+  ここでの選択は、選択されたアプローチがより少ない `vtype` の変更を必要とするという信念に基づいています。
+  
 ..
   The source and destination vector register groups have to be specified
   with a vector register number that is legal for the source and
@@ -4871,8 +4963,9 @@ NOTE: 別の設計上の候補は、SEW/LMULをソースベクトルレジスタ
   with the same EEW and EMUL as the result.
   
 
-NOTE: 結果と同じEEWとEMULを持つ第2のソースベクトルレジスタ群を上書きしても安全です。
+.. note::
 
+  
 ..
   A `vn*` prefix on the opcode is used to distinguish these instructions
   in the assembler, or a `vfn*` prefix for narrowing floating-point
@@ -4890,8 +4983,9 @@ NOTE: 結果と同じEEWとEMULを持つ第2のソースベクトルレジスタ
   implicitly a narrowing operation.
   
 
-NOTE: マスク・レジスタを設定する比較演算も、暗黙のうちに幅縮小演算となります。
+.. note::
 
+  
 [[sec-vector-integer]]
 .. // == Vector Integer Arithmetic Instructions
 
@@ -5042,10 +5136,11 @@ NOTE: マスク・レジスタを設定する比較演算も、暗黙のうち�
   `vwcvtu.x.x.v vd,vs,vm = vwaddu.vx vd,vs,x0,vm`.
   
 
-NOTE: スカラオペランド `x0` との幅拡張加算命令を使用することにより整数値の幅を2倍に拡張することができます。
-`vwcvt.x.x.v vd,vs,vm = vwadd.vx vd,vs,x0,vm` と `vwcvtu.x.x.v vd,vs,vm = vwaddu.vx vd,vs,x0,vm` により
-疑似アセンブリ命令を定義することができます。
+.. note::
 
+  `vwcvt.x.x.v vd,vs,vm = vwadd.vx vd,vs,x0,vm` と `vwcvtu.x.x.v vd,vs,vm = vwaddu.vx vd,vs,x0,vm` により
+  疑似アセンブリ命令を定義することができます。
+  
 .. // === Vector Integer Extension
 
 
@@ -5303,8 +5398,9 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
   operations that overwrite the mask register.
   
 
-NOTE: この制約は、マスクレジスタを上書きするマスク付きベクトル演算の制約に相当します。
+.. note::
 
+  
 .. // === Vector Bitwise Logical Instructions
 
 =========================
@@ -5350,9 +5446,10 @@ NOTE: この制約は、マスクレジスタを上書きするマスク付き�
   an assembler pseudoinstruction `vnot.v`.
   
 
-NOTE: 即値が-1の場合、スカラ即値形式の `vxor` 命令は、ビットごとのNOT演算を行います。
-これは、アセンブラの疑似命令 `vnot.v` として提供することができます。
+.. note::
 
+  これは、アセンブラの疑似命令 `vnot.v` として提供することができます。
+  
 .. // === Vector Single-Width Bit Shift Instructions
 
 
@@ -5463,17 +5560,19 @@ NOTE: 即値が-1の場合、スカラ即値形式の `vxor` 命令は、ビッ�
   destination is 1/4 width of source.
   
 
-NOTE: 書き込みレジスタがソースの1/4の幅である、`n4` バリアントのサポートを追加すると便利です。
+.. note::
 
+  
 ..
   NOTE: An integer value can be halved in width using the narrowing integer
   shift instructions with a scalar operand of x0. Can define assembly
   pseudoinstructions `vncvt.x.x.w vd,vs,vm` = `vnsrl.wx vd,vs,x0,vm`.
   
 
-NOTE: 整数値は、x0のスカラオペランドを持つ幅縮退の整数シフト命令を使って、幅を半分にすることができます。
-アセンブリ疑似命令 `vncvt.x.x.w vd,vs,vm` = `vnsrl.wx vd,vs,x0,vm` を定義することができます。
+.. note::
 
+  アセンブリ疑似命令 `vncvt.x.x.w vd,vs,vm` = `vnsrl.wx vd,vs,x0,vm` を定義することができます。
+  
 .. // === Vector Integer Comparison Instructions
 
 ===============================
@@ -5655,13 +5754,14 @@ NOTE: 整数値は、x0のスカラオペランドを持つ幅縮退の整数シ
   as it is always true.
   
 
-NOTE: `vmslt{u}.vi` の即時形は、即時値を1減らして `vmsle{u}.vi` のバリエーションを代わりに使用できるので、提供されません。
-`vmsle.vi` の範囲は -16 から 15 で、その結果、実効的な `vmslt.vi` の範囲は -15 から 16 となります。
-`vmsleu.vi` の範囲は0から15で、実効的な `vmsltu.vi` の範囲は1から16になります (注意: 即値0の `vmsltu.vi` は常に偽なので役に立ちません)。
-5ビットのベクトル即値は常に符号拡張されているので、`vmsleu.vi` は `2^SEW^-16` から `2^SEW^-1` の範囲の符号なし即値もサポートしており、
-`2^SEW^-15` から `2^SEW^` の範囲の符号なし即値に対する `vmsltu.vi` の比較が可能です。
-即値 `2^SEW^` の `vlsltu.vi` は常に真なので、有用ではないことに注意してください。
+.. note::
 
+  `vmsle.vi` の範囲は -16 から 15 で、その結果、実効的な `vmslt.vi` の範囲は -15 から 16 となります。
+  `vmsleu.vi` の範囲は0から15で、実効的な `vmsltu.vi` の範囲は1から16になります (注意: 即値0の `vmsltu.vi` は常に偽なので役に立ちません)。
+  5ビットのベクトル即値は常に符号拡張されているので、`vmsleu.vi` は `2^SEW^-16` から `2^SEW^-1` の範囲の符号なし即値もサポートしており、
+  `2^SEW^-15` から `2^SEW^` の範囲の符号なし即値に対する `vmsltu.vi` の比較が可能です。
+  即値 `2^SEW^` の `vlsltu.vi` は常に真なので、有用ではないことに注意してください。
+  
 ..
   Similarly, `vmsge{u}.vi` is not provided and the comparison is
   implemented using `vmsgt{u}.vi` with the immediate decremented by one.
@@ -5680,9 +5780,10 @@ NOTE: `vmslt{u}.vi` の即時形は、即時値を1減らして `vmsle{u}.vi` �
   instructions.
   
 
-NOTE: レジスタスカラと即値の `vmsgt` 形式は、追加のマスク論理命令を使用せずに、
-1つの比較命令でマスク値の正しい極性を提供できるようにするために提供されています。
+.. note::
 
+  1つの比較命令でマスク値の正しい極性を提供できるようにするために提供されています。
+  
 ..
   To reduce encoding space, the `vmsge{u}.vx` form is not directly
   provided, and so the `va {ge} x` case requires special treatment.
@@ -5701,12 +5802,13 @@ NOTE: レジスタスカラと即値の `vmsgt` 形式は、追加のマスク�
   needed as described below.
   
 
-NOTE: `vmsge{u}.vx` は、使用されていない OPIVI の変形である `vmslt{u}` の下で、非直交的な方法でエンコードされる可能性があります。
-しかし、OPIVIでスカラの `x` レジスタを使用する命令はこれらだけです。
-別の方法として、さらに2つのfunct6エンコーディングを使用することもできますが、
-これらは同じ8つのfunct6エンコーディングのグループの他のものとは異なるオペランドフォーマット(マスクレジスタへの書き込み)になります。
-現在のPoRでは、これらの命令を省略し、必要に応じて以下のように合成しています。
+.. note::
 
+  しかし、OPIVIでスカラの `x` レジスタを使用する命令はこれらだけです。
+  別の方法として、さらに2つのfunct6エンコーディングを使用することもできますが、
+  これらは同じ8つのfunct6エンコーディングのグループの他のものとは異なるオペランドフォーマット(マスクレジスタへの書き込み)になります。
+  現在のPoRでは、これらの命令を省略し、必要に応じて以下のように合成しています。
+  
 ..
   The `vmsge{u}.vx` operation can be synthesized by reducing the
   value of `x` by 1 and using the `vmsgt{u}.vx` instruction, when it is
@@ -5933,8 +6035,9 @@ NOTE: `vmsge{u}.vx` は、使用されていない OPIVI の変形である `vms
   unsigned-vector * signed-scalar product.
   
 
-NOTE: 符号なしベクトル * 符号付きスカラ積の上位半分を返す `vmulhus` オペコードはありません。
+.. note::
 
+  
 ..
   NOTE: The current `vmulh*` opcodes perform simple fractional
   multiplies, but with no option to scale, round, and/or saturate the
@@ -5944,10 +6047,11 @@ NOTE: 符号なしベクトル * 符号付きスカラ積の上位半分を返�
   cases.
   
 
-NOTE: 現在の `vmulh*` オペコードは、単純な小数乗算を行いますが、結果をスケーリングしたり、丸めたり、飽和させたりするオプションはありません。
-拡張機能としては、`vmulh`, `vmulhu`, `vmulhsu` のバリエーションが考えられ、積の下半分を破棄する際に `vxrm` 丸めモードを使用します。
-これらのケースではオーバーフローの可能性はありません。
+.. note::
 
+  拡張機能としては、`vmulh`, `vmulhu`, `vmulhsu` のバリエーションが考えられ、積の下半分を破棄する際に `vxrm` 丸めモードを使用します。
+  これらのケースではオーバーフローの可能性はありません。
+  
 .. // === Vector Integer Divide Instructions
 
 
@@ -6010,17 +6114,19 @@ NOTE: 現在の `vmulh*` オペコードは、単純な小数乗算を行いま�
   microarchitectures versus others.
   
 
-NOTE: 整数の除算と余剰を含めるかどうかは、意見が分かれました。
-標準的な命令がない場合、ソフトウェアは演算を実行するために何らかのアルゴリズムを選択しなければならず、
-マイクロアーキテクチャによってはパフォーマンスが低下する可能性があるというのが賛成の理由です。
+.. note::
 
+  標準的な命令がない場合、ソフトウェアは演算を実行するために何らかのアルゴリズムを選択しなければならず、
+  マイクロアーキテクチャによってはパフォーマンスが低下する可能性があるというのが賛成の理由です。
+  
 ..
   NOTE: There is no instruction to perform a "scalar divide by vector"
   operation.
   
 
-NOTE: "ベクトルによるスカラ除算"を実行する命令はありません。
+.. note::
 
+  
 .. // === Vector Widening Integer Multiply Instructions
 
 ==================================
@@ -6091,10 +6197,11 @@ NOTE: "ベクトルによるスカラ除算"を実行する命令はありませ
   floating-point `fnmsub` instruction definition.  Similarly for the
   `vnmsub` opcode.
   
-NOTE: `sac` は「アキュムレータからの減算(subtract from accumulator)」と読むことを意図しています。
-オペコードは、(残念ながら直感に反する)浮動小数点の `fnmsub` 命令の定義に合わせて `vnmsac` となっています。
-オペコードは `vnmsub` と似ています。
+.. note::
 
+  オペコードは、(残念ながら直感に反する)浮動小数点の `fnmsub` 命令の定義に合わせて `vnmsac` となっています。
+  オペコードは `vnmsub` と似ています。
+  
 ..
   ----
   # Integer multiply-add, overwrite addend
@@ -6263,8 +6370,9 @@ NOTE: `sac` は「アキュムレータからの減算(subtract from accumulator
   NOTE: Mask values can be widened into SEW-width elements using a
   sequence `vmv.v.i vd, 0; vmerge.vim vd, vd, 1, v0`.
   
-NOTE: マスク値は、シーケンス `vmv.v.i vd, 0; vmerge.vim vd, vd, 1, v0` を使って、SEW幅の要素に広げることができます。
+.. note::
 
+  
 ..
   NOTE: The vector integer move instructions share the encoding with the vector
   merge instructions, but with `vm=1` and `vs2=v0`.
@@ -6284,10 +6392,11 @@ NOTE: マスク値は、シーケンス `vmv.v.i vd, 0; vmerge.vim vd, vd, 1, v0
   Implementations that do not internally reorganize data can dynamically
   elide this instruction, and treat as a NOP.
   
-NOTE: EEWに従ってデータを内部的に再編成する実装では、
-SEWに従って内部表現をシャッフルすることができます。
-データを内部的に再編成しない実装では、この命令を動的に省略し、NOP として扱うことができます。
+.. note::
 
+  SEWに従って内部表現をシャッフルすることができます。
+  データを内部的に再編成しない実装では、この命令を動的に省略し、NOP として扱うことができます。
+  
 [[sec-vector-fixed-point]]
 .. // == Vector Fixed-Point Arithmetic Instructions
 
@@ -6323,8 +6432,9 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
   NOTE: The widening integer operations described above can also be used
   to avoid overflow.
   
-NOTE: 上述の幅拡張整数演算は、オーバーフローを回避するためにも使用できます。
+.. note::
 
+  
 .. // === Vector Single-Width Saturating Add and Subtract
 
 =================================================
@@ -6405,8 +6515,9 @@ NOTE: 上述の幅拡張整数演算は、オーバーフローを回避する�
   NOTE: For `vasub`, overflow occurs only when subtracting the smallest number
   from the largest number under `rnu` or `rne` rounding.
   
-NOTE: `vasub` では、`rnu` や `rne` の丸め方で最大の数から最小の数を引くときにのみオーバーフローが発生します。
+.. note::
 
+  
 ..
   ----
   # Averaging add
@@ -6497,12 +6608,13 @@ NOTE: `vasub` では、`rnu` や `rne` の丸め方で最大の数から最小�
   precision by one bit for all other products.
   
 
-NOTE: 2つのNビット符号付き数値を乗算する場合、最大の大きさは-2^N-1^ * -2^N-1^で得られ、
-結果は+2^2N-2^となり、2Nビットで保持する場合、符号ビットは1つ(ゼロ)となります。
-他のすべての製品は、2Nビットで2つの符号ビットを持ちます。
-N個の結果ビットでより高い精度を維持するために、製品はNよりも1ビット少ない数だけ右にシフトされ、
-最大の大きさの結果は飽和しますが、他のすべての製品では結果の精度が1ビット増加します。
+.. note::
 
+  結果は+2^2N-2^となり、2Nビットで保持する場合、符号ビットは1つ(ゼロ)となります。
+  他のすべての製品は、2Nビットで2つの符号ビットを持ちます。
+  N個の結果ビットでより高い精度を維持するために、製品はNよりも1ビット少ない数だけ右にシフトされ、
+  最大の大きさの結果は飽和しますが、他のすべての製品では結果の精度が1ビット増加します。
+  
 ..
   NOTE: We do not provide an equivalent fractional multiply where one
   input is unsigned, as these would retain all upper SEW bits and would
@@ -6510,9 +6622,10 @@ N個の結果ビットでより高い精度を維持するために、製品はN
   `vmulhu` and `vmulhsu` instructions, for the case where rounding is
   simply truncation (`rdn`).
   
-NOTE: 一方の入力が符号なしの場合には、SEWの上位ビットをすべて保持し、飽和させる必要がないため、同等の分数乗算は提供していません。
-この操作は、丸めが単なる切り捨て(`rdn`)である場合には、 `vmulhu` および `vmulhsu` 命令によって部分的にカバーされます。
+.. note::
 
+  この操作は、丸めが単なる切り捨て(`rdn`)である場合には、 `vmulhu` および `vmulhsu` 命令によって部分的にカバーされます。
+  
 .. // === Vector Single-Width Scaling Shift Instructions
 
 -------------------------------------------------------
@@ -6635,11 +6748,12 @@ NOTE: 一方の入力が符号なしの場合には、SEWの上位ビットを�
   not required.  A `vsetvli` is required inbetween these two
   instructions to change SEW.
   
-NOTE: 符号付きの値を符号なしの出力先に飽和させることができる単一の命令はありません。
-`vxsat` の値を設定する必要がない場合は、まず `vmax` を使って0に対する最大値を実行して負の数を取り除き、
-次に `vnclipu` を使って結果の符号なしの値を出力先にクリップする、2つのベクトル命令列を使用できます。
-SEWを変更するには、この2つの命令の間に、 `vsetvli` が必要です。
+.. note::
 
+  `vxsat` の値を設定する必要がない場合は、まず `vmax` を使って0に対する最大値を実行して負の数を取り除き、
+  次に `vnclipu` を使って結果の符号なしの値を出力先にクリップする、2つのベクトル命令列を使用できます。
+  SEWを変更するには、この2つの命令の間に、 `vsetvli` が必要です。
+  
 ..
   For `vnclip`, the shifted rounded source value is treated as a signed
   integer and saturates if the result would overflow the destination viewed
@@ -6676,8 +6790,9 @@ SEWを変更するには、この2つの命令の間に、 `vsetvli` が必要�
   NOTE: The floating-point element widths that are supported depend on
   the profile.
   
-NOTE: サポートされる浮動小数点要素の幅は、プロファイルによって異なります。
+.. note::
 
+  
 ..
   Vector floating-point instructions require the presence of base scalar
   floating-point extensions corresponding to the supported vector
@@ -6691,9 +6806,10 @@ NOTE: サポートされる浮動小数点要素の幅は、プロファイル�
   floating-point values will also have to implement scalar
   half-precision floating-point support in the `f` registers.
   
-NOTE: 特に16ビット半精度浮動小数点値をサポートするベクトルプロファイルでは、
-`f` レジスタでのスカラ半精度浮動小数点サポートも実装する必要があります。
+.. note::
 
+  `f` レジスタでのスカラ半精度浮動小数点サポートも実装する必要があります。
+  
 ..
   If the floating-point unit status field `mstatus.FS` is `Off` then any
   attempt to execute a vector floating-point instruction will raise an
@@ -6910,10 +7026,11 @@ NOTE: 特に16ビット半精度浮動小数点値をサポートするベクト
   However, this would be the only maskable operation with three inputs
   and separate output.
   
-NOTE: スカラFPのFMAエンコーディングで使用されていない2つの丸めモードを使用して、
-いくつかの非破壊的なFMAを提供することは可能でしょう。
-しかし、これは3つの入力と別々の出力を持つ唯一のマスク可能な演算となります。
+.. note::
 
+  いくつかの非破壊的なFMAを提供することは可能でしょう。
+  しかし、これは3つの入力と別々の出力を持つ唯一のマスク可能な演算となります。
+  
 .. // === Vector Widening Floating-Point Fused Multiply-Add Instructions
 
 =============================================================
@@ -7001,9 +7118,10 @@ NOTE: スカラFPのFMAエンコーディングで使用されていない2つ�
   width.  The earlier name can be retained as alias in tool chains for
   backward compatibility.
   
-NOTE: 以前のドラフト版では、アセンブラ名として `vfrsqrte7` を使用していましたが、要素幅の ``e``__x__' 表記との混同を招くと判断されました。
-後方互換性のために、ツールチェインのエイリアスとして以前の名前を残すことができます。
+.. note::
 
+  後方互換性のために、ツールチェインのエイリアスとして以前の名前を残すことができます。
+  
 ..
   The following table describes the instruction's behavior for all
   classes of floating-point inputs:
@@ -7027,13 +7145,15 @@ NOTE: 以前のドラフト版では、アセンブラ名として `vfrsqrte7` �
 ..
   NOTE: All positive normal and subnormal inputs produce normal outputs.
   
-NOTE: すべての正のノーマルおよびサブノーマル入力は、ノーマル出力を生成します。
+.. note::
 
+  
 ..
   NOTE: The output value is independent of the dynamic rounding mode.
   
-NOTE: 出力値は、動的丸め込みモードに依存しません。
+.. note::
 
+  
 ..
   For the non-exceptional cases, the low bit of the exponent and the six high
   bits of significand (after the leading one) are concatenated and used to
@@ -7081,18 +7201,20 @@ include::vfrsqrt7.adoc[]
   = 0x5f080000 ({approx} 9.800e18), and vfrsqrt7(0x7f765432 ({approx} 3.274e38))
   = 0x1f820000 ({approx} 5.506e-20).
   
-NOTE: 例えば、SEW=32の場合、vfrsqrt7(0x00718abc ({approx} 1.043e-38)) = 0x5f080000 ({approx} 9.800e18)、
-および vfrsqrt7(0x7f765432 ({approx} 3.274e38)) = 0x1f820000 ({approx} 5.506e-20)となります。
+.. note::
 
+  および vfrsqrt7(0x7f765432 ({approx} 3.274e38)) = 0x1f820000 ({approx} 5.506e-20)となります。
+  
 ..
   NOTE: The 7 bit accuracy was chosen as it requires 0,1,2,3
   Newton-Raphson iterations to converge to close to bfloat16, FP16,
   FP32, FP64 accuracy respectively.   Future instructions can be defined
   with greater estimate accuracy.
   
-NOTE: 7ビットの精度は、0,1,2,3回のニュートンラフソン反復を必要とし、それぞれbfloat16, FP16, FP32, FP64に近い精度に収束するために選ばれました。
-将来的には、より高い推定精度の命令を定義することができます。
+.. note::
 
+  将来的には、より高い推定精度の命令を定義することができます。
+  
 .. // === Vector Floating-Point Reciprocal Estimate Instruction
 
 ==============================================
@@ -7117,10 +7239,11 @@ NOTE: 7ビットの精度は、0,1,2,3回のニュートンラフソン反復を
   width.  The earlier name can be retained as alias in tool chains for
   backward compatibility.
   
-NOTE: 以前のドラフト版では、アセンブラ名として `vfrece7` を使用していましたが、
-要素の幅を表す ``e``__x__ 記法との混同を招くと判断されました。
-以前の名前は後方互換性のためにツールチェインのエイリアスとして保持することができます。
+.. note::
 
+  要素の幅を表す ``e``__x__ 記法との混同を招くと判断されました。
+  以前の名前は後方互換性のためにツールチェインのエイリアスとして保持することができます。
+  
 ..
   This is a unary vector-vector instruction that returns an estimate of
   1/x accurate to 7 bits.
@@ -7166,15 +7289,17 @@ NOTE: 以前のドラフト版では、アセンブラ名として `vfrece7` を
   Normal inputs with magnitude at least 2^B-1^ produce subnormal outputs;
   other normal inputs produce normal outputs.
   
-NOTE: 大きさが少なくとも2^-(B+1)^のサブノーマル入力は通常の出力を生成し、他のサブノーマル入力は無限の出力を生成します。
-少なくとも2^B-1^の大きさを持つ通常の入力は、サブノーマルの出力を生成し、他の通常の入力は通常の出力を生成します。
+.. note::
 
+  少なくとも2^B-1^の大きさを持つ通常の入力は、サブノーマルの出力を生成し、他の通常の入力は通常の出力を生成します。
+  
 ..
   NOTE: The output value depends on the dynamic rounding mode when
   the overflow exception is raised.
   
-NOTE: 出力値は、オーバーフロー例外が発生したときの動的丸めモードに依存します。
+.. note::
 
+  
 ..
   For the non-exceptional cases, the seven high bits of significand (after the
   leading one) are used to address the following table.
@@ -7239,18 +7364,20 @@ include::vfrec7.adoc[]
   = 0x7e900000 ({approx} 9.570e37), and vfrec7(0x7f765432 ({approx} 3.274e38))
   = 0x00214000 ({approx} 3.053e-39).
   
-NOTE: 例えば、SEW=32の場合、vfrec7(0x00718abc ({approx} 1.043e-38)) = 0x7e900000 ({approx} 9.570e37)、
-およびvfrec7(0x7f765432 ({approx} 3.274e38)) = 0x00214000 ({approx} 3.053e-39)となります。
+.. note::
 
+  およびvfrec7(0x7f765432 ({approx} 3.274e38)) = 0x00214000 ({approx} 3.053e-39)となります。
+  
 ..
   NOTE: The 7 bit accuracy was chosen as it requires 0,1,2,3
   Newton-Raphson iterations to converge to close to bfloat16, FP16,
   FP32, FP64 accuracy respectively.   Future instructions can be defined
   with greater estimate accuracy.
   
-NOTE: 7ビットの精度は、bfloat16, FP16, FP32, FP64に近い精度に収束するために、0,1,2,3回のNewton-Raphson反復を必要とすることから選ばれました。
-将来的には、より高い推定精度の命令を定義することができます。
+.. note::
 
+  将来的には、より高い推定精度の命令を定義することができます。
+  
 .. // === Vector Floating-Point MIN/MAX Instructions
 
 =========================================
@@ -7334,9 +7461,10 @@ NOTE: 7ビットの精度は、bfloat16, FP16, FP32, FP64に近い精度に収�
   = `vfsgnjn.vv vd,vs,vs`.
   
 
-NOTE: 浮動小数点値のベクトルは、両方のソースオペランドを同じベクトルオペランドに設定したサインインジェクション命令を使用して否定演算をすることができます。 
-アセンブリ疑似命令 `vfneg.vd,vs` = `vfsgnjn.vv vd,vs,vs` を定義することができます。
+.. note::
 
+  アセンブリ疑似命令 `vfneg.vd,vs` = `vfsgnjn.vv vd,vs,vs` を定義することができます。
+  
 ..
   NOTE: The absolute value of a vector of floating-point elements can be
   calculated using a sign-injection instruction with both source
@@ -7344,9 +7472,10 @@ NOTE: 浮動小数点値のベクトルは、両方のソースオペランド�
   pseudoinstruction `vfabs.v vd,vs` = `vfsgnjx.vv vd,vs,vs`.
   
 
-NOTE: 浮動小数点要素のベクトルの絶対値は、両方のソースオペランドが同じベクトルオペランドに設定された符号挿入命令を使用して計算することができます。 
-アセンブリ疑似命令 `vfabs.vd,vs` = `vfsgnjx.vv vd,vs,vs` を定義できます。
+.. note::
 
+  アセンブリ疑似命令 `vfabs.vd,vs` = `vfsgnjx.vv vd,vs,vs` を定義できます。
+  
 .. // === Vector Floating-Point Compare Instructions
 
 ========================================
@@ -7477,8 +7606,9 @@ NOTE: 浮動小数点要素のベクトルの絶対値は、両方のソース�
   comparisons for NaNs.
   
 
-NOTE: すべての形式を提供することとは、NaNに対する順序付けられていない比較を正しく処理するために必要です。
+.. note::
 
+  
 ..
   NOTE: C99 floating-point quiet comparisons can be implemented by masking
   the signaling comparisons when either input is NaN, as follows.  When
@@ -7486,9 +7616,10 @@ NOTE: すべての形式を提供することとは、NaNに対する順序付�
   omitted.
   
 
-NOTE: C99浮動小数点のquiet比較は、以下のように、どちらかの入力がNaNの場合に信号の比較をマスクすることで実装できます。 
-比較対象が非 NaN 定数の場合は、中間の2つの命令を省略できます。
+.. note::
 
+  比較対象が非 NaN 定数の場合は、中間の2つの命令を省略できます。
+  
 ..
   ----
       # Example of implementing isgreater()
@@ -7515,10 +7646,11 @@ NOTE: C99浮動小数点のquiet比較は、以下のように、どちらかの
   element of `va` contains a quiet NaN and the corresponding element in
   `vb` contains a signaling NaN.
   
-NOTE: 上記のシーケンスでは、2つ目の `vmfeq` 命令をマスクして `vmand` 命令を削除したくなりますが、
-より効率的なシーケンスでは、`va` の要素に quiet NaN が含まれ、`vb` の対応する要素に signaling NaN が含まれている場合に、
-不正な例外を発生させることができません。
+.. note::
 
+  より効率的なシーケンスでは、`va` の要素に quiet NaN が含まれ、`vb` の対応する要素に signaling NaN が含まれている場合に、
+  不正な例外を発生させることができません。
+  
 .. // === Vector Floating-Point Classify Instruction
 
 ========================================
@@ -7610,8 +7742,9 @@ NOTE: 上記のシーケンスでは、2つ目の `vmfeq` 命令をマスクし�
   NOTE: The `vfmv.v.f` instruction shares the encoding with the `vfmerge.vfm`
   instruction, but with `vm=1` and `vs2=v0`.
   
-NOTE: `vfmv.v.f` 命令は、`vfmerge.vfm` 命令とエンコーディングを共有しますが、`vm=1` および `vs2=v0` となります。
+.. note::
 
+  
 .. // === Single-Width Floating-Point/Integer Type-Convert Instructions
 
 ===============================================
@@ -7662,9 +7795,10 @@ NOTE: `vfmv.v.f` 命令は、`vfmerge.vfm` 命令とエンコーディングを�
   NOTE: The `rtz` variants are provided to accelerate truncating conversions
   from floating-point to integer, as is common in languages like C and Java.
   
-NOTE: `rtz` バリエーションは、C や Java などの言語で一般的な、
-浮動小数点から整数への切り捨て変換を高速化するために提供されています。
+.. note::
 
+  浮動小数点から整数への切り捨て変換を高速化するために提供されています。
+  
 .. // === Widening Floating-Point/Integer Type-Convert Instructions
 
 ===============================================
@@ -7717,23 +7851,26 @@ NOTE: `rtz` バリエーションは、C や Java などの言語で一般的な
   NOTE: A double-width IEEE floating-point value can always represent a
   single-width integer exactly.
   
-NOTE: 倍幅のIEEE浮動小数点値は、常に単一幅の整数を正確に表すことができます。
+.. note::
 
+  
 ..
   NOTE: A double-width IEEE floating-point value can always represent a
   single-width IEEE floating-point value exactly.
   
-NOTE: 倍幅のIEEE浮動小数点値は、常に単一幅のIEEE浮動小数点値を正確に表すことができます。
+.. note::
 
+  
 ..
   NOTE: A full set of floating-point widening conversions is not
   supported as single instructions, but any widening conversion can be
   implemented as several doubling steps with equivalent results and no
   additional exception flags raised.
   
-NOTE: 浮動小数点の幅拡張変換のフルセットは、単一の命令としてはサポートされていませんが、任意の幅拡張変換は、
-同等の結果と追加の例外フラグを発生させずに、いくつかの倍のステップとして実装することができます。
+.. note::
 
+  同等の結果と追加の例外フラグを発生させずに、いくつかの倍のステップとして実装することができます。
+  
 .. // === Narrowing Floating-Point/Integer Type-Convert Instructions
 
 ================================================
@@ -7791,11 +7928,12 @@ NOTE: 浮動小数点の幅拡張変換のフルセットは、単一の命令�
   use round-towards-odd (`vfncvt.rod.f.f.w`).  Only the final step
   should use the desired rounding mode.
   
-NOTE: 浮動小数点型幅拡張変換のフルセットは、単一の命令としてはサポートされていません。
-変換は半減ステップのシーケンスで実装できます。 
-最後の半減ステップ以外が round-towards-odd (`vfncvt.rod.f.f.w`) を使用した場合、結果は同等に丸められ、同じ例外フラグが立てられます。 
-最後のステップだけは、希望する丸め方向を使用する必要があります。
+.. note::
 
+  変換は半減ステップのシーケンスで実装できます。 
+  最後の半減ステップ以外が round-towards-odd (`vfncvt.rod.f.f.w`) を使用した場合、結果は同等に丸められ、同じ例外フラグが立てられます。 
+  最後のステップだけは、希望する丸め方向を使用する必要があります。
+  
 .. // == Vector Reduction Operations
 
 *************************************
@@ -7828,10 +7966,11 @@ NOTE: 浮動小数点型幅拡張変換のフルセットは、単一の命令�
   scalar processor, and to support future polymorphic use with future
   types not supported in the scalar unit.
   
-NOTE: リダクションは、スカラプロセッサとのデカップリングの損失を回避し、
-スカラユニットでサポートされていない将来の型で将来のポリモーフィックな使用をサポートするために、
-スカラオペランドと結果をベクトルレジスタの要素0に読み書きします。
+.. note::
 
+  スカラユニットでサポートされていない将来の型で将来のポリモーフィックな使用をサポートするために、
+  スカラオペランドと結果をベクトルレジスタの要素0に読み書きします。
+  
 ..
   Inactive elements from the source vector register group are excluded
   from the reduction, but the scalar operand is always included
@@ -7984,8 +8123,9 @@ NOTE: リダクションは、スカラプロセッサとのデカップリン�
 ..
   NOTE: Older assembler mnemonic `vfredsum` is retained as alias for `vfredusum`.
   
-NOTE: 過去のアセンブラニーモニックである `vfredsum` は `vfredsum` へのエイリアスとして残されています。
+.. note::
 
+  
 .. // ==== Vector Ordered Single-Width Floating-Point Sum Reduction
 
 -------------------------------------------------------------------------------
@@ -8015,8 +8155,9 @@ NOTE: 過去のアセンブラニーモニックである `vfredsum` は `vfreds
   NOTE: The ordered reduction supports compiler autovectorization, while
   the unordered FP sum allows for faster implementations.
   
-NOTE: 順序付きリダクションはコンパイラの自動ベクトル化に対応していますが、順序のないFP加算はより高速な実装を可能にします。
+.. note::
 
+  
 ..
   When the operation is masked (`vm=0`), the masked-off elements do not
   affect the result or the exception flags.
@@ -8030,9 +8171,10 @@ NOTE: 順序付きリダクションはコンパイラの自動ベクトル化�
   the handling of NaNs, exceptions, and rounding when autovectorizing a scalar
   summation loop.
   
-NOTE: アクティブな要素がない場合、加算は行われず、`vs1[0]` のスカラは、NaN値の正規化や例外フラグの設定を行うことなく、単に書き込みレジスタにコピーされます。 
-この動作は、スカラの加算ループを自動ベクトル化する際のNaN、例外、丸めの処理と同一です。
+.. note::
 
+  この動作は、スカラの加算ループを自動ベクトル化する際のNaN、例外、丸めの処理と同一です。
+  
 .. // ==== Vector Unordered Single-Width Floating-Point Sum Reduction
 
 -------------------------------------------------------------------------------
@@ -8100,16 +8242,18 @@ NOTE: アクティブな要素がない場合、加算は行われず、`vs1[0]`
   permitted to pass through the original NaN and set no exception flags, as with
   `vfredosum` .
   
-NOTE: この定義の結果として、要素がアクティブでない場合、実装はNaNペイロードをリダクションツリーに伝搬させる必要はありません。
-特に、アクティブな要素がなく、スカラー入力がNaNの場合、実装はNaNを正規化し、NaNがシグナリングの場合は、無効な例外フラグを設定することが許可されています。 
-また、`vfredosum` のように、元のNaNを通過させ、例外フラグを設定しないことも可能です。
+.. note::
 
+  特に、アクティブな要素がなく、スカラー入力がNaNの場合、実装はNaNを正規化し、NaNがシグナリングの場合は、無効な例外フラグを設定することが許可されています。 
+  また、`vfredosum` のように、元のNaNを通過させ、例外フラグを設定しないことも可能です。
+  
 ..
   NOTE: The `vfredosum` instruction is a valid implementation of the
   `vfredusum` instruction.
   
-NOTE: `vfredosum` 命令は、 `vfredusum` としても有効です。
+.. note::
 
+  
 .. // ==== Vector Single-Width Floating-Point Max and Min Reductions
 
 ----------------------------------------------------------------------
@@ -8121,16 +8265,18 @@ NOTE: `vfredosum` 命令は、 `vfredusum` としても有効です。
   final value and raise the same exception flags regardless of operation
   order.
   
-NOTE: 浮動小数点最大・最小リダクション命令は、演算の順序に関係なく常に同じ結果と同じ例外フラグを設定しなければなりません。
+.. note::
 
+  
 ..
   NOTE: If no elements are active, the scalar in `vs1[0]` is simply copied to
   the destination register, without canonicalizing NaN values and without
   setting any exception flags.
   
-NOTE: アクティブな要素が一つもない場合、`vs1[0]` のスカラ値が単純に書き込みレジスタにコピーされます。
-その際、例外フラグは設定されず、NaNの処理も行われません。
+.. note::
 
+  その際、例外フラグは設定されず、NaNの処理も行われません。
+  
 [[sec-vector-float-reduce-widen]]
 .. // === Vector Widening Floating-Point Reduction Instructions
 
@@ -8161,8 +8307,9 @@ NOTE: アクティブな要素が一つもない場合、`vs1[0]` のスカラ�
 ..
   NOTE: Older assembler mnemonic `vfwredsum` is retained as alias for `vfwredusum`.
   
-NOTE: 古いアセンブリニーモニックである `vfwredsum` は `vfwredusum` のエイリアスとして残されています。
+.. note::
 
+  
 ..
   The reduction of the SEW-width elements is performed as in the
   single-width reduction case, with the elements in `vs2` promoted
@@ -8174,9 +8321,10 @@ SEW幅の要素のリダクション操作は単一幅で行われ、`vs2` の�
   NOTE: `vfwredosum.vs` handles inactive elements and NaN payloads analogously
   to `vfredosum.vs`; `vfwredusum.vs` does so analogously to `vfredusum.vs`.
   
-NOTE: `vfwredosum.vs` 命令は非アクティブな要素とNaNのペイロードについては、`vfredosum.vs` と同様に扱います;
-`vfwredusum.vs`  は `vfredusum.vs` と同様に動作します。
+.. note::
 
+  `vfwredusum.vs`  は `vfredusum.vs` と同様に動作します。
+  
 [[sec-vector-mask]]
 .. // == Vector Mask Instructions
 
@@ -8254,10 +8402,11 @@ NOTE: `vfwredosum.vs` 命令は非アクティブな要素とNaNのペイロー�
   copied without interpretation.  The vmcpy.m assembler
   pseudoinstruction can be retained for compatibility.
   
-NOTE: vmmv.m は以前は vmcpy.m と呼ばれていましたが、新しいレイアウトでは、
-ビットが解釈無しにコピーされるため "mv"と読んだ方が整合性があります。
-vmcpy.m アセンブラ疑似命令は互換性のために残されています。
+.. note::
 
+  ビットが解釈無しにコピーされるため "mv"と読んだ方が整合性があります。
+  vmcpy.m アセンブラ疑似命令は互換性のために残されています。
+  
 ..
   The set of eight mask logical instructions can generate any of the 16
   possibly binary logical functions of the two input masks:
@@ -8299,9 +8448,10 @@ vmcpy.m アセンブラ疑似命令は互換性のために残されています
   the number of predicate registers by moving values into `v0` before
   use.
   
-NOTE: ベクトルマスク論理命令は、使用前に値を `v0`  に移すことで、プレディケートレジスタの数を効果的に拡張するために、
-次のマスクされたベクトル演算と簡単に融合できるように設計されています。
+.. note::
 
+  次のマスクされたベクトル演算と簡単に融合できるように設計されています。
+  
 
 .. // === Vector mask population count `vpopc`
 
@@ -8747,10 +8897,11 @@ SEWが結果の値よりも大きい場合は、結果値をゼロ拡張して�
   registers and no vector register renaming.  Second, to enable resuming
   execution after a trap simpler.
   
-NOTE: これらの制約は2つの理由で存在します。 
-1つ目の理由は、時間的に長いベクトル・レジスタを持ち、ベクトル・レジスタのリネームを行わない実装において、WARハザードの回避を容易にするためです。 
-第二に、例外が単純化された後に実行を再開することを可能にするためです。
+.. note::
 
+  1つ目の理由は、時間的に長いベクトル・レジスタを持ち、ベクトル・レジスタのリネームを行わない実装において、WARハザードの回避を容易にするためです。 
+  第二に、例外が単純化された後に実行を再開することを可能にするためです。
+  
 ..
   The `viota.m` instruction can be combined with memory scatter
   instructions (indexed stores) to perform vector compress functions.
@@ -8894,9 +9045,10 @@ NOTE: これらの制約は2つの理由で存在します。
   NOTE: Microarchitectures can implement `vid.v` instruction using the
   same datapath as `viota.m` but with an implicit set mask source.
   
-NOTE: マイクロアーキテクチャ上では、`vid.v` 命令は `viota.m` 命令と
-同じデータパスを使用して、暗黙的なマスクソースを使用することで実装することができます。
+.. note::
 
+  同じデータパスを使用して、暗黙的なマスクソースを使用することで実装することができます。
+  
 [[sec-vector-permute]]
 .. // == Vector Permutation Instructions
 
@@ -8958,8 +9110,9 @@ SEW > XLENの場合、値はSEWビットに符号拡張されます。 書き込
   NOTE: As a consequence, when `vl`=0, no elements are updated in the
   destination vector register group, regardless of `vstart`.
   
-NOTE: 結論として、 `vl`=0の時は `vstart` に関わらず、書き込みベクトルレジスタのどの要素も更新されません。
+.. note::
 
+  
 ..
   The encodings corresponding to the masked versions (`vm=0`) of `vmv.x.s`
   and `vmv.s.x` are reserved.
@@ -9010,8 +9163,9 @@ NOTE: 結論として、 `vl`=0の時は `vstart` に関わらず、書き込み
   NOTE: As a consequence, when `vl`=0, no elements are updated in the
   destination vector register group, regardless of `vstart`.
   
-NOTE: 結論として、 `vl`=0の時は `vstart` に関わらず、書き込みベクトルレジスタのどの要素も更新されません。
+.. note::
 
+  
 ..
   The encodings corresponding to the masked versions (`vm=0`) of `vfmv.f.s`
   and `vfmv.s.f` are reserved.
@@ -9037,10 +9191,11 @@ NOTE: 結論として、 `vl`=0の時は `vstart` に関わらず、書き込み
   In particular, power-of-2 offsets may operate substantially faster
   than other offsets.
   
-NOTE: スライド操作は、任意のレジスタギャザー命令を使用するよりもはるかに効率的に実装できます。 
-実装では、特定のオフセット値を `vslideup` および `vslidedown` に最適化することができます。
-特に、2の累乗オフセットは、他のオフセットよりも大幅に高速に動作する可能性があります。
+.. note::
 
+  実装では、特定のオフセット値を `vslideup` および `vslidedown` に最適化することができます。
+  特に、2の累乗オフセットは、他のオフセットよりも大幅に高速に動作する可能性があります。
+  
 ..
   For all of the `vslideup`, `vslidedown`, `v[f]slide1up`, and
   `v[f]slide1down` instructions, if `vstart` {ge} `vl`, the instruction performs no
@@ -9053,8 +9208,9 @@ NOTE: スライド操作は、任意のレジスタギャザー命令を使用�
   NOTE: As a consequence, when `vl`=0, no elements are updated in the
   destination vector register group, regardless of `vstart`.
   
-NOTE: 結論として、 `vl`=0の時は `vstart`  に関わらず、書き込みベクトルレジスタのどの要素も更新されません。
+.. note::
 
+  
 ..
   The tail agnostic/undisturbed policy is followed for tail elements.
   
@@ -9130,8 +9286,9 @@ XLEN > SEWの場合、_OFFSET_ はSEWビットに切り捨てられません。
   input vectors during execution, and enables restart with non-zero
   `vstart`.
   
-NOTE: オーバーラップしないという制約は、実行中の入力ベクトル上のWARハザードを回避し、非ゼロの `vstart`  での再起動を可能にします。
+.. note::
 
+  
 .. // ==== Vector Slidedown Instructions
 
 ----------------------------------------
@@ -9316,9 +9473,10 @@ XLEN > SEWの場合、最下位のビットがコピーされ、SEW-XLENの上�
   contents of a vector register, albeit slowly, with multiple repeated
   `vslide1down` invocations.
   
-NOTE: `vslide1down` 命令は、メモリを使用せず、他のベクトル・レジスタに影響を与えずに、ベクトルレジスタに値をロードするために使用できます。 
-これは、デバッガが複数回の `vslide1down` の呼び出しを繰り返すことで、ゆっくりではありますが、ベクトルレジスタの内容を変更するためのパスを提供します。
+.. note::
 
+  これは、デバッガが複数回の `vslide1down` の呼び出しを繰り返すことで、ゆっくりではありますが、ベクトルレジスタの内容を変更するためのパスを提供します。
+  
 .. // === Vector Register Gather Instructions
 
 ===========================================
@@ -9365,10 +9523,11 @@ NOTE: `vslide1down` 命令は、メモリを使用せず、他のベクトル・
   be used to reduce the register capacity needed to hold indices when
   SEW > 16.
   
-NOTE: SEW=8の場合、`vrgather.vv` は0～255のベクトル要素しか参照できません。 
-また，`vrgatherei16` 形式では，64K 個の要素のインデックスを作成することができ，
-SEW > 16 の場合にインデックスを保持するために必要なレジスタの容量を減らすために使用することもできます。
+.. note::
 
+  また，`vrgatherei16` 形式では，64K 個の要素のインデックスを作成することができ，
+  SEW > 16 の場合にインデックスを保持するために必要なレジスタの容量を減らすために使用することもできます。
+  
 ..
   If an element index is out of range ( `vs1[i]` {ge} VLMAX )
   then zero is returned for the element value.
@@ -9392,8 +9551,9 @@ XLEN > SEWの場合，インデックス値はSEWビットまで切り捨てら�
 ..
   NOTE: These forms allow any vector element to be "splatted" to an entire vector.
   
-NOTE: これらの形式では、任意のベクトル要素をベクトル全体に「分散」することができます。
+.. note::
 
+  
 ::
 
   vrgather.vx vd, vs2, rs1, vm # vd[i] = (x[rs1] >= VLMAX) ? 0 : vs2[x[rs1]]
@@ -9496,9 +9656,10 @@ NOTE: これらの形式では、任意のベクトル要素をベクトル全�
   element 0.  This does mean elements in destination register after
   `vstart` will already have been updated.
   
-NOTE: 可能ではありますが、`vcompress` は非ゼロの `vstart` で再起動するのがより困難な命令の一つであるため、
-実装ではこれを行わずに要素 0 から再起動することを想定しています。
+.. note::
 
+  実装ではこれを行わずに要素 0 から再起動することを想定しています。
+  
 .. // ==== Synthesizing `vdecompress`
 
 ------------------------
@@ -9590,26 +9751,29 @@ EEW=SEW、EMUL=`nr` 、実効長 `evl` =EMUL * VLEN/SEWのように動作しま�
   NOTE: These instructions are intended to aid compilers to shuffle
   vector registers without needing to know or change `vl` or `vtype`.
   
-NOTE: これらの命令は、コンパイラが `vl`  や `vtype`  を知ったり変更したりすることなく、
-ベクトルレジスタをシャッフルすることを支援するためのものです。
+.. note::
 
+  ベクトルレジスタをシャッフルすることを支援するためのものです。
+  
 ..
   NOTE: The usual property that no elements are written if `vstart` {ge} `vl`
   does not apply to these instructions.
   Instead, no elements are written if `vstart` {ge} `evl`.
   
-NOTE: `vstart` {ge} `vl` の場合に全ての要素に書き込まれないという通常の特性は適用されません。
-代わりに、`vstart` {ge} `evl` の場合には要素は書き込まれません。
+.. note::
 
+  代わりに、`vstart` {ge} `evl` の場合には要素は書き込まれません。
+  
 ..
   NOTE: If `vd` is equal to `vs2` the instruction is an architectural
   NOP, but is treated as a hint to implementations that rearrange data
   internally that the register group will next be accessed with an EEW
   equal to SEW.
   
-NOTE: `vd` が `vs2` と等しい場合、その命令はアーキテクチャ的には NOP ですが、内部的にデータを再配置する実装に対しては、
-そのレジスタグループが次に SEW に等しい EEW でアクセスされることを示すヒントとして扱われます。
+.. note::
 
+  そのレジスタグループが次に SEW に等しい EEW でアクセスされることを示すヒントとして扱われます。
+  
 ..
   The instruction is encoded as an OPIVI instruction.  The number of
   vector registers to copy is encoded in the low three bits of the
@@ -9625,8 +9789,9 @@ NOTE: `vd` が `vs2` と等しい場合、その命令はアーキテクチャ�
   NOTE: A future extension may support other numbers of registers to be moved.
   Values of `simm` other than 0, 1, 3, and 7 are currently reserved.
   
-NOTE: 将来の拡張機能では、移動するレジスタの数を他の数にすることができます。0, 1, 3, 7 以外の `simm` の値は現在予約されています。
+.. note::
 
+  
 ..
   NOTE: The instruction uses the same funct6 encoding as the `vsmul`
   instruction but with an immediate operand, and only the unmasked
@@ -9634,9 +9799,10 @@ NOTE: 将来の拡張機能では、移動するレジスタの数を他の数�
   related `vmerge` encoding, and it is unlikely the `vsmul` instruction
   would benefit from an immediate form.
   
-NOTE: この命令は、`vsmul` 命令と同じfunct6エンコーディングを使用していますが、オペランドは即値で、マスクされていないバージョン(`vm=1`) のみです。 
-このエンコーディングが選ばれたのは、関連する `vmerge` エンコーディングに近いことと、`vsmul` 命令が即値フォームから恩恵を受ける可能性が低いことによります。
+.. note::
 
+  このエンコーディングが選ばれたのは、関連する `vmerge` エンコーディングに近いことと、`vsmul` 命令が即値フォームから恩恵を受ける可能性が低いことによります。
+  
 ..
   ----
       vmv<nr>r.v vd, vs2  # General form
@@ -9670,8 +9836,9 @@ NOTE: この命令は、`vsmul` 命令と同じfunct6エンコーディングを
   NOTE: A future extension may relax the vector register alignment
   restrictions.
   
-NOTE: 将来の拡張により、ベクトルレジスターのアラインメント制限が緩和される可能性があります。
+.. note::
 
+  
 .. // == Exception Handling
 
 *************
@@ -9700,11 +9867,12 @@ NOTE: 将来の拡張により、ベクトルレジスターのアラインメ�
   presence of strided or scatter/gather operations and demand-paged
   virtual memory.
   
-NOTE: 割り込みの待ち時間を短縮し、フォワードプログレス保証を簡素化するために、部分的に実行されたベクトル命令の再開を可能にするための `vstart`  CSRを追加することを選択しました。 
-これは、IBM 3090のベクトル機能のスキームに似ています。 
-`vstart`  CSRなしで前進性を確保するためには、実装は、ベクトル命令全体が例外を発生させることなく常にアトミックに完了することを保証しなければなりません。 
-これは、ストライド演算やスキャッタ/ギャザ演算、デマンドページングされた仮想メモリがある場合には、特に困難です。
+.. note::
 
+  これは、IBM 3090のベクトル機能のスキームに似ています。 
+  `vstart`  CSRなしで前進性を確保するためには、実装は、ベクトル命令全体が例外を発生させることなく常にアトミックに完了することを保証しなければなりません。 
+  これは、ストライド演算やスキャッタ/ギャザ演算、デマンドページングされた仮想メモリがある場合には、特に困難です。
+  
 .. // === Precise vector traps
 
 ============================
@@ -9715,8 +9883,9 @@ NOTE: 割り込みの待ち時間を短縮し、フォワードプログレス�
   NOTE: We assume most supervisor-mode environments with demand-paging
   will require precise vector traps.
   
-NOTE: スーパバイザモードでデマンドページングを行う環境では、正確なベクトル例外が必要になることが多いと思われます。
+.. note::
 
+  
 ..
   Precise vector traps require that:
   
@@ -9795,10 +9964,11 @@ NOTE: スーパバイザモードでデマンドページングを行う環境�
   generate only imprecise traps for vector instructions on fatal errors,
   as they will not require resumable traps.
   
-NOTE: プロファイルでは、割り込みは正確な例外で、他の例外は不正確例外であると指定することができます。 
-多くの組み込み機器では、致命的なエラーが発生したときには、再開可能な例外を必要としないため、
-ベクトル命令のための不正確な例外のみを生成することを想定しています。
+.. note::
 
+  多くの組み込み機器では、致命的なエラーが発生したときには、再開可能な例外を必要としないため、
+  ベクトル命令のための不正確な例外のみを生成することを想定しています。
+  
 ..
   Imprecise traps shall report the faulting element in `vstart` for
   traps caused by synchronous vector exceptions.
@@ -9851,9 +10021,10 @@ NOTE: プロファイルでは、割り込みは正確な例外で、他の例�
   restoring opaque microarchitectural state from a vector unit
   implementation to support context switching with imprecise traps.
   
-NOTE: 将来の拡張機能では、不明確な例外でのコンテキストスイッチングをサポートするために、
-ベクトルユニットの実装から不透明なマイクロアーキテクチャの状態を保存・復元する標準的な方法を定義する可能性があります。
+.. note::
 
+  ベクトルユニットの実装から不透明なマイクロアーキテクチャの状態を保存・復元する標準的な方法を定義する可能性があります。
+  
 
 [[sec-vector-extensions]]
 
@@ -9898,9 +10069,10 @@ supported.
 
 All Zve* extensions have precise traps.
 
-NOTE: There is currently no standard support for handling imprecise
-traps, so standard extensions have to provide precise traps.
+.. note::
 
+  traps, so standard extensions have to provide precise traps.
+  
 All Zve* extensions provide support for EEW of 8, 16, and 32, and
 Zve64* extensions also support EEW of 64.
 
@@ -9917,16 +10089,18 @@ variants that return the high word of the product (`vmulh.vv`,
 `vmulh.vx`, `vmulhu.vv`, `vmulhu.vx`, `vmulhsu.vv`, `vmulhsu.vx`) are
 not included for EEW=64 in Zve64*.
 
-NOTE: Producing the high-word of a product can take substantial
-additional gates for large EEW.
+.. note::
 
+  additional gates for large EEW.
+  
 All Zve* extensions support all vector fixed-point arithmetic
 instructions (<<sec-vector-fixed-point>>), except that `vsmul.vv` and
 `vsmul.vx` are not supported for EEW=64 in Zve64*.
 
-NOTE: As with `vmulh`, `vsmul` requires a large amount of additional
-logic, and 64-bit fixed-point multiplies are relatively rare.
+.. note::
 
+  logic, and 64-bit fixed-point multiplies are relatively rare.
+  
 All Zve* extensions support all vector integer single-width and
 widening reduction operations (Sections <<sec-vector-integer-reduce>>,
 <<sec-vector-integer-reduce-widen>>).
@@ -9966,15 +10140,16 @@ The V vector extension has precise traps.
 
 The V vector extension requires that VLEN {ge} 128.
 
-NOTE: The value of 128 was chosen as a compromise for application
-processors. Providing a larger VLEN allows stripmining code to be
-elided in some cases for short vectors, but also increases the size of
-the minimum implementation.  Note that larger LMUL can be used to
-avoid stripmining for longer known-size application vectors at the
-cost of having fewer available vector register groups. For example, an
-LMUL of 8 allows vectors of up to sixteen 64-bit elements to be
-processed without stripmining using four vector register groups.
+.. note::
 
+  processors. Providing a larger VLEN allows stripmining code to be
+  elided in some cases for short vectors, but also increases the size of
+  the minimum implementation.  Note that larger LMUL can be used to
+  avoid stripmining for longer known-size application vectors at the
+  cost of having fewer available vector register groups. For example, an
+  LMUL of 8 allows vectors of up to sixteen 64-bit elements to be
+  processed without stripmining using four vector register groups.
+  
 The V extension supports EEW of 8, 16, and 32, and 64.
 
 The V extension supports the vector configuration instructions
