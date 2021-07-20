@@ -561,6 +561,71 @@ VLEN/SEW要素に分割されているとみなされます。</p>
 <div class="line">1 | 1 | 1 | 1024 | _予約_</div>
 </div>
 <p><a href="#id10"><span class="problematic" id="id11">|</span></a>===</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 29%" />
+<col style="width: 29%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head" colspan="3"><p>vsew[2:0]</p></th>
+<th class="head"><p>SEW</p></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>8</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>16</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>32</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>64</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>128</p></td>
+<td><p>予約</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>256</p></td>
+<td><p>予約</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>512</p></td>
+<td><p>予約</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1024</p></td>
+<td><p>予約</p></td>
+</tr>
+</tbody>
+</table>
 <div class="admonition note">
 <p class="admonition-title">注釈</p>
 <p>より大きな <cite>vsew[2:0]</cite> エンコーディング (<cite>100</cite>-<cite>111</cite>) が使用されることが予想されますが、
@@ -580,6 +645,29 @@ VLEN/SEW要素に分割されているとみなされます。</p>
 </div>
 </div>
 <p><a href="#id14"><span class="problematic" id="id15">|</span></a>===</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 86%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>SEW</p></td>
+<td><p>ベクトルレジスタあたりの要素数</p></td>
+</tr>
+<tr class="row-even"><td><p>64</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>32</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-even"><td><p>16</p></td>
+<td><p>8</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>16</p></td>
+</tr>
+</tbody>
+</table>
 <p>サポートされる要素の幅はLMULによって異なりますが、
 プロファイルはLMUL=1でサポートされなければならない最小のSEWを義務付けている場合があります。</p>
 <div class="admonition note">
@@ -658,6 +746,100 @@ LMUL&lt;SEW~LMUL1MIN~/SEW~LMUL1MAX~ の動作を将来的に定義できるよ�
 <div class="line">0 | 1 | 1 |   8  |      4  | 8*VLEN/SEW | <cite>v</cite> __n__, ..., <cite>v</cite> __n__+7</div>
 </div>
 <p><a href="#id18"><span class="problematic" id="id19">|</span></a>===</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 4%" />
+<col style="width: 4%" />
+<col style="width: 8%" />
+<col style="width: 13%" />
+<col style="width: 17%" />
+<col style="width: 49%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head" colspan="3"><p>vlmul[2:0]</p></th>
+<th class="head"><p>LMUL</p></th>
+<th class="head"><p>#groups</p></th>
+<th class="head"><p>VLMAX</p></th>
+<th class="head"><p>Registers grouped with register n</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>reserved</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1/8</p></td>
+<td><p>32</p></td>
+<td><p>VLEN/SEW/8</p></td>
+<td><p>v n (single register in group)</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>1/4</p></td>
+<td><p>32</p></td>
+<td><p>VLEN/SEW/4</p></td>
+<td><p>v n (single register in group)</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1/2</p></td>
+<td><p>32</p></td>
+<td><p>VLEN/SEW/2</p></td>
+<td><p>v n (single register in group)</p></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>32</p></td>
+<td><p>VLEN/SEW</p></td>
+<td><p>v n (single register in group)</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>16</p></td>
+<td><p>2*VLEN/SEW</p></td>
+<td><p>v n, v n+1</p></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>4</p></td>
+<td><p>8</p></td>
+<td><p>4*VLEN/SEW</p></td>
+<td><p>v n, …, v n+3</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>8</p></td>
+<td><p>4</p></td>
+<td><p>8*VLEN/SEW</p></td>
+<td><p>v n, …, v n+7</p></td>
+</tr>
+</tbody>
+</table>
 <p>LMUL=2の場合、ベクトレジスタグループには、ベクトレジスタ <cite>v</cite> __n__とベクトレジスタ <cite>v</cite> __n__+1が含まれ、
 ビット単位で2倍のベクト長になります。
 LMUL=2のベクトレジスタグループで、奇数番号のベクトレジスタを指定する命令は予約されています。</p>
@@ -688,6 +870,43 @@ Tailセットと非アクティブセットには、&lt;&lt;sec-inactive-defs&gt
 <div class="line">1   |   1   | agnostic      | agnostic</div>
 </div>
 <p><a href="#id22"><span class="problematic" id="id23">|</span></a>===</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 32%" />
+<col style="width: 44%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>vta</p></th>
+<th class="head"><p>vma</p></th>
+<th class="head"><p>末尾要素</p></th>
+<th class="head"><p>非アクティブ要素</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>undisturbed</p></td>
+<td><p>undisturbed</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>undisturbed</p></td>
+<td><p>agnostic</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>agnostic</p></td>
+<td><p>undisturbed</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>agnostic</p></td>
+<td><p>agnostic</p></td>
+</tr>
+</tbody>
+</table>
 <p>セットがundisturbedに設定されている場合、ベクトルレジスタグループ内の対応するセットの書き込み要素は、
 以前の値を保持します。
 マスクの書き込み値は、<cite>vta</cite> の設定にかかわらず、
@@ -858,6 +1077,48 @@ _fault-<a href="#id230"><span class="problematic" id="id231">only-first_</span><
 <div class="line">1 | 1 | rod | round-to-odd (OR bits into LSB, aka &quot;jam&quot;)  | <cite>!v[d] &amp; v[d-1:0]{ne}0</cite></div>
 </div>
 <p><a href="#id26"><span class="problematic" id="id27">|</span></a>===</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 14%" />
+<col style="width: 45%" />
+<col style="width: 31%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head" colspan="2"><p>vxrm[1:0]</p></th>
+<th class="head"><p>Abbreviation</p></th>
+<th class="head"><p>Rounding Mode</p></th>
+<th class="head"><p>Rounding increment, r</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>rnu</p></td>
+<td><p>round-to-nearest-up (add +0.5 LSB)</p></td>
+<td><p>v[d-1]</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>rne</p></td>
+<td><p>round-to-nearest-even</p></td>
+<td><p>v[d-1] &amp; (v[d-2:0]≠0 | v[d])</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>rdn</p></td>
+<td><p>round-down (truncate)</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>rod</p></td>
+<td><p>round-to-odd (OR bits into LSB, aka &quot;jam&quot;)</p></td>
+<td><p>!v[d] &amp; v[d-1:0]≠0</p></td>
+</tr>
+</tbody>
+</table>
 <p>以下の命令の説明では、丸め関数を表すために以下の操作が使用されています。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">roundoff_unsigned</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">unsigned</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">d</span><span class="p">)</span> <span class="o">+</span> <span class="n">r</span>
 <span class="n">roundoff_signed</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">signed</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">d</span><span class="p">)</span> <span class="o">+</span> <span class="n">r</span>
@@ -890,6 +1151,29 @@ _fault-<a href="#id230"><span class="problematic" id="id231">only-first_</span><
 </div>
 </div>
 <p><a href="#id30"><span class="problematic" id="id31">|</span></a>===</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 20%" />
+<col style="width: 69%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Bits</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2:1</p></td>
+<td><p>vxrm[1:0]</p></td>
+<td><p>Fixed-point rounding mode</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>vxsat</p></td>
+<td><p>Fixed-point accrued saturation flag</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="id32">
 <h2>リセット時のベクトル拡張の状態<a class="headerlink" href="#id32" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -1090,6 +1374,173 @@ SEW/LMULを一定に保つことです(したがって、VLMAXも一定になり
 <div class="line">SEW=1024 |   |    |    |    |     |     |      |  8  |   4  |  2  |   1  | 1/2 | 1/4 | 1/8</div>
 </div>
 <p><a href="#id45"><span class="problematic" id="id46">|</span></a>===</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 4%" />
+<col style="width: 4%" />
+<col style="width: 4%" />
+<col style="width: 4%" />
+<col style="width: 7%" />
+<col style="width: 7%" />
+<col style="width: 7%" />
+<col style="width: 7%" />
+<col style="width: 7%" />
+<col style="width: 7%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>SEW/LMUL</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>4</p></th>
+<th class="head"><p>8</p></th>
+<th class="head"><p>16</p></th>
+<th class="head"><p>32</p></th>
+<th class="head"><p>64</p></th>
+<th class="head"><p>128</p></th>
+<th class="head"><p>256</p></th>
+<th class="head"><p>512</p></th>
+<th class="head"><p>1024</p></th>
+<th class="head"><p>2048</p></th>
+<th class="head"><p>4096</p></th>
+<th class="head"><p>8192</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>SEW= 8</p></td>
+<td><p>8</p></td>
+<td><p>4</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>1/2</p></td>
+<td><p>1/4</p></td>
+<td><p>1/8</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>SEW= 16</p></td>
+<td></td>
+<td><p>8</p></td>
+<td><p>4</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>1/2</p></td>
+<td><p>1/4</p></td>
+<td><p>1/8</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>SEW= 32</p></td>
+<td></td>
+<td></td>
+<td><p>8</p></td>
+<td><p>4</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>1/2</p></td>
+<td><p>1/4</p></td>
+<td><p>1/8</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>SEW= 64</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>8</p></td>
+<td><p>4</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>1/2</p></td>
+<td><p>1/4</p></td>
+<td><p>1/8</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>SEW= 128</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>8</p></td>
+<td><p>4</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>1/2</p></td>
+<td><p>1/4</p></td>
+<td><p>1/8</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>SEW= 256</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>8</p></td>
+<td><p>4</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>1/2</p></td>
+<td><p>1/4</p></td>
+<td><p>1/8</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>SEW= 512</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>8</p></td>
+<td><p>4</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>1/2</p></td>
+<td><p>1/4</p></td>
+<td><p>1/8</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>SEW=1024</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>8</p></td>
+<td><p>4</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>1/2</p></td>
+<td><p>1/4</p></td>
+<td><p>1/8</p></td>
+</tr>
+</tbody>
+</table>
 <p>LMULの設定を大きくすると、単純にベクトルの長さを長くして命令のフェッチとディスパッチのオーバーヘッドを減らすことができ、
 ベクトルレジスタグループの数が少なくて済む場合にも使用できます。</p>
 <div class="admonition note">
@@ -1310,6 +1761,25 @@ Narrowing命令は、ソースオペランドはEEW=2*SEW、EMUL=2*LMULですが
 <div class="line">1 | マスクされない</div>
 </div>
 <p><a href="#id56"><span class="problematic" id="id57">|</span></a>===</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 94%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>vm</p></th>
+<th class="head"><p>説明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>ベクトル演算の結果は v0.mask[i]=1の領域にのみ書き込まれる</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>マスクされない</p></td>
+</tr>
+</tbody>
+</table>
 <div class="admonition note">
 <p class="admonition-title">注釈</p>
 <p><cite>v0</cite> を使った真と補填マスキングと、スカラ演算の符号化を行っていました。</p>
@@ -1455,6 +1925,41 @@ RISC-Vのベクトル仕様では、この手法を直接かつポータブル�
 | !x0    |  x0    | ~0                | <cite>vl</cite> を VLMAXに設定する
 |  x0    |  x0    | <cite>vl</cite> レジスタの値 | <cite>vl</cite> をキープする(もちろん、 <cite>vtype</cite> は変更される)
 <a href="#id66"><span class="problematic" id="id67">|</span></a>===</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 7%" />
+<col style="width: 7%" />
+<col style="width: 23%" />
+<col style="width: 64%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>rd</p></th>
+<th class="head"><p>rs1</p></th>
+<th class="head"><p>AVL値</p></th>
+<th class="head"><p>vl を更新する</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>!x0</p></td>
+<td><p>x[rs1] の値</p></td>
+<td><p>通常のストリップマイニング</p></td>
+</tr>
+<tr class="row-odd"><td><p>!x0</p></td>
+<td><p>x0</p></td>
+<td><p>~0</p></td>
+<td><p>vl を VLMAXに設定する</p></td>
+</tr>
+<tr class="row-even"><td><p>x0</p></td>
+<td><p>x0</p></td>
+<td><p>vl レジスタの値</p></td>
+<td><p>vl をキープする(もちろん、 vtype は変更される)</p></td>
+</tr>
+</tbody>
+</table>
 <p><cite>rs1</cite> が <cite>x0</cite> でない場合、AVL は <cite>rs1</cite> で指定された <cite>x</cite> レジスタに保持される符号なし整数となり、
 新しい <cite>vl</cite> 値も <cite>rd</cite> で指定された <cite>x</cite> レジスタに書き込まれます。</p>
 <p><cite>rs1=x0</cite> であるが、 <cite>rd!=x0</cite> のときは、符号なし整数の最大値 (<cite>~0</cite>) が AVL として使用され、
