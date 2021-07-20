@@ -10023,40 +10023,70 @@ EEW=SEW、EMUL=`nr` 、実効長 `evl` =EMUL * VLEN/SEWのように動作しま�
 
   ベクトルユニットの実装から不透明なマイクロアーキテクチャの状態を保存・復元する標準的な方法を定義する可能性があります。
   
-
 [[sec-vector-extensions]]
+.. // == Standard Vector Extensions
 
-###########################
-Standard Vector Extensions
-###########################
+#########################
+標準ベクトル拡張
+#########################
 
-This section describes the standard vector extensions to be proposed
-for public review.  A set of smaller extensions intended for embedded
-use are named with a "Zve" prefix, while a larger vector extension
-designed for application processors is named as a single-letter V
-extension.
+..
+  This section describes the standard vector extensions to be proposed
+  for public review.  A set of smaller extensions intended for embedded
+  use are named with a "Zve" prefix, while a larger vector extension
+  designed for application processors is named as a single-letter V
+  extension.
+  
+このセクションでは、パブリックレビューのために提案される標準ベクトル拡張について説明します。 
+組み込み用途を目的とした小規模な拡張機能のセットには "Zve "という接頭辞を付け、
+アプリケーションプロセッサ向けに設計された大規模なベクター拡張機能には1文字のVという拡張子を付けています。
 
-The initial vector extensions are designed to act as a base for
-additional vector extensions in various domains, including
-cryptography and machine learning.
+..
+  The initial vector extensions are designed to act as a base for
+  additional vector extensions in various domains, including
+  cryptography and machine learning.
+  
+初期のベクトル拡張は、暗号や機械学習などの様々な領域で追加のベクトル拡張を行うためのベースとして設計されています。
 
+.. // === Zve*: Vector extensions for Embedded Processors
 
-************************************************
-Zve*: Vector extensions for Embedded Processors
-************************************************
+**********************************************************
+Zve*: 組み込みプロセッサ用のベクトル拡張
+**********************************************************
 
-The following five standard extensions are defined to provide varying
-degrees of vector support and are intended for use with embedded
-processors.  Any of these extensions can be added to base ISAs with
-XLEN=32 or XLEN=64.  The table lists the minimum VLEN and supported
-EEWs for each extension as well as what floating-point types are
-supported.
+..
+  The following five standard extensions are defined to provide varying
+  degrees of vector support and are intended for use with embedded
+  processors.  Any of these extensions can be added to base ISAs with
+  XLEN=32 or XLEN=64.  The table lists the minimum VLEN and supported
+  EEWs for each extension as well as what floating-point types are
+  supported.
+  
+以下の5つの標準的な拡張機能は、さまざまな程度のベクトルサポートを提供するために定義されており、
+組み込みプロセッサでの使用を目的としています。 
+これらの拡張機能は、XLEN=32 または XLEN=64 のベース ISA に追加することができます。 
+表には、各拡張機能の最小VLENとサポートされるEEW、およびサポートされる浮動小数点型を示しています。
 
-.Embedded vector extensions
+..
+  .Embedded vector extensions
+  [cols="1,1,2,1,1"]
+  [%autowidth]
+  |===
+  | Extension | Minimum VLEN | Supported EEW |  FP32 | FP64
+  
+  | Zve32x    | 32    | 8, 16, 32     |   N   |  N
+  | Zve32f    | 32    | 8, 16, 32     |   Y   |  N
+  | Zve64x    | 64    | 8, 16, 32, 64 |   N   |  N
+  | Zve64f    | 64    | 8, 16, 32, 64 |   Y   |  N
+  | Zve64d    | 64    | 8, 16, 32, 64 |   Y   |  Y
+  |===
+  
+
+. 組み込みベクトル拡張
 [cols="1,1,2,1,1"]
 [%autowidth]
 |===
-| Extension | Minimum VLEN | Supported EEW |  FP32 | FP64
+| 拡張 | 最小VLEN | サポートされるEEW |  FP32 | FP64
 
 | Zve32x    | 32    | 8, 16, 32     |   N   |  N
 | Zve32f    | 32    | 8, 16, 32     |   Y   |  N
@@ -10065,81 +10095,144 @@ supported.
 | Zve64d    | 64    | 8, 16, 32, 64 |   Y   |  Y
 |===
 
-All Zve* extensions have precise traps.
+..
+  All Zve* extensions have precise traps.
+  
+全ての Zve* 拡張は正確な例外を持ちます。
 
-.. note::
-
+..
+  NOTE: There is currently no standard support for handling imprecise
   traps, so standard extensions have to provide precise traps.
   
-All Zve* extensions provide support for EEW of 8, 16, and 32, and
-Zve64* extensions also support EEW of 64.
-
-All Zve* extensions support the vector configuration instructions
-(Section <<sec-vector-config>>).
-
-All Zve* extensions support all vector load and store instructions
-(Section <<sec-vector-memory>>), except Zve64* extensions do not
-support EEW=64 for index values when XLEN=32.
-
-All Zve* extensions support all vector integer instructions (Section
-<<sec-vector-integer>>), except that the `vmulh` integer multiply
-variants that return the high word of the product (`vmulh.vv`,
-`vmulh.vx`, `vmulhu.vv`, `vmulhu.vx`, `vmulhsu.vv`, `vmulhsu.vx`) are
-not included for EEW=64 in Zve64*.
-
 .. note::
 
+  
+..
+  All Zve* extensions provide support for EEW of 8, 16, and 32, and
+  Zve64* extensions also support EEW of 64.
+  
+すべてのZve*拡張は、8,16,32のEEWをサポートしており、Zve64*拡張は64のEEWもサポートしています。
+
+..
+  All Zve* extensions support the vector configuration instructions
+  (Section <<sec-vector-config>>).
+  
+すべての Zve* 拡張機能は、ベクトル構成命令 (<<sec-vector-config>> 節) をサポートしています。
+
+..
+  All Zve* extensions support all vector load and store instructions
+  (Section <<sec-vector-memory>>), except Zve64* extensions do not
+  support EEW=64 for index values when XLEN=32.
+  
+全ての Zve* 拡張は全てのベクトルロード・ストア命令(<<sec-vector-memory>>節)をサポートしていますが、
+Zve64* 拡張は XLEN=32 の時のインデックス値に対する EEW=64 をサポートしていません。
+
+..
+  All Zve* extensions support all vector integer instructions (Section
+  <<sec-vector-integer>>), except that the `vmulh` integer multiply
+  variants that return the high word of the product (`vmulh.vv`,
+  `vmulh.vx`, `vmulhu.vv`, `vmulhu.vx`, `vmulhsu.vv`, `vmulhsu.vx`) are
+  not included for EEW=64 in Zve64*.
+  
+すべての Zve* 拡張は、すべてのベクトル整数命令 (<<sec-vector-integer>>節) をサポートしています。
+ただし、積の上位ワードを返す `vmulh`  整数乗算バリエーション (`vmulh.vv`, `vmulh.vx`, `vmulhu.vv`, `vmulhu.vx`, `vmulhsu.vv`, `vmulhsu.vx` ) は、Zve64* では EEW=64 に対応していません。
+
+..
+  NOTE: Producing the high-word of a product can take substantial
   additional gates for large EEW.
   
-All Zve* extensions support all vector fixed-point arithmetic
-instructions (<<sec-vector-fixed-point>>), except that `vsmul.vv` and
-`vsmul.vx` are not supported for EEW=64 in Zve64*.
-
 .. note::
 
+  
+..
+  All Zve* extensions support all vector fixed-point arithmetic
+  instructions (<<sec-vector-fixed-point>>), except that `vsmul.vv` and
+  `vsmul.vx` are not supported for EEW=64 in Zve64*.
+  
+すべてのZve*拡張は、すべてのベクトル固定小数点演算命令（<<sec-vector-fixed-point>>）をサポートしています。
+ただし、 `vsmul.vv` と `vsmul.vx` は、Zve64*のEEW=64ではサポートされていません。
+
+..
+  NOTE: As with `vmulh`, `vsmul` requires a large amount of additional
   logic, and 64-bit fixed-point multiplies are relatively rare.
   
-All Zve* extensions support all vector integer single-width and
-widening reduction operations (Sections <<sec-vector-integer-reduce>>,
-<<sec-vector-integer-reduce-widen>>).
-
-All Zve* extensions support all vector mask instructions (Section
-<<sec-vector-mask>>).
-
-All Zve* extensions support all vector permutation instructions
-(Section <<sec-vector-permute>>), except that Zve32x and Zve64x do not
-implement the floating-point scalar move instructions.
-
-The Zve32f and Zve64f extensions require the scalar processor to
-implement the F extension, and implement all vector floating-point
-instructions (Section <<sec-vector-float>>) for floating-point
-operands with EEW=32 (i.e., no widening floating-point operations),
-and conversion instructions are provided to and from all supported
-integer EEWs.  Vector single-width floating-point reduction operations
-(<<sec-vector-float-reduce>>) for EEW=32 are supported.
-
-The Zve32d and Zve64d extensions require the scalar processor to
-implement the D extension, and implement all vector floating-point
-instructions (Section <<sec-vector-float>>) for floating-point
-operands with EEW=32 or EEW=64 (including widening instructions and
-conversions between FP32 and FP64). Vector single-width floating-point
-reductions (<<sec-vector-float-reduce>>) for EEW=32 and EEW=64 are
-supported as well as widening reductions from FP32 to FP64.
-
-
-**********************************************
-V: Vector Extension for Application Processor
-**********************************************
-
-The single-letter V extension is intended for use in application
-processor profiles.
-
-The V vector extension has precise traps.
-
-The V vector extension requires that VLEN {ge} 128.
-
 .. note::
 
+  
+
+..
+  All Zve* extensions support all vector integer single-width and
+  widening reduction operations (Sections <<sec-vector-integer-reduce>>,
+  <<sec-vector-integer-reduce-widen>>).
+  
+すべての Zve* 拡張は、すべてのベクトル整数の単一幅および幅拡張および幅縮小操作をサポートします (<<sec-vector-integer-reduce>>節, <<sec-vector-integer-reduce-widen>>節)。
+
+..
+  All Zve* extensions support all vector mask instructions (Section
+  <<sec-vector-mask>>).
+  
+全ての Zve* 拡張は全てのベクトルマスク命令をサポートします (<<sec-vector-mask>>節)。
+
+..
+  All Zve* extensions support all vector permutation instructions
+  (Section <<sec-vector-permute>>), except that Zve32x and Zve64x do not
+  implement the floating-point scalar move instructions.
+  
+Zve32x と Zve64x が浮動小数点スカラ移動命令を実装していないことを除いて、
+すべての Zve* 拡張はすべてのベクトル組み合わせ命令 (<<sec-vector-permute>>節) をサポートしています。
+
+..
+  The Zve32f and Zve64f extensions require the scalar processor to
+  implement the F extension, and implement all vector floating-point
+  instructions (Section <<sec-vector-float>>) for floating-point
+  operands with EEW=32 (i.e., no widening floating-point operations),
+  and conversion instructions are provided to and from all supported
+  integer EEWs.  Vector single-width floating-point reduction operations
+  (<<sec-vector-float-reduce>>) for EEW=32 are supported.
+  
+Zve32fおよびZve64f拡張は、スカラ・プロセッサがF拡張を実装し、EEW=32の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令（<<sec-vector-float>>節）を実装することを要求し、
+サポートされているすべての整数EEWとの間の変換命令が提供されています。 
+EEW=32のベクトル単幅浮動小数点演算(<<sec-vector-float-reduce>>節)をサポートしています。
+
+..
+  The Zve32d and Zve64d extensions require the scalar processor to
+  implement the D extension, and implement all vector floating-point
+  instructions (Section <<sec-vector-float>>) for floating-point
+  operands with EEW=32 or EEW=64 (including widening instructions and
+  conversions between FP32 and FP64). Vector single-width floating-point
+  reductions (<<sec-vector-float-reduce>>) for EEW=32 and EEW=64 are
+  supported as well as widening reductions from FP32 to FP64.
+  
+Zve32d および Zve64d 拡張は、スカラ・プロセッサが D 拡張を実装し、EEW=32 または EEW=64 の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令 (<<sec-vector-float>>節) を実装する必要があります
+(幅拡張命令および FP32 と FP64 の間の変換を含む)。
+EEW=32およびEEW=64のベクトル単幅浮動小数点演算(<<sec-vector-float-reduce>>節)がサポートされており、
+FP32からFP64への幅拡張リダクションもサポートされています。
+
+.. // === V: Vector Extension for Application Processor
+
+
+*************************************************************************
+V: アプリケーションプロセッサのためのベクトル拡張
+*************************************************************************
+
+..
+  The single-letter V extension is intended for use in application
+  processor profiles.
+  
+1文字のV拡張は、アプリケーションプロセッサのプロファイルでの使用を目的としています。
+
+..
+  The V vector extension has precise traps.
+  
+V ベクトル拡張には正確なトラップをサポートします。
+
+..
+  The V vector extension requires that VLEN {ge} 128.
+  
+V ベクトル拡張は、VLEN {ge} 128 が必要です。
+
+..
+  NOTE: The value of 128 was chosen as a compromise for application
   processors. Providing a larger VLEN allows stripmining code to be
   elided in some cases for short vectors, but also increases the size of
   the minimum implementation.  Note that larger LMUL can be used to
@@ -10148,43 +10241,83 @@ The V vector extension requires that VLEN {ge} 128.
   LMUL of 8 allows vectors of up to sixteen 64-bit elements to be
   processed without stripmining using four vector register groups.
   
-The V extension supports EEW of 8, 16, and 32, and 64.
+.. note::
 
-The V extension supports the vector configuration instructions
-(Section <<sec-vector-config>>).
+  VLEN を大きくすると、短いベクターの場合にストリップマイニングコードを省略できる場合がありますが、
+  最小実装のサイズが大きくなります。
+  LMULを大きくすると、既知のサイズの長いアプリケーションベクターのストリップマイニングを回避することができますが、
+  利用可能なベクトルレジスタグループの数が少なくなりますので注意してください。
+  たとえば、LMULが8の場合、最大16個の64ビット要素を持つベクトルを、4つのベクトルレジスターグループを使用して、
+  ストリップマイニングを行わずに処理することができます。
+  
+..
+  The V extension supports EEW of 8, 16, and 32, and 64.
+  
+V拡張は、8、16、32、および64のEEWをサポートしています。
 
-The V extension supports all vector load and store instructions
-(Section <<sec-vector-memory>>), except the V extension does not
-support EEW=64 for index values when XLEN=32.
+..
+  The V extension supports the vector configuration instructions
+  (Section <<sec-vector-config>>).
+  
+V拡張は，ベクトルコンフィグレーション設定命令(vsetvli/vsetivl/vsetvl)をサポートしています。
 
-The V extension supports all vector integer instructions (Section
-<<sec-vector-integer>>).
+..
+  The V extension supports all vector load and store instructions
+  (Section <<sec-vector-memory>>), except the V extension does not
+  support EEW=64 for index values when XLEN=32.
+  
+V拡張は全てのロードストア命令をサポートしていますが(<<sec-vector-memory>>節)
+XLEN=32の時のインデックス値に関するEEW=64のV拡張はサポートされていません。
 
-The V extension supports all vector fixed-point arithmetic
-instructions (<<sec-vector-fixed-point>>).
+..
+  The V extension supports all vector integer instructions (Section
+  <<sec-vector-integer>>).
+  
+V拡張機能は、すべてのベクトル整数命令 (<<sec-vector-integer>>節) をサポートしています。
 
-The V extension supports all vector integer single-width and
-widening reduction operations (Sections <<sec-vector-integer-reduce>>,
-<<sec-vector-integer-reduce-widen>>).
+..
+  The V extension supports all vector fixed-point arithmetic
+  instructions (<<sec-vector-fixed-point>>).
+  
+V 拡張機能は、すべてのベクトル固定小数点演算命令 (<<sec-vector-integer>>節) をサポートしています。
 
-The V extension supports all vector mask instructions (Section
-<<sec-vector-mask>>).
+..
+  The V extension supports all vector integer single-width and
+  widening reduction operations (Sections <<sec-vector-integer-reduce>>,
+  <<sec-vector-integer-reduce-widen>>).
+  
+V拡張は、すべてのベクトル整数の単一幅および幅縮小演算をサポートしています(<<sec-vector-integer-reduce>>,
+<<sec-vector-integer-reduce-widen>>節)。
 
-The V extension supports all vector permutation instructions (Section
-<<sec-vector-permute>>).
+..
+  The V extension supports all vector mask instructions (Section
+  <<sec-vector-mask>>).
+  
+V 拡張機能は、すべてのベクトルマスク命令をサポートします (<<sec-vector-mask>>節)。
 
-The V extension requires the scalar processor to implement the F and D
-extensions, and implements all vector floating-point instructions
-(Section <<sec-vector-float>>) for floating-point operands with EEW=32
-or EEW=64 (including widening instructions and conversions between
-FP32 and FP64). Vector single-width floating-point reductions
-(<<sec-vector-float-reduce>>) for EEW=32 and EEW=64 are supported as
-well as widening reductions from FP32 to FP64.
+..
+  The V extension supports all vector permutation instructions (Section
+  <<sec-vector-permute>>).
+  
+V拡張は、すべてのベクトル組み合わせ命令をサポートしています(<<sec-vector-permute>>節)。
 
+..
+  The V extension requires the scalar processor to implement the F and D
+  extensions, and implements all vector floating-point instructions
+  (Section <<sec-vector-float>>) for floating-point operands with EEW=32
+  or EEW=64 (including widening instructions and conversions between
+  FP32 and FP64). Vector single-width floating-point reductions
+  (<<sec-vector-float-reduce>>) for EEW=32 and EEW=64 are supported as
+  well as widening reductions from FP32 to FP64.
+  
+また、EEW=32 または EEW=64 の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令 (<<sec-vector-float>>節) を実装します (幅拡張命令およびFP32とFP64 間の変換を含む)。
+EEW=32およびEEW=64のベクトル単一幅浮動小数点リダクション命令(<<sec-vector-float-reduce>>) は、FP32からFP64への幅拡張リダクションと同様にサポートされています。
 
-###########################
-Vector Instruction Listing
-###########################
+.. // == Vector Instruction Listing
+
+############################
+ベクトル命令リスト
+############################
 
 include::inst-table.adoc[]
 

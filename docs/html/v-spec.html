@@ -263,12 +263,12 @@
 <li class="toctree-l2"><a class="reference internal" href="#id201">スワップ可能な例外</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="#standard-vector-extensions">Standard Vector Extensions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#zve-vector-extensions-for-embedded-processors">Zve*: Vector extensions for Embedded Processors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#v-vector-extension-for-application-processor">V: Vector Extension for Application Processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#id202">標準ベクトル拡張</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#zve">Zve*: 組み込みプロセッサ用のベクトル拡張</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v">V: アプリケーションプロセッサのためのベクトル拡張</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="#vector-instruction-listing">Vector Instruction Listing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#id207">ベクトル命令リスト</a></li>
 </ul>
 
             
@@ -496,7 +496,7 @@ VLEN/SEW要素に分割されているとみなされます。</p>
 <p>.vsew[2:0] (選択要素幅) エンコーディング
 [cols=&quot;1,1,1,1,&gt;13&quot;]
 [%autowidth]
-<a href="#id206"><span class="problematic" id="id207">|===
+<a href="#id208"><span class="problematic" id="id209">|===
 3+|</span></a> vsew[2:0] | SEW |</p>
 <div class="line-block">
 <div class="line">0 | 0 | 0 |    8 |</div>
@@ -720,7 +720,7 @@ Agnosticなポリシでは、新しい物理書き込みベクトルレジスタ
 <div class="section" id="vl">
 <h2>ベクトル長レジスタ <cite>vl</cite><a class="headerlink" href="#vl" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>_XLEN_ ビット幅の読み込み専用 <cite>vl</cite> CSRは、<cite>vset{i}vl{i}</cite> 命令と、
-_fault-<a href="#id228"><span class="problematic" id="id229">only-first_</span></a> ベクトルロード命令によってのみ更新することができます。</p>
+_fault-<a href="#id230"><span class="problematic" id="id231">only-first_</span></a> ベクトルロード命令によってのみ更新することができます。</p>
 <p><cite>vl</cite> レジスタは、セクション &lt;&lt;sec-inactive-defs&gt;&gt; で詳しく説明されているように、
 ベクトル命令の結果で更新される要素数を指定する符号なし整数を保持します。</p>
 <div class="admonition note">
@@ -797,7 +797,7 @@ _fault-<a href="#id228"><span class="problematic" id="id229">only-first_</span><
 <p>.vxrm encoding
 [cols=&quot;1,1,4,10,5&quot;]
 [%autowidth]
-<a href="#id208"><span class="problematic" id="id209">|===
+<a href="#id210"><span class="problematic" id="id211">|===
 2+|</span></a> <cite>vxrm[1:0]</cite> | Abbreviation | Rounding Mode | Rounding increment, <cite>r</cite></p>
 <div class="line-block">
 <div class="line">0 | 0 | rnu | round-to-nearest-up (add +0.5 LSB)          | <cite>v[d-1]</cite></div>
@@ -1566,7 +1566,7 @@ EEWがオフセット要素に対してサポートされていない場合、�
 <p>ベクトルアドレッシングモードは、2ビットの <cite>mop[1:0]</cite> フィールドを使ってエンコードされます。</p>
 <p>.ロード命令のエンコーディング
 [cols=&quot;1,1,7,6&quot;]
-<a href="#id210"><span class="problematic" id="id211">|===
+<a href="#id212"><span class="problematic" id="id213">|===
 2+|</span></a> mop [1:0] | 説明 | オペコード</p>
 <div class="line-block">
 <div class="line">0 | 0 | unit-stride       | VLE&lt;EEW&gt;</div>
@@ -1577,7 +1577,7 @@ EEWがオフセット要素に対してサポートされていない場合、�
 <p><a href="#id76"><span class="problematic" id="id77">|</span></a>===</p>
 <p>.ストア命令のエンコーディング
 [cols=&quot;1,1,7,6&quot;]
-<a href="#id212"><span class="problematic" id="id213">|===
+<a href="#id214"><span class="problematic" id="id215">|===
 2+|</span></a> mop [1:0] | 説明 | オペコード</p>
 <div class="line-block">
 <div class="line">0 | 0 | unit-stride       | VSE&lt;EEW&gt;</div>
@@ -1602,7 +1602,7 @@ indexed-ordered の場合は、メモリアクセス時の要素の順序を保�
 それぞれ5ビットの <cite>lumop</cite> および <cite>sumop</cite> フィールドにエンコードされます。</p>
 <p>.lumop
 [cols=&quot;1,1,1,1,1,11&quot;]
-<a href="#id214"><span class="problematic" id="id215">|===
+<a href="#id216"><span class="problematic" id="id217">|===
 5+|</span></a> lumop[4:0] | Description</p>
 <div class="line-block">
 <div class="line">0 | 0 | 0 | 0 | 0 | unit-stride load</div>
@@ -1614,7 +1614,7 @@ indexed-ordered の場合は、メモリアクセス時の要素の順序を保�
 <p><a href="#id80"><span class="problematic" id="id81">|</span></a>===</p>
 <p>.sumop
 [cols=&quot;1,1,1,1,1,11&quot;]
-<a href="#id216"><span class="problematic" id="id217">|===
+<a href="#id218"><span class="problematic" id="id219">|===
 5+|</span></a> sumop[4:0] | Description</p>
 <div class="line-block">
 <div class="line">0 | 0 | 0 | 0 | 0 | unit-stride store</div>
@@ -1655,7 +1655,7 @@ EMULが範囲外(EMUL&gt;8またはEMUL&lt;1/8)になる場合は、命令のエ
 サポートされていないEEW幅のベクトルロード・ストアエンコーディングは予約済みです。</p>
 <p>.ベクトルロードストアのアクセス幅エンコーディング
 [cols=&quot;5,1,1,1,1,&gt;3,&gt;3,&gt;3,3,2&quot;]
-<a href="#id218"><span class="problematic" id="id219">|===
+<a href="#id220"><span class="problematic" id="id221">|===
 |                  | mew 3+|</span></a> width [2:0] | Mem bits | Data Reg bits | Index bits | Opcodes |</p>
 <div class="line-block">
 <div class="line">Standard scalar FP   | x |   0 | 0 | 1 |   16| FLEN | -  | FLH/FSH             |</div>
@@ -1878,7 +1878,7 @@ EMULが範囲外(EMUL&gt;8またはEMUL&lt;1/8)になる場合は、命令のエ
 </div>
 <p>ベクトル命令の符号化における3ビットの <cite>nf</cite> フィールドは、セグメントごとのフィールド数 _NFIELDS_ よりも1つ少ない符号なし整数です。</p>
 <p>[cols=&quot;1,1,1,13&quot;]
-<a href="#id220"><span class="problematic" id="id221">|===
+<a href="#id222"><span class="problematic" id="id223">|===
 3+|</span></a> nf[2:0] | NFIELDS</p>
 <div class="line-block">
 <div class="line">0 | 0 | 0 | 1</div>
@@ -2196,7 +2196,7 @@ SEWの最小サイズ(バイト)(SEW~MIN~/8)のいずれか大きい方に自然
 <p><cite>funct3</cite> フィールによりオペランドのタイプとソース位置をエンコードします。</p>
 <p>.funct3
 [cols=&quot;1,1,1,3,5,5&quot;]
-<a href="#id222"><span class="problematic" id="id223">|===
+<a href="#id224"><span class="problematic" id="id225">|===
 3+|</span></a> funct3[2:0] | カテゴリ | オペランド | スカラオペランドの型</p>
 <div class="line-block">
 <div class="line">0 | 0 | 0 | OPIVV | ベクトル-ベクトル  |       N/A</div>
@@ -3223,7 +3223,7 @@ SEWを変更するには、この2つの命令の間に、 <cite>vsetvli</cite> 
 <p>[cols=&quot;1,1,1,1&quot;]
 [%autowidth]
 <a href="#id159"><span class="problematic" id="id160">|</span></a>===
-| Input (_x_) | Rounding Mode | Output (_y_ {approx} _1/<a href="#id230"><span class="problematic" id="id231">x_</span></a>) | Exceptions raised</p>
+| Input (_x_) | Rounding Mode | Output (_y_ {approx} _1/<a href="#id232"><span class="problematic" id="id233">x_</span></a>) | Exceptions raised</p>
 <div class="line-block">
 <div class="line">-{inf}                                              | _any_         | -0.0                      |</div>
 <div class="line">-2^B+1^ &lt; _x_ {le} -2^B^ (normal)                   | _any_         | -2^-(B+1)^ {ge} _y_ &gt; -2^-B^ (subnormal, sig=01...) |</div>
@@ -3641,7 +3641,7 @@ vmcpy.m アセンブラ疑似命令は互換性のために残されています
 </div>
 <p>8つのマスク論理命令は2つの入力マスクに対する任意の16個のバイナリ論理演算を実行することができます。</p>
 <p>[cols=&quot;1,1,1,1,12&quot;]
-<a href="#id224"><span class="problematic" id="id225">|===
+<a href="#id226"><span class="problematic" id="id227">|===
 4+|</span></a> inputs |</p>
 <div class="line-block">
 <div class="line">0 | 0 | 1 | 1 | src1</div>
@@ -3649,7 +3649,7 @@ vmcpy.m アセンブラ疑似命令は互換性のために残されています
 </div>
 <p><a href="#id183"><span class="problematic" id="id184">|</span></a>===</p>
 <p>[cols=&quot;1,1,1,1,6,6&quot;]
-<a href="#id226"><span class="problematic" id="id227">|===
+<a href="#id228"><span class="problematic" id="id229">|===
 4+|</span></a> output  | instruction | pseudoinstruction</p>
 <div class="line-block">
 <div class="line">0 | 0 | 0 | 0 | vmxor.mm vd, vd, vd         | vmclr.m vd</div>
@@ -4232,32 +4232,27 @@ EEW=SEW、EMUL=`nr` 、実効長 <cite>evl</cite> =EMUL * VLEN/SEWのように�
 <p class="admonition-title">注釈</p>
 <p>ベクトルユニットの実装から不透明なマイクロアーキテクチャの状態を保存・復元する標準的な方法を定義する可能性があります。</p>
 </div>
-<p>[[sec-vector-extensions]]</p>
+<p>[[sec-vector-extensions]]
+.. // == Standard Vector Extensions</p>
 </div>
 </div>
-<div class="section" id="standard-vector-extensions">
-<h1>Standard Vector Extensions<a class="headerlink" href="#standard-vector-extensions" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<p>This section describes the standard vector extensions to be proposed
-for public review.  A set of smaller extensions intended for embedded
-use are named with a &quot;Zve&quot; prefix, while a larger vector extension
-designed for application processors is named as a single-letter V
-extension.</p>
-<p>The initial vector extensions are designed to act as a base for
-additional vector extensions in various domains, including
-cryptography and machine learning.</p>
-<div class="section" id="zve-vector-extensions-for-embedded-processors">
-<h2>Zve*: Vector extensions for Embedded Processors<a class="headerlink" href="#zve-vector-extensions-for-embedded-processors" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>The following five standard extensions are defined to provide varying
-degrees of vector support and are intended for use with embedded
-processors.  Any of these extensions can be added to base ISAs with
-XLEN=32 or XLEN=64.  The table lists the minimum VLEN and supported
-EEWs for each extension as well as what floating-point types are
-supported.</p>
-<p>.Embedded vector extensions
+<div class="section" id="id202">
+<h1>標準ベクトル拡張<a class="headerlink" href="#id202" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>このセクションでは、パブリックレビューのために提案される標準ベクトル拡張について説明します。
+組み込み用途を目的とした小規模な拡張機能のセットには &quot;Zve &quot;という接頭辞を付け、
+アプリケーションプロセッサ向けに設計された大規模なベクター拡張機能には1文字のVという拡張子を付けています。</p>
+<p>初期のベクトル拡張は、暗号や機械学習などの様々な領域で追加のベクトル拡張を行うためのベースとして設計されています。</p>
+<div class="section" id="zve">
+<h2>Zve*: 組み込みプロセッサ用のベクトル拡張<a class="headerlink" href="#zve" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>以下の5つの標準的な拡張機能は、さまざまな程度のベクトルサポートを提供するために定義されており、
+組み込みプロセッサでの使用を目的としています。
+これらの拡張機能は、XLEN=32 または XLEN=64 のベース ISA に追加することができます。
+表には、各拡張機能の最小VLENとサポートされるEEW、およびサポートされる浮動小数点型を示しています。</p>
+<p>. 組み込みベクトル拡張
 [cols=&quot;1,1,2,1,1&quot;]
 [%autowidth]
-<a href="#id202"><span class="problematic" id="id203">|</span></a>===
-| Extension | Minimum VLEN | Supported EEW |  FP32 | FP64</p>
+<a href="#id203"><span class="problematic" id="id204">|</span></a>===
+| 拡張 | 最小VLEN | サポートされるEEW |  FP32 | FP64</p>
 <div class="line-block">
 <div class="line">Zve32x    | 32    | 8, 16, 32     |   N   |  N</div>
 <div class="line">Zve32f    | 32    | 8, 16, 32     |   Y   |  N</div>
@@ -4265,102 +4260,58 @@ supported.</p>
 <div class="line">Zve64f    | 64    | 8, 16, 32, 64 |   Y   |  N</div>
 <div class="line">Zve64d    | 64    | 8, 16, 32, 64 |   Y   |  Y</div>
 </div>
-<p><a href="#id204"><span class="problematic" id="id205">|</span></a>===</p>
-<p>All Zve* extensions have precise traps.</p>
+<p><a href="#id205"><span class="problematic" id="id206">|</span></a>===</p>
+<p>全ての Zve* 拡張は正確な例外を持ちます。</p>
+<p>すべてのZve*拡張は、8,16,32のEEWをサポートしており、Zve64*拡張は64のEEWもサポートしています。</p>
+<p>すべての Zve* 拡張機能は、ベクトル構成命令 (&lt;&lt;sec-vector-config&gt;&gt; 節) をサポートしています。</p>
+<p>全ての Zve* 拡張は全てのベクトルロード・ストア命令(&lt;&lt;sec-vector-memory&gt;&gt;節)をサポートしていますが、
+Zve64* 拡張は XLEN=32 の時のインデックス値に対する EEW=64 をサポートしていません。</p>
+<p>すべての Zve* 拡張は、すべてのベクトル整数命令 (&lt;&lt;sec-vector-integer&gt;&gt;節) をサポートしています。
+ただし、積の上位ワードを返す <cite>vmulh</cite>  整数乗算バリエーション (<cite>vmulh.vv</cite>, <cite>vmulh.vx</cite>, <cite>vmulhu.vv</cite>, <cite>vmulhu.vx</cite>, <cite>vmulhsu.vv</cite>, <cite>vmulhsu.vx</cite> ) は、Zve64* では EEW=64 に対応していません。</p>
+<p>すべてのZve*拡張は、すべてのベクトル固定小数点演算命令（&lt;&lt;sec-vector-fixed-point&gt;&gt;）をサポートしています。
+ただし、 <cite>vsmul.vv</cite> と <cite>vsmul.vx</cite> は、Zve64*のEEW=64ではサポートされていません。</p>
+<p>すべての Zve* 拡張は、すべてのベクトル整数の単一幅および幅拡張および幅縮小操作をサポートします (&lt;&lt;sec-vector-integer-reduce&gt;&gt;節, &lt;&lt;sec-vector-integer-reduce-widen&gt;&gt;節)。</p>
+<p>全ての Zve* 拡張は全てのベクトルマスク命令をサポートします (&lt;&lt;sec-vector-mask&gt;&gt;節)。</p>
+<p>Zve32x と Zve64x が浮動小数点スカラ移動命令を実装していないことを除いて、
+すべての Zve* 拡張はすべてのベクトル組み合わせ命令 (&lt;&lt;sec-vector-permute&gt;&gt;節) をサポートしています。</p>
+<p>Zve32fおよびZve64f拡張は、スカラ・プロセッサがF拡張を実装し、EEW=32の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令（&lt;&lt;sec-vector-float&gt;&gt;節）を実装することを要求し、
+サポートされているすべての整数EEWとの間の変換命令が提供されています。
+EEW=32のベクトル単幅浮動小数点演算(&lt;&lt;sec-vector-float-reduce&gt;&gt;節)をサポートしています。</p>
+<p>Zve32d および Zve64d 拡張は、スカラ・プロセッサが D 拡張を実装し、EEW=32 または EEW=64 の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令 (&lt;&lt;sec-vector-float&gt;&gt;節) を実装する必要があります
+(幅拡張命令および FP32 と FP64 の間の変換を含む)。
+EEW=32およびEEW=64のベクトル単幅浮動小数点演算(&lt;&lt;sec-vector-float-reduce&gt;&gt;節)がサポートされており、
+FP32からFP64への幅拡張リダクションもサポートされています。</p>
+</div>
+<div class="section" id="v">
+<h2>V: アプリケーションプロセッサのためのベクトル拡張<a class="headerlink" href="#v" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>1文字のV拡張は、アプリケーションプロセッサのプロファイルでの使用を目的としています。</p>
+<p>V ベクトル拡張には正確なトラップをサポートします。</p>
+<p>V ベクトル拡張は、VLEN {ge} 128 が必要です。</p>
 <div class="admonition note">
 <p class="admonition-title">注釈</p>
-<p>traps, so standard extensions have to provide precise traps.</p>
+<p>VLEN を大きくすると、短いベクターの場合にストリップマイニングコードを省略できる場合がありますが、
+最小実装のサイズが大きくなります。
+LMULを大きくすると、既知のサイズの長いアプリケーションベクターのストリップマイニングを回避することができますが、
+利用可能なベクトルレジスタグループの数が少なくなりますので注意してください。
+たとえば、LMULが8の場合、最大16個の64ビット要素を持つベクトルを、4つのベクトルレジスターグループを使用して、
+ストリップマイニングを行わずに処理することができます。</p>
 </div>
-<p>All Zve* extensions provide support for EEW of 8, 16, and 32, and
-Zve64* extensions also support EEW of 64.</p>
-<p>All Zve* extensions support the vector configuration instructions
-(Section &lt;&lt;sec-vector-config&gt;&gt;).</p>
-<p>All Zve* extensions support all vector load and store instructions
-(Section &lt;&lt;sec-vector-memory&gt;&gt;), except Zve64* extensions do not
-support EEW=64 for index values when XLEN=32.</p>
-<p>All Zve* extensions support all vector integer instructions (Section
-&lt;&lt;sec-vector-integer&gt;&gt;), except that the <cite>vmulh</cite> integer multiply
-variants that return the high word of the product (<cite>vmulh.vv</cite>,
-<cite>vmulh.vx</cite>, <cite>vmulhu.vv</cite>, <cite>vmulhu.vx</cite>, <cite>vmulhsu.vv</cite>, <cite>vmulhsu.vx</cite>) are
-not included for EEW=64 in Zve64*.</p>
-<div class="admonition note">
-<p class="admonition-title">注釈</p>
-<p>additional gates for large EEW.</p>
-</div>
-<p>All Zve* extensions support all vector fixed-point arithmetic
-instructions (&lt;&lt;sec-vector-fixed-point&gt;&gt;), except that <cite>vsmul.vv</cite> and
-<cite>vsmul.vx</cite> are not supported for EEW=64 in Zve64*.</p>
-<div class="admonition note">
-<p class="admonition-title">注釈</p>
-<p>logic, and 64-bit fixed-point multiplies are relatively rare.</p>
-</div>
-<p>All Zve* extensions support all vector integer single-width and
-widening reduction operations (Sections &lt;&lt;sec-vector-integer-reduce&gt;&gt;,
-&lt;&lt;sec-vector-integer-reduce-widen&gt;&gt;).</p>
-<p>All Zve* extensions support all vector mask instructions (Section
-&lt;&lt;sec-vector-mask&gt;&gt;).</p>
-<p>All Zve* extensions support all vector permutation instructions
-(Section &lt;&lt;sec-vector-permute&gt;&gt;), except that Zve32x and Zve64x do not
-implement the floating-point scalar move instructions.</p>
-<p>The Zve32f and Zve64f extensions require the scalar processor to
-implement the F extension, and implement all vector floating-point
-instructions (Section &lt;&lt;sec-vector-float&gt;&gt;) for floating-point
-operands with EEW=32 (i.e., no widening floating-point operations),
-and conversion instructions are provided to and from all supported
-integer EEWs.  Vector single-width floating-point reduction operations
-(&lt;&lt;sec-vector-float-reduce&gt;&gt;) for EEW=32 are supported.</p>
-<p>The Zve32d and Zve64d extensions require the scalar processor to
-implement the D extension, and implement all vector floating-point
-instructions (Section &lt;&lt;sec-vector-float&gt;&gt;) for floating-point
-operands with EEW=32 or EEW=64 (including widening instructions and
-conversions between FP32 and FP64). Vector single-width floating-point
-reductions (&lt;&lt;sec-vector-float-reduce&gt;&gt;) for EEW=32 and EEW=64 are
-supported as well as widening reductions from FP32 to FP64.</p>
-</div>
-<div class="section" id="v-vector-extension-for-application-processor">
-<h2>V: Vector Extension for Application Processor<a class="headerlink" href="#v-vector-extension-for-application-processor" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>The single-letter V extension is intended for use in application
-processor profiles.</p>
-<p>The V vector extension has precise traps.</p>
-<p>The V vector extension requires that VLEN {ge} 128.</p>
-<div class="admonition note">
-<p class="admonition-title">注釈</p>
-<p>processors. Providing a larger VLEN allows stripmining code to be
-elided in some cases for short vectors, but also increases the size of
-the minimum implementation.  Note that larger LMUL can be used to
-avoid stripmining for longer known-size application vectors at the
-cost of having fewer available vector register groups. For example, an
-LMUL of 8 allows vectors of up to sixteen 64-bit elements to be
-processed without stripmining using four vector register groups.</p>
-</div>
-<p>The V extension supports EEW of 8, 16, and 32, and 64.</p>
-<p>The V extension supports the vector configuration instructions
-(Section &lt;&lt;sec-vector-config&gt;&gt;).</p>
-<p>The V extension supports all vector load and store instructions
-(Section &lt;&lt;sec-vector-memory&gt;&gt;), except the V extension does not
-support EEW=64 for index values when XLEN=32.</p>
-<p>The V extension supports all vector integer instructions (Section
-&lt;&lt;sec-vector-integer&gt;&gt;).</p>
-<p>The V extension supports all vector fixed-point arithmetic
-instructions (&lt;&lt;sec-vector-fixed-point&gt;&gt;).</p>
-<p>The V extension supports all vector integer single-width and
-widening reduction operations (Sections &lt;&lt;sec-vector-integer-reduce&gt;&gt;,
-&lt;&lt;sec-vector-integer-reduce-widen&gt;&gt;).</p>
-<p>The V extension supports all vector mask instructions (Section
-&lt;&lt;sec-vector-mask&gt;&gt;).</p>
-<p>The V extension supports all vector permutation instructions (Section
-&lt;&lt;sec-vector-permute&gt;&gt;).</p>
-<p>The V extension requires the scalar processor to implement the F and D
-extensions, and implements all vector floating-point instructions
-(Section &lt;&lt;sec-vector-float&gt;&gt;) for floating-point operands with EEW=32
-or EEW=64 (including widening instructions and conversions between
-FP32 and FP64). Vector single-width floating-point reductions
-(&lt;&lt;sec-vector-float-reduce&gt;&gt;) for EEW=32 and EEW=64 are supported as
-well as widening reductions from FP32 to FP64.</p>
+<p>V拡張は、8、16、32、および64のEEWをサポートしています。</p>
+<p>V拡張は，ベクトルコンフィグレーション設定命令(vsetvli/vsetivl/vsetvl)をサポートしています。</p>
+<p>V拡張は全てのロードストア命令をサポートしていますが(&lt;&lt;sec-vector-memory&gt;&gt;節)
+XLEN=32の時のインデックス値に関するEEW=64のV拡張はサポートされていません。</p>
+<p>V拡張機能は、すべてのベクトル整数命令 (&lt;&lt;sec-vector-integer&gt;&gt;節) をサポートしています。</p>
+<p>V 拡張機能は、すべてのベクトル固定小数点演算命令 (&lt;&lt;sec-vector-integer&gt;&gt;節) をサポートしています。</p>
+<p>V拡張は、すべてのベクトル整数の単一幅および幅縮小演算をサポートしています(&lt;&lt;sec-vector-integer-reduce&gt;&gt;,
+&lt;&lt;sec-vector-integer-reduce-widen&gt;&gt;節)。</p>
+<p>V 拡張機能は、すべてのベクトルマスク命令をサポートします (&lt;&lt;sec-vector-mask&gt;&gt;節)。</p>
+<p>V拡張は、すべてのベクトル組み合わせ命令をサポートしています(&lt;&lt;sec-vector-permute&gt;&gt;節)。</p>
+<p>また、EEW=32 または EEW=64 の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令 (&lt;&lt;sec-vector-float&gt;&gt;節) を実装します (幅拡張命令およびFP32とFP64 間の変換を含む)。
+EEW=32およびEEW=64のベクトル単一幅浮動小数点リダクション命令(&lt;&lt;sec-vector-float-reduce&gt;&gt;) は、FP32からFP64への幅拡張リダクションと同様にサポートされています。</p>
 </div>
 </div>
-<div class="section" id="vector-instruction-listing">
-<h1>Vector Instruction Listing<a class="headerlink" href="#vector-instruction-listing" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="id207">
+<h1>ベクトル命令リスト<a class="headerlink" href="#id207" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>include::inst-table.adoc[]</p>
 <p>include::vector-examples.adoc[]</p>
 <p>include::calling-convention.adoc[]</p>
