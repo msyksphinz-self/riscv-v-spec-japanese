@@ -10131,7 +10131,7 @@ Zve64* 拡張は XLEN=32 の時のインデックス値に対する EEW=64 を�
   widening reduction operations (Sections :ref:`sec-vector-integer-reduce` ,
   :ref:`sec-vector-integer-reduce-widen` ).
 
-すべての Zve* 拡張は、すべてのベクトル整数の単一幅および幅拡張および幅縮小操作をサポートします (:ref:`sec-vector-integer-reduce>>節, <<sec-vector-integer-reduce-widen` 節)。
+すべての Zve* 拡張は、すべてのベクトル整数の単一幅および幅拡張および幅縮小操作をサポートします (:ref:`sec-vector-integer-reduce` 節, :ref:`sec-vector-integer-reduce-widen` 節)。
 
 ..
   All Zve* extensions support all vector mask instructions (Section
