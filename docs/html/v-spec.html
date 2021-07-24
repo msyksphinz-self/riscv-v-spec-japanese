@@ -388,8 +388,10 @@ Alex Solomatnikov, Steve Wallach, Andrew Waterman, Jim Wilson.</p>
 <div class="section" id="id3">
 <h1>実装により定義される定数パラメータ<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>ベクトル拡張をサポートする各hartには、2つのパラメータが定義されています。</p>
-<p>. 任意の演算で生成または消費できるベクトル要素の最大サイズ(ビット) <em>ELEN</em> {ge} 8 で、これは2の累乗でなければなりません。
-. 1つのベクトルレジスタのビット数 <em>VLEN</em> 、これは2の累乗でなければならず、2の累乗であり、2^16^以上であってはなりません。</p>
+<ul class="simple">
+<li><p>任意の演算で生成または消費できるベクトル要素の最大サイズ(ビット) <em>ELEN</em> {ge} 8 で、これは2の累乗でなければなりません。</p></li>
+<li><p>1つのベクトルレジスタのビット数 <em>VLEN</em> 、これは2の累乗でなければならず、2の累乗であり、2^16^以上であってはなりません。</p></li>
+</ul>
 <p>標準的なベクトル拡張(&lt;&lt;sec-vector-extensions&gt;&gt; セクション)とアーキテクチャプロファイルは、 <em>ELEN</em> と <em>VLEN</em> にさらなる制約を設定することができます。</p>
 <div class="admonition note">
 <p class="admonition-title">注釈</p>
@@ -1859,16 +1861,22 @@ VLMAXの変更をもたらすような新しいSEW/LMUL比率の命令の使用�
 <h2><cite>vl</cite> 設定の制約<a class="headerlink" href="#id30" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><cite>vset{i}vl{i}</cite> 命令は、まず引数の <cite>vtype</cite> にしたがってVLMAXを設定し、
 次に以下の制約にしたがって <cite>vl</cite> を設定します。</p>
-<p>. <cite>AVL {le} VLMAX</cite> のときは <cite>vl = AVL</cite>
-. <cite>AVL W (2 * VLMAX)</cite> のときは <cite>ceil(AVL / ) {le} vl {le} VLMAX</cite>
-. <cite>AVL {ge} (2 * VLMAX)</cite> のときは <cite>vl = VLMAX</cite>
-. 同一の入力AVLおよびVLMAX値に対して、任意の実装で決定される
-. これらの具体的な特性は、事前のルールから導かれます。
-.. <cite>AVL = 0</cite> なら <cite>vl = 0</cite>
-.. <cite>AVL &gt; 0</cite> なら <cite>vl &gt; 0</cite>
-.. <cite>vl {le} VLMAX</cite>
-.. <cite>vl {le} AVL</cite>
-.. <cite>vl</cite> から読み込んだ値を <cite>vset{i}vl{i}</cite> の AVL 引数として使用すると、<cite>vl</cite> 内の同じ値になります。 ただし、結果として得られる VLMAX が <cite>vl</cite> が読み込まれた時点での VLMAX の値と同じであることが条件です。</p>
+<ul class="simple">
+<li><p><cite>AVL {le} VLMAX</cite> のときは <cite>vl = AVL</cite></p></li>
+<li><p><cite>AVL W (2 * VLMAX)</cite> のときは <cite>ceil(AVL / ) {le} vl {le} VLMAX</cite></p></li>
+<li><p><cite>AVL {ge} (2 * VLMAX)</cite> のときは <cite>vl = VLMAX</cite></p></li>
+<li><p>同一の入力AVLおよびVLMAX値に対して、任意の実装で決定される</p></li>
+<li><p>これらの具体的な特性は、事前のルールから導かれます。</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>AVL = 0</cite> なら <cite>vl = 0</cite></p></li>
+<li><p><cite>AVL &gt; 0</cite> なら <cite>vl &gt; 0</cite></p></li>
+<li><p><cite>vl {le} VLMAX</cite></p></li>
+<li><p><cite>vl {le} AVL</cite></p></li>
+<li><p><cite>vl</cite> から読み込んだ値を <cite>vset{i}vl{i}</cite> の AVL 引数として使用すると、<cite>vl</cite> 内の同じ値になります。 ただし、結果として得られる VLMAX が <cite>vl</cite> が読み込まれた時点での VLMAX の値と同じであることが条件です。</p></li>
+</ul>
+</div></blockquote>
 <p>[NOTE]
 --
 <cite>vl</cite> の設定ルールは、<cite>AVL {le} VLMAX</cite> では、レジスタの流出やコンテキストの入れ替えがあっても <cite>vl</cite> の動作を維持できるよう、
@@ -2539,9 +2547,11 @@ SEWの最小サイズ(バイト)(SEW~MIN~/8)のいずれか大きい方に自然
 <p>ベクトル・スカラ演算には3つの形式がありますが、いずれの場合も、
 <cite>vs2</cite> で指定されたベクトルレジスタ群から1つのベクトルのオペランドを取り、
 3つの代替ソースのうちの1つから2つ目のスカラソースのオペランドを取ります。</p>
-<p>. 整数演算の場合、スカラは <cite>rs1</cite> フィールドでエンコードされた5ビットの即値になります。
-この値は、特に指定がない限り、SEWビットに符号拡張されます。
-. 整数演算では、スカラは <cite>rs1</cite> で指定されたスカラ <cite>x</cite> レジスタから取ることができます。
+<ul class="simple">
+<li><p>整数演算の場合、スカラは <cite>rs1</cite> フィールドでエンコードされた5ビットの即値になります。</p></li>
+</ul>
+<p>この値は、特に指定がない限り、SEWビットに符号拡張されます。
+* 整数演算では、スカラは <cite>rs1</cite> で指定されたスカラ <cite>x</cite> レジスタから取ることができます。
 XLEN&gt;SEWの場合、特に指定がない限り、<cite>x</cite> レジスタの最下位SEWビットが使用されます。
 XLEN&lt;SEWの場合、<cite>x</cite> レジスタからの値はSEWビットに符号拡張されます。
 浮動小数点演算の場合、スカラはスカラ <cite>f</cite> レジスタから取得できます。
@@ -4435,10 +4445,12 @@ EEW=SEW、EMUL=`nr` 、実効長 <cite>evl</cite> =EMUL * VLEN/SEWのように�
 <div class="section" id="id138">
 <h2>正確なベクトル例外<a class="headerlink" href="#id138" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>正確なベクトル例外には以下の要件が必要です:</p>
-<p>. 例外の発生したベクトル命令よりも古い命令が結果をコミットしていること
-. 例外の発生したベクトル命令よりも新しい命令がアーキテクチャ状態を変更していないこと
-. 例外の発生したベクトル命令内で、 <cite>vstart</cite>  CSR のインデックスより前の結果要素に影響を与える演算が結果をコミットしていること
-. 例外の発生したベクトル命令内で、 <cite>vstart</cite>  CSR 以降の要素に影響を与える演算がアーキテクチャ状態を変更していないこと。ただし、影響を受けるベクトル命令を再起動して完了させても、正しい最終状態が得られる場合を除く。</p>
+<ul class="simple">
+<li><p>例外の発生したベクトル命令よりも古い命令が結果をコミットしていること</p></li>
+<li><p>例外の発生したベクトル命令よりも新しい命令がアーキテクチャ状態を変更していないこと</p></li>
+<li><p>例外の発生したベクトル命令内で、 <cite>vstart</cite>  CSR のインデックスより前の結果要素に影響を与える演算が結果をコミットしていること</p></li>
+<li><p>例外の発生したベクトル命令内で、 <cite>vstart</cite>  CSR 以降の要素に影響を与える演算がアーキテクチャ状態を変更していないこと。ただし、影響を受けるベクトル命令を再起動して完了させても、正しい最終状態が得られる場合を除く。</p></li>
+</ul>
 <p>最後の要件を緩和して、例外が報告された時点で <cite>vstart</cite>  以降の要素が更新されていても、
 与えられた <cite>vstart</cite>  から命令を再実行することでそれらの要素が正しく上書きされることを許可します。</p>
 <p>非デバイスメモリ領域では、ベクトルストア命令が、同期例外の原因となった要素を超えて、メモリ内の要素を更新している可能性があります。

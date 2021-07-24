@@ -99,14 +99,14 @@ v1.0-rc1からの変更点
 ベクトル拡張をサポートする各hartには、2つのパラメータが定義されています。
 
 ..
-  . The maximum size of a vector element that any operation can produce or consume in bits, *ELEN* {ge} 8, which
+  * The maximum size of a vector element that any operation can produce or consume in bits, *ELEN* {ge} 8, which
   must be a power of 2.
-  . The number of bits in a single vector register, *VLEN*, which must
+  * The number of bits in a single vector register, *VLEN*, which must
   be a power of 2 and must be no greater than 2^16^.
 
 
-. 任意の演算で生成または消費できるベクトル要素の最大サイズ(ビット) *ELEN* {ge} 8 で、これは2の累乗でなければなりません。
-. 1つのベクトルレジスタのビット数 *VLEN* 、これは2の累乗でなければならず、2の累乗であり、2^16^以上であってはなりません。
+* 任意の演算で生成または消費できるベクトル要素の最大サイズ(ビット) *ELEN* {ge} 8 で、これは2の累乗でなければなりません。
+* 1つのベクトルレジスタのビット数 *VLEN* 、これは2の累乗でなければならず、2の累乗であり、2^16^以上であってはなりません。
 
 ..
   Standard vector extensions (Section <<sec-vector-extensions>>) and
@@ -2696,29 +2696,29 @@ VLMAXの変更をもたらすような新しいSEW/LMUL比率の命令の使用�
 次に以下の制約にしたがって `vl` を設定します。
 
 ..
-  . `vl = AVL` if `AVL {le} VLMAX`
-  . `ceil(AVL / 2) {le} vl {le} VLMAX` if `AVL < (2 * VLMAX)`
-  . `vl = VLMAX` if `AVL {ge} (2 * VLMAX)`
-  . Deterministic on any given implementation for same input AVL and VLMAX values
-  . These specific properties follow from the prior rules:
-  .. `vl = 0` if  `AVL = 0`
-  .. `vl > 0` if `AVL > 0`
-  .. `vl {le} VLMAX`
-  .. `vl {le} AVL`
-  .. a value read from `vl` when used as the AVL argument to `vset{i}vl{i}` results in the same
+  * `vl = AVL` if `AVL {le} VLMAX`
+  * `ceil(AVL / 2) {le} vl {le} VLMAX` if `AVL < (2 * VLMAX)`
+  * `vl = VLMAX` if `AVL {ge} (2 * VLMAX)`
+  * Deterministic on any given implementation for same input AVL and VLMAX values
+  * These specific properties follow from the prior rules:
+   * `vl = 0` if  `AVL = 0`
+   * `vl > 0` if `AVL > 0`
+   * `vl {le} VLMAX`
+   * `vl {le} AVL`
+   * a value read from `vl` when used as the AVL argument to `vset{i}vl{i}` results in the same
   value in `vl`, provided the resultant VLMAX equals the value of VLMAX at the time that `vl` was read
 
 
-. `AVL {le} VLMAX` のときは `vl = AVL`
-. `AVL W (2 * VLMAX)` のときは `ceil(AVL / ) {le} vl {le} VLMAX`
-. `AVL {ge} (2 * VLMAX)` のときは `vl = VLMAX`
-. 同一の入力AVLおよびVLMAX値に対して、任意の実装で決定される
-. これらの具体的な特性は、事前のルールから導かれます。
-.. `AVL = 0` なら `vl = 0`
-.. `AVL > 0` なら `vl > 0`
-.. `vl {le} VLMAX`
-.. `vl {le} AVL`
-.. `vl` から読み込んだ値を `vset{i}vl{i}` の AVL 引数として使用すると、`vl` 内の同じ値になります。 ただし、結果として得られる VLMAX が `vl` が読み込まれた時点での VLMAX の値と同じであることが条件です。
+* `AVL {le} VLMAX` のときは `vl = AVL`
+* `AVL W (2 * VLMAX)` のときは `ceil(AVL / ) {le} vl {le} VLMAX`
+* `AVL {ge} (2 * VLMAX)` のときは `vl = VLMAX`
+* 同一の入力AVLおよびVLMAX値に対して、任意の実装で決定される
+* これらの具体的な特性は、事前のルールから導かれます。
+ * `AVL = 0` なら `vl = 0`
+ * `AVL > 0` なら `vl > 0`
+ * `vl {le} VLMAX`
+ * `vl {le} AVL`
+ * `vl` から読み込んだ値を `vset{i}vl{i}` の AVL 引数として使用すると、`vl` 内の同じ値になります。 ただし、結果として得られる VLMAX が `vl` が読み込まれた時点での VLMAX の値と同じであることが条件です。
 
 ..
   [NOTE]
@@ -4657,7 +4657,7 @@ include::valu-format.adoc[]
 3つの代替ソースのうちの1つから2つ目のスカラソースのオペランドを取ります。
 
 ..
-  . For integer operations, the scalar can be a 5-bit immediate encoded
+  * For integer operations, the scalar can be a 5-bit immediate encoded
   in the `rs1` field.  The value is sign-extended to SEW bits, unless
   otherwise specified.  . For integer operations, the scalar can be
   taken from the scalar `x` register specified by `rs1`.  If XLEN>SEW,
@@ -4673,9 +4673,9 @@ include::valu-format.adoc[]
   reserved.
 
 
-. 整数演算の場合、スカラは `rs1` フィールドでエンコードされた5ビットの即値になります。
+* 整数演算の場合、スカラは `rs1` フィールドでエンコードされた5ビットの即値になります。
 この値は、特に指定がない限り、SEWビットに符号拡張されます。
-. 整数演算では、スカラは `rs1` で指定されたスカラ `x` レジスタから取ることができます。
+* 整数演算では、スカラは `rs1` で指定されたスカラ `x` レジスタから取ることができます。
 XLEN>SEWの場合、特に指定がない限り、`x` レジスタの最下位SEWビットが使用されます。
 XLEN<SEWの場合、`x` レジスタからの値はSEWビットに符号拡張されます。
 浮動小数点演算の場合、スカラはスカラ `f` レジスタから取得できます。
@@ -6439,7 +6439,7 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
   it is the responsibility of software to manage the denominators.
   An N-bit element can hold two's-complement signed integers in the
   range -2^N-1^...+2^N-1^-1, and unsigned integers in the range 0
-  ... +2^N^-1.  The fixed-point instructions help preserve precision in
+    * +2^N^-1.  The fixed-point instructions help preserve precision in
   narrow operands by supporting scaling and rounding, and can handle
   overflow by saturating results into the destination format range.
 
@@ -9861,18 +9861,18 @@ EEW=SEW、EMUL=`nr` 、実効長 `evl` =EMUL * VLEN/SEWのように動作しま�
 ..
   Precise vector traps require that:
   
-  . all instructions older than the trapping vector instruction have committed their results
-  . no instructions newer than the trapping vector instruction have altered architectural state
-  . any operations within the trapping vector instruction affecting result elements preceding the index in the `vstart` CSR have committed their results
-  . no operations within the trapping vector instruction affecting elements at or following the `vstart` CSR have altered architectural state except if restarting and completing the affected vector instruction will nevertheless produce the correct final state.
+  * all instructions older than the trapping vector instruction have committed their results
+  * no instructions newer than the trapping vector instruction have altered architectural state
+  * any operations within the trapping vector instruction affecting result elements preceding the index in the `vstart` CSR have committed their results
+  * no operations within the trapping vector instruction affecting elements at or following the `vstart` CSR have altered architectural state except if restarting and completing the affected vector instruction will nevertheless produce the correct final state.
 
 
 正確なベクトル例外には以下の要件が必要です:
 
-. 例外の発生したベクトル命令よりも古い命令が結果をコミットしていること
-. 例外の発生したベクトル命令よりも新しい命令がアーキテクチャ状態を変更していないこと
-. 例外の発生したベクトル命令内で、 `vstart`  CSR のインデックスより前の結果要素に影響を与える演算が結果をコミットしていること
-. 例外の発生したベクトル命令内で、 `vstart`  CSR 以降の要素に影響を与える演算がアーキテクチャ状態を変更していないこと。ただし、影響を受けるベクトル命令を再起動して完了させても、正しい最終状態が得られる場合を除く。
+* 例外の発生したベクトル命令よりも古い命令が結果をコミットしていること
+* 例外の発生したベクトル命令よりも新しい命令がアーキテクチャ状態を変更していないこと
+* 例外の発生したベクトル命令内で、 `vstart`  CSR のインデックスより前の結果要素に影響を与える演算が結果をコミットしていること
+* 例外の発生したベクトル命令内で、 `vstart`  CSR 以降の要素に影響を与える演算がアーキテクチャ状態を変更していないこと。ただし、影響を受けるベクトル命令を再起動して完了させても、正しい最終状態が得られる場合を除く。
 
 ..
   We relax the last requirement to allow elements following `vstart` to
