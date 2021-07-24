@@ -382,7 +382,7 @@ Alex Solomatnikov, Steve Wallach, Andrew Waterman, Jim Wilson.</p>
 大きな機能変更はないと予想されています。批准されると、仕様書のバージョンは2.0になります。</p>
 </div>
 <p>本仕様書ドラフトには、現在定義されているベクトル命令の全セットが含まれています。
-.. sec-vector-extensions:  セクションには、標準的なベクトル拡張機能と、
+<span class="xref std std-ref">sec-vector-extensions</span>   セクションには、標準的なベクトル拡張機能と、
 それぞれの拡張機能でサポートされる命令および要素幅が記載されています。</p>
 </div>
 <div class="section" id="id3">
@@ -392,7 +392,7 @@ Alex Solomatnikov, Steve Wallach, Andrew Waterman, Jim Wilson.</p>
 <li><p>任意の演算で生成または消費できるベクトル要素の最大サイズ(ビット) <em>ELEN</em> {ge} 8 で、これは2の累乗でなければなりません。</p></li>
 <li><p>1つのベクトルレジスタのビット数 <em>VLEN</em> 、これは2の累乗でなければならず、2の累乗であり、2^16^以上であってはなりません。</p></li>
 </ul>
-<p>標準的なベクトル拡張(&lt;&lt;sec-vector-extensions&gt;&gt; セクション)とアーキテクチャプロファイルは、 <em>ELEN</em> と <em>VLEN</em> にさらなる制約を設定することができます。</p>
+<p>標準的なベクトル拡張(<span class="xref std std-ref">sec-vector-extensions</span>  セクション)とアーキテクチャプロファイルは、 <em>ELEN</em> と <em>VLEN</em> にさらなる制約を設定することができます。</p>
 <div class="admonition note">
 <p class="admonition-title">注釈</p>
 <p>(LMUL=8およびSEW=8でVLEN=65,536の場合、最大のVLMAXは65,536になります)。
@@ -789,14 +789,12 @@ LMUL=4 のベクトレジスタグループを指定する命令は予約され�
 <p>LMUL=8 の場合、ベクトレジスタグループには 8 個のベクトレジスタが含まれ、
 8 の倍数ではないレジスタ番号を使用して LMUL=8 ベクトレジスタグループを指定する命令は予約されています。</p>
 <p>マスクレジスタは、LMULにかかわらず、常に1つのベクトレジスタとして取り扱われます。</p>
-<p><span class="xref std std-ref">sec-agnostic</span>
-.. // ==== Vector Tail Agnostic and Vector Mask Agnostic <cite>vta</cite> and <cite>vma</cite></p>
 </div>
 <div class="section" id="tail-agnostic-vector-mask-agnostic-vta-vma">
 <h3>Tail Agnostic とVector Mask Agnostic <cite>vta</cite> と <cite>vma</cite><a class="headerlink" href="#tail-agnostic-vector-mask-agnostic-vta-vma" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>これらの2つのビットは、ベクトル命令の実行中に、書き込みレジスタのTail要素および
 書き込みレジスタの非アクティブなマスクオフされた要素の動作をそれぞれ変更します。
-Tailセットと非アクティブセットには、&lt;&lt;sec-inactive-defs&gt;&gt; 項で定義されているように、
+Tailセットと非アクティブセットには、<span class="xref std std-ref">sec-inactive-defs</span>  項で定義されているように、
 ベクトル演算中に新しい結果を受け取らない要素の位置を含んでいます。</p>
 <p>すべてのシステムは、4つのオプションすべてをサポートしなければなりません。</p>
 <table class="docutils align-default">
@@ -921,7 +919,7 @@ Agnosticなポリシでは、新しい物理書き込みベクトルレジスタ
 <h2>ベクトル長レジスタ <cite>vl</cite><a class="headerlink" href="#vl" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><em>XLEN</em> ビット幅の読み込み専用 <cite>vl</cite> CSRは、<cite>vset{i}vl{i}</cite> 命令と、
 <em>fault-only-first</em> ベクトルロード命令によってのみ更新することができます。</p>
-<p><cite>vl</cite> レジスタは、セクション &lt;&lt;sec-inactive-defs&gt;&gt; で詳しく説明されているように、
+<p><cite>vl</cite> レジスタは、セクション <span class="xref std std-ref">sec-inactive-defs</span>  で詳しく説明されているように、
 ベクトル命令の結果で更新される要素数を指定する符号なし整数を保持します。</p>
 <div class="admonition note">
 <p class="admonition-title">注釈</p>
@@ -941,7 +939,7 @@ Agnosticなポリシでは、新しい物理書き込みベクトルレジスタ
 </div>
 <div class="section" id="csr-vstart">
 <h2>ベクトルスタートインデックスCSR <cite>vstart</cite><a class="headerlink" href="#csr-vstart" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>読み書き可能なCSRである <cite>vstart</cite> は、 &lt;&lt;sec-inactive-defs&gt;&gt; 項で説明したように、
+<p>読み書き可能なCSRである <cite>vstart</cite> は、 <span class="xref std std-ref">sec-inactive-defs</span>  項で説明したように、
 ベクトル命令で実行される最初の要素のインデックスを指定します。</p>
 <p>通常、<cite>vstart</cite> はベクトル命令の例外発生時にハードウェアによってのみ書き込まれ、
 <cite>vstart</cite> の値は例外発生した要素 (同期例外または非同期割り込み) を表し、
@@ -1474,8 +1472,6 @@ SEW/LMULを一定に保つことです(したがって、VLMAXも一定になり
 <span class="n">v8</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">7</span>
 </pre></div>
 </div>
-<p><span class="xref std std-ref">sec-mask-register-layout</span>
-.. // === Mask Register Layout</p>
 </div>
 <div class="section" id="id17">
 <h2>マスクレジスタのレイアウト<a class="headerlink" href="#id17" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -1562,7 +1558,7 @@ SEW/LMULを一定に保つことです(したがって、VLMAXも一定になり
 <p>ベクトル拡張の命令は、既存の2つのメジャーオペコード(LOAD-FP、STORE-FP)と1つの新しいメジャーオペコード(OP-V)に当てはまります。</p>
 <p>ベクトルのロードとストアは、スカラ浮動小数点のロードとストアのメジャーオペコード(LOAD-FP/STORE-FP)の中にエンコードされます。
 ベクトルロード/ストアのエンコーディングは、標準的なスカラ浮動小数点ロード/ストアの12ビット即値フィールドの一部を再利用して、
-さらにベクトル命令のエンコーディングを行い、ビット25には標準的なベクトルマスクビット ( &lt;&lt;sec-vector-mask-encoding&gt;&gt; を参照)を格納します。</p>
+さらにベクトル命令のエンコーディングを行い、ビット25には標準的なベクトルマスクビット ( <span class="xref std std-ref">sec-vector-mask-encoding</span>  を参照)を格納します。</p>
 <p>include::vmem-format.adoc[]</p>
 <p>include::valu-format.adoc[]</p>
 <p>include::vcfg-format.adoc[]</p>
@@ -1621,7 +1617,7 @@ Narrowing命令は、ソースオペランドはEEW=2*SEW、EMUL=2*LMULですが
 <p>マスキングは多くのベクトル命令でサポートされています。
 マスクオフされた(非アクティブな)要素の操作は、例外を発生させません。
 マスクオフされた要素に対応する書き込みベクトルレジスタの要素は、<cite>vtype</cite> の <cite>vma</cite> ビットの
-設定に応じて、mask-undisturbedまたはmask-agnosticのいずれかのポリシで処理されます(セクション &lt;&lt;sec-agnostic&gt;&gt; )。</p>
+設定に応じて、mask-undisturbedまたはmask-agnosticのいずれかのポリシで処理されます(セクション <span class="xref std std-ref">sec-agnostic</span>  )。</p>
 <p>マスクされたベクトル命令の実行を制御するために使用されるマスク値は、
 常にベクトルレジスタ <cite>v0</cite> によって提供されます。</p>
 <div class="admonition note">
@@ -1637,10 +1633,9 @@ Narrowing命令は、ソースオペランドはEEW=2*SEW、EMUL=2*LMULですが
 </div>
 <p>作業用マスクの値を保持するために他のベクトルレジスタを使用することができ、
 述語計算を行うためのマスクベクトル論理演算が提供されています。
-<span class="xref std std-ref">sec-mask-vector-logical</span> を参照してください。</p>
-<p>常に tail-agnostic として扱われます。</p>
-<p><span class="xref std std-ref">sec-vector-mask-encoding</span>
-.. // ==== Mask Encoding</p>
+.. sec-mask-vector-logical:を参照してください。</p>
+<p><span class="xref std std-ref">sec-agnostic</span>   で規定されているように、マスクの書き込み値は <cite>vta</cite> の設定にかかわらず、
+常に tail-agnostic として扱われます。</p>
 <div class="section" id="id23">
 <h3>マスクエンコーディング<a class="headerlink" href="#id23" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>マスキングが可能な場合は、命令内の1ビットの <cite>vm</cite> フィールドにエンコードされます( <cite>inst[25]</cite> )。</p>
@@ -1682,8 +1677,6 @@ Narrowing命令は、ソースオペランドはEEW=2*SEW、EMUL=2*LMULですが
 <p class="admonition-title">注釈</p>
 <p><cite>v0.mask[i]</cite> のように文章中にマスクベクトルに添え字として使用されるだけです。</p>
 </div>
-<p><span class="xref std std-ref">sec-inactive-defs</span>
-.. // === Prestart, Active, Inactive, Body, and Tail Element Definitions</p>
 </div>
 </div>
 <div class="section" id="id24">
@@ -1733,8 +1726,6 @@ inactive(x) = body(x) &amp;&amp; !mask(x)
 <p><cite>vl</cite> または VLMAX を超えるインデックスを読み取ることがあります。
 一般的なポリシは、インデックスがソースベクトルレジスタグループのVLMAXよりも大きい場合、値0を返します。</p>
 </div>
-<p><span class="xref std std-ref">sec-vector-config</span>
-.. // == Configuration-Setting Instructions (<cite>vsetvli</cite>/<cite>vsetivl</cite>/<cite>vsetvl</cite>)</p>
 </div>
 </div>
 <div class="section" id="vsetvli-vsetivl-vsetvl">
@@ -1745,7 +1736,7 @@ RISC-Vのベクトル仕様では、この手法を直接かつポータブル�
 アプリケーションは、処理する要素の総数(アプリケーションベクトル長、AVL)を <cite>vl</cite> の候補値として指定し、
 ハードウェアは、マイクロアーキテクチャの実装と <cite>vtype</cite> の設定に基づいて、
 ハードウェアが反復ごとに処理する要素数( <cite>vl</cite> に格納されている) を、汎用レジスタを介して応答します。
-.. example-stripmin-sew: に示されている簡単なループ構造は、コードが残りの要素数とハードウェアが処理する1回あたりの量を簡単に追跡していることを示しています。</p>
+<span class="xref std std-ref">example-stripmin-sew</span>  に示されている簡単なループ構造は、コードが残りの要素数とハードウェアが処理する1回あたりの量を簡単に追跡していることを示しています。</p>
 <p>アプリケーションのニーズに合わせて <cite>vl</cite> と <cite>vtype</cite> の値を迅速に設定できるように、一連の命令が提供されています。
 <cite>vset{i}vl{i}</cite> 命令は、その引数に基づいて、<cite>vtype</cite> と <cite>vl</cite> の CSR を設定し、<cite>rd</cite> に <cite>vl</cite> の新しい値を書き込みます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vsetvli</span> <span class="n">rd</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vtypei</span>   <span class="c1"># rd = new vl, rs1 = AVL, vtypei = new vtype setting</span>
@@ -1886,8 +1877,6 @@ VLMAXの変更をもたらすような新しいSEW/LMUL比率の命令の使用�
 これにより、ソフトウェアは、ストリップマイニングループで観測されたベクトル長の実行最大値を明示的に計算する必要がなくなります。
 また、要件2では、 <cite>VLMAX &lt; AVL &lt; 2*VLMAX</cite> の場合、vlをVLMAXに設定することができます。</p>
 <p>--</p>
-<p><span class="xref std std-ref">example-stripmine-sew</span>
-.. // === Example of stripmining and changes to SEW</p>
 </div>
 <div class="section" id="sew">
 <h2>ストリップマイニングとSEW変更の例<a class="headerlink" href="#sew" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -1942,7 +1931,6 @@ bnez a0, loop           # Any more?</p>
     <span class="n">bnez</span> <span class="n">a0</span><span class="p">,</span> <span class="n">loop</span>           <span class="c1"># これ以上処理する？</span>
 </pre></div>
 </div>
-<p><span class="xref std std-ref">sec-vector-memory</span></p>
 </div>
 </div>
 <div class="section" id="id31">
@@ -2000,7 +1988,7 @@ indexed-ordered の場合は、メモリアクセス時の要素の順序を保�
 それぞれ5ビットの <cite>lumop</cite> および <cite>sumop</cite> フィールドにエンコードされます。</p>
 <p><cite>nf[2:0]</cite> フィールドは、各セグメントのフィールドの数をエンコードします。
 通常のベクトルロード/ストアでは、 <cite>nf`=0で、各要素の位置でベクトルレジスタグループとメモリーの間で1つの値が移動することを示します。
-より大きな値の `nf</cite> フィールドは、後述の &lt;&lt;sec-aos&gt;&gt; 項で説明するように、
+より大きな値の `nf</cite> フィールドは、後述の <span class="xref std std-ref">sec-aos</span>  項で説明するように、
 セグメント内の複数の連続したフィールドにアクセスするために使用されます。</p>
 <div class="admonition note">
 <p class="admonition-title">注釈</p>
@@ -2010,7 +1998,6 @@ indexed-ordered の場合は、メモリアクセス時の要素の順序を保�
 </div>
 <p>また、 <cite>nf[2:0]</cite> フィールドは、全体ベクトルレジスタの
 ロード/ストア命令で転送する全体ベクトルレジスタの数をエンコードします。</p>
-<p><span class="xref std std-ref">sec-vector-loadstore-width-encoding</span></p>
 </div>
 <div class="section" id="id34">
 <h2>ベクトルロードストア幅のエンコーディング<a class="headerlink" href="#id34" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -2216,8 +2203,6 @@ EMULが範囲外(EMUL&gt;8またはEMUL&lt;1/8)になる場合は、命令のエ
 <p>実装は <cite>vl</cite> を減らすのではなく、イベントが失われる可能性があるため、
 デバッグ・例外をトリガーするべきです。</p>
 </div>
-<p><span class="xref std std-ref">sec-aos</span>
-.. // === Vector Load/Store Segment Instructions</p>
 </div>
 <div class="section" id="id42">
 <h2>ベクトルロードストアセグメント命令<a class="headerlink" href="#id42" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -2527,8 +2512,6 @@ SEWの最小サイズ(バイト)(SEW~MIN~/8)のいずれか大きい方に自然
 <p>ベクトル演算命令では、OP-FPに隣接する新しいメジャーオペコード(OP-V = 1010111~2~)を使用します。
 3ビットの <cite>funct3</cite> フィールドは、ベクトル命令のサブカテゴリを定義するのに使われます。</p>
 <p>include::valu-format.adoc[]</p>
-<p><span class="xref std std-ref">sec-arithmetic-encoding</span>
-.. // === Vector Arithmetic Instruction encoding</p>
 <div class="section" id="id60">
 <h2>ベクトル算術演算命令エンコーディング<a class="headerlink" href="#id60" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><cite>funct3</cite> フィールによりオペランドのタイプとソース位置をエンコードします。</p>
@@ -2600,8 +2583,6 @@ FLEN &gt; SEWの場合、 <cite>f</cite> レジスタの値が有効なNaNボッ
 この順序では、乗算オペランドが常に隣り合っているため、
 これらの三項演算のアセンブラをより自然に読むことができます。</p>
 </div>
-<p><span class="xref std std-ref">sec-widening</span>
-.. // === Widening Vector Arithmetic Instructions</p>
 </div>
 <div class="section" id="id61">
 <h2>幅拡張ベクトル算術演算命令<a class="headerlink" href="#id61" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -2637,8 +2618,6 @@ FLEN &gt; SEWの場合、 <cite>f</cite> レジスタの値が有効なNaNボッ
 そうでない場合は命令のエンコーディングは予約されています。</p>
 <p>書き込みベクトルレジスタグループは、書き込みのEMULに有効なベクトルレジスタ番号を使って指定しなければならず、
 そうでない場合は命令エンコーディングは予約されます。</p>
-<p><span class="xref std std-ref">sec-narrowing</span>
-.. // === Narrowing Vector Arithmetic Instructions</p>
 </div>
 <div class="section" id="id62">
 <h2>ベクトル幅縮小算術演算命令<a class="headerlink" href="#id62" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -2658,8 +2637,6 @@ FLEN &gt; SEWの場合、 <cite>f</cite> レジスタの値が有効なNaNボッ
 浮動小数点オペコードを絞り込むために <cite>vfn*</cite> というプレフィックスをつけたりします。
 2倍幅ソースベクトルレジスタグループは、
 ソースオペランドのサフィックスに <cite>w</cite> を付けて表します(例: <cite>vnsra.wv</cite>)。</p>
-<p><span class="xref std std-ref">sec-vector-integer</span>
-.. // == Vector Integer Arithmetic Instructions</p>
 </div>
 </div>
 <div class="section" id="id63">
@@ -2893,7 +2870,7 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
 <div class="section" id="id71">
 <h2>ベクトル整数比較命令<a class="headerlink" href="#id71" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>以下の整数比較命令は、比較の結果が真であれば書き込みマスクレジスタの要素に1を、そうでなければ0を書き込みます。
-書き込みマスクベクトルは常に単一のベクトルレジスタに保持され、その要素のレイアウトはセクション &lt;&lt;sec-mask-register-layout&gt;&gt; で説明されています。
+書き込みマスクベクトルは常に単一のベクトルレジスタに保持され、その要素のレイアウトはセクション <span class="xref std std-ref">sec-mask-register-layout</span>  で説明されています。
 書き込みマスクレジスタは、ソースベクトルのマスクレジスタ(<cite>v0</cite>)と同じものでも構いません。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set if equal</span>
 <span class="n">vmseq</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>  <span class="c1"># ベクトル-ベクトル</span>
@@ -3200,8 +3177,6 @@ va &gt;= x,  x &gt; minimum
 <p>SEWに従って内部表現をシャッフルすることができます。
 データを内部的に再編成しない実装では、この命令を動的に省略し、NOP として扱うことができます。</p>
 </div>
-<p><span class="xref std std-ref">sec-vector-fixed-point</span>
-.. // == Vector Fixed-Point Arithmetic Instructions</p>
 </div>
 </div>
 <div class="section" id="id82">
@@ -3335,8 +3310,6 @@ SEWを変更するには、この2つの命令の間に、 <cite>vsetvli</cite> 
 <p><cite>vnclip</cite> では、丸められたシフト元の値を符号付き整数として扱い、その結果が符号付き整数として見たときに
 書き込みレジスタをオーバーフローさせるようであれば飽和を行います。</p>
 <p>いずれかの書き込みレジスタの要素が飽和した場合、 <cite>vxsat</cite> レジスタに <cite>vxsat</cite> ビットが設定されます。</p>
-<p><span class="xref std std-ref">sec-vector-float</span>
-.. // == Vector Floating-Point Instructions</p>
 </div>
 </div>
 <div class="section" id="id88">
@@ -3355,7 +3328,7 @@ SEWを変更するには、この2つの命令の間に、 <cite>vsetvli</cite> 
 浮動小数点拡張状態(浮動小数点CSRや <cite>f</cite> レジスタなど)を変更するベクトル浮動小数点命令は、
 <cite>mstatus.FS</cite> を <cite>Dirty</cite> に設定しなければなりません。</p>
 <p>ベクトル浮動小数点命令は、NaNに関してはスカラ浮動小数点命令と同じ動作をします。</p>
-<p>ベクトルスカラ演算のスカラ値は、 &lt;&lt;sec-arithmetic-encoding&gt;&gt; で説明したように、
+<p>ベクトルスカラ演算のスカラ値は、 <span class="xref std std-ref">sec-arithmetic-encoding</span>  で説明したように、
 標準的なスカラ <cite>f</cite> レジスタから供給することができます。</p>
 <div class="section" id="id89">
 <h2>ベクトル浮動小数点例外フラグ<a class="headerlink" href="#id89" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -3600,7 +3573,7 @@ SEWを変更するには、この2つの命令の間に、 <cite>vsetvli</cite> 
 <div class="section" id="id104">
 <h2>ベクトル浮動小数点比較命令<a class="headerlink" href="#id104" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>これらのベクトルFP比較命令は、2つのソースオペランドを比較し、比較結果をマスクレジスタに書き込みます。
-書き込みマスクベクトルは常に単一のベクトルレジスタに保持され、その要素のレイアウトは &lt;&lt;sec-mask-register-layout&gt;&gt; 節で説明されています。
+書き込みマスクベクトルは常に単一のベクトルレジスタに保持され、その要素のレイアウトは <span class="xref std std-ref">sec-mask-register-layout</span>  節で説明されています。
 書き込みマスクレジスタはソースベクトルマスクレジスタ(<cite>v0</cite>)と同じであってもかまいません。
 比較はマスクレジスタを書き込むため、常にTail-agnosticポリシで動作します。</p>
 <p>比較命令は、スカラ浮動小数点比較命令の文法に従います。
@@ -3729,7 +3702,7 @@ SEWを変更するには、この2つの命令の間に、 <cite>vsetvli</cite> 
 <span class="n">vfwcvt</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">v</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>        <span class="c1"># 単一幅浮動小数点を倍幅の浮動小数点に変換.</span>
 </pre></div>
 </div>
-<p>これらの命令は、他の幅拡張命令(&lt;&lt;sec-widening&gt;&gt;参照)と同様に、ベクトルレジスタのオーバーラップに対する制約があります。</p>
+<p>これらの命令は、他の幅拡張命令(<span class="xref std std-ref">sec-widening</span> 参照)と同様に、ベクトルレジスタのオーバーラップに対する制約があります。</p>
 <div class="admonition note">
 <p class="admonition-title">注釈</p>
 <p>同等の結果と追加の例外フラグを発生させずに、いくつかの倍のステップとして実装することができます。</p>
@@ -3750,7 +3723,7 @@ SEWを変更するには、この2つの命令の間に、 <cite>vsetvli</cite> 
 <span class="n">vfncvt</span><span class="o">.</span><span class="n">rod</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">w</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>    <span class="c1"># 倍幅浮動小数点をodd方向の丸めに使用して単一幅の浮動小数点に変換.</span>
 </pre></div>
 </div>
-<p>これらの命令は、他の幅縮小命令(&lt;&lt;sec-narrowing&gt;&gt;参照)と同様に、ベクトルレジスタのオーバーラップに制約があります。</p>
+<p>これらの命令は、他の幅縮小命令(<span class="xref std std-ref">sec-narrowing</span> 参照)と同様に、ベクトルレジスタのオーバーラップに制約があります。</p>
 <div class="admonition note">
 <p class="admonition-title">注釈</p>
 <p>変換は半減ステップのシーケンスで実装できます。
@@ -3780,8 +3753,6 @@ SEWを変更するには、この2つの命令の間に、 <cite>vsetvli</cite> 
 ベクトルリダクション操作は、<cite>vstart</cite> が 0 でない場合、不正な命令の例外を発生させます。</p>
 <p>縮小演算のアセンブラ構文は、<cite>vredop.vs</cite> です。<cite>.vs</cite> は、第1オペランドがベクトルレジスタグループで、
 第 2 オペランドがベクトルレジスタの要素 0 に格納されたスカラであることを表します。</p>
-<p><span class="xref std std-ref">sec-vector-integer-reduce</span>
-.. // === Vector Single-Width Integer Reduction Instructions</p>
 <div class="section" id="id114">
 <h2>ベクトル単一幅整数リダクション命令<a class="headerlink" href="#id114" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>単一幅のリダクション命令のオペランドと結果は、すべて同じSEW幅になります。
@@ -3797,8 +3768,6 @@ SEWを変更するには、この2つの命令の間に、 <cite>vsetvli</cite> 
 <span class="n">vredxor</span><span class="o">.</span><span class="n">vs</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># vd[0] =  xor( vs1[0] , vs2[*] )</span>
 </pre></div>
 </div>
-<p><span class="xref std std-ref">sec-vector-integer-reduce-widen</span>
-.. // === Vector Widening Integer Reduction Instructions</p>
 </div>
 <div class="section" id="id115">
 <h2>ベクトル幅拡張整数リダクション命令<a class="headerlink" href="#id115" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -3812,8 +3781,6 @@ SEWを変更するには、この2つの命令の間に、 <cite>vsetvli</cite> 
 <span class="n">vwredsum</span><span class="o">.</span><span class="n">vs</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span>   <span class="c1"># 2*SEW = 2*SEW + sum(sign-extend(SEW))</span>
 </pre></div>
 </div>
-<p><span class="xref std std-ref">sec-vector-float-reduce</span>
-.. // === Vector Single-Width Floating-Point Reduction Instructions</p>
 </div>
 <div class="section" id="id116">
 <h2>ベクトル単一幅浮動小数点リダクション命令<a class="headerlink" href="#id116" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -3866,8 +3833,6 @@ SEWを変更するには、この2つの命令の間に、 <cite>vsetvli</cite> 
 <p class="admonition-title">注釈</p>
 <p>その際、例外フラグは設定されず、NaNの処理も行われません。</p>
 </div>
-<p><span class="xref std std-ref">sec-vector-float-reduce-widen</span>
-.. // === Vector Widening Floating-Point Reduction Instructions</p>
 </div>
 </div>
 <div class="section" id="id120">
@@ -3883,15 +3848,11 @@ SEWを変更するには、この2つの命令の間に、 <cite>vsetvli</cite> 
 <p class="admonition-title">注釈</p>
 <p><cite>vfwredusum.vs</cite>  は <cite>vfredusum.vs</cite> と同様に動作します。</p>
 </div>
-<p><span class="xref std std-ref">sec-vector-mask</span>
-.. // == Vector Mask Instructions</p>
 </div>
 </div>
 <div class="section" id="id121">
 <h1>ベクトルマスク命令<a class="headerlink" href="#id121" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>ベクトルレジスタに格納されているマスクを操作するための命令がいくつか提供されています。</p>
-<p><span class="xref std std-ref">sec-mask-register-logical</span>
-.. // === Vector Mask-Register Logical Instructions</p>
 <div class="section" id="id122">
 <h2>ベクトルマスクレジスタ論理命令<a class="headerlink" href="#id122" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ベクトルマスクレジスタ論理命令は、マスクレジスタに対して演算を実行します。
@@ -3934,7 +3895,7 @@ vmcpy.m アセンブラ疑似命令は互換性のために残されています
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vpopc</span><span class="o">.</span><span class="n">m</span> <span class="n">rd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vm</span>
 </pre></div>
 </div>
-<p>ソースオペランドは、 &lt;&lt;sec-mask-register-layout&gt;&gt; 節で説明されているように、マスクレジスタの値を保持する単一のベクトルレジスタです。</p>
+<p>ソースオペランドは、 <span class="xref std std-ref">sec-mask-register-layout</span>  節で説明されているように、マスクレジスタの値を保持する単一のベクトルレジスタです。</p>
 <p><cite>vpopc.m</cite> 命令は、ベクトルソースマスクレジスタのアクティブ要素のうち、値が1であるマスク要素の数を数え、その結果をスカラの <cite>x</cite>  レジスタに書き込みます。</p>
 <p>この操作はマスク下で行うことができ、その場合はマスクされた要素のみがカウントされます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vpopc</span><span class="o">.</span><span class="n">m</span> <span class="n">rd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">v0</span><span class="o">.</span><span class="n">t</span> <span class="c1"># x[rd] = sum**i ( vs2.mask[i] &amp;&amp; v0.mask[i] )</span>
@@ -4154,8 +4115,6 @@ vmcpy.m アセンブラ疑似命令は互換性のために残されています
 <p class="admonition-title">注釈</p>
 <p>同じデータパスを使用して、暗黙的なマスクソースを使用することで実装することができます。</p>
 </div>
-<p><span class="xref std std-ref">sec-vector-permute</span>
-.. // == Vector Permutation Instructions</p>
 </div>
 </div>
 <div class="section" id="id124">
@@ -4235,7 +4194,7 @@ XLEN &gt; SEWの場合、<em>OFFSET</em> はSEWビットに切り捨てられま
 </pre></div>
 </div>
 <p><cite>vslidedown</cite>  では、<cite>vl</cite> の値は、書き込まれる宛先要素の最大数を指定します。
-<cite>vl</cite> を過ぎた残りの要素は、現在の末尾ポリシ(&lt;&lt;sec-agnostic&gt;&gt; 節)に従って処理されます。</p>
+<cite>vl</cite> を過ぎた残りの要素は、現在の末尾ポリシ(<span class="xref std std-ref">sec-agnostic</span>  節)に従って処理されます。</p>
 <p>ソースの開始インデックス (<em>OFFSET</em>) は、<cite>rs1</cite> で指定された <cite>x</cite> レジスタの符号なし整数を使用して指定するか、
 または XLEN ビットまでゼロ拡張された 5 ビットの即値を使用します。
 XLEN &gt; SEWの場合、<a href="#id130"><span class="problematic" id="id131">*</span></a>OFFSET*はSEWビットに切り捨てられません。</p>
@@ -4264,7 +4223,7 @@ XLEN &lt; SEWの場合、値はSEWビットに符号拡張されます。
 XLEN &gt; SEWの場合、最下位のビットがコピーされ、SEW-XLENの上位ビットは無視されます。</p>
 <p>残りのアクティブな <cite>vl</cite> -1 要素は、ソースベクトルレジスタ群のインデックス <em>i</em> から書き込みベクトルレジスタ群のインデックス <a href="#id132"><span class="problematic" id="id133">*</span></a>i*+1 にコピーオーバーされます。</p>
 <p><cite>vl</cite> レジスタはソースの値で更新される書き込みベクトルレジスタ要素の最大数を指定し、
-<cite>vl</cite> を超えた残りの要素は現在の末尾ポリシ(&lt;&lt;sec-agnostic&gt;&gt;節)に従って処理されます。</p>
+<cite>vl</cite> を超えた残りの要素は現在の末尾ポリシ(<span class="xref std std-ref">sec-agnostic</span> 節)に従って処理されます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">vslide1up</span> <span class="n">behavior</span>
 
                   <span class="n">i</span> <span class="o">&lt;</span> <span class="n">vstart</span>  <span class="n">unchanged</span>
@@ -4282,7 +4241,7 @@ XLEN &gt; SEWの場合、最下位のビットがコピーされ、SEW-XLENの�
 <p><cite>vslide1down</cite> 命令は、最初の <cite>vl</cite>  -1個のアクティブな要素の値を、
 ソースベクトルレジスタグループのインデックス <em>i</em> +1 から書き込みベクトルレジスタ群のインデックス*i*にコピーします。</p>
 <p><cite>vl</cite> レジスタはソースの値で書き込まれる書き込みベクトルレジスタ要素の最大数を指定し、
-<cite>vl</cite> を超えた残りの要素は現在の末尾ポリシ(&lt;&lt;sec-agnostic&gt;&gt;節)に従って処理されます。</p>
+<cite>vl</cite> を超えた残りの要素は現在の末尾ポリシ(<span class="xref std std-ref">sec-agnostic</span> 節)に従って処理されます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vslide1down</span><span class="o">.</span><span class="n">vx</span>  <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>      <span class="c1"># vd[i] = vs2[i+1], vd[vl-1]=x[rs1]</span>
 <span class="n">vfslide1down</span><span class="o">.</span><span class="n">vf</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">rs1</span><span class="p">,</span> <span class="n">vm</span>      <span class="c1"># vd[i] = vs2[i+1], vd[vl-1]=f[rs1]</span>
 </pre></div>
@@ -4311,7 +4270,7 @@ XLEN &gt; SEWの場合、最下位のビットがコピーされ、SEW-XLENの�
 <p>ベクトル・レジスタ・ギャザー命令は、第2のソースベクトルレジスタグループによって与えられる位置から第1のソースベクトルレジスタグループの要素を読み出します。
 第2ベクトルのインデックス値は、符号なし整数として扱われます。
 ソースベクトルは、<cite>vl</cite> にかかわらず、任意のインデックス &lt; VLMAX で読み取ることができます。
-書き込みレジスタに書き込む最大要素数は <cite>vl</cite> で与えられ、<cite>vl</cite> を過ぎた残りの要素は現在の末尾要素のポリシ (&lt;&lt;sec-agnostic&gt;&gt;節) に従って処理されます。
+書き込みレジスタに書き込む最大要素数は <cite>vl</cite> で与えられ、<cite>vl</cite> を過ぎた残りの要素は現在の末尾要素のポリシ (<span class="xref std std-ref">sec-agnostic</span> 節) に従って処理されます。
 この操作はマスクすることができ、非アクティブな要素に対しては、マスク undisturbed/agnostic ポリシに従います。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vrgather</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># vd[i] = (vs1[i] &gt;= VLMAX) ? 0 : vs2[vs1[i]];</span>
 <span class="n">vrgatherei16</span><span class="o">.</span><span class="n">vv</span> <span class="n">vd</span><span class="p">,</span> <span class="n">vs2</span><span class="p">,</span> <span class="n">vs1</span><span class="p">,</span> <span class="n">vm</span> <span class="c1"># vd[i] = (vs1[i] &gt;= VLMAX) ? 0 : vs2[vs1[i]];</span>
@@ -4345,7 +4304,7 @@ XLEN &gt; SEWの場合，インデックス値はSEWビットまで切り捨て�
 </div>
 <p><cite>vs1</cite> で指定されたベクトルマスクレジスタは、ベクトルレジスタグループ <cite>vs2</cite> の最初の <cite>vl</cite> 要素のうち、
 どの要素を抽出して、ベクトルレジスタ <cite>vd</cite> の先頭の連続した要素にパックすべきかを示します。
-<cite>vd</cite> の残りの要素は、現在の末尾要素ポリシ (&lt;&lt;sec-agnostic&gt;&gt;節) に従って、末尾要素として扱われます。</p>
+<cite>vd</cite> の残りの要素は、現在の末尾要素ポリシ (<span class="xref std std-ref">sec-agnostic</span> 節) に従って、末尾要素として扱われます。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vcompress命令の使用例</span>
 
     <span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span>   <span class="n">v0</span>
@@ -4489,8 +4448,6 @@ EEW=SEW、EMUL=`nr` 、実効長 <cite>evl</cite> =EMUL * VLEN/SEWのように�
 <p class="admonition-title">注釈</p>
 <p>ベクトルユニットの実装から不透明なマイクロアーキテクチャの状態を保存・復元する標準的な方法を定義する可能性があります。</p>
 </div>
-<p><span class="xref std std-ref">sec-vector-extensions</span>
-.. // == Standard Vector Extensions</p>
 </div>
 </div>
 <div class="section" id="id142">
@@ -4507,23 +4464,23 @@ EEW=SEW、EMUL=`nr` 、実効長 <cite>evl</cite> =EMUL * VLEN/SEWのように�
 表には、各拡張機能の最小VLENとサポートされるEEW、およびサポートされる浮動小数点型を示しています。</p>
 <p>全ての Zve* 拡張は正確な例外を持ちます。</p>
 <p>すべてのZve*拡張は、8,16,32のEEWをサポートしており、Zve64*拡張は64のEEWもサポートしています。</p>
-<p>すべての Zve* 拡張機能は、ベクトル構成命令 (&lt;&lt;sec-vector-config&gt;&gt; 節) をサポートしています。</p>
-<p>全ての Zve* 拡張は全てのベクトルロード・ストア命令(&lt;&lt;sec-vector-memory&gt;&gt;節)をサポートしていますが、
+<p>すべての Zve* 拡張機能は、ベクトル構成命令 (<span class="xref std std-ref">sec-vector-config</span>  節) をサポートしています。</p>
+<p>全ての Zve* 拡張は全てのベクトルロード・ストア命令(<span class="xref std std-ref">sec-vector-memory</span> 節)をサポートしていますが、
 Zve64* 拡張は XLEN=32 の時のインデックス値に対する EEW=64 をサポートしていません。</p>
-<p>すべての Zve* 拡張は、すべてのベクトル整数命令 (&lt;&lt;sec-vector-integer&gt;&gt;節) をサポートしています。
+<p>すべての Zve* 拡張は、すべてのベクトル整数命令 (<span class="xref std std-ref">sec-vector-integer</span> 節) をサポートしています。
 ただし、積の上位ワードを返す <cite>vmulh</cite>  整数乗算バリエーション (<cite>vmulh.vv</cite>, <cite>vmulh.vx</cite>, <cite>vmulhu.vv</cite>, <cite>vmulhu.vx</cite>, <cite>vmulhsu.vv</cite>, <cite>vmulhsu.vx</cite> ) は、Zve64* では EEW=64 に対応していません。</p>
-<p>すべてのZve*拡張は、すべてのベクトル固定小数点演算命令（&lt;&lt;sec-vector-fixed-point&gt;&gt;）をサポートしています。
+<p>すべてのZve*拡張は、すべてのベクトル固定小数点演算命令（<span class="xref std std-ref">sec-vector-fixed-point</span> ）をサポートしています。
 ただし、 <cite>vsmul.vv</cite> と <cite>vsmul.vx</cite> は、Zve64*のEEW=64ではサポートされていません。</p>
-<p>すべての Zve* 拡張は、すべてのベクトル整数の単一幅および幅拡張および幅縮小操作をサポートします (&lt;&lt;sec-vector-integer-reduce&gt;&gt;節, &lt;&lt;sec-vector-integer-reduce-widen&gt;&gt;節)。</p>
-<p>全ての Zve* 拡張は全てのベクトルマスク命令をサポートします (&lt;&lt;sec-vector-mask&gt;&gt;節)。</p>
+<p>すべての Zve* 拡張は、すべてのベクトル整数の単一幅および幅拡張および幅縮小操作をサポートします (<span class="xref std std-ref">sec-vector-integer-reduce&gt;&gt;節, &lt;&lt;sec-vector-integer-reduce-widen</span> 節)。</p>
+<p>全ての Zve* 拡張は全てのベクトルマスク命令をサポートします (<span class="xref std std-ref">sec-vector-mask</span> 節)。</p>
 <p>Zve32x と Zve64x が浮動小数点スカラ移動命令を実装していないことを除いて、
-すべての Zve* 拡張はすべてのベクトル組み合わせ命令 (&lt;&lt;sec-vector-permute&gt;&gt;節) をサポートしています。</p>
-<p>Zve32fおよびZve64f拡張は、スカラ・プロセッサがF拡張を実装し、EEW=32の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令（&lt;&lt;sec-vector-float&gt;&gt;節）を実装することを要求し、
+すべての Zve* 拡張はすべてのベクトル組み合わせ命令 (<span class="xref std std-ref">sec-vector-permute</span> 節) をサポートしています。</p>
+<p>Zve32fおよびZve64f拡張は、スカラ・プロセッサがF拡張を実装し、EEW=32の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令（<span class="xref std std-ref">sec-vector-float</span> 節）を実装することを要求し、
 サポートされているすべての整数EEWとの間の変換命令が提供されています。
-EEW=32のベクトル単幅浮動小数点演算(&lt;&lt;sec-vector-float-reduce&gt;&gt;節)をサポートしています。</p>
-<p>Zve32d および Zve64d 拡張は、スカラ・プロセッサが D 拡張を実装し、EEW=32 または EEW=64 の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令 (&lt;&lt;sec-vector-float&gt;&gt;節) を実装する必要があります
+EEW=32のベクトル単幅浮動小数点演算(<span class="xref std std-ref">sec-vector-float-reduce</span> 節)をサポートしています。</p>
+<p>Zve32d および Zve64d 拡張は、スカラ・プロセッサが D 拡張を実装し、EEW=32 または EEW=64 の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令 (<span class="xref std std-ref">sec-vector-float</span> 節) を実装する必要があります
 (幅拡張命令および FP32 と FP64 の間の変換を含む)。
-EEW=32およびEEW=64のベクトル単幅浮動小数点演算(&lt;&lt;sec-vector-float-reduce&gt;&gt;節)がサポートされており、
+EEW=32およびEEW=64のベクトル単幅浮動小数点演算(<span class="xref std std-ref">sec-vector-float-reduce</span> 節)がサポートされており、
 FP32からFP64への幅拡張リダクションもサポートされています。</p>
 </div>
 <div class="section" id="v">
@@ -4542,16 +4499,16 @@ LMULを大きくすると、既知のサイズの長いアプリケーション�
 </div>
 <p>V拡張は、8、16、32、および64のEEWをサポートしています。</p>
 <p>V拡張は，ベクトルコンフィグレーション設定命令(vsetvli/vsetivl/vsetvl)をサポートしています。</p>
-<p>V拡張は全てのロードストア命令をサポートしていますが(&lt;&lt;sec-vector-memory&gt;&gt;節)
+<p>V拡張は全てのロードストア命令をサポートしていますが(<span class="xref std std-ref">sec-vector-memory</span> 節)
 XLEN=32の時のインデックス値に関するEEW=64のV拡張はサポートされていません。</p>
-<p>V拡張機能は、すべてのベクトル整数命令 (&lt;&lt;sec-vector-integer&gt;&gt;節) をサポートしています。</p>
-<p>V 拡張機能は、すべてのベクトル固定小数点演算命令 (&lt;&lt;sec-vector-integer&gt;&gt;節) をサポートしています。</p>
-<p>V拡張は、すべてのベクトル整数の単一幅および幅縮小演算をサポートしています(&lt;&lt;sec-vector-integer-reduce&gt;&gt;,
-.. sec-vector-integer-reduce-widen:節)。</p>
-<p>V 拡張機能は、すべてのベクトルマスク命令をサポートします (&lt;&lt;sec-vector-mask&gt;&gt;節)。</p>
-<p>V拡張は、すべてのベクトル組み合わせ命令をサポートしています(&lt;&lt;sec-vector-permute&gt;&gt;節)。</p>
-<p>また、EEW=32 または EEW=64 の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令 (&lt;&lt;sec-vector-float&gt;&gt;節) を実装します (幅拡張命令およびFP32とFP64 間の変換を含む)。
-EEW=32およびEEW=64のベクトル単一幅浮動小数点リダクション命令(&lt;&lt;sec-vector-float-reduce&gt;&gt;) は、FP32からFP64への幅拡張リダクションと同様にサポートされています。</p>
+<p>V拡張機能は、すべてのベクトル整数命令 (<span class="xref std std-ref">sec-vector-integer</span> 節) をサポートしています。</p>
+<p>V 拡張機能は、すべてのベクトル固定小数点演算命令 (<span class="xref std std-ref">sec-vector-integer</span> 節) をサポートしています。</p>
+<p>V拡張は、すべてのベクトル整数の単一幅および幅縮小演算をサポートしています(<span class="xref std std-ref">sec-vector-integer-reduce</span> ,
+<span class="xref std std-ref">sec-vector-integer-reduce-widen</span> 節)。</p>
+<p>V 拡張機能は、すべてのベクトルマスク命令をサポートします (<span class="xref std std-ref">sec-vector-mask</span> 節)。</p>
+<p>V拡張は、すべてのベクトル組み合わせ命令をサポートしています(<span class="xref std std-ref">sec-vector-permute</span> 節)。</p>
+<p>また、EEW=32 または EEW=64 の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令 (<span class="xref std std-ref">sec-vector-float</span> 節) を実装します (幅拡張命令およびFP32とFP64 間の変換を含む)。
+EEW=32およびEEW=64のベクトル単一幅浮動小数点リダクション命令(<span class="xref std std-ref">sec-vector-float-reduce</span> ) は、FP32からFP64への幅拡張リダクションと同様にサポートされています。</p>
 </div>
 </div>
 <div class="section" id="id143">

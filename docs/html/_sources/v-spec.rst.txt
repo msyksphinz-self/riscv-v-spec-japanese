@@ -78,13 +78,13 @@ v1.0-rc1からの変更点
   
 ..
   This draft spec includes the complete set of currently defined vector
-  instructions.  Section <<sec-vector-extensions>> lists the standard
+  instructions.  Section :ref:`sec-vector-extensions`  lists the standard
   vector extensions and which instructions and element widths are
   supported by each extension.
 
 
 本仕様書ドラフトには、現在定義されているベクトル命令の全セットが含まれています。
-.. sec-vector-extensions:  セクションには、標準的なベクトル拡張機能と、
+:ref:`sec-vector-extensions`   セクションには、標準的なベクトル拡張機能と、
 それぞれの拡張機能でサポートされる命令および要素幅が記載されています。
 
 .. // == Implementation-defined Constant Parameters
@@ -109,11 +109,11 @@ v1.0-rc1からの変更点
 * 1つのベクトルレジスタのビット数 *VLEN* 、これは2の累乗でなければならず、2の累乗であり、2^16^以上であってはなりません。
 
 ..
-  Standard vector extensions (Section <<sec-vector-extensions>>) and
+  Standard vector extensions (Section :ref:`sec-vector-extensions` ) and
   architecture profiles may set further constraints on *ELEN* and *VLEN*.
 
 
-標準的なベクトル拡張(<<sec-vector-extensions>> セクション)とアーキテクチャプロファイルは、 *ELEN* と *VLEN* にさらなる制約を設定することができます。
+標準的なベクトル拡張(:ref:`sec-vector-extensions`  セクション)とアーキテクチャプロファイルは、 *ELEN* と *VLEN* にさらなる制約を設定することができます。
 
 ..
   NOTE: The upper limit on VLEN allows software to know that indices
@@ -744,7 +744,7 @@ LMUL=8 の場合、ベクトレジスタグループには 8 個のベクトレ�
 
 マスクレジスタは、LMULにかかわらず、常に1つのベクトレジスタとして取り扱われます。
 
-:ref:`sec-agnostic` 
+.. sec-agnostic:
 .. // ==== Vector Tail Agnostic and Vector Mask Agnostic `vta` and `vma`
 
 
@@ -757,12 +757,12 @@ Tail Agnostic とVector Mask Agnostic `vta` と `vma`
   destination inactive masked-off elements respectively during the
   execution of vector instructions.  The tail and inactive sets contain
   element positions that are not receiving new results during a vector
-  operation, as defined in Section <<sec-inactive-defs>>.
+  operation, as defined in Section :ref:`sec-inactive-defs` .
 
 
 これらの2つのビットは、ベクトル命令の実行中に、書き込みレジスタのTail要素および
 書き込みレジスタの非アクティブなマスクオフされた要素の動作をそれぞれ変更します。
-Tailセットと非アクティブセットには、<<sec-inactive-defs>> 項で定義されているように、
+Tailセットと非アクティブセットには、:ref:`sec-inactive-defs`  項で定義されているように、
 ベクトル演算中に新しい結果を受け取らない要素の位置を含んでいます。
 
 .. // All systems must support all four options:
@@ -1030,10 +1030,10 @@ Tailセットと非アクティブセットには、<<sec-inactive-defs>> 項で
 ..
   The `vl` register holds an unsigned integer specifying the number of
   elements to be updated with results from a vector instruction, as
-  further detailed in Section <<sec-inactive-defs>>.
+  further detailed in Section :ref:`sec-inactive-defs` .
 
 
-`vl` レジスタは、セクション <<sec-inactive-defs>> で詳しく説明されているように、
+`vl` レジスタは、セクション :ref:`sec-inactive-defs`  で詳しく説明されているように、
 ベクトル命令の結果で更新される要素数を指定する符号なし整数を保持します。
 
 ..
@@ -1093,10 +1093,10 @@ Tailセットと非アクティブセットには、<<sec-inactive-defs>> 項で
 ..
   The `vstart` read-write CSR specifies the index of the first element
   to be executed by a vector instruction, as described in Section
-  .. sec-inactive-defs:.
+  :ref:`sec-inactive-defs` .
 
 
-読み書き可能なCSRである `vstart` は、 <<sec-inactive-defs>> 項で説明したように、
+読み書き可能なCSRである `vstart` は、 :ref:`sec-inactive-defs`  項で説明したように、
 ベクトル命令で実行される最初の要素のインデックスを指定します。
 
 ..
@@ -1781,7 +1781,7 @@ LMUL > 1 かつ ELEN > VLEN のマッピング
    v8*n+7
   
 
-:ref:`sec-mask-register-layout` 
+.. sec-mask-register-layout:
 .. // === Mask Register Layout
 
 
@@ -1911,12 +1911,12 @@ LMUL > 1 かつ ELEN > VLEN のマッピング
   store encodings repurpose a portion of the standard scalar
   floating-point load/store 12-bit immediate field to provide further
   vector instruction encoding, with bit 25 holding the standard vector
-  mask bit (see <<sec-vector-mask-encoding>>).
+  mask bit (see :ref:`sec-vector-mask-encoding` ).
 
 
 ベクトルのロードとストアは、スカラ浮動小数点のロードとストアのメジャーオペコード(LOAD-FP/STORE-FP)の中にエンコードされます。
 ベクトルロード/ストアのエンコーディングは、標準的なスカラ浮動小数点ロード/ストアの12ビット即値フィールドの一部を再利用して、
-さらにベクトル命令のエンコーディングを行い、ビット25には標準的なベクトルマスクビット ( <<sec-vector-mask-encoding>> を参照)を格納します。
+さらにベクトル命令のエンコーディングを行い、ビット25には標準的なベクトルマスクビット ( :ref:`sec-vector-mask-encoding`  を参照)を格納します。
 
 include::vmem-format.adoc[]
 
@@ -2104,13 +2104,13 @@ Wideningされたスカラ値(Wideningリダクション演算の結果など)�
   destination vector register elements corresponding to masked-off
   elements are handled with either a mask-undisturbed or mask-agnostic
   policy depending on the setting of the `vma` bit in `vtype` (Section
-  .. sec-agnostic:).
+  :ref:`sec-agnostic` ).
 
 
 マスキングは多くのベクトル命令でサポートされています。
 マスクオフされた(非アクティブな)要素の操作は、例外を発生させません。
 マスクオフされた要素に対応する書き込みベクトルレジスタの要素は、`vtype` の `vma` ビットの
-設定に応じて、mask-undisturbedまたはmask-agnosticのいずれかのポリシで処理されます(セクション <<sec-agnostic>> )。
+設定に応じて、mask-undisturbedまたはmask-agnosticのいずれかのポリシで処理されます(セクション :ref:`sec-agnostic`  )。
 
 ..
   The mask value used to control execution of a masked vector
@@ -2167,17 +2167,17 @@ Wideningされたスカラ値(Wideningリダクション演算の結果など)�
 
 作業用マスクの値を保持するために他のベクトルレジスタを使用することができ、
 述語計算を行うためのマスクベクトル論理演算が提供されています。
-:ref:`sec-mask-vector-logical` を参照してください。
+.. sec-mask-vector-logical:を参照してください。
 
 ..
-  As specified in Section <<sec-agnostic>>, mask destination values are
+  As specified in Section :ref:`sec-agnostic` , mask destination values are
   always treated as tail-agnostic, regardless of the setting of `vta`.
 
 
-.. sec-agnostic:  で規定されているように、マスクの書き込み値は `vta` の設定にかかわらず、
+:ref:`sec-agnostic`   で規定されているように、マスクの書き込み値は `vta` の設定にかかわらず、
 常に tail-agnostic として扱われます。
 
-:ref:`sec-vector-mask-encoding` 
+.. sec-vector-mask-encoding:
 .. // ==== Mask Encoding
 
 
@@ -2275,7 +2275,7 @@ Wideningされたスカラ値(Wideningリダクション演算の結果など)�
 
   `v0.mask[i]` のように文章中にマスクベクトルに添え字として使用されるだけです。
   
-:ref:`sec-inactive-defs` 
+.. sec-inactive-defs:
 .. // === Prestart, Active, Inactive, Body, and Tail Element Definitions
 
 
@@ -2401,7 +2401,7 @@ LMUL < 1の場合、末尾には同じベクトルレジスタに保持されて
   `vl` または VLMAX を超えるインデックスを読み取ることがあります。
   一般的なポリシは、インデックスがソースベクトルレジスタグループのVLMAXよりも大きい場合、値0を返します。
   
-:ref:`sec-vector-config` 
+.. sec-vector-config:
 .. // == Configuration-Setting Instructions (`vsetvli`/`vsetivl`/`vsetvl`)
 
 ##########################################################################
@@ -2418,7 +2418,7 @@ LMUL < 1の場合、末尾には同じベクトルレジスタに保持されて
   register with the (frequently smaller) number of elements that the hardware
   will handle per iteration (stored in `vl`), based on the microarchitectural
   implementation and the `vtype` setting. A straightforward loop structure,
-  shown in <<example-stripmine-sew>>, depicts the ease with which the code keeps
+  shown in :ref:`example-stripmine-sew` , depicts the ease with which the code keeps
   track of the remaining number of elements and the amount per iteration handled
   by hardware.
 
@@ -2429,7 +2429,7 @@ RISC-Vのベクトル仕様では、この手法を直接かつポータブル�
 アプリケーションは、処理する要素の総数(アプリケーションベクトル長、AVL)を `vl` の候補値として指定し、
 ハードウェアは、マイクロアーキテクチャの実装と `vtype` の設定に基づいて、
 ハードウェアが反復ごとに処理する要素数( `vl` に格納されている) を、汎用レジスタを介して応答します。
-.. example-stripmin-sew: に示されている簡単なループ構造は、コードが残りの要素数とハードウェアが処理する1回あたりの量を簡単に追跡していることを示しています。
+:ref:`example-stripmin-sew`  に示されている簡単なループ構造は、コードが残りの要素数とハードウェアが処理する1回あたりの量を簡単に追跡していることを示しています。
 
 ..
   A set of instructions is provided to allow rapid configuration of the
@@ -2752,7 +2752,7 @@ VLMAXの変更をもたらすような新しいSEW/LMUL比率の命令の使用�
 
 --
 
-:ref:`example-stripmine-sew` 
+.. example-stripmine-sew:
 .. // === Example of stripmining and changes to SEW
 
 
@@ -2819,7 +2819,7 @@ SEWとLMULの設定を動的に変更することで、1つのループで幅が
   
 
 
-:ref:`sec-vector-memory` 
+.. sec-vector-memory:
 
 ########################################
 ベクトルロード・ストア命令
@@ -2857,7 +2857,7 @@ SEWとLMULの設定を動的に変更することで、1つのループで幅が
   store encodings repurpose a portion of the standard scalar
   floating-point load/store 12-bit immediate field to provide further
   vector instruction encoding, with bit 25 holding the standard vector
-  mask bit (see <<sec-vector-mask-encoding>>).
+  mask bit (see :ref:`sec-vector-mask-encoding` ).
 
 
 include::vmem-format.adoc[]
@@ -2874,7 +2874,7 @@ include::vmem-format.adoc[]
   | vd[4:0]    | specifies v register destination of load
   | vm         | specifies whether vector masking is enabled (0 = mask enabled, 1 = mask disabled)
   | width[2:0] | specifies size of memory elements, and distinguishes from FP scalar
-  | mew        | extended memory element width. See <<sec-vector-loadstore-width-encoding>>
+  | mew        | extended memory element width. See :ref:`sec-vector-loadstore-width-encoding` 
   | mop[1:0]   | specifies memory addressing mode
   | nf[2:0]    | specifies the number of fields in each segment, for segment load/stores
   | lumop[4:0]/sumop[4:0] | are additional fields encoding variants of unit-stride instructions
@@ -3106,12 +3106,12 @@ indexed-ordered の場合は、メモリアクセス時の要素の順序を保�
   value is moved between a vector register group and memory at each
   element position.  Larger values in the `nf` field are used to access
   multiple contiguous fields within a segment as described below in
-  Section <<sec-aos>>.
+  Section :ref:`sec-aos` .
 
 
 `nf[2:0]` フィールドは、各セグメントのフィールドの数をエンコードします。
 通常のベクトルロード/ストアでは、 `nf`=0で、各要素の位置でベクトルレジスタグループとメモリーの間で1つの値が移動することを示します。
-より大きな値の `nf` フィールドは、後述の <<sec-aos>> 項で説明するように、
+より大きな値の `nf` フィールドは、後述の :ref:`sec-aos`  項で説明するように、
 セグメント内の複数の連続したフィールドにアクセスするために使用されます。
 
 ..
@@ -3135,7 +3135,7 @@ indexed-ordered の場合は、メモリアクセス時の要素の順序を保�
 また、 `nf[2:0]` フィールドは、全体ベクトルレジスタの
 ロード/ストア命令で転送する全体ベクトルレジスタの数をエンコードします。
 
-:ref:`sec-vector-loadstore-width-encoding` 
+.. sec-vector-loadstore-width-encoding:
 
 *************************************************************
 ベクトルロードストア幅のエンコーディング
@@ -3707,7 +3707,7 @@ fault-on-firstロード命令が割り込みによる例外を発生する場合
   実装は `vl` を減らすのではなく、イベントが失われる可能性があるため、
   デバッグ・例外をトリガーするべきです。
   
-:ref:`sec-aos` 
+.. sec-aos:
 .. // === Vector Load/Store Segment Instructions
 
 
@@ -4578,7 +4578,7 @@ Index-Ordered形式ロード・ストア命令は、
 
 include::valu-format.adoc[]
 
-:ref:`sec-arithmetic-encoding` 
+.. sec-arithmetic-encoding:
 .. // === Vector Arithmetic Instruction encoding
 
 
@@ -4804,7 +4804,7 @@ FLEN > SEWの場合、 `f` レジスタの値が有効なNaNボックス値で�
   この順序では、乗算オペランドが常に隣り合っているため、
   これらの三項演算のアセンブラをより自然に読むことができます。
   
-:ref:`sec-widening` 
+.. sec-widening:
 .. // === Widening Vector Arithmetic Instructions
 
 
@@ -4925,7 +4925,7 @@ FLEN > SEWの場合、 `f` レジスタの値が有効なNaNボックス値で�
 
   
 
-:ref:`sec-narrowing` 
+.. sec-narrowing:
 .. // === Narrowing Vector Arithmetic Instructions
 
 
@@ -5008,7 +5008,7 @@ EEW > ELENまたはEMUL > 8の場合、命令のエンコーディングは予�
 .. note::
 
   
-:ref:`sec-vector-integer` 
+.. sec-vector-integer:
 .. // == Vector Integer Arithmetic Instructions
 
 
@@ -5233,7 +5233,7 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
 
 ..
   The carry inputs and outputs are represented using the mask register
-  layout as described in Section <<sec-mask-register-layout>>.  Due to
+  layout as described in Section :ref:`sec-mask-register-layout` .  Due to
   encoding constraints, the carry input must come from the implicit `v0`
   register, but carry outputs can be written to any vector register that
   respects the source/destination overlap restrictions.
@@ -5606,12 +5606,12 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
   mask register element if the comparison evaluates to true, and 0
   otherwise.  The destination mask vector is always held in a single
   vector register, with a layout of elements as described in Section
-  .. sec-mask-register-layout:.  The destination mask vector register
+  :ref:`sec-mask-register-layout` .  The destination mask vector register
   may be the same as the source vector mask register (`v0`).
 
 
 以下の整数比較命令は、比較の結果が真であれば書き込みマスクレジスタの要素に1を、そうでなければ0を書き込みます。
-書き込みマスクベクトルは常に単一のベクトルレジスタに保持され、その要素のレイアウトはセクション <<sec-mask-register-layout>> で説明されています。
+書き込みマスクベクトルは常に単一のベクトルレジスタに保持され、その要素のレイアウトはセクション :ref:`sec-mask-register-layout`  で説明されています。
 書き込みマスクレジスタは、ソースベクトルのマスクレジスタ(`v0`)と同じものでも構いません。
 
 ..
@@ -6419,7 +6419,7 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
   SEWに従って内部表現をシャッフルすることができます。
   データを内部的に再編成しない実装では、この命令を動的に省略し、NOP として扱うことができます。
   
-:ref:`sec-vector-fixed-point` 
+.. sec-vector-fixed-point:
 .. // == Vector Fixed-Point Arithmetic Instructions
 
 ##############################################
@@ -6790,7 +6790,7 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
 
 いずれかの書き込みレジスタの要素が飽和した場合、 `vxsat` レジスタに `vxsat` ビットが設定されます。
 
-:ref:`sec-vector-float` 
+.. sec-vector-float:
 .. // == Vector Floating-Point Instructions
 
 ##################################
@@ -6853,9 +6853,9 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
 ..
   Scalar values for vector-scalar operations can be sourced from the
   standard scalar `f` registers, as described in Section
-  .. sec-arithmetic-encoding:.
+  :ref:`sec-arithmetic-encoding` .
 
-ベクトルスカラ演算のスカラ値は、 <<sec-arithmetic-encoding>> で説明したように、
+ベクトルスカラ演算のスカラ値は、 :ref:`sec-arithmetic-encoding`  で説明したように、
 標準的なスカラ `f` レジスタから供給することができます。
 
 .. // === Vector Floating-Point Exception Flags
@@ -7477,14 +7477,14 @@ include::vfrec7.adoc[]
   These vector FP compare instructions compare two source operands and
   write the comparison result to a mask register.  The destination mask
   vector is always held in a single vector register, with a layout of
-  elements as described in Section <<sec-mask-register-layout>>.  The
+  elements as described in Section :ref:`sec-mask-register-layout` .  The
   destination mask vector register may be the same as the source vector
   mask register (`v0`).  Comparisons write mask registers, and so always
   operate under a tail-agnostic policy.
 
 
 これらのベクトルFP比較命令は、2つのソースオペランドを比較し、比較結果をマスクレジスタに書き込みます。
-書き込みマスクベクトルは常に単一のベクトルレジスタに保持され、その要素のレイアウトは <<sec-mask-register-layout>> 節で説明されています。
+書き込みマスクベクトルは常に単一のベクトルレジスタに保持され、その要素のレイアウトは :ref:`sec-mask-register-layout`  節で説明されています。
 書き込みマスクレジスタはソースベクトルマスクレジスタ(`v0`)と同じであってもかまいません。
 比較はマスクレジスタを書き込むため、常にTail-agnosticポリシで動作します。
 
@@ -7834,9 +7834,9 @@ include::vfrec7.adoc[]
 
 ..
   These instructions have the same constraints on vector register overlap
-  as other widening instructions (see <<sec-widening>>).
+  as other widening instructions (see :ref:`sec-widening` ).
 
-これらの命令は、他の幅拡張命令(<<sec-widening>>参照)と同様に、ベクトルレジスタのオーバーラップに対する制約があります。
+これらの命令は、他の幅拡張命令(:ref:`sec-widening` 参照)と同様に、ベクトルレジスタのオーバーラップに対する制約があります。
 
 ..
   NOTE: A double-width IEEE floating-point value can always represent a
@@ -7907,9 +7907,9 @@ include::vfrec7.adoc[]
 
 ..
   These instructions have the same constraints on vector register overlap
-  as other narrowing instructions (see <<sec-narrowing>>).
+  as other narrowing instructions (see :ref:`sec-narrowing` ).
 
-これらの命令は、他の幅縮小命令(<<sec-narrowing>>参照)と同様に、ベクトルレジスタのオーバーラップに制約があります。
+これらの命令は、他の幅縮小命令(:ref:`sec-narrowing` 参照)と同様に、ベクトルレジスタのオーバーラップに制約があります。
 
 ..
   NOTE: A full set of floating-point widening conversions is not
@@ -8002,7 +8002,7 @@ include::vfrec7.adoc[]
 縮小演算のアセンブラ構文は、`vredop.vs` です。`.vs` は、第1オペランドがベクトルレジスタグループで、
 第 2 オペランドがベクトルレジスタの要素 0 に格納されたスカラであることを表します。
 
-:ref:`sec-vector-integer-reduce` 
+.. sec-vector-integer-reduce:
 .. // === Vector Single-Width Integer Reduction Instructions
 
 ****************************************************
@@ -8044,7 +8044,7 @@ include::vfrec7.adoc[]
   
 
 
-:ref:`sec-vector-integer-reduce-widen` 
+.. sec-vector-integer-reduce-widen:
 .. // === Vector Widening Integer Reduction Instructions
 
 ****************************************************
@@ -8083,7 +8083,7 @@ include::vfrec7.adoc[]
       vwredsum.vs  vd, vs2, vs1, vm   # 2*SEW = 2*SEW + sum(sign-extend(SEW))
   
 
-:ref:`sec-vector-float-reduce` 
+.. sec-vector-float-reduce:
 .. // === Vector Single-Width Floating-Point Reduction Instructions
 
 *************************************************************
@@ -8268,7 +8268,7 @@ include::vfrec7.adoc[]
 
   その際、例外フラグは設定されず、NaNの処理も行われません。
   
-:ref:`sec-vector-float-reduce-widen` 
+.. sec-vector-float-reduce-widen:
 .. // === Vector Widening Floating-Point Reduction Instructions
 
 *************************************************************
@@ -8316,7 +8316,7 @@ SEW幅の要素のリダクション操作は単一幅で行われ、`vs2` の�
 
   `vfwredusum.vs`  は `vfredusum.vs` と同様に動作します。
   
-:ref:`sec-vector-mask` 
+.. sec-vector-mask:
 .. // == Vector Mask Instructions
 
 ############################
@@ -8329,7 +8329,7 @@ SEW幅の要素のリダクション操作は単一幅で行われ、`vs2` の�
 
 ベクトルレジスタに格納されているマスクを操作するための命令がいくつか提供されています。
 
-:ref:`sec-mask-register-logical` 
+.. sec-mask-register-logical:
 .. // === Vector Mask-Register Logical Instructions
 
 **********************************************
@@ -8438,9 +8438,9 @@ SEW幅の要素のリダクション操作は単一幅で行われ、`vs2` の�
 
 ..
   The source operand is a single vector register holding mask register
-  values as described in Section <<sec-mask-register-layout>>.
+  values as described in Section :ref:`sec-mask-register-layout` .
 
-ソースオペランドは、 <<sec-mask-register-layout>> 節で説明されているように、マスクレジスタの値を保持する単一のベクトルレジスタです。
+ソースオペランドは、 :ref:`sec-mask-register-layout`  節で説明されているように、マスクレジスタの値を保持する単一のベクトルレジスタです。
 
 ..
   The `vpopc.m` instruction counts the number of mask elements of the
@@ -9021,7 +9021,7 @@ SEWが結果の値よりも大きい場合は、結果値をゼロ拡張して�
 
   同じデータパスを使用して、暗黙的なマスクソースを使用することで実装することができます。
   
-:ref:`sec-vector-permute` 
+.. sec-vector-permute:
 .. // == Vector Permutation Instructions
 
 ##################################
@@ -9277,10 +9277,10 @@ XLEN > SEWの場合、*OFFSET* はSEWビットに切り捨てられません。
   For `vslidedown`, the value in `vl` specifies the maximum number of
   destination elements that are written.  The remaining elements past
   `vl` are handled according to the current tail policy (Section
-  .. sec-agnostic:).
+  :ref:`sec-agnostic` ).
 
 `vslidedown`  では、`vl` の値は、書き込まれる宛先要素の最大数を指定します。
-`vl` を過ぎた残りの要素は、現在の末尾ポリシ(<<sec-agnostic>> 節)に従って処理されます。
+`vl` を過ぎた残りの要素は、現在の末尾ポリシ(:ref:`sec-agnostic`  節)に従って処理されます。
 
 ..
   The start index (*OFFSET*) for the source can be either specified
@@ -9350,10 +9350,10 @@ XLEN > SEWの場合、最下位のビットがコピーされ、SEW-XLENの上�
   The `vl` register specifies the maximum number of destination vector
   register elements updated with source values, and remaining elements
   past `vl` are handled according to the current tail policy (Section
-  .. sec-agnostic:).
+  :ref:`sec-agnostic` ).
 
 `vl` レジスタはソースの値で更新される書き込みベクトルレジスタ要素の最大数を指定し、
-`vl` を超えた残りの要素は現在の末尾ポリシ(<<sec-agnostic>>節)に従って処理されます。
+`vl` を超えた残りの要素は現在の末尾ポリシ(:ref:`sec-agnostic` 節)に従って処理されます。
 
 ::
 
@@ -9397,10 +9397,10 @@ XLEN > SEWの場合、最下位のビットがコピーされ、SEW-XLENの上�
   The `vl` register specifies the maximum number of destination vector
   register elements written with source values, and remaining elements
   past `vl` are handled according to the current tail policy (Section
-  .. sec-agnostic:).
+  :ref:`sec-agnostic` ).
 
 `vl` レジスタはソースの値で書き込まれる書き込みベクトルレジスタ要素の最大数を指定し、
-`vl` を超えた残りの要素は現在の末尾ポリシ(<<sec-agnostic>>節)に従って処理されます。
+`vl` を超えた残りの要素は現在の末尾ポリシ(:ref:`sec-agnostic` 節)に従って処理されます。
 
 ::
 
@@ -9463,14 +9463,14 @@ XLEN > SEWの場合、最下位のビットがコピーされ、SEW-XLENの上�
   index < VLMAX regardless of `vl`.  The maximum number of elements to write to
   the destination register is given by `vl`, and the remaining elements
   past `vl` are handled according to the current tail policy
-  (Section <<sec-agnostic>>).  The operation can be masked, and the mask
+  (Section :ref:`sec-agnostic` ).  The operation can be masked, and the mask
   undisturbed/agnostic policy is followed for inactive elements.
 
 
 ベクトル・レジスタ・ギャザー命令は、第2のソースベクトルレジスタグループによって与えられる位置から第1のソースベクトルレジスタグループの要素を読み出します。
 第2ベクトルのインデックス値は、符号なし整数として扱われます。
 ソースベクトルは、`vl` にかかわらず、任意のインデックス < VLMAX で読み取ることができます。
-書き込みレジスタに書き込む最大要素数は `vl` で与えられ、`vl` を過ぎた残りの要素は現在の末尾要素のポリシ (<<sec-agnostic>>節) に従って処理されます。
+書き込みレジスタに書き込む最大要素数は `vl` で与えられ、`vl` を過ぎた残りの要素は現在の末尾要素のポリシ (:ref:`sec-agnostic` 節) に従って処理されます。
 この操作はマスクすることができ、非アクティブな要素に対しては、マスク undisturbed/agnostic ポリシに従います。
 
 
@@ -9570,11 +9570,11 @@ XLEN > SEWの場合，インデックス値はSEWビットまで切り捨てら�
   and packed into contiguous elements at the beginning of vector
   register `vd`. The remaining elements of `vd` are treated as tail
   elements according to the current tail policy (Section
-  .. sec-agnostic:).
+  :ref:`sec-agnostic` ).
 
 `vs1` で指定されたベクトルマスクレジスタは、ベクトルレジスタグループ `vs2` の最初の `vl` 要素のうち、
 どの要素を抽出して、ベクトルレジスタ `vd` の先頭の連続した要素にパックすべきかを示します。
-`vd` の残りの要素は、現在の末尾要素ポリシ (<<sec-agnostic>>節) に従って、末尾要素として扱われます。
+`vd` の残りの要素は、現在の末尾要素ポリシ (:ref:`sec-agnostic` 節) に従って、末尾要素として扱われます。
 
 ..
   ----
@@ -9997,7 +9997,7 @@ EEW=SEW、EMUL=`nr` 、実効長 `evl` =EMUL * VLEN/SEWのように動作しま�
 
   ベクトルユニットの実装から不透明なマイクロアーキテクチャの状態を保存・復元する標準的な方法を定義する可能性があります。
   
-:ref:`sec-vector-extensions` 
+.. sec-vector-extensions:
 .. // == Standard Vector Extensions
 
 #########################
@@ -10081,26 +10081,26 @@ Zve*: 組み込みプロセッサ用のベクトル拡張
 
 ..
   All Zve* extensions support the vector configuration instructions
-  (Section <<sec-vector-config>>).
+  (Section :ref:`sec-vector-config` ).
 
-すべての Zve* 拡張機能は、ベクトル構成命令 (<<sec-vector-config>> 節) をサポートしています。
+すべての Zve* 拡張機能は、ベクトル構成命令 (:ref:`sec-vector-config`  節) をサポートしています。
 
 ..
   All Zve* extensions support all vector load and store instructions
-  (Section <<sec-vector-memory>>), except Zve64* extensions do not
+  (Section :ref:`sec-vector-memory` ), except Zve64* extensions do not
   support EEW=64 for index values when XLEN=32.
 
-全ての Zve* 拡張は全てのベクトルロード・ストア命令(<<sec-vector-memory>>節)をサポートしていますが、
+全ての Zve* 拡張は全てのベクトルロード・ストア命令(:ref:`sec-vector-memory` 節)をサポートしていますが、
 Zve64* 拡張は XLEN=32 の時のインデックス値に対する EEW=64 をサポートしていません。
 
 ..
   All Zve* extensions support all vector integer instructions (Section
-  .. sec-vector-integer:), except that the `vmulh` integer multiply
+  :ref:`sec-vector-integer` ), except that the `vmulh` integer multiply
   variants that return the high word of the product (`vmulh.vv`,
   `vmulh.vx`, `vmulhu.vv`, `vmulhu.vx`, `vmulhsu.vv`, `vmulhsu.vx`) are
   not included for EEW=64 in Zve64*.
 
-すべての Zve* 拡張は、すべてのベクトル整数命令 (<<sec-vector-integer>>節) をサポートしています。
+すべての Zve* 拡張は、すべてのベクトル整数命令 (:ref:`sec-vector-integer` 節) をサポートしています。
 ただし、積の上位ワードを返す `vmulh`  整数乗算バリエーション (`vmulh.vv`, `vmulh.vx`, `vmulhu.vv`, `vmulhu.vx`, `vmulhsu.vv`, `vmulhsu.vx` ) は、Zve64* では EEW=64 に対応していません。
 
 ..
@@ -10112,10 +10112,10 @@ Zve64* 拡張は XLEN=32 の時のインデックス値に対する EEW=64 を�
   
 ..
   All Zve* extensions support all vector fixed-point arithmetic
-  instructions (<<sec-vector-fixed-point>>), except that `vsmul.vv` and
+  instructions (:ref:`sec-vector-fixed-point` ), except that `vsmul.vv` and
   `vsmul.vx` are not supported for EEW=64 in Zve64*.
 
-すべてのZve*拡張は、すべてのベクトル固定小数点演算命令（<<sec-vector-fixed-point>>）をサポートしています。
+すべてのZve*拡張は、すべてのベクトル固定小数点演算命令（:ref:`sec-vector-fixed-point` ）をサポートしています。
 ただし、 `vsmul.vv` と `vsmul.vx` は、Zve64*のEEW=64ではサポートされていません。
 
 ..
@@ -10128,50 +10128,50 @@ Zve64* 拡張は XLEN=32 の時のインデックス値に対する EEW=64 を�
 
 ..
   All Zve* extensions support all vector integer single-width and
-  widening reduction operations (Sections <<sec-vector-integer-reduce>>,
-  .. sec-vector-integer-reduce-widen:).
+  widening reduction operations (Sections :ref:`sec-vector-integer-reduce` ,
+  :ref:`sec-vector-integer-reduce-widen` ).
 
-すべての Zve* 拡張は、すべてのベクトル整数の単一幅および幅拡張および幅縮小操作をサポートします (<<sec-vector-integer-reduce>>節, <<sec-vector-integer-reduce-widen>>節)。
+すべての Zve* 拡張は、すべてのベクトル整数の単一幅および幅拡張および幅縮小操作をサポートします (:ref:`sec-vector-integer-reduce>>節, <<sec-vector-integer-reduce-widen` 節)。
 
 ..
   All Zve* extensions support all vector mask instructions (Section
-  .. sec-vector-mask:).
+  :ref:`sec-vector-mask` ).
 
-全ての Zve* 拡張は全てのベクトルマスク命令をサポートします (<<sec-vector-mask>>節)。
+全ての Zve* 拡張は全てのベクトルマスク命令をサポートします (:ref:`sec-vector-mask` 節)。
 
 ..
   All Zve* extensions support all vector permutation instructions
-  (Section <<sec-vector-permute>>), except that Zve32x and Zve64x do not
+  (Section :ref:`sec-vector-permute` ), except that Zve32x and Zve64x do not
   implement the floating-point scalar move instructions.
 
 Zve32x と Zve64x が浮動小数点スカラ移動命令を実装していないことを除いて、
-すべての Zve* 拡張はすべてのベクトル組み合わせ命令 (<<sec-vector-permute>>節) をサポートしています。
+すべての Zve* 拡張はすべてのベクトル組み合わせ命令 (:ref:`sec-vector-permute` 節) をサポートしています。
 
 ..
   The Zve32f and Zve64f extensions require the scalar processor to
   implement the F extension, and implement all vector floating-point
-  instructions (Section <<sec-vector-float>>) for floating-point
+  instructions (Section :ref:`sec-vector-float` ) for floating-point
   operands with EEW=32 (i.e., no widening floating-point operations),
   and conversion instructions are provided to and from all supported
   integer EEWs.  Vector single-width floating-point reduction operations
-  (<<sec-vector-float-reduce>>) for EEW=32 are supported.
+  (:ref:`sec-vector-float-reduce` ) for EEW=32 are supported.
 
-Zve32fおよびZve64f拡張は、スカラ・プロセッサがF拡張を実装し、EEW=32の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令（<<sec-vector-float>>節）を実装することを要求し、
+Zve32fおよびZve64f拡張は、スカラ・プロセッサがF拡張を実装し、EEW=32の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令（:ref:`sec-vector-float` 節）を実装することを要求し、
 サポートされているすべての整数EEWとの間の変換命令が提供されています。
-EEW=32のベクトル単幅浮動小数点演算(<<sec-vector-float-reduce>>節)をサポートしています。
+EEW=32のベクトル単幅浮動小数点演算(:ref:`sec-vector-float-reduce` 節)をサポートしています。
 
 ..
   The Zve32d and Zve64d extensions require the scalar processor to
   implement the D extension, and implement all vector floating-point
-  instructions (Section <<sec-vector-float>>) for floating-point
+  instructions (Section :ref:`sec-vector-float` ) for floating-point
   operands with EEW=32 or EEW=64 (including widening instructions and
   conversions between FP32 and FP64). Vector single-width floating-point
-  reductions (<<sec-vector-float-reduce>>) for EEW=32 and EEW=64 are
+  reductions (:ref:`sec-vector-float-reduce` ) for EEW=32 and EEW=64 are
   supported as well as widening reductions from FP32 to FP64.
 
-Zve32d および Zve64d 拡張は、スカラ・プロセッサが D 拡張を実装し、EEW=32 または EEW=64 の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令 (<<sec-vector-float>>節) を実装する必要があります
+Zve32d および Zve64d 拡張は、スカラ・プロセッサが D 拡張を実装し、EEW=32 または EEW=64 の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令 (:ref:`sec-vector-float` 節) を実装する必要があります
 (幅拡張命令および FP32 と FP64 の間の変換を含む)。
-EEW=32およびEEW=64のベクトル単幅浮動小数点演算(<<sec-vector-float-reduce>>節)がサポートされており、
+EEW=32およびEEW=64のベクトル単幅浮動小数点演算(:ref:`sec-vector-float-reduce` 節)がサポートされており、
 FP32からFP64への幅拡張リダクションもサポートされています。
 
 .. // === V: Vector Extension for Application Processor
@@ -10223,61 +10223,61 @@ V拡張は、8、16、32、および64のEEWをサポートしています。
 
 ..
   The V extension supports the vector configuration instructions
-  (Section <<sec-vector-config>>).
+  (Section :ref:`sec-vector-config` ).
 
 V拡張は，ベクトルコンフィグレーション設定命令(vsetvli/vsetivl/vsetvl)をサポートしています。
 
 ..
   The V extension supports all vector load and store instructions
-  (Section <<sec-vector-memory>>), except the V extension does not
+  (Section :ref:`sec-vector-memory` ), except the V extension does not
   support EEW=64 for index values when XLEN=32.
 
-V拡張は全てのロードストア命令をサポートしていますが(<<sec-vector-memory>>節)
+V拡張は全てのロードストア命令をサポートしていますが(:ref:`sec-vector-memory` 節)
 XLEN=32の時のインデックス値に関するEEW=64のV拡張はサポートされていません。
 
 ..
   The V extension supports all vector integer instructions (Section
-  .. sec-vector-integer:).
+  :ref:`sec-vector-integer` ).
 
-V拡張機能は、すべてのベクトル整数命令 (<<sec-vector-integer>>節) をサポートしています。
+V拡張機能は、すべてのベクトル整数命令 (:ref:`sec-vector-integer` 節) をサポートしています。
 
 ..
   The V extension supports all vector fixed-point arithmetic
-  instructions (<<sec-vector-fixed-point>>).
+  instructions (:ref:`sec-vector-fixed-point` ).
 
-V 拡張機能は、すべてのベクトル固定小数点演算命令 (<<sec-vector-integer>>節) をサポートしています。
+V 拡張機能は、すべてのベクトル固定小数点演算命令 (:ref:`sec-vector-integer` 節) をサポートしています。
 
 ..
   The V extension supports all vector integer single-width and
-  widening reduction operations (Sections <<sec-vector-integer-reduce>>,
-  .. sec-vector-integer-reduce-widen:).
+  widening reduction operations (Sections :ref:`sec-vector-integer-reduce` ,
+  :ref:`sec-vector-integer-reduce-widen` ).
 
-V拡張は、すべてのベクトル整数の単一幅および幅縮小演算をサポートしています(<<sec-vector-integer-reduce>>,
-.. sec-vector-integer-reduce-widen:節)。
+V拡張は、すべてのベクトル整数の単一幅および幅縮小演算をサポートしています(:ref:`sec-vector-integer-reduce` ,
+:ref:`sec-vector-integer-reduce-widen` 節)。
 
 ..
   The V extension supports all vector mask instructions (Section
-  .. sec-vector-mask:).
+  :ref:`sec-vector-mask` ).
 
-V 拡張機能は、すべてのベクトルマスク命令をサポートします (<<sec-vector-mask>>節)。
+V 拡張機能は、すべてのベクトルマスク命令をサポートします (:ref:`sec-vector-mask` 節)。
 
 ..
   The V extension supports all vector permutation instructions (Section
-  .. sec-vector-permute:).
+  :ref:`sec-vector-permute` ).
 
-V拡張は、すべてのベクトル組み合わせ命令をサポートしています(<<sec-vector-permute>>節)。
+V拡張は、すべてのベクトル組み合わせ命令をサポートしています(:ref:`sec-vector-permute` 節)。
 
 ..
   The V extension requires the scalar processor to implement the F and D
   extensions, and implements all vector floating-point instructions
-  (Section <<sec-vector-float>>) for floating-point operands with EEW=32
+  (Section :ref:`sec-vector-float` ) for floating-point operands with EEW=32
   or EEW=64 (including widening instructions and conversions between
   FP32 and FP64). Vector single-width floating-point reductions
-  (<<sec-vector-float-reduce>>) for EEW=32 and EEW=64 are supported as
+  (:ref:`sec-vector-float-reduce` ) for EEW=32 and EEW=64 are supported as
   well as widening reductions from FP32 to FP64.
 
-また、EEW=32 または EEW=64 の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令 (<<sec-vector-float>>節) を実装します (幅拡張命令およびFP32とFP64 間の変換を含む)。
-EEW=32およびEEW=64のベクトル単一幅浮動小数点リダクション命令(<<sec-vector-float-reduce>>) は、FP32からFP64への幅拡張リダクションと同様にサポートされています。
+また、EEW=32 または EEW=64 の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令 (:ref:`sec-vector-float` 節) を実装します (幅拡張命令およびFP32とFP64 間の変換を含む)。
+EEW=32およびEEW=64のベクトル単一幅浮動小数点リダクション命令(:ref:`sec-vector-float-reduce` ) は、FP32からFP64への幅拡張リダクションと同様にサポートされています。
 
 .. // == Vector Instruction Listing
 
