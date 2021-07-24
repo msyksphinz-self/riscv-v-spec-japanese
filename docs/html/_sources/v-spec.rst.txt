@@ -744,7 +744,7 @@ LMUL=8 の場合、ベクトレジスタグループには 8 個のベクトレ�
 
 マスクレジスタは、LMULにかかわらず、常に1つのベクトレジスタとして取り扱われます。
 
-.. sec-agnostic:
+.. _sec-agnostic:
 .. // ==== Vector Tail Agnostic and Vector Mask Agnostic `vta` and `vma`
 
 
@@ -1781,7 +1781,7 @@ LMUL > 1 かつ ELEN > VLEN のマッピング
    v8*n+7
   
 
-.. sec-mask-register-layout:
+.. _sec-mask-register-layout:
 .. // === Mask Register Layout
 
 
@@ -2167,7 +2167,7 @@ Wideningされたスカラ値(Wideningリダクション演算の結果など)�
 
 作業用マスクの値を保持するために他のベクトルレジスタを使用することができ、
 述語計算を行うためのマスクベクトル論理演算が提供されています。
-.. sec-mask-vector-logical:を参照してください。
+.. _sec-mask-vector-logical:を参照してください。
 
 ..
   As specified in Section :ref:`sec-agnostic` , mask destination values are
@@ -2177,7 +2177,7 @@ Wideningされたスカラ値(Wideningリダクション演算の結果など)�
 :ref:`sec-agnostic`   で規定されているように、マスクの書き込み値は `vta` の設定にかかわらず、
 常に tail-agnostic として扱われます。
 
-.. sec-vector-mask-encoding:
+.. _sec-vector-mask-encoding:
 .. // ==== Mask Encoding
 
 
@@ -2275,7 +2275,7 @@ Wideningされたスカラ値(Wideningリダクション演算の結果など)�
 
   `v0.mask[i]` のように文章中にマスクベクトルに添え字として使用されるだけです。
   
-.. sec-inactive-defs:
+.. _sec-inactive-defs:
 .. // === Prestart, Active, Inactive, Body, and Tail Element Definitions
 
 
@@ -2401,7 +2401,7 @@ LMUL < 1の場合、末尾には同じベクトルレジスタに保持されて
   `vl` または VLMAX を超えるインデックスを読み取ることがあります。
   一般的なポリシは、インデックスがソースベクトルレジスタグループのVLMAXよりも大きい場合、値0を返します。
   
-.. sec-vector-config:
+.. _sec-vector-config:
 .. // == Configuration-Setting Instructions (`vsetvli`/`vsetivl`/`vsetvl`)
 
 ##########################################################################
@@ -2752,7 +2752,7 @@ VLMAXの変更をもたらすような新しいSEW/LMUL比率の命令の使用�
 
 --
 
-.. example-stripmine-sew:
+.. _example-stripmine-sew:
 .. // === Example of stripmining and changes to SEW
 
 
@@ -2819,7 +2819,7 @@ SEWとLMULの設定を動的に変更することで、1つのループで幅が
   
 
 
-.. sec-vector-memory:
+.. _sec-vector-memory:
 
 ########################################
 ベクトルロード・ストア命令
@@ -3135,7 +3135,7 @@ indexed-ordered の場合は、メモリアクセス時の要素の順序を保�
 また、 `nf[2:0]` フィールドは、全体ベクトルレジスタの
 ロード/ストア命令で転送する全体ベクトルレジスタの数をエンコードします。
 
-.. sec-vector-loadstore-width-encoding:
+.. _sec-vector-loadstore-width-encoding:
 
 *************************************************************
 ベクトルロードストア幅のエンコーディング
@@ -3707,7 +3707,7 @@ fault-on-firstロード命令が割り込みによる例外を発生する場合
   実装は `vl` を減らすのではなく、イベントが失われる可能性があるため、
   デバッグ・例外をトリガーするべきです。
   
-.. sec-aos:
+.. _sec-aos:
 .. // === Vector Load/Store Segment Instructions
 
 
@@ -4578,7 +4578,7 @@ Index-Ordered形式ロード・ストア命令は、
 
 include::valu-format.adoc[]
 
-.. sec-arithmetic-encoding:
+.. _sec-arithmetic-encoding:
 .. // === Vector Arithmetic Instruction encoding
 
 
@@ -4804,7 +4804,7 @@ FLEN > SEWの場合、 `f` レジスタの値が有効なNaNボックス値で�
   この順序では、乗算オペランドが常に隣り合っているため、
   これらの三項演算のアセンブラをより自然に読むことができます。
   
-.. sec-widening:
+.. _sec-widening:
 .. // === Widening Vector Arithmetic Instructions
 
 
@@ -4925,7 +4925,7 @@ FLEN > SEWの場合、 `f` レジスタの値が有効なNaNボックス値で�
 
   
 
-.. sec-narrowing:
+.. _sec-narrowing:
 .. // === Narrowing Vector Arithmetic Instructions
 
 
@@ -5008,7 +5008,7 @@ EEW > ELENまたはEMUL > 8の場合、命令のエンコーディングは予�
 .. note::
 
   
-.. sec-vector-integer:
+.. _sec-vector-integer:
 .. // == Vector Integer Arithmetic Instructions
 
 
@@ -6419,7 +6419,7 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
   SEWに従って内部表現をシャッフルすることができます。
   データを内部的に再編成しない実装では、この命令を動的に省略し、NOP として扱うことができます。
   
-.. sec-vector-fixed-point:
+.. _sec-vector-fixed-point:
 .. // == Vector Fixed-Point Arithmetic Instructions
 
 ##############################################
@@ -6790,7 +6790,7 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
 
 いずれかの書き込みレジスタの要素が飽和した場合、 `vxsat` レジスタに `vxsat` ビットが設定されます。
 
-.. sec-vector-float:
+.. _sec-vector-float:
 .. // == Vector Floating-Point Instructions
 
 ##################################
@@ -8002,7 +8002,7 @@ include::vfrec7.adoc[]
 縮小演算のアセンブラ構文は、`vredop.vs` です。`.vs` は、第1オペランドがベクトルレジスタグループで、
 第 2 オペランドがベクトルレジスタの要素 0 に格納されたスカラであることを表します。
 
-.. sec-vector-integer-reduce:
+.. _sec-vector-integer-reduce:
 .. // === Vector Single-Width Integer Reduction Instructions
 
 ****************************************************
@@ -8044,7 +8044,7 @@ include::vfrec7.adoc[]
   
 
 
-.. sec-vector-integer-reduce-widen:
+.. _sec-vector-integer-reduce-widen:
 .. // === Vector Widening Integer Reduction Instructions
 
 ****************************************************
@@ -8083,7 +8083,7 @@ include::vfrec7.adoc[]
       vwredsum.vs  vd, vs2, vs1, vm   # 2*SEW = 2*SEW + sum(sign-extend(SEW))
   
 
-.. sec-vector-float-reduce:
+.. _sec-vector-float-reduce:
 .. // === Vector Single-Width Floating-Point Reduction Instructions
 
 *************************************************************
@@ -8268,7 +8268,7 @@ include::vfrec7.adoc[]
 
   その際、例外フラグは設定されず、NaNの処理も行われません。
   
-.. sec-vector-float-reduce-widen:
+.. _sec-vector-float-reduce-widen:
 .. // === Vector Widening Floating-Point Reduction Instructions
 
 *************************************************************
@@ -8316,7 +8316,7 @@ SEW幅の要素のリダクション操作は単一幅で行われ、`vs2` の�
 
   `vfwredusum.vs`  は `vfredusum.vs` と同様に動作します。
   
-.. sec-vector-mask:
+.. _sec-vector-mask:
 .. // == Vector Mask Instructions
 
 ############################
@@ -8329,7 +8329,7 @@ SEW幅の要素のリダクション操作は単一幅で行われ、`vs2` の�
 
 ベクトルレジスタに格納されているマスクを操作するための命令がいくつか提供されています。
 
-.. sec-mask-register-logical:
+.. _sec-mask-register-logical:
 .. // === Vector Mask-Register Logical Instructions
 
 **********************************************
@@ -9021,7 +9021,7 @@ SEWが結果の値よりも大きい場合は、結果値をゼロ拡張して�
 
   同じデータパスを使用して、暗黙的なマスクソースを使用することで実装することができます。
   
-.. sec-vector-permute:
+.. _sec-vector-permute:
 .. // == Vector Permutation Instructions
 
 ##################################
@@ -9997,7 +9997,7 @@ EEW=SEW、EMUL=`nr` 、実効長 `evl` =EMUL * VLEN/SEWのように動作しま�
 
   ベクトルユニットの実装から不透明なマイクロアーキテクチャの状態を保存・復元する標準的な方法を定義する可能性があります。
   
-.. sec-vector-extensions:
+.. _sec-vector-extensions:
 .. // == Standard Vector Extensions
 
 #########################
