@@ -1,4 +1,3 @@
-.. // = RISC-V "V" Vector Extension
 .. = RISC-V "V" ベクトル拡張
 
 Version 1.0-rc2-draft
@@ -25,13 +24,11 @@ Alex Solomatnikov, Steve Wallach, Andrew Waterman, Jim Wilson.
 
 :sectnums!:
 
-.. // == Changes from v1.0-rc1
 
 ###########################
 v1.0-rc1からの変更点
 ###########################
 
-.. // === No changes to date.
 
 ****************************
 現在まで変更なし。
@@ -39,7 +36,6 @@ v1.0-rc1からの変更点
 
 :sectnums:
 
-.. // == Introduction
 
 ############################
 イントロダクション
@@ -54,7 +50,6 @@ v1.0-rc1からの変更点
 このドキュメントは、RISC-Vベクトル拡張のバージョン1.0の第2リリース候補のドラフトであり、
 パブリックレビューのためのものです。
 
-.. // *This is not the frozen version of 1.0 for public review*.
 *これはパブリックレビュー用の1.0の凍結版ではありません。*
 
 ..
@@ -87,14 +82,12 @@ v1.0-rc1からの変更点
 :ref:`sec-vector-extensions`   セクションには、標準的なベクトル拡張機能と、
 それぞれの拡張機能でサポートされる命令および要素幅が記載されています。
 
-.. // == Implementation-defined Constant Parameters
 
 
 ####################################################
 実装により定義される定数パラメータ
 ####################################################
 
-.. // Each hart supporting a vector extension defines two parameters:
 
 ベクトル拡張をサポートする各hartには、2つのパラメータが定義されています。
 
@@ -159,7 +152,6 @@ ISAは、特定の制約の下で、VLENパラメータの値が異なるhart上
 
   VLENまたはELENパラメータに違いのあるhart間で実行中にコンテキストを移動するとはできません。
   
-.. // == Vector Extension Programmer's Model
 
 
 ####################################################
@@ -217,7 +209,6 @@ ISAは、特定の制約の下で、VLENパラメータの値が異なるhart上
 +----------+------+--------+-------------------------------------------+
 
 
-.. // === Vector Registers
 
 
 *************************
@@ -232,7 +223,6 @@ ISAは、特定の制約の下で、VLENパラメータの値が異なるhart上
 ベクトル拡張により、RISC-VベーススカラISAに対して
 32本のアーキテクチャベクトルレジスタ `v0`-`v31` が追加されます。
 
-.. // Each vector register has a fixed VLEN bits of state.
 
 各ベクトルレジスタのサイズは固定長でVLENビットです。
 
@@ -247,7 +237,6 @@ ISAは、特定の制約の下で、VLENパラメータの値が異なるhart上
   整数レジスタファイル上で実行する新しいISAオプションです。
   Vector 1.0拡張はZfinxに対して互換性があります。
   
-.. // === Vector Context Status in `mstatus`
 
 
 **************************************************************
@@ -318,7 +307,6 @@ ISAは、特定の制約の下で、VLENパラメータの値が異なるhart上
 
   ベクトル操作のエミュレーションが可能になり、書き込み可能な `misa.v` を持つシステムでの `mstatus.vs` の処理が簡単になります。
   
-.. // === Vector type register, `vtype`
 
 
 ************************************
@@ -392,7 +380,6 @@ include::vtype-format.adoc[]
   これらのフィールドを命令エンコーディング内で静的に指定できるようになることが予想されます。
   
 
-.. // ==== Vector selected element width `vsew[2:0]`
 
 
 ========================================
@@ -530,7 +517,6 @@ VLEN/SEW要素に分割されているとみなされます。
   サポートされていない場合には、代替のコードパスを提供する必要があります。
   また、プロファイルでは、各LMULの設定で最小のSEWを義務付けることもできます。
   
-.. // ==== Vector Register Grouping (`vlmul[2:0]`)
 
 
 =========================================================
@@ -745,7 +731,6 @@ LMUL=8 の場合、ベクトレジスタグループには 8 個のベクトレ�
 マスクレジスタは、LMULにかかわらず、常に1つのベクトレジスタとして取り扱われます。
 
 .. _sec-agnostic:
-.. // ==== Vector Tail Agnostic and Vector Mask Agnostic `vta` and `vma`
 
 
 ======================================================
@@ -765,7 +750,6 @@ Tail Agnostic とVector Mask Agnostic `vta` と `vma`
 Tailセットと非アクティブセットには、:ref:`sec-inactive-defs`  項で定義されているように、
 ベクトル演算中に新しい結果を受け取らない要素の位置を含んでいます。
 
-.. // All systems must support all four options:
 
 すべてのシステムは、4つのオプションすべてをサポートしなければなりません。
 
@@ -965,7 +949,6 @@ Tailセットと非アクティブセットには、:ref:`sec-inactive-defs`  �
   これらのフラグが導入される前の命令の歴史的な意味を考えると、
   将来のアセンブリコードでは常にフラグを要求するのが最も安全です。
   
-.. // ==== Vector Type Illegal `vill`
 
 
 =============================
@@ -1012,7 +995,6 @@ Tailセットと非アクティブセットには、:ref:`sec-inactive-defs`  �
 `vill` ビットがセットされているときは、
 `vtype` の他のXLEN-1ビットはゼロでなければなりません。
 
-.. // === Vector Length Register `vl`
 
 *********************************
 ベクトル長レジスタ `vl`
@@ -1049,7 +1031,6 @@ Tailセットと非アクティブセットには、:ref:`sec-inactive-defs`  �
   VLEN=32 で SEW=8 をサポートする最小のベクトル実装では、0～32 の値を保持するために、
   `vl` に少なくとも 6 ビットが必要になります (VLEN=32 で LMUL=8 と SEW=8 を使用すると、VLMAX=32 になります)。
   
-.. // === Vector Byte Length `vlenb`
 
 
 *********************************
@@ -1083,7 +1064,6 @@ Tailセットと非アクティブセットには、:ref:`sec-inactive-defs`  �
   コードは現在の `vl` と `vtype` の設定を乱す必要があり、
   それらを保存したり復元したりする必要があります。
   
-.. // === Vector Start Index CSR `vstart`
 
 
 *******************************************************
@@ -1239,7 +1219,6 @@ Tailセットと非アクティブセットには、:ref:`sec-inactive-defs`  �
   その場合、受信側の hart のランタイムは、サポートされている vstart 要素の位置への命令実行をエミュレートしなければならないかもしれません。
   あるいは、移行イベントは、相互にサポートされる `vstart` 位置でのみ発生するように制約することもできます。
   
-.. // === Vector Fixed-Point Rounding Mode Register `vxrm`
 
 
 **************************************************************
@@ -1289,7 +1268,6 @@ Tailセットと非アクティブセットには、:ref:`sec-inactive-defs`  �
 
 
 
-.. // The rounding functions:
 
 以下の命令の説明では、丸め関数を表すために以下の操作が使用されています。
 ::
@@ -1297,9 +1275,7 @@ Tailセットと非アクティブセットには、:ref:`sec-inactive-defs`  �
   roundoff*unsigned(v, d) = (unsigned(v) >> d) + r
   roundoff*signed(v, d) = (signed(v) >> d) + r
   
-.. // are used to represent this operation in the instruction descriptions below.
 
-.. // `vxrm[XLEN-1:2]` should be written as zeros.
 
 `vxrm[XLEN-1:2]` はゼロが書き込まれるべきです。
 
@@ -1312,7 +1288,6 @@ Tailセットと非アクティブセットには、:ref:`sec-inactive-defs`  �
 
   新しい丸め込みモードを設定することができます。
   
-.. // === Vector Fixed-Point Saturation Flag `vxsat`
 
 
 ***************************************************
@@ -1335,7 +1310,6 @@ Tailセットと非アクティブセットには、:ref:`sec-inactive-defs`  �
 
 `vxsat` ビットは `vcsr` のミラーです。
 
-.. // === Vector Control and Status Register `vcsr`
 
 
 ***************************************************
@@ -1366,7 +1340,6 @@ Vector 制御・ステータスレジスタ `vcsr`
 
 
 
-.. // === State of Vector Extension at Reset
 
 
 **********************************************
@@ -1413,7 +1386,6 @@ Vector 制御・ステータスレジスタ `vcsr`
 
 ベクトルレジスタはリセット時に任意の値を持つことができます。
 
-.. // == Mapping of Vector Elements to Vector Register State
 
 
 #########################################################################
@@ -1432,7 +1404,6 @@ Vector 制御・ステータスレジスタ `vcsr`
 異なる幅の要素がどのようにベクトルレジスタのバイトに詰め込まれるかを示しています。
 要素は、最下位バイトが最下位ビットになるように各ベクトルレジスタに詰め込まれます。
 
-.. // === Mapping for LMUL = 1
 
 
 *******************************
@@ -1509,7 +1480,6 @@ LMUL=1の場合、要素はベクトルレジスタの最下位ビットから�
    SEW=128b                                1                               0
   
 
-.. // === Mapping for LMUL < 1
 
 
 ************************************
@@ -1538,7 +1508,6 @@ vtaの設定に従わなければなりません。
    SEW=32b           -       -       -       0
   
 
-.. // === Mapping for LMUL > 1
 
 
 ****************************
@@ -1620,7 +1589,6 @@ LMUL > 1 のマッピング
    v4*n+3              F       E       D       C
   
 
-.. // === Mapping across Mixed-Width Operations
 
 
 *************************************************
@@ -1732,7 +1700,6 @@ LMULの設定を大きくすると、単純にベクトルの長さを長くし�
 
   より多くのアーキテクチャレジスタを有効にしていないため、有用な動作ポイントを追加していません。
   
-.. // === Mapping for LMUL > 1 and ELEN > VLEN
 
 
 ***********************************************
@@ -1782,7 +1749,6 @@ LMUL > 1 かつ ELEN > VLEN のマッピング
   
 
 .. _sec-mask-register-layout:
-.. // === Mask Register Layout
 
 
 ****************************************
@@ -1807,7 +1773,6 @@ LMUL > 1 かつ ELEN > VLEN のマッピング
 
   0.9デザインでは、MLEN=1です。
   
-.. // ==== Mask Element Locations
 
 =========================
 マスク要素の場所
@@ -1891,7 +1856,6 @@ LMUL > 1 かつ ELEN > VLEN のマッピング
                   [31][30][29][28]
   
 
-.. // == Vector Instruction Formats
 
 
 #####################################
@@ -1943,7 +1907,6 @@ include::vcfg-format.adoc[]
 ベクトルのロードとストアは、ベクトルのレジスタ要素とメモリの間でビットパタンを移動させます。
 ベクトル演算命令は、ベクトルレジスタ要素に保持された値を演算します。
 
-.. // === Scalar Operands
 
 
 *************************
@@ -1983,7 +1946,6 @@ include::vcfg-format.adoc[]
   高性能な設計が複雑になり、Zfinx ISAオプションとの互換性もなくなります。
   
 
-.. // === Vector Operands
 
 
 ****************************
@@ -2091,7 +2053,6 @@ Wideningされたスカラ値(Wideningリダクション演算の結果など)�
   暗黙のうちにEMULが1となるため、wide スカラリダクションの結果を保持するためにベクトルレジスタグループを使用することはできません。
   この場合、スカラリダクション要素のEMULを指定する独立したパラメータが必要になります。
   
-.. // === Vector Masking
 
 
 ****************************
@@ -2178,7 +2139,6 @@ Wideningされたスカラ値(Wideningリダクション演算の結果など)�
 常に tail-agnostic として扱われます。
 
 .. _sec-vector-mask-encoding:
-.. // ==== Mask Encoding
 
 
 ==================================
@@ -2276,7 +2236,6 @@ Wideningされたスカラ値(Wideningリダクション演算の結果など)�
   `v0.mask[i]` のように文章中にマスクベクトルに添え字として使用されるだけです。
   
 .. _sec-inactive-defs:
-.. // === Prestart, Active, Inactive, Body, and Tail Element Definitions
 
 
 **********************************************************************************************
@@ -2402,7 +2361,6 @@ LMUL < 1の場合、末尾には同じベクトルレジスタに保持されて
   一般的なポリシは、インデックスがソースベクトルレジスタグループのVLMAXよりも大きい場合、値0を返します。
   
 .. _sec-vector-config:
-.. // == Configuration-Setting Instructions (`vsetvli`/`vsetivl`/`vsetvl`)
 
 ##########################################################################
 コンフィグレーション設定命令 (`vsetvli`/`vsetivl`/`vsetvl`)
@@ -2450,7 +2408,6 @@ RISC-Vのベクトル仕様では、この手法を直接かつポータブル�
 
 include::vcfg-format.adoc[]
 
-.. // === `vtype` encoding
 
 *********************************
 `vtype` エンコーディング
@@ -2556,7 +2513,6 @@ include::vtype-format.adoc[]
   現在のスキームは、ある設定に対して `vill` がクリアされているかどうかをチェックすることで、
   サポートされているベクトルユニットの設定をランタイムに軽く照会することをサポートしています。
   
-.. // === AVL encoding
 
 *******************************
 AVLのエンコーディング
@@ -2680,7 +2636,6 @@ VLMAXの変更をもたらすような新しいSEW/LMUL比率の命令の使用�
 `vsetivli` 命令は、ベクトルサイズが小さく、ベクトルレジスタ内に収まることがわかっているため、
 ストリップマイニングのオーバーヘッドが不要な場合に、よりコンパクトなコードを提供します。
 
-.. // === Constraints on Setting `vl`
 
 
 *********************
@@ -2753,7 +2708,6 @@ VLMAXの変更をもたらすような新しいSEW/LMUL比率の命令の使用�
 --
 
 .. _example-stripmine-sew:
-.. // === Example of stripmining and changes to SEW
 
 
 *************************************************
@@ -2825,7 +2779,6 @@ SEWとLMULの設定を動的に変更することで、1つのループで幅が
 ベクトルロード・ストア命令
 ########################################
 
-.. // == Vector Loads and Stores
 
 ..
   Vector loads and stores move values between vector registers and
@@ -2844,7 +2797,6 @@ SEWとLMULの設定を動的に変更することで、1つのループで幅が
 マスク付きベクトルストアは、アクティブなメモリ要素のみを更新します。
 すべてのベクトルロードとストアは、ゼロではない `vstart` 値を生成して受け入れることができます。
 
-.. // === Vector Load/Store Instruction Encoding
 
 
 ****************************************************************
@@ -2902,7 +2854,6 @@ include::vmem-format.adoc[]
 インデックス付き演算では、命令内の明示的なEEWエンコーディングにより、
 使用するインデックスのサイズを設定し、SEW/LMULによりデータ幅を指定します。
 
-.. // === Vector Load/Store Addressing Modes
 
 
 *************************************************************
@@ -3140,7 +3091,6 @@ indexed-ordered の場合は、メモリアクセス時の要素の順序を保�
 *************************************************************
 ベクトルロードストア幅のエンコーディング
 *************************************************************
-.. // === Vector Load/Store Width Encoding
 
 ..
   Vector loads and stores have an EEW encoded directly in the
@@ -3195,7 +3145,6 @@ EMULが範囲外(EMUL>8またはEMUL<1/8)になる場合は、命令のエンコ
 サポートされていないEEW幅のベクトルロード・ストアエンコーディングは予約済みです。
 
 
-.. // .Width encoding for vector loads and stores.
 ..
 
 
@@ -3232,7 +3181,6 @@ Index bits は、レジスタにアクセスされる各インデックスのサ
 .. note::
 
   
-.. // === Vector Unit-Stride Instructions
 
 **********************************************
 ベクトルユニットストライド命令
@@ -3359,7 +3307,6 @@ Index bits は、レジスタにアクセスされる各インデックスのサ
   データパス間の配線を減らすためにデータを内部で再配置するマシンをサポートすることです。
   また、 `vl` を変更する必要がないため、マスクのスピル/フィルのコストを削減することができます。
   
-.. // === Vector Strided Instructions
 
 **********************************
 ベクトルストライド命令
@@ -3468,7 +3415,6 @@ Index bits は、レジスタにアクセスされる各インデックスのサ
 
   順序付きインデックス操作を使用することができます。
   
-.. // === Vector Indexed Instructions
 
 *************************************
 ベクトルインデックス命令
@@ -3570,7 +3516,6 @@ Index bits は、レジスタにアクセスされる各インデックスのサ
   既存のソフトウェアの混乱を最小限に抑えることができます。
   また、移行中にオペコードを別名として保持することで、ソフトウェアの解約を減らすことができます。
   
-.. // === Unit-stride Fault-Only-First Loads
 
 *****************************************************
 ユニットストライドFault-Only-Firstロード
@@ -3708,7 +3653,6 @@ fault-on-firstロード命令が割り込みによる例外を発生する場合
   デバッグ・例外をトリガーするべきです。
   
 .. _sec-aos:
-.. // === Vector Load/Store Segment Instructions
 
 
 ****************************************************
@@ -3834,7 +3778,6 @@ EMUL>1の場合、各フィールドは複数の連続した番号のベクト�
 構造体へのアクセスの途中で例外が発生した場合、
 構造体へのアクセスのサブセットを実行するかどうかは、実装で定義されています。
 
-.. // ==== Vector Unit-Stride Segment Loads and Stores
 
 
 ===============================================================================
@@ -3978,7 +3921,6 @@ fault-only-firstセグメントのロードでは、セグメントへのアク�
 これらの命令は、例外が報告された時点や、ベクトル長がトリムされた時点を過ぎても、
 書き込みベクトルレジスタグループの要素を上書きすることがあります。
 
-.. // ==== Vector Strided Segment Loads and Stores
 
 
 ===================================================================
@@ -4047,7 +3989,6 @@ fault-only-firstセグメントのロードでは、セグメントへのアク�
 セグメントがメモリ内で重なるようなバイトストライドの場合も含め、
 どのような順序でも行うことができます。
 
-.. // ==== Vector Indexed Segment Loads and Stores
 
 
 ======================================================================
@@ -4136,7 +4077,6 @@ Index-Ordered形式はセグメントを要素順にアクセスします。
 .. note::
 
   
-.. // === Vector Load/Store Whole Register Instructions
 
 
 *******************************************************
@@ -4447,7 +4387,6 @@ SEWの最小サイズ(バイト)(SEW~MIN~/8)のいずれか大きい方に自然
 
   これは現在PoRにはありません。
   
-.. // == Vector Memory Alignment Constraints
 
 
 #################################################
@@ -4491,7 +4430,6 @@ SEWの最小サイズ(バイト)(SEW~MIN~/8)のいずれか大きい方に自然
 ベクトルのミスアラインドメモリアクセスは、
 スカラのミスアラインドメモリアクセスと同じアトミック性のルールに従います。
 
-.. // == Vector Memory Consistency Model
 
 
 ####################################################
@@ -4560,7 +4498,6 @@ Index-Ordered形式ロード・ストア命令は、
   マスク値が判明する前にメモリにアクセスすることができ、
   分岐予測失敗時に回復するメカニズムを必要としません。
   
-.. // == Vector Arithmetic Instruction Formats
 
 
 ###############################
@@ -4579,7 +4516,6 @@ Index-Ordered形式ロード・ストア命令は、
 include::valu-format.adoc[]
 
 .. _sec-arithmetic-encoding:
-.. // === Vector Arithmetic Instruction encoding
 
 
 *******************************************************
@@ -4805,7 +4741,6 @@ FLEN > SEWの場合、 `f` レジスタの値が有効なNaNボックス値で�
   これらの三項演算のアセンブラをより自然に読むことができます。
   
 .. _sec-widening:
-.. // === Widening Vector Arithmetic Instructions
 
 
 ****************************************
@@ -4926,7 +4861,6 @@ FLEN > SEWの場合、 `f` レジスタの値が有効なNaNボックス値で�
   
 
 .. _sec-narrowing:
-.. // === Narrowing Vector Arithmetic Instructions
 
 
 ****************************************
@@ -5009,7 +4943,6 @@ EEW > ELENまたはEMUL > 8の場合、命令のエンコーディングは予�
 
   
 .. _sec-vector-integer:
-.. // == Vector Integer Arithmetic Instructions
 
 
 #####################################
@@ -5022,7 +4955,6 @@ EEW > ELENまたはEMUL > 8の場合、命令のエンコーディングは予�
 
 整数ベクトル算術演算命令が提供されています。
 
-.. // === Vector Single-Width Integer Add and Subtract
 
 
 **********************************************
@@ -5079,7 +5011,6 @@ EEW > ELENまたはEMUL > 8の場合、命令のエンコーディングは予�
 ベクトル内の整数値は、`x0` とのスカラ逆減算によって符号を反転することができます。
 これは `vneg vd,vs` = `vrsub.vx vd,vs,x0` としてアセンブリ疑似命令を定義することができます。
 
-.. // === Vector Widening Integer Add/Subtract
 
 
 *******************************************
@@ -5163,7 +5094,6 @@ EEW > ELENまたはEMUL > 8の場合、命令のエンコーディングは予�
   `vwcvt.x.x.v vd,vs,vm = vwadd.vx vd,vs,x0,vm` と `vwcvtu.x.x.v vd,vs,vm = vwaddu.vx vd,vs,x0,vm` により
   疑似アセンブリ命令を定義することができます。
   
-.. // === Vector Integer Extension
 
 
 *************************
@@ -5211,7 +5141,6 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
 ソースのEEWがサポートされていない場合もしくはEMULがLMULの最小値よりも小さい場合、
 命令エンコーディングは予約されています。
 
-.. // === Vector Integer Add-with-Carry / Subtract-with-Borrow Instructions
 
 
 **************************************************************************
@@ -5423,7 +5352,6 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
 .. note::
 
   
-.. // === Vector Bitwise Logical Instructions
 
 *************************
 ベクトル論理命令
@@ -5472,7 +5400,6 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
 
   これは、アセンブラの疑似命令 `vnot.v` として提供することができます。
   
-.. // === Vector Single-Width Bit Shift Instructions
 
 
 **********************************************
@@ -5526,7 +5453,6 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
   vsra.vi vd, vs2, uimm, vm   # ベクトル-即値
   
 
-.. // === Vector Narrowing Integer Right Shift Instructions
 
 
 *******************************************************
@@ -5595,7 +5521,6 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
 
   アセンブリ疑似命令 `vncvt.x.x.w vd,vs,vm` = `vnsrl.wx vd,vs,x0,vm` を定義することができます。
   
-.. // === Vector Integer Comparison Instructions
 
 *******************************
 ベクトル整数比較命令
@@ -5946,7 +5871,6 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
 
 比較はマスクレジスタを書き込むため、常に末尾agnosticポリシで動作します。
 
-.. // === Vector Integer Min/Max Instructions
 
 
 **************************************
@@ -5998,7 +5922,6 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
   vmax.vx vd, vs2, rs1, vm   # ベクトル-スカラ
   
 
-.. // === Vector Single-Width Integer Multiply Instructions
 
 ****************************************
 ベクトル単一幅整数乗算命令
@@ -6074,7 +5997,6 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
   拡張機能としては、`vmulh`, `vmulhu`, `vmulhsu` のバリエーションが考えられ、積の下半分を破棄する際に `vxrm` 丸めモードを使用します。
   これらのケースではオーバーフローの可能性はありません。
   
-.. // === Vector Integer Divide Instructions
 
 
 *******************************
@@ -6149,7 +6071,6 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
 .. note::
 
   
-.. // === Vector Widening Integer Multiply Instructions
 
 **********************************
 ベクトル幅拡張乗算命令
@@ -6193,7 +6114,6 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
   vwmulsu.vx vd, vs2, rs1, vm # vector-scalar
   
 
-.. // === Vector Single-Width Integer Multiply-Add Instructions
 
 **********************************************
 ベクトル単一幅整数乗算加算命令
@@ -6263,7 +6183,6 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
   vnmsub.vx vd, rs1, vs2, vm    # vd[i] = -(x[rs1] * vd[i]) + vs2[i]
   
 
-.. // === Vector Widening Integer Multiply-Add Instructions
 
 
 **********************************************
@@ -6318,7 +6237,6 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
   vwmaccus.vx vd, rs1, vs2, vm  # vd[i] = +(unsigned(x[rs1]) * signed(vs2[i])) + vd[i]
   
 
-.. // === Vector Integer Merge Instructions
 
 **********************************
 ベクトル整数マージ命令
@@ -6359,7 +6277,6 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
   vmerge.vim vd, vs2, imm, v0  # vd[i] = v0.mask[i] ? imm    : vs2[i]
   
 
-.. // === Vector Integer Move Instructions
 
 *******************************
 ベクトル整数移動命令
@@ -6420,7 +6337,6 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
   データを内部的に再編成しない実装では、この命令を動的に省略し、NOP として扱うことができます。
   
 .. _sec-vector-fixed-point:
-.. // == Vector Fixed-Point Arithmetic Instructions
 
 ##############################################
 ベクトル固定小数点算術演算命令
@@ -6457,7 +6373,6 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
 .. note::
 
   
-.. // === Vector Single-Width Saturating Add and Subtract
 
 *************************************************
 ベクトル単一幅飽和加算と飽和減算
@@ -6515,7 +6430,6 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
   vssub.vx vd, vs2, rs1, vm   # ベクトル-スカラ
   
 
-.. // === Vector Single-Width Averaging Add and Subtract
 
 *******************************************************
 ベクトル単一幅平均加算と平均減算命令
@@ -6587,7 +6501,6 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
   vasub.vx vd, vs2, rs1, vm   # roundoff*signed(vs2[i] - x[rs1], 1)
   
 
-.. // === Vector Single-Width Fractional Multiply with Rounding and Saturation
 
 *************************************************************
 丸めと飽和を用いたベクトル単一幅分数乗算
@@ -6648,7 +6561,6 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
 
   この操作は、丸めが単なる切り捨て(`rdn`)である場合には、 `vmulhu` および `vmulhsu` 命令によって部分的にカバーされます。
   
-.. // === Vector Single-Width Scaling Shift Instructions
 
 =======================================================
 ベクトル単一幅スケーリングシフト命令
@@ -6690,7 +6602,6 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
    vssra.vi vd, vs2, uimm, vm  # vd[i] = roundoff*signed(vs2[i], uimm)
   
 
-.. // === Vector Narrowing Fixed-Point Clip Instructions
 
 *******************************************************
 ベクトル固定小数点幅縮小クリップ命令
@@ -6791,7 +6702,6 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
 いずれかの書き込みレジスタの要素が飽和した場合、 `vxsat` レジスタに `vxsat` ビットが設定されます。
 
 .. _sec-vector-float:
-.. // == Vector Floating-Point Instructions
 
 ##################################
 ベクトル浮動小数点命令
@@ -6858,7 +6768,6 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
 ベクトルスカラ演算のスカラ値は、 :ref:`sec-arithmetic-encoding`  で説明したように、
 標準的なスカラ `f` レジスタから供給することができます。
 
-.. // === Vector Floating-Point Exception Flags
 
 *******************************************
 ベクトル浮動小数点例外フラグ
@@ -6872,7 +6781,6 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
 アクティブな浮動小数点要素でのベクトル浮動小数点例外は、 `fflags` レジスタの標準FP例外フラグを設定します。
 非アクティブな要素はFP例外フラグを設定しません。
 
-.. // === Vector Single-Width Floating-Point Add/Subtract Instructions
 
 ****************************************************
 ベクトル単一幅浮動小数点加減算命令
@@ -6902,7 +6810,6 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
       vfrsub.vf vd, vs2, rs1, vm  # スカラ-ベクトル vd[i] = f[rs1] - vs2[i]
   
 
-.. // === Vector Widening Floating-Point Add/Subtract Instructions
 
 ****************************************************
 ベクトル幅拡張浮動小数点加減算命令
@@ -6939,7 +6846,6 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
   vfwsub.wf  vd, vs2, rs1, vm  # ベクトル-スカラ
   
 
-.. // === Vector Single-Width Floating-Point Multiply/Divide Instructions
 
 *******************************************************
 ベクトル単一幅浮動小数点乗算除算命令
@@ -6974,7 +6880,6 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
       vfrdiv.vf vd, vs2, rs1, vm  # scalar-vector, vd[i] = f[rs1]/vs2[i]
   
 
-.. // === Vector Widening Floating-Point Multiply
 
 *************************************************
 ベクトル幅拡張浮動小数点乗算命令
@@ -6994,7 +6899,6 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
   vfwmul.vf    vd, vs2, rs1, vm # ベクトル-スカラ
   
 
-.. // === Vector Single-Width Floating-Point Fused Multiply-Add Instructions
 
 *************************************************************
 ベクトル単一幅浮動小数点複合乗算加算命令
@@ -7053,7 +6957,6 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
   いくつかの非破壊的なFMAを提供することは可能でしょう。
   しかし、これは3つの入力と別々の出力を持つ唯一のマスク可能な演算となります。
   
-.. // === Vector Widening Floating-Point Fused Multiply-Add Instructions
 
 *************************************************************
 ベクトル幅拡張浮動小数点複合乗算加算命令
@@ -7087,7 +6990,6 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
   vfwnmsac.vf vd, rs1, vs2, vm   # vd[i] = -(f[rs1] * vs2[i]) + vd[i]
   
 
-.. // === Vector Floating-Point Square-Root Instruction
 
 *******************************************
 ベクトル浮動小数点平方根命令
@@ -7110,7 +7012,6 @@ Nビットの要素には、-2^N-1^...+2^N-1^-1の範囲の2の補数の符号�
       vfsqrt.v vd, vs2, vm   # ベクトル-ベクトル 平方根
   
 
-.. // === Vector Floating-Point Reciprocal Square-Root Estimate Instruction
 
 ****************************************************
 ベクトル浮動小数点逆平方根推定命令
@@ -7228,7 +7129,6 @@ include::vfrsqrt7.adoc[]
 
   将来的には、より高い推定精度の命令を定義することができます。
   
-.. // === Vector Floating-Point Reciprocal Estimate Instruction
 
 **********************************************
 ベクトル浮動小数点逆数推定命令
@@ -7369,7 +7269,6 @@ include::vfrec7.adoc[]
 
   将来的には、より高い推定精度の命令を定義することができます。
   
-.. // === Vector Floating-Point MIN/MAX Instructions
 
 *****************************************
 ベクトル浮動小数点MIN/MAX命令
@@ -7407,7 +7306,6 @@ include::vfrec7.adoc[]
   
 
 
-.. // === Vector Floating-Point Sign-Injection Instructions
 
 **********************************************
 ベクトル浮動小数点符号挿入命令
@@ -7467,7 +7365,6 @@ include::vfrec7.adoc[]
 
   アセンブリ疑似命令 `vfabs.vd,vs` = `vfsgnjx.vv vd,vs,vs` を定義できます。
   
-.. // === Vector Floating-Point Compare Instructions
 
 ****************************************
 ベクトル浮動小数点比較命令
@@ -7642,7 +7539,6 @@ include::vfrec7.adoc[]
   より効率的なシーケンスでは、`va` の要素に quiet NaN が含まれ、`vb` の対応する要素に signaling NaN が含まれている場合に、
   不正な例外を発生させることができません。
   
-.. // === Vector Floating-Point Classify Instruction
 
 ****************************************
 ベクトル浮動小数点分類命令
@@ -7677,7 +7573,6 @@ include::vfrec7.adoc[]
 この命令はSEW=16b以上でのみ定義されているため、結果は常に書き込み要素に収まります。
 
 
-.. // === Vector Floating-Point Merge Instruction
 
 *******************************************
 ベクトル浮動小数点マージ命令
@@ -7705,7 +7600,6 @@ include::vfrec7.adoc[]
   vfmerge.vfm vd, vs2, rs1, v0  # vd[i] = v0.mask[i] ? f[rs1] : vs2[i]
   
 
-.. // === Vector Floating-Point Move Instruction
 
 ****************************************
 ベクトル浮動小数点移動命令
@@ -7736,7 +7630,6 @@ include::vfrec7.adoc[]
 .. note::
 
   
-.. // === Single-Width Floating-Point/Integer Type-Convert Instructions
 
 ***********************************************
 単一幅浮動所数点/整数型変換命令
@@ -7790,7 +7683,6 @@ include::vfrec7.adoc[]
 
   浮動小数点から整数への切り捨て変換を高速化するために提供されています。
   
-.. // === Widening Floating-Point/Integer Type-Convert Instructions
 
 ***********************************************
 幅拡張浮動小数点/整数型変換命令
@@ -7862,7 +7754,6 @@ include::vfrec7.adoc[]
 
   同等の結果と追加の例外フラグを発生させずに、いくつかの倍のステップとして実装することができます。
   
-.. // === Narrowing Floating-Point/Integer Type-Convert Instructions
 
 ************************************************
 浮動小数点/整数 幅縮小型変換命令
@@ -7925,7 +7816,6 @@ include::vfrec7.adoc[]
   最後の半減ステップ以外が round-towards-odd (`vfncvt.rod.f.f.w`) を使用した場合、結果は同等に丸められ、同じ例外フラグが立てられます。
   最後のステップだけは、希望する丸め方向を使用する必要があります。
   
-.. // == Vector Reduction Operations
 
 #####################################
 ベクトルリダクション操作
@@ -8003,7 +7893,6 @@ include::vfrec7.adoc[]
 第 2 オペランドがベクトルレジスタの要素 0 に格納されたスカラであることを表します。
 
 .. _sec-vector-integer-reduce:
-.. // === Vector Single-Width Integer Reduction Instructions
 
 ****************************************************
 ベクトル単一幅整数リダクション命令
@@ -8045,7 +7934,6 @@ include::vfrec7.adoc[]
 
 
 .. _sec-vector-integer-reduce-widen:
-.. // === Vector Widening Integer Reduction Instructions
 
 ****************************************************
 ベクトル幅拡張整数リダクション命令
@@ -8084,7 +7972,6 @@ include::vfrec7.adoc[]
   
 
 .. _sec-vector-float-reduce:
-.. // === Vector Single-Width Floating-Point Reduction Instructions
 
 *************************************************************
 ベクトル単一幅浮動小数点リダクション命令
@@ -8117,7 +8004,6 @@ include::vfrec7.adoc[]
 .. note::
 
   
-.. // ==== Vector Ordered Single-Width Floating-Point Sum Reduction
 
 ===============================================================================
 ベクトル順序付き単一幅浮動小数点リダクション加算命令
@@ -8166,7 +8052,6 @@ include::vfrec7.adoc[]
 
   この動作は、スカラの加算ループを自動ベクトル化する際のNaN、例外、丸めの処理と同一です。
   
-.. // ==== Vector Unordered Single-Width Floating-Point Sum Reduction
 
 ===============================================================================
 ベクトル順序無し単一幅浮動小数点リダクション加算命令
@@ -8245,7 +8130,6 @@ include::vfrec7.adoc[]
 .. note::
 
   
-.. // ==== Vector Single-Width Floating-Point Max and Min Reductions
 
 ======================================================================
 ベクトル単一幅浮動小数点最大・最小リダクション
@@ -8269,7 +8153,6 @@ include::vfrec7.adoc[]
   その際、例外フラグは設定されず、NaNの処理も行われません。
   
 .. _sec-vector-float-reduce-widen:
-.. // === Vector Widening Floating-Point Reduction Instructions
 
 *************************************************************
 ベクトル幅拡張浮動小数点リダクション命令
@@ -8317,7 +8200,6 @@ SEW幅の要素のリダクション操作は単一幅で行われ、`vs2` の�
   `vfwredusum.vs`  は `vfredusum.vs` と同様に動作します。
   
 .. _sec-vector-mask:
-.. // == Vector Mask Instructions
 
 ############################
 ベクトルマスク命令
@@ -8330,7 +8212,6 @@ SEW幅の要素のリダクション操作は単一幅で行われ、`vs2` の�
 ベクトルレジスタに格納されているマスクを操作するための命令がいくつか提供されています。
 
 .. _sec-mask-register-logical:
-.. // === Vector Mask-Register Logical Instructions
 
 **********************************************
 ベクトルマスクレジスタ論理命令
@@ -8425,7 +8306,6 @@ SEW幅の要素のリダクション操作は単一幅で行われ、`vs2` の�
   次のマスクされたベクトル演算と簡単に融合できるように設計されています。
   
 
-.. // === Vector mask population count `vpopc`
 
 *********************************************
 ベクトルマスクPopカウント `vpopc`
@@ -8470,7 +8350,6 @@ SEW幅の要素のリダクション操作は単一幅で行われ、`vs2` の�
 `vpopc` 命令は、`vstart` が0でない場合、不正命令例外を発生させます。
 
 
-.. // === `vfirst` find-first-set mask bit
 
 *************************************************
 `vfirst` find-first-set マスクビット命令
@@ -8506,7 +8385,6 @@ SEW幅の要素のリダクション操作は単一幅で行われ、`vs2` の�
 `vfirst` の例外は常に 0 の `vstart` で報告されます。
 `vstart` が 0 でない場合、`vfirst` 命令は不正命令例外を発生させます。
 
-.. // === `vmsbf.m` set-before-first mask bit
 
 *********************************************
 `vmsbf.m` set-before-firstマスクビット
@@ -8599,7 +8477,6 @@ SEW幅の要素のリダクション操作は単一幅で行われ、`vs2` の�
 書き込みレジスタはソースレジスタをオーバラップすることは出来ません。
 マスク付き命令の場合、`v0` マスクレジスタとオーバラップすることは出来ません。
 
-.. // === `vmsif.m` set-including-first mask bit
 
 *******************************************************
 `vmsif.m` set-including-first マスクビット命令
@@ -8678,7 +8555,6 @@ SEW幅の要素のリダクション操作は単一幅で行われ、`vs2` の�
 書き込みレジスタはソースレジスタをオーバラップすることは出来ません。
 マスク付き命令の場合、`v0` マスクレジスタとオーバラップすることは出来ません。
 
-.. // === `vmsof.m` set-only-first mask bit
 
 **************************************************
 `vmsof.m` set-only-first マスクビット命令
@@ -8758,7 +8634,6 @@ set-only-firstベクトル命令はset-before-first命令と似ていますが�
 書き込みレジスタはソースレジスタをオーバラップすることは出来ません。
 マスク付き命令の場合、`v0` マスクレジスタとオーバラップすることは出来ません。
 
-.. // === Example using vector mask instructions
 
 ****************************************
 ベクトルマスク命令の使用例
@@ -8778,7 +8653,6 @@ set-only-firstベクトル命令はset-before-first命令と似ていますが�
   include::example/strncpy.s[lines=4..-1]
   
 
-.. // === Vector Iota Instruction
 
 ***********************
 ベクトルIota命令
@@ -8974,7 +8848,6 @@ SEWが結果の値よりも大きい場合は、結果値をゼロ拡張して�
         ret
   
 
-.. // === Vector Element Index Instruction
 
 ..
   The `vid.v` instruction writes each element's index to the
@@ -9022,7 +8895,6 @@ SEWが結果の値よりも大きい場合は、結果値をゼロ拡張して�
   同じデータパスを使用して、暗黙的なマスクソースを使用することで実装することができます。
   
 .. _sec-vector-permute:
-.. // == Vector Permutation Instructions
 
 ##################################
 ベクトル組み合わせ命令
@@ -9034,7 +8906,6 @@ SEWが結果の値よりも大きい場合は、結果値をゼロ拡張して�
 
 ベクトルレジスタ内の要素を移動させるために、さまざまな並べ替え命令が用意されています。
 
-.. // === Integer Scalar Move Instructions
 
 ****************************
 整数スカラ移動命令
@@ -9092,7 +8963,6 @@ SEW > XLENの場合、値はSEWビットに符号拡張されます。 書き込
 `vmv.x.s` と `vmv.s.x` のマスク付きバージョン (`vm=0`) に対応するエンコーディングは予約されています。
 
 
-.. // === Floating-Point Scalar Move Instructions
 
 =====================================
 浮動小数点スカラ移動命令
@@ -9144,7 +9014,6 @@ SEW > XLENの場合、値はSEWビットに符号拡張されます。 書き込
 
 `vfmv.f.s` と `vfmv.s.f`  のマスクバージョン(`vm=0`)に対応するエンコーディングは予約されています。
 
-.. // === Vector Slide Instructions
 
 *******************************
 ベクトルスライド命令
@@ -9196,7 +9065,6 @@ SEW > XLENの場合、値はSEWビットに符号拡張されます。 書き込
 スライド命令はマスクされていて、マスク要素 *i* が、*書き込み* 要素 *i* を書き込むかどうかを制御している場合があります。
 非アクティブな要素については、Mask undisturbed/agnosticポリシに従います。
 
-.. // ==== Vector Slideup Instructions
 
 ========================================
 ベクトルスライドアップ命令
@@ -9261,7 +9129,6 @@ XLEN > SEWの場合、*OFFSET* はSEWビットに切り捨てられません。
 .. note::
 
   
-.. // ==== Vector Slidedown Instructions
 
 ========================================
 ベクトルスライドダウン命令
@@ -9305,7 +9172,6 @@ XLEN > SEWの場合、*OFFSET*はSEWビットに切り捨てられません。
   
   
 
-.. // ==== Vector Slide1up
 
 ======================
 ベクトル Slide1up
@@ -9379,7 +9245,6 @@ XLEN > SEWの場合、最下位のビットがコピーされ、SEW-XLENの上�
 
 `vfslide1up` 命令は類似して定義されていますが、そのスカラ引数を `f` レジスタから供給します。
 
-.. // ==== Vector Slide1down Instruction
 
 ===============================
 ベクトル Slide1down 命令
@@ -9449,7 +9314,6 @@ XLEN > SEWの場合、最下位のビットがコピーされ、SEW-XLENの上�
 
   これは、デバッガが複数回の `vslide1down` の呼び出しを繰り返すことで、ゆっくりではありますが、ベクトルレジスタの内容を変更するためのパスを提供します。
   
-.. // === Vector Register Gather Instructions
 
 *******************************************
 ベクトルレジスタギャザー命令
@@ -9539,7 +9403,6 @@ XLEN > SEWの場合，インデックス値はSEWビットまで切り捨てら�
 
 任意の `vrgather` 命令では、書き込みベクトルレジスタグループはソースベクトルレジスタグループとオーバーラップすることはできません。
 
-.. // === Vector Compress Instruction
 
 *************************
 ベクトル圧縮命令
@@ -9632,7 +9495,6 @@ XLEN > SEWの場合，インデックス値はSEWビットまで切り捨てら�
 
   実装ではこれを行わずに要素 0 から再起動することを想定しています。
   
-.. // ==== Synthesizing `vdecompress`
 
 ========================
 `vdecompress` の合成
@@ -9703,7 +9565,6 @@ XLEN > SEWの場合，インデックス値はSEWビットまで切り捨てら�
      e q r d c b v a    # マスク付きviota.mを用いたvrgatherの書き込みレジスタ
   
 
-.. // === Whole Vector Register Move
 
 *******************************************
 ベクトルレジスタ全体移動命令
@@ -9811,7 +9672,6 @@ EEW=SEW、EMUL=`nr` 、実効長 `evl` =EMUL * VLEN/SEWのように動作しま�
 .. note::
 
   
-.. // == Exception Handling
 
 #############
 例外処理
@@ -9845,7 +9705,6 @@ EEW=SEW、EMUL=`nr` 、実効長 `evl` =EMUL * VLEN/SEWのように動作しま�
   `vstart`  CSRなしで前進性を確保するためには、実装は、ベクトル命令全体が例外を発生させることなく常にアトミックに完了することを保証しなければなりません。
   これは、ストライド演算やスキャッタ/ギャザ演算、デマンドページングされた仮想メモリがある場合には、特に困難です。
   
-.. // === Precise vector traps
 
 ****************************
 正確なベクトル例外
@@ -9912,7 +9771,6 @@ EEW=SEW、EMUL=`nr` 、実効長 `evl` =EMUL * VLEN/SEWのように動作しま�
 
 実装では、`vstart` で報告された要素やセグメントについて、最終的に前進が保証されるようにしなければなりません。
 
-.. // === Imprecise vector traps
 
 ****************************
 不正確ベクトル例外
@@ -9948,7 +9806,6 @@ EEW=SEW、EMUL=`nr` 、実効長 `evl` =EMUL * VLEN/SEWのように動作しま�
 不正確な例外は、同期ベクトル例外によって引き起こされた例外のために、`vstart` で障害要素を報告しなければなりません。
 
 
-.. // === Selectable precise/imprecise traps
 
 ****************************************
 正確・不正確選択可能な例外
@@ -9967,7 +9824,6 @@ EEW=SEW、EMUL=`nr` 、実効長 `evl` =EMUL * VLEN/SEWのように動作しま�
 一方、正確なモードでは、動作速度が遅くなりますが、不正確なモードと同じエラーが発生しない可能性があるものの、
 エラーのデバッグが行いやすくなります。
 
-.. // === Swappable traps
 
 ****************************
 スワップ可能な例外
@@ -9998,7 +9854,6 @@ EEW=SEW、EMUL=`nr` 、実効長 `evl` =EMUL * VLEN/SEWのように動作しま�
   ベクトルユニットの実装から不透明なマイクロアーキテクチャの状態を保存・復元する標準的な方法を定義する可能性があります。
   
 .. _sec-vector-extensions:
-.. // == Standard Vector Extensions
 
 #########################
 標準ベクトル拡張
@@ -10022,7 +9877,6 @@ EEW=SEW、EMUL=`nr` 、実効長 `evl` =EMUL * VLEN/SEWのように動作しま�
 
 初期のベクトル拡張は、暗号や機械学習などの様々な領域で追加のベクトル拡張を行うためのベースとして設計されています。
 
-.. // === Zve*: Vector extensions for Embedded Processors
 
 **********************************************************
 Zve*: 組み込みプロセッサ用のベクトル拡張
@@ -10174,7 +10028,6 @@ Zve32d および Zve64d 拡張は、スカラ・プロセッサが D 拡張を�
 EEW=32およびEEW=64のベクトル単幅浮動小数点演算(:ref:`sec-vector-float-reduce` 節)がサポートされており、
 FP32からFP64への幅拡張リダクションもサポートされています。
 
-.. // === V: Vector Extension for Application Processor
 
 
 *************************************************************************
@@ -10279,7 +10132,6 @@ V拡張は、すべてのベクトル組み合わせ命令をサポートして�
 また、EEW=32 または EEW=64 の浮動小数点オペランドに対するすべてのベクトル浮動小数点命令 (:ref:`sec-vector-float` 節) を実装します (幅拡張命令およびFP32とFP64 間の変換を含む)。
 EEW=32およびEEW=64のベクトル単一幅浮動小数点リダクション命令(:ref:`sec-vector-float-reduce` ) は、FP32からFP64への幅拡張リダクションと同様にサポートされています。
 
-.. // == Vector Instruction Listing
 
 ############################
 ベクトル命令リスト

@@ -94,14 +94,14 @@
 <li class="toctree-l1"><a class="reference internal" href="v-spec.html#id57">ベクトルメモリアラインメント制約</a></li>
 <li class="toctree-l1"><a class="reference internal" href="v-spec.html#id58">ベクトルメモリコンシステンシモデル</a></li>
 <li class="toctree-l1"><a class="reference internal" href="v-spec.html#id59">ベクトル算術演算命令</a></li>
-<li class="toctree-l1"><a class="reference internal" href="v-spec.html#id63">ベクトル整数算術演算命令</a></li>
-<li class="toctree-l1"><a class="reference internal" href="v-spec.html#id82">ベクトル固定小数点算術演算命令</a></li>
-<li class="toctree-l1"><a class="reference internal" href="v-spec.html#id88">ベクトル浮動小数点命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v-spec.html#sec-vector-integer">ベクトル整数算術演算命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v-spec.html#sec-vector-fixed-point">ベクトル固定小数点算術演算命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v-spec.html#sec-vector-float">ベクトル浮動小数点命令</a></li>
 <li class="toctree-l1"><a class="reference internal" href="v-spec.html#id111">ベクトルリダクション操作</a></li>
-<li class="toctree-l1"><a class="reference internal" href="v-spec.html#id121">ベクトルマスク命令</a></li>
-<li class="toctree-l1"><a class="reference internal" href="v-spec.html#id124">ベクトル組み合わせ命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v-spec.html#sec-vector-mask">ベクトルマスク命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v-spec.html#sec-vector-permute">ベクトル組み合わせ命令</a></li>
 <li class="toctree-l1"><a class="reference internal" href="v-spec.html#id137">例外処理</a></li>
-<li class="toctree-l1"><a class="reference internal" href="v-spec.html#id142">標準ベクトル拡張</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v-spec.html#sec-vector-extensions">標準ベクトル拡張</a></li>
 <li class="toctree-l1"><a class="reference internal" href="v-spec.html#id143">ベクトル命令リスト</a></li>
 </ul>
 
@@ -198,14 +198,14 @@
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id15">LMUL &gt; 1 のマッピング</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id16">混合幅演算でのマッピングについて</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#lmul-1-elen-vlen">LMUL &gt; 1 かつ ELEN &gt; VLEN のマッピング</a></li>
-<li class="toctree-l2"><a class="reference internal" href="v-spec.html#id17">マスクレジスタのレイアウト</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v-spec.html#sec-mask-register-layout">マスクレジスタのレイアウト</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="v-spec.html#id19">ベクトル命令フォーマット</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id20">スカラオペランド</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id21">ベクトルオペランド</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id22">ベクトルマスキング</a></li>
-<li class="toctree-l2"><a class="reference internal" href="v-spec.html#id24">プリスタート、アクティブ、非アクティブ、ボディ、末尾要素の定義</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v-spec.html#sec-inactive-defs">プリスタート、アクティブ、非アクティブ、ボディ、末尾要素の定義</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="v-spec.html#vsetvli-vsetivl-vsetvl">コンフィグレーション設定命令 (<cite>vsetvli</cite>/<cite>vsetivl</cite>/<cite>vsetvl</cite>)</a><ul>
@@ -223,19 +223,19 @@
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id36">ベクトルストライド命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id37">ベクトルインデックス命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#fault-only-first">ユニットストライドFault-Only-Firstロード</a></li>
-<li class="toctree-l2"><a class="reference internal" href="v-spec.html#id42">ベクトルロードストアセグメント命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v-spec.html#sec-aos">ベクトルロードストアセグメント命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id46">ベクトル全体レジスタロードストア命令</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="v-spec.html#id57">ベクトルメモリアラインメント制約</a></li>
 <li class="toctree-l1"><a class="reference internal" href="v-spec.html#id58">ベクトルメモリコンシステンシモデル</a></li>
 <li class="toctree-l1"><a class="reference internal" href="v-spec.html#id59">ベクトル算術演算命令</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="v-spec.html#id60">ベクトル算術演算命令エンコーディング</a></li>
-<li class="toctree-l2"><a class="reference internal" href="v-spec.html#id61">幅拡張ベクトル算術演算命令</a></li>
-<li class="toctree-l2"><a class="reference internal" href="v-spec.html#id62">ベクトル幅縮小算術演算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v-spec.html#sec-arithmetic-encoding">ベクトル算術演算命令エンコーディング</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v-spec.html#sec-widening">幅拡張ベクトル算術演算命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v-spec.html#sec-narrowing">ベクトル幅縮小算術演算命令</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="v-spec.html#id63">ベクトル整数算術演算命令</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="v-spec.html#sec-vector-integer">ベクトル整数算術演算命令</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id64">ベクトル単一幅整数加算減算命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id65">ベクトル幅拡張整数加減算命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id66">ベクトル整数拡張</a></li>
@@ -254,14 +254,14 @@
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id79">ベクトル整数移動命令</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="v-spec.html#id82">ベクトル固定小数点算術演算命令</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="v-spec.html#sec-vector-fixed-point">ベクトル固定小数点算術演算命令</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id83">ベクトル単一幅飽和加算と飽和減算</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id84">ベクトル単一幅平均加算と平均減算命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id85">丸めと飽和を用いたベクトル単一幅分数乗算</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id87">ベクトル固定小数点幅縮小クリップ命令</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="v-spec.html#id88">ベクトル浮動小数点命令</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="v-spec.html#sec-vector-float">ベクトル浮動小数点命令</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id89">ベクトル浮動小数点例外フラグ</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id90">ベクトル単一幅浮動小数点加減算命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id91">ベクトル幅拡張浮動小数点加減算命令</a></li>
@@ -284,14 +284,14 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="v-spec.html#id111">ベクトルリダクション操作</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="v-spec.html#id114">ベクトル単一幅整数リダクション命令</a></li>
-<li class="toctree-l2"><a class="reference internal" href="v-spec.html#id115">ベクトル幅拡張整数リダクション命令</a></li>
-<li class="toctree-l2"><a class="reference internal" href="v-spec.html#id116">ベクトル単一幅浮動小数点リダクション命令</a></li>
-<li class="toctree-l2"><a class="reference internal" href="v-spec.html#id120">ベクトル幅拡張浮動小数点リダクション命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v-spec.html#sec-vector-integer-reduce">ベクトル単一幅整数リダクション命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v-spec.html#sec-vector-integer-reduce-widen">ベクトル幅拡張整数リダクション命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v-spec.html#sec-vector-float-reduce">ベクトル単一幅浮動小数点リダクション命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="v-spec.html#sec-vector-float-reduce-widen">ベクトル幅拡張浮動小数点リダクション命令</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="v-spec.html#id121">ベクトルマスク命令</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="v-spec.html#id122">ベクトルマスクレジスタ論理命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v-spec.html#sec-vector-mask">ベクトルマスク命令</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="v-spec.html#sec-mask-register-logical">ベクトルマスクレジスタ論理命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#pop-vpopc">ベクトルマスクPopカウント <cite>vpopc</cite></a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#vfirst-find-first-set"><cite>vfirst</cite> find-first-set マスクビット命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#vmsbf-m-set-before-first"><cite>vmsbf.m</cite> set-before-firstマスクビット</a></li>
@@ -301,7 +301,7 @@
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#iota">ベクトルIota命令</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="v-spec.html#id124">ベクトル組み合わせ命令</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="v-spec.html#sec-vector-permute">ベクトル組み合わせ命令</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id125">整数スカラ移動命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id127">ベクトルスライド命令</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id134">ベクトルレジスタギャザー命令</a></li>
@@ -316,7 +316,7 @@
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#id141">スワップ可能な例外</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="v-spec.html#id142">標準ベクトル拡張</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="v-spec.html#sec-vector-extensions">標準ベクトル拡張</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#zve">Zve*: 組み込みプロセッサ用のベクトル拡張</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v-spec.html#v">V: アプリケーションプロセッサのためのベクトル拡張</a></li>
 </ul>
