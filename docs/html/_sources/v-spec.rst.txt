@@ -2701,11 +2701,11 @@ VLMAXの変更をもたらすような新しいSEW/LMUL比率の命令の使用�
   * `vl = VLMAX` if `AVL {ge} (2 * VLMAX)`
   * Deterministic on any given implementation for same input AVL and VLMAX values
   * These specific properties follow from the prior rules:
-   * `vl = 0` if  `AVL = 0`
-   * `vl > 0` if `AVL > 0`
-   * `vl {le} VLMAX`
-   * `vl {le} AVL`
-   * a value read from `vl` when used as the AVL argument to `vset{i}vl{i}` results in the same
+   - `vl = 0` if  `AVL = 0`
+   - `vl > 0` if `AVL > 0`
+   - `vl {le} VLMAX`
+   - `vl {le} AVL`
+   - a value read from `vl` when used as the AVL argument to `vset{i}vl{i}` results in the same
   value in `vl`, provided the resultant VLMAX equals the value of VLMAX at the time that `vl` was read
 
 
@@ -2714,11 +2714,11 @@ VLMAXの変更をもたらすような新しいSEW/LMUL比率の命令の使用�
 * `AVL {ge} (2 * VLMAX)` のときは `vl = VLMAX`
 * 同一の入力AVLおよびVLMAX値に対して、任意の実装で決定される
 * これらの具体的な特性は、事前のルールから導かれます。
- * `AVL = 0` なら `vl = 0`
- * `AVL > 0` なら `vl > 0`
- * `vl {le} VLMAX`
- * `vl {le} AVL`
- * `vl` から読み込んだ値を `vset{i}vl{i}` の AVL 引数として使用すると、`vl` 内の同じ値になります。 ただし、結果として得られる VLMAX が `vl` が読み込まれた時点での VLMAX の値と同じであることが条件です。
+ - `AVL = 0` なら `vl = 0`
+ - `AVL > 0` なら `vl > 0`
+ - `vl {le} VLMAX`
+ - `vl {le} AVL`
+ - `vl` から読み込んだ値を `vset{i}vl{i}` の AVL 引数として使用すると、`vl` 内の同じ値になります。 ただし、結果として得られる VLMAX が `vl` が読み込まれた時点での VLMAX の値と同じであることが条件です。
 
 ..
   [NOTE]
@@ -6439,7 +6439,7 @@ SEWの幅まで拡張して書き込みレジスタに転送します。
   it is the responsibility of software to manage the denominators.
   An N-bit element can hold two's-complement signed integers in the
   range -2^N-1^...+2^N-1^-1, and unsigned integers in the range 0
-    * +2^N^-1.  The fixed-point instructions help preserve precision in
+    + +2^N^-1.  The fixed-point instructions help preserve precision in
   narrow operands by supporting scaling and rounding, and can handle
   overflow by saturating results into the destination format range.
 
